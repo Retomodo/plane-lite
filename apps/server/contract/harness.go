@@ -132,13 +132,20 @@ func (s *Scenario) finish() {
 type Client struct {
 	s    *Scenario
 	name string
+	ip   string // sent as X-Forwarded-For; rate limits are per client IP
 	http *http.Client
 }
 
 // Client returns a new anonymous actor.
 func (s *Scenario) Client(name string) *Client {
+	return s.ClientFrom(name, "")
+}
+
+// ClientFrom returns an actor that appears to come from ip (via the
+// X-Forwarded-For header a reverse proxy would set).
+func (s *Scenario) ClientFrom(name, ip string) *Client {
 	jar, _ := cookiejar.New(nil)
-	return &Client{s: s, name: name, http: &http.Client{
+	return &Client{s: s, name: name, ip: ip, http: &http.Client{
 		Jar: jar,
 		CheckRedirect: func(*http.Request, []*http.Request) error {
 			return http.ErrUseLastResponse
@@ -262,6 +269,9 @@ func (c *Client) Do(method, path string, body any, opts ...Opt) *Response {
 	}
 	if contentType != "" {
 		req.Header.Set("Content-Type", contentType)
+	}
+	if c.ip != "" {
+		req.Header.Set("X-Forwarded-For", c.ip)
 	}
 	if csrf := c.cookie("csrftoken"); csrf != "" && method != http.MethodGet {
 		req.Header.Set("X-CSRFToken", csrf)

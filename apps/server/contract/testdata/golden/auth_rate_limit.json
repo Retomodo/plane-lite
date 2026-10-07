@@ -1,0 +1,198 @@
+{
+  "steps": [
+    {
+      "actor": "client",
+      "method": "POST",
+      "path": "/auth/email-check/",
+      "request": {
+        "email": "x@example.com"
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "existing": false,
+        "status": "MAGIC_CODE"
+      }
+    },
+    {
+      "actor": "client",
+      "method": "POST",
+      "path": "/auth/email-check/",
+      "request": {
+        "email": "x@example.com"
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "existing": false,
+        "status": "MAGIC_CODE"
+      }
+    },
+    {
+      "actor": "client",
+      "method": "POST",
+      "path": "/auth/email-check/",
+      "request": {
+        "email": "x@example.com"
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "existing": false,
+        "status": "MAGIC_CODE"
+      }
+    },
+    {
+      "actor": "client",
+      "method": "POST",
+      "path": "/auth/email-check/",
+      "request": {
+        "email": "x@example.com"
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "existing": false,
+        "status": "MAGIC_CODE"
+      }
+    },
+    {
+      "actor": "client",
+      "method": "POST",
+      "path": "/auth/email-check/",
+      "request": {
+        "email": "x@example.com"
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "existing": false,
+        "status": "MAGIC_CODE"
+      }
+    },
+    {
+      "actor": "client",
+      "method": "POST",
+      "path": "/auth/email-check/",
+      "request": {
+        "email": "x@example.com"
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "existing": false,
+        "status": "MAGIC_CODE"
+      }
+    },
+    {
+      "actor": "client",
+      "method": "POST",
+      "path": "/auth/email-check/",
+      "request": {
+        "email": "x@example.com"
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "existing": false,
+        "status": "MAGIC_CODE"
+      }
+    },
+    {
+      "actor": "client",
+      "method": "POST",
+      "path": "/auth/email-check/",
+      "request": {
+        "email": "x@example.com"
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "existing": false,
+        "status": "MAGIC_CODE"
+      }
+    },
+    {
+      "actor": "client",
+      "method": "POST",
+      "path": "/auth/email-check/",
+      "request": {
+        "email": "x@example.com"
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "existing": false,
+        "status": "MAGIC_CODE"
+      }
+    },
+    {
+      "actor": "client",
+      "method": "POST",
+      "path": "/auth/email-check/",
+      "request": {
+        "email": "x@example.com"
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "existing": false,
+        "status": "MAGIC_CODE"
+      }
+    },
+    {
+      "actor": "client",
+      "method": "POST",
+      "path": "/auth/email-check/",
+      "request": {
+        "email": "x@example.com"
+      },
+      "status": 429,
+      "content_type": "application/json",
+      "body": {
+        "error_code": 5900,
+        "error_message": "RATE_LIMIT_EXCEEDED"
+      }
+    },
+    {
+      "actor": "client",
+      "method": "GET",
+      "path": "/auth/get-csrf-token/",
+      "status": 200,
+      "content_type": "application/json",
+      "cookies": [
+        "csrftoken; value=<set>; Path=/; Max-Age=31449600; HttpOnly; SameSite=Lax"
+      ],
+      "body": {
+        "csrf_token": "<masked>"
+      }
+    },
+    {
+      "actor": "client",
+      "method": "POST",
+      "path": "/auth/sign-in/",
+      "request": {
+        "csrfmiddlewaretoken": "<masked>",
+        "email": "x@example.com",
+        "password": "x"
+      },
+      "status": 302,
+      "location": "http://localhost:3000/?error_code=5900&error_message=RATE_LIMIT_EXCEEDED",
+      "content_type": "text/html"
+    },
+    {
+      "actor": "neighbour",
+      "method": "POST",
+      "path": "/auth/email-check/",
+      "request": {
+        "email": "x@example.com"
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "existing": false,
+        "status": "MAGIC_CODE"
+      }
+    }
+  ]
+}

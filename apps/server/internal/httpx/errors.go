@@ -34,6 +34,16 @@ func Body(status int, body any) *Error {
 	return &Error{Status: status, Body: body}
 }
 
+// ErrDjangoServerError renders Django's stock "Server Error (500)" page, for
+// code paths where the Django view let an exception escape unhandled.
+var ErrDjangoServerError = &Error{Status: http.StatusInternalServerError, Body: djangoServerErrorPage}
+
+// djangoServerErrorPage is an HTML body rather than JSON; writeError checks
+// for this type.
+type htmlBody string
+
+const djangoServerErrorPage htmlBody = "\n<!doctype html>\n<html lang=\"en\">\n<head>\n  <title>Server Error (500)</title>\n</head>\n<body>\n  <h1>Server Error (500)</h1><p></p>\n</body>\n</html>\n"
+
 var (
 	ErrNotAuthenticated = Detail(http.StatusUnauthorized, "Authentication credentials were not provided.")
 	ErrForbidden        = Detail(http.StatusForbidden, "You do not have permission to perform this action.")

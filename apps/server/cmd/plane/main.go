@@ -18,6 +18,7 @@ import (
 
 	"plane-lite/server/internal/config"
 	"plane-lite/server/internal/db"
+	"plane-lite/server/internal/jobs"
 	"plane-lite/server/internal/server"
 )
 
@@ -46,6 +47,9 @@ func run(cmd string, log *slog.Logger) error {
 		return err
 	}
 	err = db.Migrate(ctx, pool)
+	if err == nil {
+		err = jobs.Migrate(ctx, pool)
+	}
 	pool.Close()
 	if err != nil {
 		return err
@@ -62,6 +66,9 @@ func run(cmd string, log *slog.Logger) error {
 
 	srv, err := server.New(ctx, cfg, server.Options{})
 	if err != nil {
+		return err
+	}
+	if err := srv.Start(ctx); err != nil {
 		return err
 	}
 	hs := &http.Server{
@@ -84,5 +91,5 @@ func run(cmd string, log *slog.Logger) error {
 	}
 	shutdownCtx, cancel := context.WithTimeout(context.Background(), 20*time.Second)
 	defer cancel()
-	return hs.Shutdown(shutdownCtx)
+	return errors.Join(hs.Shutdown(shutdownCtx), srv.Shutdown(shutdownCtx))
 }

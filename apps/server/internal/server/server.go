@@ -16,6 +16,8 @@ import (
 	"plane-lite/server/internal/config"
 	"plane-lite/server/internal/db"
 	"plane-lite/server/internal/httpx"
+	"plane-lite/server/internal/jobs"
+	"plane-lite/server/internal/mail"
 )
 
 type Options struct {
@@ -28,6 +30,7 @@ type Server struct {
 	handler http.Handler
 	Pool    *pgxpool.Pool
 	Redis   *redis.Client
+	Jobs    *jobs.Runner
 }
 
 func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) { s.handler.ServeHTTP(w, r) }
@@ -48,7 +51,11 @@ func New(ctx context.Context, cfg *config.Config, opts Options) (*Server, error)
 	}
 
 	sessions := auth.NewSessions(pool, cfg, log)
-	a := api.New(api.Deps{Config: cfg, DB: pool, Redis: rdb, Log: log, Sessions: sessions})
+	runner := jobs.New(log, opts.InlineJobs)
+	a := api.New(api.Deps{
+		Config: cfg, DB: pool, Redis: rdb, Log: log, Sessions: sessions,
+		Jobs: runner, Mailer: mail.New(cfg.Email),
+	})
 	if err := api.EnsureInstance(ctx, a); err != nil {
 		return nil, fmt.Errorf("register instance: %w", err)
 	}
@@ -60,5 +67,16 @@ func New(ctx context.Context, cfg *config.Config, opts Options) (*Server, error)
 	h = httpx.SecurityHeaders(h)
 	h = httpx.CORS(cfg.CORSAllowedOrigins, h)
 	h = httpx.Recover(log, h)
-	return &Server{handler: h, Pool: pool, Redis: rdb}, nil
+	return &Server{handler: h, Pool: pool, Redis: rdb, Jobs: runner}, nil
+}
+
+// Start begins background job processing.
+func (s *Server) Start(ctx context.Context) error { return s.Jobs.Start(ctx, s.Pool) }
+
+// Shutdown stops job processing and closes connections.
+func (s *Server) Shutdown(ctx context.Context) error {
+	err := s.Jobs.Stop(ctx)
+	s.Pool.Close()
+	_ = s.Redis.Close()
+	return err
 }

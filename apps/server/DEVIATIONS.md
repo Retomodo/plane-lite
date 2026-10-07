@@ -11,3 +11,4 @@ the contract goldens. These are the known, intentional differences.
 | Accepted project invites on login | `ProjectMember` rows created without `project_id`, which violates NOT NULL and fails the login | Rows include `project_id` | Bug fix |
 | Login redirect | Computes `get_redirection_path()` ("onboarding", a slug, ...) and then discards it because it lacks a leading `/` | Skips the computation; same redirect (app root, or `next_path`) | Same behaviour, no wasted queries |
 | Session payload | Django's signed, compressed `session_data` | Plain JSON in the same `sessions` table | Clean cutover; sessions don't need to be readable by Django. Existing sessions are invalidated on migration (users sign in again) |
+| Background jobs | Celery on RabbitMQ, separate worker and beat processes; a failed task is logged and dropped | River queue in Postgres, worked inside the server process; email jobs retry up to 3 times | No broker to run; jobs survive Redis eviction |

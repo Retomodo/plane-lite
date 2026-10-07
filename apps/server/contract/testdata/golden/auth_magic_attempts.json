@@ -1,0 +1,189 @@
+{
+  "steps": [
+    {
+      "actor": "gen",
+      "method": "POST",
+      "path": "/auth/magic-generate/",
+      "request": {
+        "email": "dave@example.com"
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "key": "magic_dave@example.com"
+      }
+    },
+    {
+      "actor": "gen",
+      "method": "POST",
+      "path": "/auth/magic-generate/",
+      "request": {
+        "email": "dave@example.com"
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "key": "magic_dave@example.com"
+      }
+    },
+    {
+      "actor": "gen",
+      "method": "POST",
+      "path": "/auth/magic-generate/",
+      "request": {
+        "email": "dave@example.com"
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "key": "magic_dave@example.com"
+      }
+    },
+    {
+      "actor": "gen",
+      "method": "POST",
+      "path": "/auth/magic-generate/",
+      "request": {
+        "email": "dave@example.com"
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "key": "magic_dave@example.com"
+      }
+    },
+    {
+      "actor": "gen",
+      "method": "POST",
+      "path": "/auth/magic-generate/",
+      "request": {
+        "email": "dave@example.com"
+      },
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "email": "dave@example.com",
+        "error_code": 5102,
+        "error_message": "EMAIL_CODE_ATTEMPT_EXHAUSTED_SIGN_UP"
+      }
+    },
+    {
+      "actor": "guess",
+      "method": "POST",
+      "path": "/auth/magic-generate/",
+      "request": {
+        "email": "erin@example.com"
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "key": "magic_erin@example.com"
+      }
+    },
+    {
+      "actor": "mail",
+      "method": "EMAIL",
+      "path": "erin@example.com",
+      "status": 0,
+      "body": {
+        "from": "plane@example.com",
+        "subject": "Your unique Plane login code is <code>",
+        "text": "Your Plane login code Your Plane login code <code> is valid for 10 minutes. Your login code for Plane <code> This code is valid for the next 10 minutes. Enter it on the sign-in page to complete your login. Note: This email was sent to erin@example.com. If you were not expecting a sign-in code, you can safely ignore this message. Plane Software, Inc.",
+        "to": [
+          "erin@example.com"
+        ]
+      }
+    },
+    {
+      "actor": "guess",
+      "method": "GET",
+      "path": "/auth/get-csrf-token/",
+      "status": 200,
+      "content_type": "application/json",
+      "cookies": [
+        "csrftoken; value=<set>; Path=/; Max-Age=31449600; HttpOnly; SameSite=Lax"
+      ],
+      "body": {
+        "csrf_token": "<masked>"
+      }
+    },
+    {
+      "actor": "guess",
+      "method": "POST",
+      "path": "/auth/magic-sign-up/",
+      "request": {
+        "code": "000000",
+        "csrfmiddlewaretoken": "<masked>",
+        "email": "erin@example.com"
+      },
+      "status": 302,
+      "location": "http://localhost:3000/?error_code=5092&error_message=INVALID_MAGIC_CODE_SIGN_UP&email=erin%40example.com",
+      "content_type": "text/html"
+    },
+    {
+      "actor": "guess",
+      "method": "POST",
+      "path": "/auth/magic-sign-up/",
+      "request": {
+        "code": "000000",
+        "csrfmiddlewaretoken": "<masked>",
+        "email": "erin@example.com"
+      },
+      "status": 302,
+      "location": "http://localhost:3000/?error_code=5092&error_message=INVALID_MAGIC_CODE_SIGN_UP&email=erin%40example.com",
+      "content_type": "text/html"
+    },
+    {
+      "actor": "guess",
+      "method": "POST",
+      "path": "/auth/magic-sign-up/",
+      "request": {
+        "code": "000000",
+        "csrfmiddlewaretoken": "<masked>",
+        "email": "erin@example.com"
+      },
+      "status": 302,
+      "location": "http://localhost:3000/?error_code=5092&error_message=INVALID_MAGIC_CODE_SIGN_UP&email=erin%40example.com",
+      "content_type": "text/html"
+    },
+    {
+      "actor": "guess",
+      "method": "POST",
+      "path": "/auth/magic-sign-up/",
+      "request": {
+        "code": "000000",
+        "csrfmiddlewaretoken": "<masked>",
+        "email": "erin@example.com"
+      },
+      "status": 302,
+      "location": "http://localhost:3000/?error_code=5092&error_message=INVALID_MAGIC_CODE_SIGN_UP&email=erin%40example.com",
+      "content_type": "text/html"
+    },
+    {
+      "actor": "guess",
+      "method": "POST",
+      "path": "/auth/magic-sign-up/",
+      "request": {
+        "code": "000000",
+        "csrfmiddlewaretoken": "<masked>",
+        "email": "erin@example.com"
+      },
+      "status": 302,
+      "location": "http://localhost:3000/?error_code=5102&error_message=EMAIL_CODE_ATTEMPT_EXHAUSTED_SIGN_UP&email=erin%40example.com",
+      "content_type": "text/html"
+    },
+    {
+      "actor": "guess",
+      "method": "POST",
+      "path": "/auth/magic-sign-up/",
+      "request": {
+        "code": "000000",
+        "csrfmiddlewaretoken": "<masked>",
+        "email": "erin@example.com"
+      },
+      "status": 302,
+      "location": "http://localhost:3000/?error_code=5097&error_message=EXPIRED_MAGIC_CODE_SIGN_UP&email=erin%40example.com",
+      "content_type": "text/html"
+    }
+  ]
+}

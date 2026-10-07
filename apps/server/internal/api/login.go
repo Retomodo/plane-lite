@@ -10,6 +10,7 @@ import (
 
 	"plane-lite/server/internal/auth"
 	"plane-lite/server/internal/httpx"
+	"plane-lite/server/internal/jobs"
 )
 
 // credentials describes how the user proved their identity.
@@ -115,8 +116,12 @@ func (a *API) completeLoginOrSignup(ctx context.Context, c *httpx.Ctx, email str
 	if err := tx.Commit(ctx); err != nil {
 		return nil, err
 	}
-	// TODO(email): send user_activation_email when an inactive account is
-	// activated here; lands with the email/jobs batch.
+	if exists && !active {
+		// A provisioned (never deactivated) account was just activated.
+		if err := jobs.Enqueue(ctx, a.jobs, userActivationEmail{CurrentSite: a.baseHost(false), UserID: u.id}); err != nil {
+			a.log.Error("enqueue activation email", "err", err)
+		}
+	}
 	return &u, nil
 }
 

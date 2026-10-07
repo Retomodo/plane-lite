@@ -1,7 +1,8 @@
 # plane-lite server
 
 A Go reimplementation of Plane's Django API (`apps/api`). One binary serves HTTP,
-runs background jobs and owns schema migrations. It talks to an external
+runs background jobs and owns schema migrations. There's no separate worker,
+beat scheduler or message broker. It talks to an external
 Postgres and Redis, configured through `DATABASE_URL` and `REDIS_URL`.
 
 ## Layout
@@ -14,6 +15,8 @@ Postgres and Redis, configured through `DATABASE_URL` and `REDIS_URL`.
 | `internal/httpx` | Router, DRF-style errors, and JSON rendered in the user's timezone |
 | `internal/db` | Pool and migrations. `0001_baseline.sql` is Django's schema; `0002` adds the ORM's defaults at the DB level |
 | `internal/throttle` | DRF throttling on Redis |
+| `internal/jobs` | Background jobs (Plane's Celery tasks) on a Postgres queue (River), run in-process |
+| `internal/mail` | SMTP sending; templates copied verbatim from `apps/api/templates/emails` |
 | `contract` | Golden-file contract tests against the Django reference |
 
 ## Contract tests
@@ -54,3 +57,4 @@ Variables use the Django backend's names:
 | Batch | Endpoints | Status |
 |---|---|---|
 | 1 | Routing conventions (slash redirect, 404, 405), `GET /api/instances/`, `/auth/get-csrf-token/`, `/auth/email-check/`, `/auth/sign-up/`, `/auth/sign-in/`, `/auth/sign-out/`, `GET /api/users/me/` | done |
+| 2 | `/auth/magic-generate/`, `/auth/magic-sign-in/`, `/auth/magic-sign-up/`; auth rate limiting; magic-code and activation emails | done |

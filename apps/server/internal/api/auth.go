@@ -177,7 +177,8 @@ func (a *API) signIn(c *httpx.Ctx) error {
 	return a.finishLogin(c, u, nextPath, err)
 }
 
-// finishLogin logs the user in and redirects (user_login + the views' tail).
+// finishLogin logs the user in and redirects to next_path (or the app
+// root), or redirects back with the error.
 func (a *API) finishLogin(c *httpx.Ctx, u *loginUser, nextPath string, err error) error {
 	var ae *authError
 	if errors.As(err, &ae) {
@@ -186,6 +187,18 @@ func (a *API) finishLogin(c *httpx.Ctx, u *loginUser, nextPath string, err error
 	if err != nil {
 		return err
 	}
+	if err := a.login(c, u); err != nil {
+		return err
+	}
+	// get_redirection_path() only yields bare names ("onboarding", a slug...)
+	// that validate_next_path rejects, so without next_path the redirect is
+	// always the app root.
+	return a.redirect(c, nextPath, nil)
+}
+
+// login is user_login(): session, device info, CSRF rotation. It also does
+// the one side effect of get_redirection_path(): ensuring a profile exists.
+func (a *API) login(c *httpx.Ctx, u *loginUser) error {
 	device := auth.DeviceInfo{
 		UserAgent: c.R.UserAgent(),
 		IPAddress: auth.ClientIP(c.R),
@@ -195,15 +208,10 @@ func (a *API) finishLogin(c *httpx.Ctx, u *loginUser, nextPath string, err error
 		return err
 	}
 	a.csrf.Rotate(c.W)
-	// get_redirection_path() only yields bare names ("onboarding", a slug...)
-	// that validate_next_path rejects, so without next_path the redirect is
-	// always the app root. Its one side effect is ensuring a profile exists.
-	if _, err := a.db.Exec(c.Context(), `
+	_, err := a.db.Exec(c.Context(), `
 		INSERT INTO profiles (user_id, background_color) VALUES ($1, $2)
-		ON CONFLICT (user_id) DO NOTHING`, u.id, randomColor()); err != nil {
-		return err
-	}
-	return a.redirect(c, nextPath, nil)
+		ON CONFLICT (user_id) DO NOTHING`, u.id, randomColor())
+	return err
 }
 
 // signOut ports authentication.views.app.signout.SignOutAuthEndpoint.

@@ -1,0 +1,173 @@
+{
+  "steps": [
+    {
+      "actor": "anon",
+      "method": "POST",
+      "path": "/auth/magic-generate/",
+      "status": 500,
+      "content_type": "text/html",
+      "body": "\n<!doctype html>\n<html lang=\"en\">\n<head>\n  <title>Server Error (500)</title>\n</head>\n<body>\n  <h1>Server Error (500)</h1><p></p>\n</body>\n</html>\n"
+    },
+    {
+      "actor": "anon",
+      "method": "POST",
+      "path": "/auth/magic-generate/",
+      "request": {
+        "email": "nope"
+      },
+      "status": 500,
+      "content_type": "text/html",
+      "body": "\n<!doctype html>\n<html lang=\"en\">\n<head>\n  <title>Server Error (500)</title>\n</head>\n<body>\n  <h1>Server Error (500)</h1><p></p>\n</body>\n</html>\n"
+    },
+    {
+      "actor": "carol",
+      "method": "POST",
+      "path": "/auth/magic-generate/",
+      "request": {
+        "email": " Carol@Example.com "
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "key": "magic_carol@example.com"
+      }
+    },
+    {
+      "actor": "mail",
+      "method": "EMAIL",
+      "path": " Carol@Example.com ",
+      "status": 0,
+      "body": {
+        "from": "plane@example.com",
+        "subject": "Your unique Plane login code is <code>",
+        "text": "Your Plane login code Your Plane login code <code> is valid for 10 minutes. Your login code for Plane <code> This code is valid for the next 10 minutes. Enter it on the sign-in page to complete your login. Note: This email was sent to carol@example.com. If you were not expecting a sign-in code, you can safely ignore this message. Plane Software, Inc.",
+        "to": [
+          "carol@example.com"
+        ]
+      }
+    },
+    {
+      "actor": "carol",
+      "method": "GET",
+      "path": "/auth/get-csrf-token/",
+      "status": 200,
+      "content_type": "application/json",
+      "cookies": [
+        "csrftoken; value=<set>; Path=/; Max-Age=31449600; HttpOnly; SameSite=Lax"
+      ],
+      "body": {
+        "csrf_token": "<masked>"
+      }
+    },
+    {
+      "actor": "carol",
+      "method": "POST",
+      "path": "/auth/magic-sign-up/",
+      "request": {
+        "csrfmiddlewaretoken": "<masked>",
+        "email": "carol@example.com"
+      },
+      "status": 302,
+      "location": "http://localhost:3000/?error_code=5055&error_message=MAGIC_SIGN_UP_EMAIL_CODE_REQUIRED",
+      "content_type": "text/html"
+    },
+    {
+      "actor": "carol",
+      "method": "POST",
+      "path": "/auth/magic-sign-up/",
+      "request": {
+        "code": "000000",
+        "csrfmiddlewaretoken": "<masked>",
+        "email": "carol@example.com"
+      },
+      "status": 302,
+      "location": "http://localhost:3000/?error_code=5092&error_message=INVALID_MAGIC_CODE_SIGN_UP&email=carol%40example.com",
+      "content_type": "text/html"
+    },
+    {
+      "actor": "carol",
+      "method": "POST",
+      "path": "/auth/magic-sign-up/",
+      "request": {
+        "code": "928111",
+        "csrfmiddlewaretoken": "<masked>",
+        "email": "carol@example.com",
+        "next_path": "/acme/"
+      },
+      "status": 302,
+      "location": "http://localhost:3000/?next_path=/acme/",
+      "content_type": "text/html",
+      "cookies": [
+        "csrftoken; value=<set>; Path=/; Max-Age=31449600; HttpOnly; SameSite=Lax",
+        "session-id; value=<set>; Path=/; Max-Age=604800; HttpOnly; SameSite=Lax"
+      ]
+    },
+    {
+      "actor": "carol",
+      "method": "GET",
+      "path": "/api/users/me/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "avatar": "",
+        "avatar_url": null,
+        "cover_image": null,
+        "cover_image_url": null,
+        "date_joined": "<datetime Z>",
+        "display_name": "carol",
+        "email": "carol@example.com",
+        "first_name": "",
+        "id": "<uuid:1>",
+        "is_active": true,
+        "is_bot": false,
+        "is_email_verified": true,
+        "is_password_autoset": true,
+        "last_login_medium": "magic-code",
+        "last_login_time": "<datetime Z>",
+        "last_name": "",
+        "user_timezone": "UTC",
+        "username": "<hex32>"
+      }
+    },
+    {
+      "actor": "other",
+      "method": "GET",
+      "path": "/auth/get-csrf-token/",
+      "status": 200,
+      "content_type": "application/json",
+      "cookies": [
+        "csrftoken; value=<set>; Path=/; Max-Age=31449600; HttpOnly; SameSite=Lax"
+      ],
+      "body": {
+        "csrf_token": "<masked>"
+      }
+    },
+    {
+      "actor": "other",
+      "method": "POST",
+      "path": "/auth/magic-sign-up/",
+      "request": {
+        "code": "928111",
+        "csrfmiddlewaretoken": "<masked>",
+        "email": "carol@example.com"
+      },
+      "status": 302,
+      "location": "http://localhost:3000/?error_code=5030&error_message=USER_ALREADY_EXIST",
+      "content_type": "text/html"
+    },
+    {
+      "actor": "other",
+      "method": "POST",
+      "path": "/auth/email-check/",
+      "request": {
+        "email": "carol@example.com"
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "existing": true,
+        "status": "MAGIC_CODE"
+      }
+    }
+  ]
+}

@@ -7,6 +7,7 @@ import (
 	"io"
 	"net/http"
 	"net/http/httptest"
+	"regexp"
 	"strings"
 	"sync"
 	"testing"
@@ -123,7 +124,7 @@ func setup(ctx context.Context) (*target, error) {
 
 // keepTables survive resets: migration bookkeeping and Django's own
 // registries, which the reference server caches.
-var keepTables = []string{"schema_migrations", "django_migrations", "django_content_type", "auth_permission"}
+var keepTables = []string{"schema_migrations", "river_migration", "django_migrations", "django_content_type", "auth_permission"}
 
 // reset returns the database, Redis and the mail catcher to a known state:
 // empty except for a configured instance row (what Django's
@@ -170,9 +171,18 @@ type Email struct {
 	Subject string
 	Text    string
 	HTML    string
+	From    struct{ Address string }
+	To      []struct{ Address string }
 }
 
-// LatestEmail waits for the newest message sent to addr.
+var codeRe = regexp.MustCompile(`\b\d{6}\b`)
+
+// Code returns the first 6-digit code in the email (magic sign-in codes).
+func (e Email) Code() string { return codeRe.FindString(e.Subject + " " + e.Text) }
+
+// LatestEmail waits for the newest message sent to addr and records it as a
+// step. Codes are masked and text whitespace collapsed: the plain-text part
+// is derived from HTML and only its words matter.
 func (s *Scenario) LatestEmail(addr string) Email {
 	s.t.Helper()
 	base := s.tgt.env.mailpitURL
@@ -189,6 +199,21 @@ func (s *Scenario) LatestEmail(addr string) Email {
 			if err := getJSON(base+"/api/v1/message/"+list.Messages[0].ID, &m); err != nil {
 				s.t.Fatal(err)
 			}
+			var to []any
+			for _, a := range m.To {
+				to = append(to, a.Address)
+			}
+			s.steps = append(s.steps, Step{
+				Actor:  "mail",
+				Method: "EMAIL",
+				Path:   addr,
+				Body: map[string]any{
+					"from":    m.From.Address,
+					"to":      to,
+					"subject": codeRe.ReplaceAllString(m.Subject, "<code>"),
+					"text":    codeRe.ReplaceAllString(strings.Join(strings.Fields(m.Text), " "), "<code>"),
+				},
+			})
 			return m
 		}
 		if time.Now().After(deadline) {

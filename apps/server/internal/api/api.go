@@ -13,6 +13,8 @@ import (
 	"plane-lite/server/internal/auth"
 	"plane-lite/server/internal/config"
 	"plane-lite/server/internal/httpx"
+	"plane-lite/server/internal/jobs"
+	"plane-lite/server/internal/mail"
 	"plane-lite/server/internal/throttle"
 )
 
@@ -24,6 +26,8 @@ type API struct {
 	sessions *auth.Sessions
 	csrf     *auth.CSRF
 	limiter  *throttle.Limiter
+	jobs     *jobs.Runner
+	mailer   *mail.Mailer
 
 	anonRate throttle.Rate // DRF DEFAULT_THROTTLE_RATES["anon"]
 	authRate throttle.Rate // AuthenticationThrottle (AUTHENTICATION_RATE_LIMIT)
@@ -35,6 +39,8 @@ type Deps struct {
 	Redis    *redis.Client
 	Log      *slog.Logger
 	Sessions *auth.Sessions
+	Jobs     *jobs.Runner
+	Mailer   *mail.Mailer
 }
 
 func New(d Deps) *API {
@@ -42,7 +48,7 @@ func New(d Deps) *API {
 	if err != nil {
 		authRate = throttle.MustRate("10/minute")
 	}
-	return &API{
+	a := &API{
 		cfg:      d.Config,
 		db:       d.DB,
 		rdb:      d.Redis,
@@ -52,7 +58,11 @@ func New(d Deps) *API {
 		limiter:  throttle.New(d.Redis, d.Config.RedisKeyPrefix),
 		anonRate: throttle.MustRate("30/minute"),
 		authRate: authRate,
+		jobs:     d.Jobs,
+		mailer:   d.Mailer,
 	}
+	a.registerEmailJobs()
+	return a
 }
 
 // Register mounts every ported endpoint.
@@ -66,6 +76,9 @@ func (a *API) Register(rt *httpx.Router) {
 	rt.HandlePublic("/auth/sign-up/", httpx.Methods{"POST": a.signUp})
 	rt.HandlePublic("/auth/sign-in/", httpx.Methods{"POST": a.signIn})
 	rt.HandlePublic("/auth/sign-out/", httpx.Methods{"POST": a.signOut})
+	rt.HandlePublic("/auth/magic-generate/", httpx.Methods{"POST": a.magicGenerate})
+	rt.HandlePublic("/auth/magic-sign-in/", httpx.Methods{"POST": a.magicSignIn})
+	rt.HandlePublic("/auth/magic-sign-up/", httpx.Methods{"POST": a.magicSignUp})
 
 	// plane/app/urls/user.py
 	rt.Handle("/api/users/me/", httpx.Methods{"GET": a.getMe})

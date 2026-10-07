@@ -82,8 +82,14 @@ func (rt *Router) register(pattern string, m Methods, public bool) {
 
 func (rt *Router) writeError(c *Ctx, err error) {
 	status, body := toResponse(err)
-	if status >= 500 {
+	if status >= 500 && err != ErrDjangoServerError {
 		rt.log.Error("request failed", "method", c.R.Method, "path", c.R.URL.Path, "err", err)
+	}
+	if h, ok := body.(htmlBody); ok {
+		c.W.Header().Set("Content-Type", "text/html; charset=utf-8")
+		c.W.WriteHeader(status)
+		_, _ = c.W.Write([]byte(h))
+		return
 	}
 	if werr := c.JSON(status, body); werr != nil {
 		rt.log.Error("write error response", "err", werr)
