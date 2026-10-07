@@ -2,17 +2,22 @@ package drf
 
 import (
 	"fmt"
+	"math"
 	"math/big"
 	"net/http"
+	"regexp"
 	"slices"
 	"strconv"
 	"strings"
 	"time"
+	"unicode"
 	"unicode/utf8"
 
 	"github.com/go-json-experiment/json"
 	"github.com/go-json-experiment/json/jsontext"
 	"github.com/google/uuid"
+	"golang.org/x/text/cases"
+	"golang.org/x/text/language"
 
 	"plane-lite/server/internal/httpx"
 )
@@ -24,12 +29,14 @@ type Validator struct {
 	data *Data
 	loc  *time.Location
 	errs map[string][]string
+	// indexed holds ListField child errors: field -> index -> messages.
+	indexed map[string]map[int][]string
 }
 
 // NewValidator starts validation; loc is the active (user) timezone that
 // naive datetimes are read in.
 func NewValidator(d *Data, loc *time.Location) *Validator {
-	v := &Validator{data: d, loc: loc, errs: map[string][]string{}}
+	v := &Validator{data: d, loc: loc, errs: map[string][]string{}, indexed: map[string]map[int][]string{}}
 	if !d.IsDict() {
 		v.errs["non_field_errors"] = []string{"Invalid data. Expected a dictionary, but got " + d.typeName + "."}
 	}
@@ -40,14 +47,28 @@ func NewValidator(d *Data, loc *time.Location) *Validator {
 // ValidationError would.
 func (v *Validator) Add(field, msg string) { v.errs[field] = append(v.errs[field], msg) }
 
-func (v *Validator) Valid() bool { return len(v.errs) == 0 }
+func (v *Validator) Valid() bool { return len(v.errs) == 0 && len(v.indexed) == 0 }
 
 // Err is the 400 response for serializer.errors, or nil.
 func (v *Validator) Err() error {
 	if v.Valid() {
 		return nil
 	}
-	return httpx.Body(http.StatusBadRequest, v.errs)
+	if len(v.indexed) == 0 {
+		return httpx.Body(http.StatusBadRequest, v.errs)
+	}
+	body := map[string]any{}
+	for k, msgs := range v.errs {
+		body[k] = msgs
+	}
+	for k, byIdx := range v.indexed {
+		m := map[string][]string{}
+		for i, msgs := range byIdx {
+			m[strconv.Itoa(i)] = msgs
+		}
+		body[k] = m
+	}
+	return httpx.Body(http.StatusBadRequest, body)
 }
 
 const (
@@ -59,7 +80,11 @@ const (
 	msgJSON     = "Value must be valid JSON."
 	msgNullChar = "Null characters are not allowed."
 	msgURL      = "Enter a valid URL."
+	msgSlug     = `Enter a valid "slug" consisting of letters, numbers, underscores or hyphens.`
+	msgRequired = "This field is required."
+	msgInt      = "A valid integer is required."
 	msgDateTime = "Datetime has wrong format. Use one of these formats instead: YYYY-MM-DDThh:mm[:ss[.uuuuuu]][+HH:MM|-HH:MM|Z]."
+	msgDate     = "Date has wrong format. Use one of these formats instead: YYYY-MM-DD."
 )
 
 // get is Field.get_value: the value for name, or ok=false when absent from
@@ -86,6 +111,11 @@ type CharField struct {
 	AllowNull  bool
 	NoTrim     bool
 	URL        bool // URLField: adds Django's URLValidator
+	Slug       bool // SlugField: adds its RegexValidator
+	// Before are validators passed to the field (model field validators,
+	// UniqueValidator), which DRF runs ahead of the CharField's own; each
+	// returns an error message or "".
+	Before []func(string) string
 }
 
 // Char validates a CharField (or URLField). A nil result means null.
@@ -115,8 +145,16 @@ func (v *Validator) Char(name string, f CharField) (*string, bool) {
 	}
 	switch val.Kind() {
 	case '"', '0':
-	default: // bools, lists and dicts
-		v.Add(name, msgNotStr)
+	default: // bools, lists and dicts: fail("invalid"), whose message
+		// SlugField and URLField override
+		switch {
+		case f.Slug:
+			v.Add(name, msgSlug)
+		case f.URL:
+			v.Add(name, msgURL)
+		default:
+			v.Add(name, msgNotStr)
+		}
 		return nil, false
 	}
 	s := PyStr(val)
@@ -124,6 +162,11 @@ func (v *Validator) Char(name string, f CharField) (*string, bool) {
 		s = PyStrip(s)
 	}
 	var errs []string
+	for _, check := range f.Before {
+		if msg := check(s); msg != "" {
+			errs = append(errs, msg)
+		}
+	}
 	if f.MaxLength > 0 && utf8.RuneCountInString(s) > f.MaxLength {
 		errs = append(errs, fmt.Sprintf("Ensure this field has no more than %d characters.", f.MaxLength))
 	}
@@ -133,12 +176,84 @@ func (v *Validator) Char(name string, f CharField) (*string, bool) {
 	if f.URL && !ValidURL(s) {
 		errs = append(errs, msgURL)
 	}
+	if f.Slug && !slugRe.MatchString(s) {
+		errs = append(errs, msgSlug)
+	}
 	if len(errs) > 0 {
 		v.errs[name] = append(v.errs[name], errs...)
 		return nil, false
 	}
 	return &s, true
 }
+
+var slugRe = regexp.MustCompile(`^[-a-zA-Z0-9_]+$`)
+
+// Require reports "This field is required." for each absent field, as a
+// full (non-partial) serializer does.
+func (v *Validator) Require(names ...string) {
+	if !v.data.IsDict() {
+		return
+	}
+	for _, n := range names {
+		if !v.data.Has(n) {
+			v.Add(n, msgRequired)
+		}
+	}
+}
+
+// Int validates an IntegerField with the model's range validators.
+func (v *Validator) Int(name string, min, max int64) (int64, bool) {
+	val, ok := v.get(name, false, false)
+	if !ok {
+		return 0, false
+	}
+	if val.IsNull() {
+		v.Add(name, msgNull)
+		return 0, false
+	}
+	return v.intValue(name, val, min, max)
+}
+
+// IntNull validates a nullable IntegerField. A nil result means null.
+func (v *Validator) IntNull(name string, min, max int64) (*int64, bool) {
+	val, ok := v.get(name, true, false)
+	if !ok {
+		return nil, false
+	}
+	if val.IsNull() {
+		return nil, true
+	}
+	n, ok := v.intValue(name, val, min, max)
+	if !ok {
+		return nil, false
+	}
+	return &n, true
+}
+
+func (v *Validator) intValue(name string, val Value, min, max int64) (int64, bool) {
+	// int(re.sub(r"\.0*\s*$", "", str(data)))
+	s := PyStr(val)
+	if val.IsString() && utf8.RuneCountInString(s) > 1000 {
+		v.Add(name, "String value too large.")
+		return 0, false
+	}
+	n, ok := parsePyIntString(intDecimalRe.ReplaceAllString(s, ""))
+	if !ok || val.Kind() == 't' || val.Kind() == 'f' || val.Kind() == '[' || val.Kind() == '{' {
+		v.Add(name, msgInt)
+		return 0, false
+	}
+	switch {
+	case n.Cmp(big.NewInt(min)) < 0:
+		v.Add(name, fmt.Sprintf("Ensure this value is greater than or equal to %d.", min))
+		return 0, false
+	case n.Cmp(big.NewInt(max)) > 0:
+		v.Add(name, fmt.Sprintf("Ensure this value is less than or equal to %d.", max))
+		return 0, false
+	}
+	return n.Int64(), true
+}
+
+var intDecimalRe = regexp.MustCompile(`\.0*\s*$`)
 
 // Bool validates a non-nullable BooleanField.
 func (v *Validator) Bool(name string) (bool, bool) {
@@ -302,6 +417,87 @@ func (v *Validator) DateTime(name string, allowNull bool) (*time.Time, bool) {
 	return nil, false
 }
 
+// Date validates a DateField. A nil result means null.
+func (v *Validator) Date(name string, allowNull bool) (*time.Time, bool) {
+	val, ok := v.get(name, allowNull, false)
+	if !ok {
+		return nil, false
+	}
+	if val.IsNull() {
+		if !allowNull {
+			v.Add(name, msgNull)
+			return nil, false
+		}
+		return nil, true
+	}
+	if val.IsString() {
+		if t, ok := ParseDate(val.Str()); ok {
+			return &t, true
+		}
+	}
+	v.Add(name, msgDate)
+	return nil, false
+}
+
+// PKList validates a ListField(child=PrimaryKeyRelatedField(...)) of UUID
+// keys; exists checks the child's queryset.
+func (v *Validator) PKList(name string, exists func(uuid.UUID) (bool, error)) ([]uuid.UUID, bool, error) {
+	val, ok := v.get(name, false, false)
+	if !ok {
+		return nil, false, nil
+	}
+	if val.IsNull() {
+		v.Add(name, msgNull)
+		return nil, false, nil
+	}
+	elems, isList := val.Elems()
+	if !isList {
+		v.Add(name, `Expected a list of items but got type "`+pyTypeName(val.Kind(), val.raw)+`".`)
+		return nil, false, nil
+	}
+	out := make([]uuid.UUID, 0, len(elems))
+	errs := map[int][]string{}
+	for i, el := range elems {
+		msg, id, err := pkChild(el, exists)
+		if err != nil {
+			return nil, false, err
+		}
+		if msg != "" {
+			errs[i] = []string{msg}
+			continue
+		}
+		out = append(out, id)
+	}
+	if len(errs) > 0 {
+		v.indexed[name] = errs
+		return nil, false, nil
+	}
+	return out, true, nil
+}
+
+// pkChild runs a non-null PrimaryKeyRelatedField on one value, returning its
+// error message, if any.
+func pkChild(val Value, exists func(uuid.UUID) (bool, error)) (string, uuid.UUID, error) {
+	switch {
+	case val.IsNull():
+		return msgNull, uuid.Nil, nil
+	case val.Kind() == 't' || val.Kind() == 'f':
+		return "Incorrect type. Expected pk value, received bool.", uuid.Nil, nil
+	}
+	id, ok := uuidInput(val, false)
+	if !ok {
+		return "“" + PyStr(val) + "” is not a valid UUID.", uuid.Nil, nil
+	}
+	found, err := exists(id)
+	if err != nil {
+		return "", uuid.Nil, err
+	}
+	if !found {
+		return `Invalid pk "` + PyStr(val) + `" - object does not exist.`, uuid.Nil, nil
+	}
+	return "", id, nil
+}
+
 // PK validates a PrimaryKeyRelatedField to a UUID-keyed model; exists
 // checks the related queryset. A nil result means null.
 func (v *Validator) PK(name string, allowNull bool, exists func(uuid.UUID) (bool, error)) (*uuid.UUID, bool, error) {
@@ -340,3 +536,107 @@ func (v *Validator) PK(name string, allowNull bool, exists func(uuid.UUID) (bool
 
 // Decode unmarshals a validated JSON value.
 func Decode(raw jsontext.Value, out any) error { return json.Unmarshal(raw, out) }
+
+// SearchTerms splits ?search= the way DRF's SearchFilter does: NUL bytes
+// dropped, commas and whitespace separate terms.
+func SearchTerms(q string) []string {
+	q = strings.ReplaceAll(strings.ReplaceAll(q, "\x00", ""), ",", " ")
+	return strings.FieldsFunc(q, pyIsSpace)
+}
+
+// Float validates a non-nullable FloatField: float(data), with strings over
+// 1000 characters refused first.
+func (v *Validator) Float(name string) (float64, bool) {
+	val, ok := v.get(name, false, false)
+	if !ok {
+		return 0, false
+	}
+	if val.IsNull() {
+		v.Add(name, msgNull)
+		return 0, false
+	}
+	if val.IsString() && utf8.RuneCountInString(val.Str()) > 1000 {
+		v.Add(name, "String value too large.")
+		return 0, false
+	}
+	f, ok := PyFloat(val)
+	if !ok {
+		v.Add(name, "A valid number is required.")
+		return 0, false
+	}
+	return f, true
+}
+
+// PyFloat is Python's float() on a request value.
+func PyFloat(val Value) (float64, bool) {
+	switch val.Kind() {
+	case 't':
+		return 1, true
+	case 'f':
+		return 0, true
+	case '0':
+		f, err := strconv.ParseFloat(string(val.raw), 64)
+		return f, err == nil || isRangeErr(err)
+	case '"':
+		return pyFloatString(val.Str())
+	}
+	return 0, false
+}
+
+// pyFloatString parses a float literal the way float(str) does: surrounding
+// whitespace, underscores between digits, inf/nan spellings; no hex.
+func pyFloatString(s string) (float64, bool) {
+	s = PyStrip(s)
+	body := strings.TrimLeft(s, "+-")
+	if len(s)-len(body) > 1 {
+		return 0, false
+	}
+	switch strings.ToLower(body) {
+	case "inf", "infinity":
+		f, err := strconv.ParseFloat(s, 64)
+		return f, err == nil
+	case "nan":
+		return math.NaN(), true // ParseFloat refuses a signed NaN
+	}
+	// Unicode decimal digits count as their ASCII forms.
+	var ascii []byte
+	for _, r := range s {
+		if r > unicode.MaxASCII && unicode.IsDigit(r) {
+			r = rune('0' + digitValue(r))
+		}
+		if r > unicode.MaxASCII {
+			return 0, false
+		}
+		ascii = append(ascii, byte(r))
+	}
+	var b strings.Builder
+	prev := byte(0)
+	for i, c := range ascii {
+		switch {
+		case c == '_':
+			if !isDigit(prev) || i+1 >= len(ascii) || !isDigit(ascii[i+1]) {
+				return 0, false
+			}
+		case isDigit(c) || c == '.' || c == 'e' || c == 'E' || c == '+' || c == '-':
+			b.WriteByte(c)
+		default:
+			return 0, false
+		}
+		prev = c
+	}
+	f, err := strconv.ParseFloat(b.String(), 64)
+	return f, err == nil || isRangeErr(err)
+}
+
+// isRangeErr: Python overflows to inf (or underflows to 0) instead of failing.
+func isRangeErr(err error) bool {
+	ne, ok := err.(*strconv.NumError)
+	return ok && ne.Err == strconv.ErrRange
+}
+
+// PyUpper is str.upper(), with its full case mappings ("ß" becomes "SS").
+func PyUpper(s string) string { return cases.Upper(language.Und).String(s) }
+
+// PyIntString is int(s) for a str: whitespace, a sign, underscores between
+// digits and any Unicode decimal digits.
+func PyIntString(s string) (*big.Int, bool) { return parsePyIntString(s) }

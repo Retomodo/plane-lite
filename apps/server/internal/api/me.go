@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"net/http"
 	"regexp"
+	"slices"
 	"strings"
 
 	"github.com/google/uuid"
@@ -22,20 +23,46 @@ import (
 // which BaseAPIView turns into a 500 "Something went wrong" response.
 var errViewCrash = errors.New("api: view raised")
 
-// setList builds the SET clause of an UPDATE whose $1 is the row id.
+// setList collects column values for an UPDATE (whose $1 is the row id)
+// or an INSERT.
 type setList struct {
-	cols []string
-	args []any
+	cols  []string
+	casts []string
+	args  []any
 }
 
 func (s *setList) add(col string, v any) { s.addCast(col, v, "") }
 
 func (s *setList) addCast(col string, v any, cast string) {
+	s.cols = append(s.cols, col)
+	s.casts = append(s.casts, cast)
 	s.args = append(s.args, v)
-	s.cols = append(s.cols, fmt.Sprintf("%s = $%d%s", col, len(s.args)+1, cast))
 }
 
-func (s *setList) sql() string { return strings.Join(s.cols, ", ") }
+// drop removes a column added earlier.
+func (s *setList) drop(col string) {
+	if i := slices.Index(s.cols, col); i >= 0 {
+		s.cols, s.casts, s.args = slices.Delete(s.cols, i, i+1), slices.Delete(s.casts, i, i+1), slices.Delete(s.args, i, i+1)
+	}
+}
+
+// sql is the SET clause, with parameters from $2.
+func (s *setList) sql() string {
+	parts := make([]string, len(s.cols))
+	for i, col := range s.cols {
+		parts[i] = fmt.Sprintf("%s = $%d%s", col, i+2, s.casts[i])
+	}
+	return strings.Join(parts, ", ")
+}
+
+// insertSQL is an INSERT of the columns (parameters from $1) returning id.
+func (s *setList) insertSQL(table string) string {
+	vals := make([]string, len(s.cols))
+	for i := range s.cols {
+		vals[i] = fmt.Sprintf("$%d%s", i+1, s.casts[i])
+	}
+	return fmt.Sprintf("INSERT INTO %s (%s) VALUES (%s) RETURNING id", table, strings.Join(s.cols, ", "), strings.Join(vals, ", "))
+}
 
 // userSaveSQL is what User.save() adds to every write: auto_now and the API
 // token rotation it performs once a token has been issued.

@@ -46,12 +46,14 @@ type normalizer struct {
 	masks map[string]bool // dotted paths whose values are replaced by "<masked>"
 	exact map[string]bool // dotted paths kept verbatim
 	sorts map[string]string
+	// unordered marks scalar arrays sorted after normalization.
+	unordered map[string]bool
 	// noCSRF is a request option carried here for convenience.
 	noCSRF bool
 }
 
 func (n *normalizer) value(path string, v any) any {
-	if n.masks[path] && v != nil {
+	if n.isMasked(path) && v != nil {
 		return "<masked>"
 	}
 	switch x := v.(type) {
@@ -63,7 +65,9 @@ func (n *normalizer) value(path string, v any) any {
 		sort.Strings(keys)
 		out := make(map[string]any, len(x))
 		for _, k := range keys {
-			out[k] = n.value(join(path, k), x[k])
+			// Keys keyed by id (e.g. {project_id: role}) get placeholders too;
+			// options still address them by their raw path.
+			out[n.ids.replace(k)] = n.value(join(path, k), x[k])
 		}
 		return out
 	case []any:
@@ -77,6 +81,9 @@ func (n *normalizer) value(path string, v any) any {
 		for i, e := range x {
 			out[i] = n.value(path+"[]", e)
 		}
+		if n.isUnordered(path) {
+			slices.SortStableFunc(out, func(a, b any) int { return strings.Compare(fmt.Sprint(a), fmt.Sprint(b)) })
+		}
 		return out
 	case string:
 		if n.exact[path] {
@@ -86,6 +93,34 @@ func (n *normalizer) value(path string, v any) any {
 	default:
 		return v
 	}
+}
+
+// isMasked reports whether the value at path was masked, directly or by a
+// "*.name" suffix pattern.
+func (n *normalizer) isMasked(path string) bool {
+	if n.masks[path] {
+		return true
+	}
+	for p := range n.masks {
+		if rest, ok := strings.CutPrefix(p, "body.*"); ok && strings.HasSuffix(path, rest) {
+			return true
+		}
+	}
+	return false
+}
+
+// isUnordered reports whether the array at path was marked Unordered,
+// directly or by a "*.name" suffix pattern.
+func (n *normalizer) isUnordered(path string) bool {
+	if n.unordered[path] {
+		return true
+	}
+	for p := range n.unordered {
+		if rest, ok := strings.CutPrefix(p, "body.*"); ok && strings.HasSuffix(path, rest) {
+			return true
+		}
+	}
+	return false
 }
 
 func (n *normalizer) str(s string) string {

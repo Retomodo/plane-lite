@@ -8,7 +8,7 @@ Hand-verified notes are added on top.
 This document covers every **kept** endpoint that is not yet ported. CUT features and the batch-1 endpoints are listed
 only in [Appendix A](#appendix-a-excluded-endpoints).
 
-> Status: sections 1 and 2 are ported (batches 3 and 4); their rows are ticked.
+> Status: sections 1 and 2 are ported (batches 3 and 4), section 3 (batch 5), section 4 (batch 6), section 5 (batch 7) and section 6 (batch 8), except the unused rows noted in DEVIATIONS.md; their rows are ticked.
 
 ## How to read the tables
 
@@ -124,45 +124,45 @@ All are form-POST + 302 redirect flows (Django `View`) except magic-generate / f
 
 35 endpoints · 1 L / 10 M / 24 S · 13 unused by web/live
 
-Boot calls: `/users/me/workspaces/`, `W/workspace-members/me/`, `W/members/`, `W/sidebar-preferences/`, `W/user-properties/`, `/users/me/workspaces/<slug>/project-roles/` (section 4). `WorkSpaceViewSet.create` enqueues `workspace_seed` (demo data) — decide whether plane-lite keeps it.
+Boot calls: `/users/me/workspaces/`, `W/workspace-members/me/`, `W/members/`, `W/sidebar-preferences/`, `W/user-properties/`, `/users/me/workspaces/<slug>/project-roles/` (section 4). `WorkSpaceViewSet.create` enqueues `workspace_seed` (demo data) — not kept: see DEVIATIONS.md.
 
-| ☐ | Method | URL | View · file:line | Serializer(s) | Permission | Side effects | Caller | Cx |
+| ☑ | Method | URL | View · file:line | Serializer(s) | Permission | Side effects | Caller | Cx |
 |---|---|---|---|---|---|---|---|---|
-| ☐ | GET | `/api/users/me/workspaces/` | `UserWorkSpacesEndpoint.get` workspace/base.py:180 | WorkSpaceSerializer | IsAuthenticated | annotates total_members, role; boot call | web | M |
-| ☐ | GET | `/api/workspace-slug-check/` | `WorkSpaceAvailabilityCheckEndpoint.get` workspace/base.py:215 | — (dict/values) | IsAuthenticated | — | web | S |
-| ☐ | GET | `/api/workspaces/` | `WorkSpaceViewSet.list` workspace/base.py:153 | WorkSpaceSerializer | AP[A,M,G]/WS · WorkSpaceBasePermission | — | **UNUSED** | S |
-| ☐ | POST | `/api/workspaces/` | `WorkSpaceViewSet.create` workspace/base.py:81 | WorkSpaceSerializer | WorkSpaceBasePermission | workspace_seed. creates Workspace + WorkspaceMember(admin) + `workspace_seed` task (seeds demo project/states/labels/issues/cycles/modules/pages/views via bot user) — decide whether to keep | web | L |
-| ☐ | GET | `W/` | `WorkSpaceViewSet.retrieve` (DRF default) class workspace/base.py:53; get_queryset workspace/base.py:63 | WorkSpaceSerializer | WorkSpaceBasePermission | — | **UNUSED** (dead web service fn `getWorkspace`) | M |
-| ☐ | PUT | `W/` | `WorkSpaceViewSet.update` (DRF default) class workspace/base.py:53; get_queryset workspace/base.py:63 | WorkSpaceSerializer | WorkSpaceBasePermission | — | **UNUSED** | M |
-| ☐ | PATCH | `W/` | `WorkSpaceViewSet.partial_update` workspace/base.py:157 | WorkSpaceSerializer | AP[A]/WS · WorkSpaceBasePermission | — | web | S |
-| ☐ | DELETE | `W/` | `WorkSpaceViewSet.destroy` workspace/base.py:168 | WorkSpaceSerializer | AP[A]/WS · WorkSpaceBasePermission | soft delete + slug suffixed with `__<epoch>`; cascade via soft_delete_related_objects | web | S |
-| ☐ | GET | `W/invitations/` | `WorkspaceInvitationsViewset.list` (DRF default) class workspace/invite.py:36; get_queryset workspace/invite.py:44 | WorkSpaceMemberInviteSerializer | WorkSpaceAdminPermission | — | web | S |
-| ☐ | POST | `W/invitations/` | `WorkspaceInvitationsViewset.create` workspace/invite.py:52 | WorkSpaceMemberSerializer | WorkSpaceAdminPermission | workspace_invitation. WorkspaceMemberInvite rows + email per invite | web | M |
-| ☐ | DELETE | `W/invitations/<pk>/` | `WorkspaceInvitationsViewset.destroy` workspace/invite.py:130 | — (dict/values) | WorkSpaceAdminPermission | — | web | S |
-| ☐ | GET | `W/invitations/<pk>/` | `WorkspaceInvitationsViewset.retrieve` (DRF default) class workspace/invite.py:36; get_queryset workspace/invite.py:44 | WorkSpaceMemberInviteSerializer | WorkSpaceAdminPermission | — | **UNUSED** | S |
-| ☐ | PATCH | `W/invitations/<pk>/` | `WorkspaceInvitationsViewset.partial_update` (DRF default) class workspace/invite.py:36; get_queryset workspace/invite.py:44 | WorkSpaceMemberInviteSerializer | WorkSpaceAdminPermission | — | web | S |
-| ☐ | GET | `/api/users/me/workspaces/invitations/` | `UserWorkspaceInvitationsViewSet.list` (DRF default) class workspace/invite.py:236; get_queryset workspace/invite.py:240 | WorkSpaceMemberInviteSerializer | IsAuthenticated | — | web | S |
-| ☐ | POST | `/api/users/me/workspaces/invitations/` | `UserWorkspaceInvitationsViewSet.create` workspace/invite.py:247 | — (dict/values) | IsAuthenticated | invalidate_cache: `/api/workspaces/`, `/api/users/me/workspaces/`; invalidate_cache_directly. bulk-accept invites → WorkspaceMember rows | web | M |
-| ☐ | GET | `W/invitations/<pk>/join/` | `WorkspaceJoinEndpoint.get` workspace/invite.py:227 | WorkSpaceMemberInvitePublicSerializer | AllowAny | — | web | S |
-| ☐ | POST | `W/invitations/<pk>/join/` | `WorkspaceJoinEndpoint.post` workspace/invite.py:149 | — (dict/values) | AllowAny | invalidate_cache: `/api/workspaces/`, `/api/users/me/workspaces/`, `/api/workspaces/:slug/members/`, `/api/users/me/settings/`. token-checked accept/reject; creates or reactivates WorkspaceMember; sets Profile.last_workspace_id | web | M |
-| ☐ | GET | `W/members/` | `WorkSpaceMemberViewSet.list` workspace/member.py:46 | WorkspaceMemberAdminSerializer, WorkSpaceMemberSerializer | AP[A,M,G]/WS | — | web | S |
-| ☐ | GET | `W/project-members/` | `WorkspaceProjectMemberEndpoint.get` workspace/member.py:243 | ProjectMemberRoleSerializer | WorkspaceEntityPermission | — | **UNUSED** | S |
-| ☐ | PATCH | `W/members/<pk>/` | `WorkSpaceMemberViewSet.partial_update` workspace/member.py:77 | WorkSpaceMemberSerializer | AP[A]/WS | — | web | S |
-| ☐ | DELETE | `W/members/<pk>/` | `WorkSpaceMemberViewSet.destroy` workspace/member.py:99 | — (dict/values) | AP[A]/WS | guards (self, higher role, sole project admin); deactivates WorkspaceMember + that user's ProjectMember rows | web | M |
-| ☐ | GET | `W/members/<pk>/` | `WorkSpaceMemberViewSet.retrieve` workspace/member.py:58 | WorkspaceMemberAdminSerializer, WorkSpaceMemberSerializer | AP[A,M,G]/WS | — | **UNUSED** | S |
-| ☐ | POST | `W/members/leave/` | `WorkSpaceMemberViewSet.leave` workspace/member.py:161 | — (dict/values) | AP[A,M,G]/WS | invalidate_cache: `/api/workspaces/:slug/members/`, `/api/users/me/settings/`, `api/users/me/workspaces/`. guards (last ws admin, sole project admin); deactivates memberships | web | M |
+| ☑ | GET | `/api/users/me/workspaces/` | `UserWorkSpacesEndpoint.get` workspace/base.py:180 | WorkSpaceSerializer | IsAuthenticated | annotates total_members, role; boot call | web | M |
+| ☑ | GET | `/api/workspace-slug-check/` | `WorkSpaceAvailabilityCheckEndpoint.get` workspace/base.py:215 | — (dict/values) | IsAuthenticated | — | web | S |
+| ☑ | GET | `/api/workspaces/` | `WorkSpaceViewSet.list` workspace/base.py:153 | WorkSpaceSerializer | AP[A,M,G]/WS · WorkSpaceBasePermission | — | **UNUSED** | S |
+| ☑ | POST | `/api/workspaces/` | `WorkSpaceViewSet.create` workspace/base.py:81 | WorkSpaceSerializer | WorkSpaceBasePermission | workspace_seed. creates Workspace + WorkspaceMember(admin) + `workspace_seed` task (seeds demo project/states/labels/issues/cycles/modules/pages/views via bot user) — decide whether to keep | web | L |
+| ☑ | GET | `W/` | `WorkSpaceViewSet.retrieve` (DRF default) class workspace/base.py:53; get_queryset workspace/base.py:63 | WorkSpaceSerializer | WorkSpaceBasePermission | — | **UNUSED** (dead web service fn `getWorkspace`) | M |
+| ☑ | PUT | `W/` | `WorkSpaceViewSet.update` (DRF default) class workspace/base.py:53; get_queryset workspace/base.py:63 | WorkSpaceSerializer | WorkSpaceBasePermission | — | **UNUSED** | M |
+| ☑ | PATCH | `W/` | `WorkSpaceViewSet.partial_update` workspace/base.py:157 | WorkSpaceSerializer | AP[A]/WS · WorkSpaceBasePermission | — | web | S |
+| ☑ | DELETE | `W/` | `WorkSpaceViewSet.destroy` workspace/base.py:168 | WorkSpaceSerializer | AP[A]/WS · WorkSpaceBasePermission | soft delete + slug suffixed with `__<epoch>`; cascade via soft_delete_related_objects | web | S |
+| ☑ | GET | `W/invitations/` | `WorkspaceInvitationsViewset.list` (DRF default) class workspace/invite.py:36; get_queryset workspace/invite.py:44 | WorkSpaceMemberInviteSerializer | WorkSpaceAdminPermission | — | web | S |
+| ☑ | POST | `W/invitations/` | `WorkspaceInvitationsViewset.create` workspace/invite.py:52 | WorkSpaceMemberSerializer | WorkSpaceAdminPermission | workspace_invitation. WorkspaceMemberInvite rows + email per invite | web | M |
+| ☑ | DELETE | `W/invitations/<pk>/` | `WorkspaceInvitationsViewset.destroy` workspace/invite.py:130 | — (dict/values) | WorkSpaceAdminPermission | — | web | S |
+| ☑ | GET | `W/invitations/<pk>/` | `WorkspaceInvitationsViewset.retrieve` (DRF default) class workspace/invite.py:36; get_queryset workspace/invite.py:44 | WorkSpaceMemberInviteSerializer | WorkSpaceAdminPermission | — | **UNUSED** | S |
+| ☑ | PATCH | `W/invitations/<pk>/` | `WorkspaceInvitationsViewset.partial_update` (DRF default) class workspace/invite.py:36; get_queryset workspace/invite.py:44 | WorkSpaceMemberInviteSerializer | WorkSpaceAdminPermission | — | web | S |
+| ☑ | GET | `/api/users/me/workspaces/invitations/` | `UserWorkspaceInvitationsViewSet.list` (DRF default) class workspace/invite.py:236; get_queryset workspace/invite.py:240 | WorkSpaceMemberInviteSerializer | IsAuthenticated | — | web | S |
+| ☑ | POST | `/api/users/me/workspaces/invitations/` | `UserWorkspaceInvitationsViewSet.create` workspace/invite.py:247 | — (dict/values) | IsAuthenticated | invalidate_cache: `/api/workspaces/`, `/api/users/me/workspaces/`; invalidate_cache_directly. bulk-accept invites → WorkspaceMember rows | web | M |
+| ☑ | GET | `W/invitations/<pk>/join/` | `WorkspaceJoinEndpoint.get` workspace/invite.py:227 | WorkSpaceMemberInvitePublicSerializer | AllowAny | — | web | S |
+| ☑ | POST | `W/invitations/<pk>/join/` | `WorkspaceJoinEndpoint.post` workspace/invite.py:149 | — (dict/values) | AllowAny | invalidate_cache: `/api/workspaces/`, `/api/users/me/workspaces/`, `/api/workspaces/:slug/members/`, `/api/users/me/settings/`. token-checked accept/reject; creates or reactivates WorkspaceMember; sets Profile.last_workspace_id | web | M |
+| ☑ | GET | `W/members/` | `WorkSpaceMemberViewSet.list` workspace/member.py:46 | WorkspaceMemberAdminSerializer, WorkSpaceMemberSerializer | AP[A,M,G]/WS | — | web | S |
+| ☑ | GET | `W/project-members/` | `WorkspaceProjectMemberEndpoint.get` workspace/member.py:243 | ProjectMemberRoleSerializer | WorkspaceEntityPermission | — | **UNUSED** | S |
+| ☑ | PATCH | `W/members/<pk>/` | `WorkSpaceMemberViewSet.partial_update` workspace/member.py:77 | WorkSpaceMemberSerializer | AP[A]/WS | — | web | S |
+| ☑ | DELETE | `W/members/<pk>/` | `WorkSpaceMemberViewSet.destroy` workspace/member.py:99 | — (dict/values) | AP[A]/WS | guards (self, higher role, sole project admin); deactivates WorkspaceMember + that user's ProjectMember rows | web | M |
+| ☑ | GET | `W/members/<pk>/` | `WorkSpaceMemberViewSet.retrieve` workspace/member.py:58 | WorkspaceMemberAdminSerializer, WorkSpaceMemberSerializer | AP[A,M,G]/WS | — | **UNUSED** | S |
+| ☑ | POST | `W/members/leave/` | `WorkSpaceMemberViewSet.leave` workspace/member.py:161 | — (dict/values) | AP[A,M,G]/WS | invalidate_cache: `/api/workspaces/:slug/members/`, `/api/users/me/settings/`, `api/users/me/workspaces/`. guards (last ws admin, sole project admin); deactivates memberships | web | M |
 | ☐ | GET | `/api/users/last-visited-workspace/` | `UserLastProjectWithWorkspaceEndpoint.get` workspace/user.py:69 | WorkSpaceSerializer, ProjectMemberSerializer | IsAuthenticated | — | **UNUSED** (dead web service fn `getLastActiveWorkspaceAndProjects`) | S |
-| ☐ | GET | `W/workspace-members/me/` | `WorkspaceMemberUserEndpoint.get` workspace/member.py:220 | WorkspaceMemberMeSerializer | IsAuthenticated | boot call (workspace wrapper) | web | M |
-| ☐ | POST | `W/workspace-views/` | `WorkspaceMemberUserViewsEndpoint.post` workspace/member.py:209 | — (dict/values) | IsAuthenticated | — | **UNUSED** (dead web service fn `updateWorkspaceView`) | S |
+| ☑ | GET | `W/workspace-members/me/` | `WorkspaceMemberUserEndpoint.get` workspace/member.py:220 | WorkspaceMemberMeSerializer | IsAuthenticated | boot call (workspace wrapper) | web | M |
+| ☑ | POST | `W/workspace-views/` | `WorkspaceMemberUserViewsEndpoint.post` workspace/member.py:209 | — (dict/values) | IsAuthenticated | — | **UNUSED** (dead web service fn `updateWorkspaceView`) | S |
 | ☐ | GET | `W/workspace-themes/` | `WorkspaceThemeViewSet.list` (DRF default) class workspace/base.py:322; get_queryset workspace/base.py:327 | WorkspaceThemeSerializer | WorkSpaceAdminPermission | — | **UNUSED** | S |
 | ☐ | POST | `W/workspace-themes/` | `WorkspaceThemeViewSet.create` workspace/base.py:330 | WorkspaceThemeSerializer | WorkSpaceAdminPermission | — | **UNUSED** | S |
 | ☐ | GET | `W/workspace-themes/<pk>/` | `WorkspaceThemeViewSet.retrieve` (DRF default) class workspace/base.py:322; get_queryset workspace/base.py:327 | WorkspaceThemeSerializer | WorkSpaceAdminPermission | — | **UNUSED** | S |
 | ☐ | PATCH | `W/workspace-themes/<pk>/` | `WorkspaceThemeViewSet.partial_update` (DRF default) class workspace/base.py:322; get_queryset workspace/base.py:327 | WorkspaceThemeSerializer | WorkSpaceAdminPermission | — | **UNUSED** | S |
 | ☐ | DELETE | `W/workspace-themes/<pk>/` | `WorkspaceThemeViewSet.destroy` (DRF default) class workspace/base.py:322; get_queryset workspace/base.py:327 | WorkspaceThemeSerializer | WorkSpaceAdminPermission | — | **UNUSED** | S |
-| ☐ | GET | `W/user-properties/` | `WorkspaceUserPropertiesEndpoint.get` workspace/user.py:269 | WorkspaceUserPropertiesSerializer | WorkspaceViewerPermission | writes on GET | web | S |
-| ☐ | PATCH | `W/user-properties/` | `WorkspaceUserPropertiesEndpoint.patch` workspace/user.py:255 | WorkspaceUserPropertiesSerializer | WorkspaceViewerPermission | — | web | S |
-| ☐ | GET | `W/sidebar-preferences/` | `WorkspaceUserPreferenceViewSet.get` workspace/user_preference.py:26 | — (dict/values) | AP[A,M,G]/WS | writes on GET: bulk_create missing sidebar keys | web | M |
-| ☐ | PATCH | `W/sidebar-preferences/` | `WorkspaceUserPreferenceViewSet.patch` workspace/user_preference.py:82 | — (dict/values) | AP[A,M,G]/WS | — | web | S |
+| ☑ | GET | `W/user-properties/` | `WorkspaceUserPropertiesEndpoint.get` workspace/user.py:269 | WorkspaceUserPropertiesSerializer | WorkspaceViewerPermission | writes on GET | web | S |
+| ☑ | PATCH | `W/user-properties/` | `WorkspaceUserPropertiesEndpoint.patch` workspace/user.py:255 | WorkspaceUserPropertiesSerializer | WorkspaceViewerPermission | — | web | S |
+| ☑ | GET | `W/sidebar-preferences/` | `WorkspaceUserPreferenceViewSet.get` workspace/user_preference.py:26 | — (dict/values) | AP[A,M,G]/WS | writes on GET: bulk_create missing sidebar keys | web | M |
+| ☑ | PATCH | `W/sidebar-preferences/` | `WorkspaceUserPreferenceViewSet.patch` workspace/user_preference.py:82 | — (dict/values) | AP[A,M,G]/WS | — | web | S |
 
 ### 4. Projects, members, invitations, join
 
@@ -170,38 +170,38 @@ Boot calls: `/users/me/workspaces/`, `W/workspace-members/me/`, `W/members/`, `W
 
 Boot calls: `W/projects/` (lite list), `P/` detail, `P/project-members/me/`, `P/user-properties/`, `P/members/`. Project creation seeds DEFAULT_STATES (`DEFAULT_STATES` in `plane/db/models/state.py:24`). ProjectMember.save() creates ProjectUserProperty — but several endpoints use `bulk_create`, which bypasses save() and creates the property rows explicitly.
 
-| ☐ | Method | URL | View · file:line | Serializer(s) | Permission | Side effects | Caller | Cx |
+| ☑ | Method | URL | View · file:line | Serializer(s) | Permission | Side effects | Caller | Cx |
 |---|---|---|---|---|---|---|---|---|
-| ☐ | GET | `P/user-properties/` | `ProjectUserDisplayPropertyEndpoint.get` issue/base.py:767 | ProjectUserPropertySerializer | AP[A,M,G]/PROJ | writes on GET | web | S |
-| ☐ | PATCH | `P/user-properties/` | `ProjectUserDisplayPropertyEndpoint.patch` issue/base.py:745 | ProjectUserPropertySerializer | AP[A,M,G]/PROJ | — | web | S |
-| ☐ | GET | `W/projects/` | `ProjectViewSet.list` project/base.py:146 | — (dict/values) | AP[A,M,G]/WS | boot call; values() incl. member_role, `intake_count` (reads intake_issues although intake is CUT), sort_order subquery (ProjectUserProperty); guests see joined projects, members joined + network=2 | web | L |
-| ☐ | POST | `W/projects/` | `ProjectViewSet.create` project/base.py:258 | ProjectSerializer, ProjectListSerializer | AP[A,M]/WS | model_activity†. creates Project + ProjectMember(admin, lead) + 5 DEFAULT_STATES; ProjectMember.save creates ProjectUserProperty | web | L |
-| ☐ | GET | `W/projects/details/` | `ProjectViewSet.list_detail` project/base.py:102 | ProjectListSerializer | AP[A,M,G]/WS | get_queryset annotations (is_favorite, members_list prefetch, `anchor` from deploy_boards [CUT table], sort_order); paginated only when both `per_page` and `cursor` given | web | L |
-| ☐ | GET | `W/projects/<pk>/` | `ProjectViewSet.retrieve` project/base.py:226 | ProjectListSerializer | AP[A,M,G]/WS | recent_visited_task | web | M |
+| ☑ | GET | `P/user-properties/` | `ProjectUserDisplayPropertyEndpoint.get` issue/base.py:767 | ProjectUserPropertySerializer | AP[A,M,G]/PROJ | writes on GET | web | S |
+| ☑ | PATCH | `P/user-properties/` | `ProjectUserDisplayPropertyEndpoint.patch` issue/base.py:745 | ProjectUserPropertySerializer | AP[A,M,G]/PROJ | — | web | S |
+| ☑ | GET | `W/projects/` | `ProjectViewSet.list` project/base.py:146 | — (dict/values) | AP[A,M,G]/WS | boot call; values() incl. member_role, `intake_count` (reads intake_issues although intake is CUT), sort_order subquery (ProjectUserProperty); guests see joined projects, members joined + network=2 | web | L |
+| ☑ | POST | `W/projects/` | `ProjectViewSet.create` project/base.py:258 | ProjectSerializer, ProjectListSerializer | AP[A,M]/WS | model_activity†. creates Project + ProjectMember(admin, lead) + 5 DEFAULT_STATES; ProjectMember.save creates ProjectUserProperty | web | L |
+| ☑ | GET | `W/projects/details/` | `ProjectViewSet.list_detail` project/base.py:102 | ProjectListSerializer | AP[A,M,G]/WS | get_queryset annotations (is_favorite, members_list prefetch, `anchor` from deploy_boards [CUT table], sort_order); paginated only when both `per_page` and `cursor` given | web | L |
+| ☑ | GET | `W/projects/<pk>/` | `ProjectViewSet.retrieve` project/base.py:226 | ProjectListSerializer | AP[A,M,G]/WS | recent_visited_task | web | M |
 | ☐ | PUT | `W/projects/<pk>/` | `ProjectViewSet.update` (DRF default) class project/base.py:47; get_queryset project/base.py:53 | ProjectListSerializer | IsAuthenticated | — | **UNUSED** | M |
-| ☐ | PATCH | `W/projects/<pk>/` | `ProjectViewSet.partial_update` project/base.py:314 | ProjectSerializer, ProjectListSerializer | IsAuthenticated | model_activity†. inline perm: workspace admin or project admin; archived → 400; creates default Intake row when intake_view=true (intake CUT) | web | M |
-| ☐ | DELETE | `W/projects/<pk>/` | `ProjectViewSet.destroy` project/base.py:382 | — (dict/values) | IsAuthenticated | webhook_activity†. inline perm (ws admin or project admin); soft delete cascade; `webhook_activity`* only | web | M |
-| ☐ | GET | `W/project-identifiers/` | `ProjectIdentifierEndpoint.get` project/base.py:446 | — (dict/values) | AP[A,M]/WS | — | web | S |
+| ☑ | PATCH | `W/projects/<pk>/` | `ProjectViewSet.partial_update` project/base.py:314 | ProjectSerializer, ProjectListSerializer | IsAuthenticated | model_activity†. inline perm: workspace admin or project admin; archived → 400; creates default Intake row when intake_view=true (intake CUT) | web | M |
+| ☑ | DELETE | `W/projects/<pk>/` | `ProjectViewSet.destroy` project/base.py:382 | — (dict/values) | IsAuthenticated | webhook_activity†. inline perm (ws admin or project admin); soft delete cascade; `webhook_activity`* only | web | M |
+| ☑ | GET | `W/project-identifiers/` | `ProjectIdentifierEndpoint.get` project/base.py:446 | — (dict/values) | AP[A,M]/WS | — | web | S |
 | ☐ | DELETE | `W/project-identifiers/` | `ProjectIdentifierEndpoint.delete` project/base.py:457 | — (dict/values) | AP[A,M]/WS | — | **UNUSED** | S |
 | ☐ | GET | `P/invitations/` | `ProjectInvitationsViewset.list` (DRF default) class project/invite.py:40; get_queryset project/invite.py:46 | ProjectMemberInviteSerializer | IsAuthenticated | — | **UNUSED** | S |
 | ☐ | POST | `P/invitations/` | `ProjectInvitationsViewset.create` project/invite.py:57 | — (dict/values) | AP[A]/PROJ | project_invitations | **UNUSED** | M |
 | ☐ | GET | `P/invitations/<pk>/` | `ProjectInvitationsViewset.retrieve` (DRF default) class project/invite.py:40; get_queryset project/invite.py:46 | ProjectMemberInviteSerializer | IsAuthenticated | — | **UNUSED** | S |
 | ☐ | DELETE | `P/invitations/<pk>/` | `ProjectInvitationsViewset.destroy` (DRF default) class project/invite.py:40; get_queryset project/invite.py:46 | ProjectMemberInviteSerializer | IsAuthenticated | — | **UNUSED** | S |
 | ☐ | GET | `/api/users/me/workspaces/<str:slug>/projects/invitations/` | `UserProjectInvitationsViewset.list` (DRF default) class project/invite.py:119; get_queryset project/invite.py:123 | ProjectMemberInviteSerializer | IsAuthenticated | — | **UNUSED** | S |
-| ☐ | POST | `/api/users/me/workspaces/<str:slug>/projects/invitations/` | `UserProjectInvitationsViewset.create` project/invite.py:132 | — (dict/values) | AP[A,M]/WS | self-join projects: reactivates + bulk_create ProjectMember and ProjectUserProperty | web | M |
-| ☐ | GET | `/api/users/me/workspaces/<str:slug>/project-roles/` | `UserProjectRolesEndpoint.get` project/member.py:369 | — (dict/values) | WorkspaceUserPermission | boot call; returns {project_id: role} | web | S |
+| ☑ | POST | `/api/users/me/workspaces/<str:slug>/projects/invitations/` | `UserProjectInvitationsViewset.create` project/invite.py:132 | — (dict/values) | AP[A,M]/WS | self-join projects: reactivates + bulk_create ProjectMember and ProjectUserProperty | web | M |
+| ☑ | GET | `/api/users/me/workspaces/<str:slug>/project-roles/` | `UserProjectRolesEndpoint.get` project/member.py:369 | — (dict/values) | WorkspaceUserPermission | boot call; returns {project_id: role} | web | S |
 | ☐ | GET | `P/join/<pk>/` | `ProjectJoinEndpoint.get` project/invite.py:292 | ProjectMemberInvitePublicSerializer | AllowAny | — | **UNUSED** | S |
 | ☐ | POST | `P/join/<pk>/` | `ProjectJoinEndpoint.post` project/invite.py:195 | — (dict/values) | AllowAny | token-checked accept; creates WorkspaceMember/ProjectMember | **UNUSED** | M |
-| ☐ | GET | `P/members/` | `ProjectMemberViewSet.list` project/member.py:157 | ProjectMemberRoleSerializer | AP[A,M,G]/PROJ | — | web | S |
-| ☐ | POST | `P/members/` | `ProjectMemberViewSet.create` project/member.py:47 | ProjectMemberRoleSerializer | AP[A]/PROJ | project_add_user_email. validates role vs workspace role; reactivates existing; bulk_create ProjectMember + ProjectUserProperty (bulk_create bypasses ProjectMember.save) with sort_order calc; email per member | web | L |
-| ☐ | GET | `P/members/<pk>/` | `ProjectMemberViewSet.retrieve` project/member.py:172 | ProjectMemberAdminSerializer, ProjectMemberRoleSerializer | AP[A,M,G]/PROJ | — | **UNUSED** (dead web service fn `getProjectMember`) | M |
-| ☐ | PATCH | `P/members/<pk>/` | `ProjectMemberViewSet.partial_update` project/member.py:206 | ProjectMemberSerializer | AP[A,M,G]/PROJ | inline role rules (can't exceed ws role / own role) | web | M |
-| ☐ | DELETE | `P/members/<pk>/` | `ProjectMemberViewSet.destroy` project/member.py:291 | — (dict/values) | AP[A]/PROJ | can't remove self or a higher role; sets is_active=False | web | M |
-| ☐ | POST | `P/members/leave/` | `ProjectMemberViewSet.leave` project/member.py:324 | — (dict/values) | AP[A,M,G]/PROJ | — | web | M |
+| ☑ | GET | `P/members/` | `ProjectMemberViewSet.list` project/member.py:157 | ProjectMemberRoleSerializer | AP[A,M,G]/PROJ | — | web | S |
+| ☑ | POST | `P/members/` | `ProjectMemberViewSet.create` project/member.py:47 | ProjectMemberRoleSerializer | AP[A]/PROJ | project_add_user_email. validates role vs workspace role; reactivates existing; bulk_create ProjectMember + ProjectUserProperty (bulk_create bypasses ProjectMember.save) with sort_order calc; email per member | web | L |
+| ☑ | GET | `P/members/<pk>/` | `ProjectMemberViewSet.retrieve` project/member.py:172 | ProjectMemberAdminSerializer, ProjectMemberRoleSerializer | AP[A,M,G]/PROJ | — | **UNUSED** (dead web service fn `getProjectMember`) | M |
+| ☑ | PATCH | `P/members/<pk>/` | `ProjectMemberViewSet.partial_update` project/member.py:206 | ProjectMemberSerializer | AP[A,M,G]/PROJ | inline role rules (can't exceed ws role / own role) | web | M |
+| ☑ | DELETE | `P/members/<pk>/` | `ProjectMemberViewSet.destroy` project/member.py:291 | — (dict/values) | AP[A]/PROJ | can't remove self or a higher role; sets is_active=False | web | M |
+| ☑ | POST | `P/members/leave/` | `ProjectMemberViewSet.leave` project/member.py:324 | — (dict/values) | AP[A,M,G]/PROJ | — | web | M |
 | ☐ | POST | `P/project-views/` | `ProjectUserViewsEndpoint.post` project/base.py:475 | — (dict/values) | IsAuthenticated | — | **UNUSED** | S |
-| ☐ | GET | `P/project-members/me/` | `ProjectMemberUserEndpoint.get` project/member.py:353 | ProjectMemberSerializer | IsAuthenticated | — | web | S |
-| ☐ | POST | `P/archive/` | `ProjectArchiveUnarchiveEndpoint.post` project/base.py:429 | — (dict/values) | AP[A,M]/PROJ | sets archived_at; removes favorites | web | S |
-| ☐ | DELETE | `P/archive/` | `ProjectArchiveUnarchiveEndpoint.delete` project/base.py:437 | — (dict/values) | AP[A,M]/PROJ | — | web | S |
+| ☑ | GET | `P/project-members/me/` | `ProjectMemberUserEndpoint.get` project/member.py:353 | ProjectMemberSerializer | IsAuthenticated | — | web | S |
+| ☑ | POST | `P/archive/` | `ProjectArchiveUnarchiveEndpoint.post` project/base.py:429 | — (dict/values) | AP[A,M]/PROJ | sets archived_at; removes favorites | web | S |
+| ☑ | DELETE | `P/archive/` | `ProjectArchiveUnarchiveEndpoint.delete` project/base.py:437 | — (dict/values) | AP[A,M]/PROJ | — | web | S |
 | ☐ | GET | `P/preferences/member/<member_id>/` | `ProjectMemberPreferenceEndpoint.get` project/member.py:403 | ProjectMemberPreferenceSerializer | AP[A,M,G]/PROJ | — | **UNUSED** | S |
 | ☐ | PATCH | `P/preferences/member/<member_id>/` | `ProjectMemberPreferenceEndpoint.patch` project/member.py:391 | ProjectMemberPreferenceSerializer | AP[A,M,G]/PROJ | — | **UNUSED** | S |
 
@@ -211,23 +211,23 @@ Boot calls: `W/projects/` (lite list), `P/` detail, `P/project-members/me/`, `P/
 
 Port before issues: `State.objects` excludes triage states (StateManager), `State.save()` sets slug + sequence (+15000), `Label.save()` sets sort_order (+10000). Workspace-level `W/states/` and `W/labels/` are boot calls; `W/labels/` and `W/estimates/` are Redis-cached 2 h with explicit invalidation from project label/estimate writes.
 
-| ☐ | Method | URL | View · file:line | Serializer(s) | Permission | Side effects | Caller | Cx |
+| ☑ | Method | URL | View · file:line | Serializer(s) | Permission | Side effects | Caller | Cx |
 |---|---|---|---|---|---|---|---|---|
-| ☐ | GET | `P/issue-labels/` | `LabelViewSet.list` (DRF default) class issue/label.py:23; get_queryset issue/label.py:28 | LabelSerializer | ProjectBasePermission | — | web | S |
-| ☐ | POST | `P/issue-labels/` | `LabelViewSet.create` issue/label.py:44 | LabelSerializer | AP[A]/PROJ · ProjectBasePermission | invalidate_cache: `/api/workspaces/:slug/labels/` | web | S |
+| ☑ | GET | `P/issue-labels/` | `LabelViewSet.list` (DRF default) class issue/label.py:23; get_queryset issue/label.py:28 | LabelSerializer | ProjectBasePermission | — | web | S |
+| ☑ | POST | `P/issue-labels/` | `LabelViewSet.create` issue/label.py:44 | LabelSerializer | AP[A]/PROJ · ProjectBasePermission | invalidate_cache: `/api/workspaces/:slug/labels/` | web | S |
 | ☐ | GET | `P/issue-labels/<pk>/` | `LabelViewSet.retrieve` (DRF default) class issue/label.py:23; get_queryset issue/label.py:28 | LabelSerializer | ProjectBasePermission | — | **UNUSED** | S |
 | ☐ | PUT | `P/issue-labels/<pk>/` | `LabelViewSet.update` (DRF default) class issue/label.py:23; get_queryset issue/label.py:28 | LabelSerializer | ProjectBasePermission | — | **UNUSED** | S |
-| ☐ | PATCH | `P/issue-labels/<pk>/` | `LabelViewSet.partial_update` issue/label.py:59 | LabelSerializer | AP[A]/PROJ · ProjectBasePermission | invalidate_cache: `/api/workspaces/:slug/labels/` | web | S |
-| ☐ | DELETE | `P/issue-labels/<pk>/` | `LabelViewSet.destroy` issue/label.py:86 | LabelSerializer | AP[A]/PROJ · ProjectBasePermission | invalidate_cache: `/api/workspaces/:slug/labels/` | web | S |
+| ☑ | PATCH | `P/issue-labels/<pk>/` | `LabelViewSet.partial_update` issue/label.py:59 | LabelSerializer | AP[A]/PROJ · ProjectBasePermission | invalidate_cache: `/api/workspaces/:slug/labels/` | web | S |
+| ☑ | DELETE | `P/issue-labels/<pk>/` | `LabelViewSet.destroy` issue/label.py:86 | LabelSerializer | AP[A]/PROJ · ProjectBasePermission | invalidate_cache: `/api/workspaces/:slug/labels/` | web | S |
 | ☐ | POST | `P/bulk-create-labels/` | `BulkCreateIssueLabelsEndpoint.post` issue/label.py:92 | LabelSerializer | AP[A]/PROJ | — | **UNUSED** | S |
-| ☐ | GET | `P/states/` | `StateViewSet.list` state/base.py:78 | StateSerializer | AP[A,M,G]/PROJ | `?group_by` → dict keyed by state group; boot call | web | S |
-| ☐ | POST | `P/states/` | `StateViewSet.create` state/base.py:47 | StateSerializer | AP[A]/PROJ | invalidate_cache: `workspaces/:slug/states/` | web | S |
-| ☐ | GET | `P/states/<pk>/` | `StateViewSet.retrieve` (DRF default) class state/base.py:24; get_queryset state/base.py:28 | StateSerializer | IsAuthenticated | — | web | S |
-| ☐ | PATCH | `P/states/<pk>/` | `StateViewSet.partial_update` state/base.py:62 | StateSerializer | AP[A,M,G]/PROJ | — | web | S |
-| ☐ | DELETE | `P/states/<pk>/` | `StateViewSet.destroy` state/base.py:114 | — (dict/values) | AP[A]/PROJ | invalidate_cache: `workspaces/:slug/states/`. 400 if default state or any issue uses it | web | S |
-| ☐ | POST | `P/states/<pk>/mark-default/` | `StateViewSet.mark_as_default` state/base.py:106 | — (dict/values) | AP[A]/PROJ | invalidate_cache: `workspaces/:slug/states/` | web | S |
-| ☐ | GET | `W/labels/` | `WorkspaceLabelsEndpoint.get` workspace/label.py:22 | LabelSerializer | WorkspaceViewerPermission | cache_response(2h). Redis response cache (2 h) keyed by user+path | web | S |
-| ☐ | GET | `W/states/` | `WorkspaceStatesEndpoint.get` workspace/state.py:21 | StateSerializer | WorkspaceEntityPermission | — | web | S |
+| ☑ | GET | `P/states/` | `StateViewSet.list` state/base.py:78 | StateSerializer | AP[A,M,G]/PROJ | `?group_by` → dict keyed by state group; boot call | web | S |
+| ☑ | POST | `P/states/` | `StateViewSet.create` state/base.py:47 | StateSerializer | AP[A]/PROJ | invalidate_cache: `workspaces/:slug/states/` | web | S |
+| ☑ | GET | `P/states/<pk>/` | `StateViewSet.retrieve` (DRF default) class state/base.py:24; get_queryset state/base.py:28 | StateSerializer | IsAuthenticated | — | web | S |
+| ☑ | PATCH | `P/states/<pk>/` | `StateViewSet.partial_update` state/base.py:62 | StateSerializer | AP[A,M,G]/PROJ | — | web | S |
+| ☑ | DELETE | `P/states/<pk>/` | `StateViewSet.destroy` state/base.py:114 | — (dict/values) | AP[A]/PROJ | invalidate_cache: `workspaces/:slug/states/`. 400 if default state or any issue uses it | web | S |
+| ☑ | POST | `P/states/<pk>/mark-default/` | `StateViewSet.mark_as_default` state/base.py:106 | — (dict/values) | AP[A]/PROJ | invalidate_cache: `workspaces/:slug/states/` | web | S |
+| ☑ | GET | `W/labels/` | `WorkspaceLabelsEndpoint.get` workspace/label.py:22 | LabelSerializer | WorkspaceViewerPermission | cache_response(2h). Redis response cache (2 h) keyed by user+path | web | S |
+| ☑ | GET | `W/states/` | `WorkspaceStatesEndpoint.get` workspace/state.py:21 | StateSerializer | WorkspaceEntityPermission | — | web | S |
 
 ### 6. Issues (core)
 
@@ -235,27 +235,27 @@ Port before issues: `State.objects` excludes triage states (StateManager), `Stat
 
 Depends on: issue_filters + ComplexFilterBackend, grouper, order_issue_queryset, Grouped/SubGrouped paginators, `Issue.issue_objects` manager, Issue.save() (advisory lock, sequence_id, sort_order, description_stripped), issue_activity + notifications tasks. `IssueViewSet.list` is the single most important read path: project issues, and (via `?cycle_id`/`?module_id` filters) cycle/module boards in the web.
 
-| ☐ | Method | URL | View · file:line | Serializer(s) | Permission | Side effects | Caller | Cx |
+| ☑ | Method | URL | View · file:line | Serializer(s) | Permission | Side effects | Caller | Cx |
 |---|---|---|---|---|---|---|---|---|
-| ☐ | GET | `P/issues/list/` | `IssueListEndpoint.get` issue/base.py:85 | IssueSerializer | AP[A,M,G]/PROJ | recent_visited_task | web | L |
-| ☐ | GET | `P/issues/` | `IssueViewSet.list` issue/base.py:266 | — (dict/values) | AP[A,M,G]/PROJ | recent_visited_task. core grouped/sub-grouped paginated list (GroupedOffsetPaginator/SubGroupedOffsetPaginator), ComplexFilterBackend `filters=` JSON + legacy issue_filters | web | L |
-| ☐ | POST | `P/issues/` | `IssueViewSet.create` issue/base.py:405 | IssueCreateSerializer | AP[A,M]/PROJ | issue_activity(+notif); model_activity†; issue_description_version_task. IssueCreateSerializer writes assignees/labels; Issue.save takes pg_advisory_xact_lock for sequence_id + IssueSequence row; response re-queried with list annotations | web | L |
+| ☑ | GET | `P/issues/list/` | `IssueListEndpoint.get` issue/base.py:85 | IssueSerializer | AP[A,M,G]/PROJ | recent_visited_task | web | L |
+| ☑ | GET | `P/issues/` | `IssueViewSet.list` issue/base.py:266 | — (dict/values) | AP[A,M,G]/PROJ | recent_visited_task. core grouped/sub-grouped paginated list (GroupedOffsetPaginator/SubGroupedOffsetPaginator), ComplexFilterBackend `filters=` JSON + legacy issue_filters | web | L |
+| ☑ | POST | `P/issues/` | `IssueViewSet.create` issue/base.py:405 | IssueCreateSerializer | AP[A,M]/PROJ | issue_activity(+notif); model_activity†; issue_description_version_task. IssueCreateSerializer writes assignees/labels; Issue.save takes pg_advisory_xact_lock for sequence_id + IssueSequence row; response re-queried with list annotations | web | L |
 | ☐ | GET | `P/issues-detail/` | `IssueDetailEndpoint.get` issue/base.py:1028 | IssueListDetailSerializer | AP[A,M,G]/PROJ | paginated detail list incl. issue_relation/sub_issues expand | web | L |
 | ☐ | GET | `P/v2/issues/` | `IssuePaginatedViewSet.list` issue/base.py:865 | — (dict/values) | AP[A,M,G]/PROJ | `updated_at__gt` delta sync for local cache (global_paginator) | **UNUSED** (dead web service fn `getIssuesForSync`) | L |
-| ☐ | GET | `P/issues/<pk>/` | `IssueViewSet.retrieve` issue/base.py:493 | IssueDetailSerializer | AP[A,M,G]/PROJ+creator(Issue) | recent_visited_task. heavy annotations (cycle_id, module_ids, label_ids, assignee_ids, counts, is_subscribed) + prefetch | web | L |
+| ☑ | GET | `P/issues/<pk>/` | `IssueViewSet.retrieve` issue/base.py:493 | IssueDetailSerializer | AP[A,M,G]/PROJ+creator(Issue) | recent_visited_task. heavy annotations (cycle_id, module_ids, label_ids, assignee_ids, counts, is_subscribed) + prefetch | web | L  Batch 8: `?expand=issue_attachments` answers each attachment's `asset` as the stored object key; revisit with storage URLs in section 17 |
 | ☐ | PUT | `P/issues/<pk>/` | `IssueViewSet.update` (DRF default) class issue/base.py:208; get_queryset issue/base.py:218 | — (dict/values) | IsAuthenticated | — | **UNUSED** | S |
-| ☐ | PATCH | `P/issues/<pk>/` | `IssueViewSet.partial_update` issue/base.py:628 | IssueDetailSerializer, IssueCreateSerializer | AP[A,M]/PROJ+creator(Issue) | issue_activity(+notif); model_activity†; issue_description_version_task. activity diff computed in task from requested_data vs current_instance JSON; mentions handled in notification task | web | L |
-| ☐ | DELETE | `P/issues/<pk>/` | `IssueViewSet.destroy` issue/base.py:717 | — (dict/values) | AP[A]/PROJ+creator(Issue) | issue_activity(+notif). soft delete → soft_delete_related_objects task | web | M |
-| ☐ | DELETE | `P/bulk-delete-issues/` | `BulkDeleteIssuesEndpoint.delete` issue/base.py:775 | — (dict/values) | AP[A]/PROJ | queryset soft delete (UPDATE deleted_at, no cascade task, no activity) + deletes CycleIssue/ModuleIssue | web | M |
-| ☐ | POST | `P/bulk-archive-issues/` | `BulkArchiveIssuesEndpoint.post` issue/archive.py:309 | IssueSerializer | AP[A,M]/PROJ · ProjectEntityPermission | issue_activity(+notif). 400 INVALID_ARCHIVE_STATE_GROUP unless completed/cancelled | web | M |
-| ☐ | GET | `P/archived-issues/` | `IssueArchiveViewSet.list` issue/archive.py:107 | — (dict/values) | AP[A,M]/PROJ | — | web | L |
-| ☐ | GET | `P/issues/<pk>/archive/` | `IssueArchiveViewSet.retrieve` issue/archive.py:221 | IssueDetailSerializer | AP[A,M]/PROJ | — | **UNUSED** (dead web service fn `retrieveArchivedIssue`) | M |
-| ☐ | POST | `P/issues/<pk>/archive/` | `IssueArchiveViewSet.archive` issue/archive.py:257 | IssueSerializer | AP[A,M]/PROJ | issue_activity(+notif) | web | M |
-| ☐ | DELETE | `P/issues/<pk>/archive/` | `IssueArchiveViewSet.unarchive` issue/archive.py:281 | IssueSerializer | AP[A,M]/PROJ | issue_activity(+notif) | web | M |
+| ☑ | PATCH | `P/issues/<pk>/` | `IssueViewSet.partial_update` issue/base.py:628 | IssueDetailSerializer, IssueCreateSerializer | AP[A,M]/PROJ+creator(Issue) | issue_activity(+notif); model_activity†; issue_description_version_task. activity diff computed in task from requested_data vs current_instance JSON; mentions handled in notification task | web | L |
+| ☑ | DELETE | `P/issues/<pk>/` | `IssueViewSet.destroy` issue/base.py:717 | — (dict/values) | AP[A]/PROJ+creator(Issue) | issue_activity(+notif). soft delete → soft_delete_related_objects task | web | M |
+| ☑ | DELETE | `P/bulk-delete-issues/` | `BulkDeleteIssuesEndpoint.delete` issue/base.py:775 | — (dict/values) | AP[A]/PROJ | queryset soft delete (UPDATE deleted_at, no cascade task, no activity) + deletes CycleIssue/ModuleIssue | web | M |
+| ☑ | POST | `P/bulk-archive-issues/` | `BulkArchiveIssuesEndpoint.post` issue/archive.py:309 | IssueSerializer | AP[A,M]/PROJ · ProjectEntityPermission | issue_activity(+notif). 400 INVALID_ARCHIVE_STATE_GROUP unless completed/cancelled | web | M |
+| ☑ | GET | `P/archived-issues/` | `IssueArchiveViewSet.list` issue/archive.py:107 | — (dict/values) | AP[A,M]/PROJ | — | web | L |
+| ☑ | GET | `P/issues/<pk>/archive/` | `IssueArchiveViewSet.retrieve` issue/archive.py:221 | IssueDetailSerializer | AP[A,M]/PROJ | — | **UNUSED** (dead web service fn `retrieveArchivedIssue`) | M |
+| ☑ | POST | `P/issues/<pk>/archive/` | `IssueArchiveViewSet.archive` issue/archive.py:257 | IssueSerializer | AP[A,M]/PROJ | issue_activity(+notif) | web | M |
+| ☑ | DELETE | `P/issues/<pk>/archive/` | `IssueArchiveViewSet.unarchive` issue/archive.py:281 | IssueSerializer | AP[A,M]/PROJ | issue_activity(+notif) | web | M |
 | ☐ | GET | `P/deleted-issues/` | `DeletedIssuesListViewSet.get` issue/base.py:802 | — (dict/values) | AP[A,M,G]/PROJ | — | **UNUSED** (dead web service fn `getDeletedIssues`) | S |
-| ☐ | POST | `P/issue-dates/` | `IssueBulkUpdateDateEndpoint.post` issue/base.py:1127 | — (dict/values) | AP[A,M]/PROJ | issue_activity. per-issue start/target date validation, bulk_update | web | M |
-| ☐ | GET | `P/issues/<issue_id>/meta/` | `IssueMetaEndpoint.get` issue/base.py:1188 | — (dict/values) | AP[A,M,G]/PROJ | `{sequence_id, project_identifier}` | web | S |
-| ☐ | GET | `W/work-items/<str:project_identifier>-<str:issue_identifier>/` | `IssueDetailIdentifierEndpoint.get` issue/base.py:1207 | IssueDetailSerializer | IsAuthenticated | recent_visited_task. same payload as IssueViewSet.retrieve, looked up by `PROJ-123` | web | L |
+| ☑ | POST | `P/issue-dates/` | `IssueBulkUpdateDateEndpoint.post` issue/base.py:1127 | — (dict/values) | AP[A,M]/PROJ | issue_activity. per-issue start/target date validation, bulk_update | web | M |
+| ☑ | GET | `P/issues/<issue_id>/meta/` | `IssueMetaEndpoint.get` issue/base.py:1188 | — (dict/values) | AP[A,M,G]/PROJ | `{sequence_id, project_identifier}` | web | S |
+| ☑ | GET | `W/work-items/<str:project_identifier>-<str:issue_identifier>/` | `IssueDetailIdentifierEndpoint.get` issue/base.py:1207 | IssueDetailSerializer | IsAuthenticated | recent_visited_task. same payload as IssueViewSet.retrieve, looked up by `PROJ-123` | web | L |
 
 ### 7. Issue sub-resources
 
@@ -618,6 +618,14 @@ Paths are relative to `apps/api/plane/`.
 | `transfer_cycle_issues` | `utils/cycle_transfer_issues.py:35` | Cycle-completion transfer: snapshots progress into `Cycle.progress_snapshot` and moves incomplete issues (478 lines). |
 | `validate_html_content` / `validate_binary_data` | `utils/content_validator.py:211`, `:29` | Sanitization and validation used by issue, comment and page serializers on description writes. |
 
+Ported in batch 8, for the cycle, module, view and workspace lists to reuse:
+`internal/api/issue_query.go` (`issueQuery`, which follows Django's join-reuse rules
+so multi-valued joins multiply and collapse rows as Django's do; `ComplexFilterBackend` with
+`IssueFilterSet`; legacy `issue_filters`), `internal/api/issue_list.go` (`order_issue_queryset`,
+`issue_queryset_grouper`, `issue_group_values`, and the offset, grouped and sub-grouped
+paginators) and `internal/sanitize` (`validate_html_content`'s nh3, plus mention extraction).
+The tasks are in `internal/api/issue_activity.go`.
+
 ### Caching, tasks, side-effect helpers
 
 | Piece | Where | What it does |
@@ -676,7 +684,7 @@ of these hits a CUT endpoint:
 
 | Called from | Endpoint | Django behaviour | Suggested Go stub |
 |---|---|---|---|
-| `project-wrapper.tsx:111` → `fetchProjectIntakeState` (every project page) | `GET P/intake-state/` (`IntakeStateEndpoint`, `state/base.py:138`) | 200 `StateSerializer` of the triage state, or **404 `{"error":"Triage state not found"}`** when none exists | Always 404 with that body (byte-identical to Django for any project without intake). SWR swallows the error |
+| `project-wrapper.tsx:111` → `fetchProjectIntakeState` (every project page) | `GET P/intake-state/` (`IntakeStateEndpoint`, `state/base.py:138`) | 200 `StateSerializer` of the triage state, or **404 `{"error":"Triage state not found"}`** when none exists | Ported in batch 7: project creation seeds a Triage state (it is in DEFAULT_STATES), so Django answers 200 for every project made through the app |
 
 CUT data reached by kept boot calls (not endpoints, but the payload depends on them):
 
@@ -684,6 +692,10 @@ CUT data reached by kept boot calls (not endpoints, but the payload depends on t
 - `GET W/projects/<pk>/` and `W/projects/details/` return `anchor` from `deploy_boards`. Return `null`, or keep the table.
 - `GET W/search/` includes an `intake` bucket. Return `[]`.
 - `PATCH W/projects/<pk>/` with `intake_view=true` creates an `Intake` row. Skip it, or keep the table.
+
+Batch 6 returns `intake_count: 0` and `anchor: null` and skips the Intake row (see DEVIATIONS.md). The soft-delete
+cascade still lists the CUT tables (`intakes`, `deploy_boards`, …); regenerate `internal/softdelete/relations_gen.go`
+when they are pruned at cutover.
 
 CUT endpoints the web only calls from feature pages (stub with 404, or leave unrouted). None run at boot:
 project publish modal → `P/project-deploy-boards/`. Analytics page → `W/advance-analytics*`,

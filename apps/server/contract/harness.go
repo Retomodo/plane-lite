@@ -169,7 +169,7 @@ type Opt func(*normalizer)
 func Exact(paths ...string) Opt {
 	return func(n *normalizer) {
 		for _, p := range paths {
-			n.exact["body."+p] = true
+			n.exact[bodyPath(p)] = true
 		}
 	}
 }
@@ -179,11 +179,12 @@ func Exact(paths ...string) Opt {
 func NoCSRF() Opt { return func(n *normalizer) { n.noCSRF = true } }
 
 // Mask replaces the values at the given dotted body paths (e.g.
-// "csrf_token", "results[].token") with "<masked>".
+// "csrf_token", "results[].token") with "<masked>". A "*.name" path masks
+// every value whose path ends in ".name".
 func Mask(paths ...string) Opt {
 	return func(n *normalizer) {
 		for _, p := range paths {
-			n.masks["body."+p] = true
+			n.masks[bodyPath(p)] = true
 		}
 	}
 }
@@ -191,7 +192,27 @@ func Mask(paths ...string) Opt {
 // SortBy orders the array at path by an object key before comparing, for
 // endpoints whose ordering is unspecified.
 func SortBy(path, key string) Opt {
-	return func(n *normalizer) { n.sorts["body."+path] = key }
+	return func(n *normalizer) { n.sorts[bodyPath(path)] = key }
+}
+
+// Unordered sorts the scalar arrays at paths after normalization, for
+// array_agg(DISTINCT uuid) columns whose order follows the random ids. A
+// "*.name" path matches every array whose path ends in ".name".
+func Unordered(paths ...string) Opt {
+	return func(n *normalizer) {
+		for _, p := range paths {
+			n.unordered[bodyPath(p)] = true
+		}
+	}
+}
+
+// bodyPath roots an option path at the response body; "[]..." addresses the
+// elements of a top-level array.
+func bodyPath(p string) string {
+	if p == "" || strings.HasPrefix(p, "[") {
+		return "body" + p
+	}
+	return "body." + p
 }
 
 // Response is the raw response, for scenario code to read values from.
@@ -276,7 +297,7 @@ func (c *Client) Do(method, path string, body any, opts ...Opt) *Response {
 		}
 		reqRecord = m
 	default:
-		raw, err := json.Marshal(b)
+		raw, err := json.Marshal(b, json.Deterministic(true)) // sorted keys: bodies are reproducible
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -295,7 +316,7 @@ func (c *Client) Do(method, path string, body any, opts ...Opt) *Response {
 	if c.ip != "" {
 		req.Header.Set("X-Forwarded-For", c.ip)
 	}
-	n := &normalizer{ids: c.s.ids, masks: map[string]bool{}, exact: map[string]bool{}, sorts: map[string]string{}}
+	n := &normalizer{ids: c.s.ids, masks: map[string]bool{}, exact: map[string]bool{}, sorts: map[string]string{}, unordered: map[string]bool{}}
 	for _, o := range opts {
 		o(n)
 	}

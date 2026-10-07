@@ -1,0 +1,1736 @@
+{
+  "steps": [
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/auth/get-csrf-token/",
+      "status": 200,
+      "content_type": "application/json",
+      "cookies": [
+        "csrftoken; value=<set>; Path=/; Max-Age=31449600; HttpOnly; SameSite=Lax"
+      ],
+      "body": {
+        "csrf_token": "<masked>"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/auth/sign-up/",
+      "request": {
+        "csrfmiddlewaretoken": "<masked>",
+        "email": "alice@example.com",
+        "password": "correct-Horse-battery-staple-91"
+      },
+      "status": 302,
+      "location": "http://localhost:3000",
+      "content_type": "text/html",
+      "cookies": [
+        "csrftoken; value=<set>; Path=/; Max-Age=31449600; HttpOnly; SameSite=Lax",
+        "session-id; value=<set>; Path=/; Max-Age=604800; HttpOnly; SameSite=Lax"
+      ]
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/",
+      "request": {
+        "name": "Acme",
+        "slug": "acme"
+      },
+      "status": 201,
+      "content_type": "application/json",
+      "body": {
+        "background_color": "<masked>",
+        "created_at": "<datetime Z>",
+        "created_by": "<uuid:1>",
+        "deleted_at": null,
+        "id": "<uuid:2>",
+        "logo": null,
+        "logo_asset": null,
+        "logo_url": null,
+        "name": "Acme",
+        "organization_size": null,
+        "owner": "<uuid:1>",
+        "role": 20,
+        "slug": "acme",
+        "timezone": "UTC",
+        "total_members": 1,
+        "updated_at": "<datetime Z>",
+        "updated_by": null
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "GET",
+      "path": "/auth/get-csrf-token/",
+      "status": 200,
+      "content_type": "application/json",
+      "cookies": [
+        "csrftoken; value=<set>; Path=/; Max-Age=31449600; HttpOnly; SameSite=Lax"
+      ],
+      "body": {
+        "csrf_token": "<masked>"
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "POST",
+      "path": "/auth/sign-up/",
+      "request": {
+        "csrfmiddlewaretoken": "<masked>",
+        "email": "bob@example.com",
+        "password": "correct-Horse-battery-staple-91"
+      },
+      "status": 302,
+      "location": "http://localhost:3000",
+      "content_type": "text/html",
+      "cookies": [
+        "csrftoken; value=<set>; Path=/; Max-Age=31449600; HttpOnly; SameSite=Lax",
+        "session-id; value=<set>; Path=/; Max-Age=604800; HttpOnly; SameSite=Lax"
+      ]
+    },
+    {
+      "actor": "carol",
+      "method": "GET",
+      "path": "/auth/get-csrf-token/",
+      "status": 200,
+      "content_type": "application/json",
+      "cookies": [
+        "csrftoken; value=<set>; Path=/; Max-Age=31449600; HttpOnly; SameSite=Lax"
+      ],
+      "body": {
+        "csrf_token": "<masked>"
+      }
+    },
+    {
+      "actor": "carol",
+      "method": "POST",
+      "path": "/auth/sign-up/",
+      "request": {
+        "csrfmiddlewaretoken": "<masked>",
+        "email": "carol@example.com",
+        "password": "correct-Horse-battery-staple-91"
+      },
+      "status": 302,
+      "location": "http://localhost:3000",
+      "content_type": "text/html",
+      "cookies": [
+        "csrftoken; value=<set>; Path=/; Max-Age=31449600; HttpOnly; SameSite=Lax",
+        "session-id; value=<set>; Path=/; Max-Age=604800; HttpOnly; SameSite=Lax"
+      ]
+    },
+    {
+      "actor": "dan",
+      "method": "GET",
+      "path": "/auth/get-csrf-token/",
+      "status": 200,
+      "content_type": "application/json",
+      "cookies": [
+        "csrftoken; value=<set>; Path=/; Max-Age=31449600; HttpOnly; SameSite=Lax"
+      ],
+      "body": {
+        "csrf_token": "<masked>"
+      }
+    },
+    {
+      "actor": "dan",
+      "method": "POST",
+      "path": "/auth/sign-up/",
+      "request": {
+        "csrfmiddlewaretoken": "<masked>",
+        "email": "dan@example.com",
+        "password": "correct-Horse-battery-staple-91"
+      },
+      "status": 302,
+      "location": "http://localhost:3000",
+      "content_type": "text/html",
+      "cookies": [
+        "csrftoken; value=<set>; Path=/; Max-Age=31449600; HttpOnly; SameSite=Lax",
+        "session-id; value=<set>; Path=/; Max-Age=604800; HttpOnly; SameSite=Lax"
+      ]
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/invitations/",
+      "request": {
+        "emails": [
+          {
+            "email": "bob@example.com",
+            "role": 15
+          },
+          {
+            "email": "carol@example.com",
+            "role": 5
+          },
+          {
+            "email": "dan@example.com",
+            "role": 15
+          }
+        ]
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "message": "Emails sent successfully"
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "GET",
+      "path": "/api/users/me/workspaces/invitations/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": [
+        {
+          "accepted": false,
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:1>",
+          "deleted_at": null,
+          "email": "bob@example.com",
+          "id": "<uuid:3>",
+          "invite_link": "/workspace-invitations/?invitation_id=<uuid:3>&slug=acme&token=<invite-token:bob@example.com>",
+          "message": "\n\nalice invited you to Acme on Plane\n\n      alice has invited you to join Acme on Plane.\n\n                    Join Acme on Plane\n\n                    alice has invited you to collaborate with them in\n                    Acme workspace on Plane.\n\n                          Accept invite\n\n                    If the button doesn’t work, copy and paste this link into\n                    your browser:\n\n                    http://localhost:3000/workspace-invitations/?invitation_id=<uuid:3>&slug=acme&token=<invite-token:bob@example.com>\n\n                    Note: This invitation was intended for\n                    bob@example.com. If you were not expecting this invitation, you can ignore\n                    this email.\n\n                    Plane Software, Inc.\n\n",
+          "responded_at": null,
+          "role": 15,
+          "token": "<invite-token:bob@example.com>",
+          "updated_at": "<datetime Z>",
+          "updated_by": "<uuid:1>",
+          "workspace": {
+            "id": "<uuid:2>",
+            "logo_url": null,
+            "name": "Acme",
+            "slug": "acme"
+          }
+        }
+      ]
+    },
+    {
+      "actor": "bob",
+      "method": "POST",
+      "path": "/api/users/me/workspaces/invitations/",
+      "request": {
+        "invitations": [
+          "<uuid:3>"
+        ]
+      },
+      "status": 204
+    },
+    {
+      "actor": "carol",
+      "method": "GET",
+      "path": "/api/users/me/workspaces/invitations/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": [
+        {
+          "accepted": false,
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:1>",
+          "deleted_at": null,
+          "email": "carol@example.com",
+          "id": "<uuid:4>",
+          "invite_link": "/workspace-invitations/?invitation_id=<uuid:4>&slug=acme&token=<invite-token:carol@example.com>",
+          "message": "\n\nalice invited you to Acme on Plane\n\n      alice has invited you to join Acme on Plane.\n\n                    Join Acme on Plane\n\n                    alice has invited you to collaborate with them in\n                    Acme workspace on Plane.\n\n                          Accept invite\n\n                    If the button doesn’t work, copy and paste this link into\n                    your browser:\n\n                    http://localhost:3000/workspace-invitations/?invitation_id=<uuid:4>&slug=acme&token=<invite-token:carol@example.com>\n\n                    Note: This invitation was intended for\n                    carol@example.com. If you were not expecting this invitation, you can ignore\n                    this email.\n\n                    Plane Software, Inc.\n\n",
+          "responded_at": null,
+          "role": 5,
+          "token": "<invite-token:carol@example.com>",
+          "updated_at": "<datetime Z>",
+          "updated_by": "<uuid:1>",
+          "workspace": {
+            "id": "<uuid:2>",
+            "logo_url": null,
+            "name": "Acme",
+            "slug": "acme"
+          }
+        }
+      ]
+    },
+    {
+      "actor": "carol",
+      "method": "POST",
+      "path": "/api/users/me/workspaces/invitations/",
+      "request": {
+        "invitations": [
+          "<uuid:4>"
+        ]
+      },
+      "status": 204
+    },
+    {
+      "actor": "dan",
+      "method": "GET",
+      "path": "/api/users/me/workspaces/invitations/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": [
+        {
+          "accepted": false,
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:1>",
+          "deleted_at": null,
+          "email": "dan@example.com",
+          "id": "<uuid:5>",
+          "invite_link": "/workspace-invitations/?invitation_id=<uuid:5>&slug=acme&token=<invite-token:dan@example.com>",
+          "message": "\n\nalice invited you to Acme on Plane\n\n      alice has invited you to join Acme on Plane.\n\n                    Join Acme on Plane\n\n                    alice has invited you to collaborate with them in\n                    Acme workspace on Plane.\n\n                          Accept invite\n\n                    If the button doesn’t work, copy and paste this link into\n                    your browser:\n\n                    http://localhost:3000/workspace-invitations/?invitation_id=<uuid:5>&slug=acme&token=<invite-token:dan@example.com>\n\n                    Note: This invitation was intended for\n                    dan@example.com. If you were not expecting this invitation, you can ignore\n                    this email.\n\n                    Plane Software, Inc.\n\n",
+          "responded_at": null,
+          "role": 15,
+          "token": "<invite-token:dan@example.com>",
+          "updated_at": "<datetime Z>",
+          "updated_by": "<uuid:1>",
+          "workspace": {
+            "id": "<uuid:2>",
+            "logo_url": null,
+            "name": "Acme",
+            "slug": "acme"
+          }
+        }
+      ]
+    },
+    {
+      "actor": "dan",
+      "method": "POST",
+      "path": "/api/users/me/workspaces/invitations/",
+      "request": {
+        "invitations": [
+          "<uuid:5>"
+        ]
+      },
+      "status": 204
+    },
+    {
+      "actor": "outsider",
+      "method": "GET",
+      "path": "/auth/get-csrf-token/",
+      "status": 200,
+      "content_type": "application/json",
+      "cookies": [
+        "csrftoken; value=<set>; Path=/; Max-Age=31449600; HttpOnly; SameSite=Lax"
+      ],
+      "body": {
+        "csrf_token": "<masked>"
+      }
+    },
+    {
+      "actor": "outsider",
+      "method": "POST",
+      "path": "/auth/sign-up/",
+      "request": {
+        "csrfmiddlewaretoken": "<masked>",
+        "email": "outsider@example.com",
+        "password": "correct-Horse-battery-staple-91"
+      },
+      "status": 302,
+      "location": "http://localhost:3000",
+      "content_type": "text/html",
+      "cookies": [
+        "csrftoken; value=<set>; Path=/; Max-Age=31449600; HttpOnly; SameSite=Lax",
+        "session-id; value=<set>; Path=/; Max-Age=604800; HttpOnly; SameSite=Lax"
+      ]
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/",
+      "request": {
+        "identifier": "PL",
+        "name": "Plane Lite"
+      },
+      "status": 201,
+      "content_type": "application/json",
+      "body": {
+        "anchor": null,
+        "archive_in": 0,
+        "archived_at": null,
+        "close_in": 0,
+        "cover_image": null,
+        "cover_image_asset": null,
+        "cover_image_url": null,
+        "created_at": "<datetime Z>",
+        "created_by": "<uuid:1>",
+        "cycle_view": false,
+        "default_assignee": null,
+        "default_state": null,
+        "deleted_at": null,
+        "description": "",
+        "description_html": null,
+        "description_text": null,
+        "emoji": null,
+        "estimate": null,
+        "external_id": null,
+        "external_source": null,
+        "guest_view_all_features": false,
+        "icon_prop": null,
+        "id": "<uuid:6>",
+        "identifier": "PL",
+        "inbox_view": false,
+        "intake_view": false,
+        "is_favorite": false,
+        "is_issue_type_enabled": false,
+        "is_time_tracking_enabled": false,
+        "issue_views_view": false,
+        "logo_props": {},
+        "member_role": 20,
+        "members": [
+          "<uuid:1>"
+        ],
+        "module_view": false,
+        "name": "Plane Lite",
+        "network": 2,
+        "next_work_item_sequence": 1,
+        "page_view": true,
+        "project_lead": null,
+        "sort_order": 65535,
+        "timezone": "UTC",
+        "updated_at": "<datetime Z>",
+        "updated_by": null,
+        "workspace": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "GET",
+      "path": "/api/users/me/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "avatar": "",
+        "avatar_url": null,
+        "cover_image": null,
+        "cover_image_url": null,
+        "date_joined": "<datetime Z>",
+        "display_name": "bob",
+        "email": "bob@example.com",
+        "first_name": "",
+        "id": "<uuid:7>",
+        "is_active": true,
+        "is_bot": false,
+        "is_email_verified": false,
+        "is_password_autoset": false,
+        "last_login_medium": "email",
+        "last_login_time": "<datetime Z>",
+        "last_name": "",
+        "user_timezone": "UTC",
+        "username": "<hex32>"
+      }
+    },
+    {
+      "actor": "carol",
+      "method": "GET",
+      "path": "/api/users/me/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "avatar": "",
+        "avatar_url": null,
+        "cover_image": null,
+        "cover_image_url": null,
+        "date_joined": "<datetime Z>",
+        "display_name": "carol",
+        "email": "carol@example.com",
+        "first_name": "",
+        "id": "<uuid:8>",
+        "is_active": true,
+        "is_bot": false,
+        "is_email_verified": false,
+        "is_password_autoset": false,
+        "last_login_medium": "email",
+        "last_login_time": "<datetime Z>",
+        "last_name": "",
+        "user_timezone": "UTC",
+        "username": "<hex32>"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/members/",
+      "request": {
+        "members": [
+          {
+            "member_id": "<uuid:7>",
+            "role": 15
+          },
+          {
+            "member_id": "<uuid:8>",
+            "role": 5
+          }
+        ]
+      },
+      "status": 201,
+      "content_type": "application/json",
+      "body": [
+        {
+          "created_at": "<datetime Z>",
+          "id": "<uuid:9>",
+          "member": "<uuid:8>",
+          "original_role": 5,
+          "project": "<uuid:6>",
+          "role": 5
+        },
+        {
+          "created_at": "<datetime Z>",
+          "id": "<uuid:10>",
+          "member": "<uuid:7>",
+          "original_role": 15,
+          "project": "<uuid:6>",
+          "role": 15
+        }
+      ]
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/states/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": [
+        {
+          "color": "#60646C",
+          "default": true,
+          "description": "",
+          "group": "backlog",
+          "id": "<uuid:11>",
+          "name": "Backlog",
+          "order": 1,
+          "project_id": "<uuid:6>",
+          "sequence": 15000,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "color": "#60646C",
+          "default": false,
+          "description": "",
+          "group": "unstarted",
+          "id": "<uuid:12>",
+          "name": "Todo",
+          "order": 1,
+          "project_id": "<uuid:6>",
+          "sequence": 25000,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "color": "#F59E0B",
+          "default": false,
+          "description": "",
+          "group": "started",
+          "id": "<uuid:13>",
+          "name": "In Progress",
+          "order": 1,
+          "project_id": "<uuid:6>",
+          "sequence": 35000,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "color": "#46A758",
+          "default": false,
+          "description": "",
+          "group": "completed",
+          "id": "<uuid:14>",
+          "name": "Done",
+          "order": 1,
+          "project_id": "<uuid:6>",
+          "sequence": 45000,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "color": "#9AA4BC",
+          "default": false,
+          "description": "",
+          "group": "cancelled",
+          "id": "<uuid:15>",
+          "name": "Cancelled",
+          "order": 1,
+          "project_id": "<uuid:6>",
+          "sequence": 55000,
+          "workspace_id": "<uuid:2>"
+        }
+      ]
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/states/?grouped=true",
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "backlog": [
+          {
+            "color": "#60646C",
+            "default": true,
+            "description": "",
+            "group": "backlog",
+            "id": "<uuid:11>",
+            "name": "Backlog",
+            "order": 1,
+            "project_id": "<uuid:6>",
+            "sequence": 15000,
+            "workspace_id": "<uuid:2>"
+          }
+        ],
+        "cancelled": [
+          {
+            "color": "#9AA4BC",
+            "default": false,
+            "description": "",
+            "group": "cancelled",
+            "id": "<uuid:15>",
+            "name": "Cancelled",
+            "order": 1,
+            "project_id": "<uuid:6>",
+            "sequence": 55000,
+            "workspace_id": "<uuid:2>"
+          }
+        ],
+        "completed": [
+          {
+            "color": "#46A758",
+            "default": false,
+            "description": "",
+            "group": "completed",
+            "id": "<uuid:14>",
+            "name": "Done",
+            "order": 1,
+            "project_id": "<uuid:6>",
+            "sequence": 45000,
+            "workspace_id": "<uuid:2>"
+          }
+        ],
+        "started": [
+          {
+            "color": "#F59E0B",
+            "default": false,
+            "description": "",
+            "group": "started",
+            "id": "<uuid:13>",
+            "name": "In Progress",
+            "order": 1,
+            "project_id": "<uuid:6>",
+            "sequence": 35000,
+            "workspace_id": "<uuid:2>"
+          }
+        ],
+        "unstarted": [
+          {
+            "color": "#60646C",
+            "default": false,
+            "description": "",
+            "group": "unstarted",
+            "id": "<uuid:12>",
+            "name": "Todo",
+            "order": 1,
+            "project_id": "<uuid:6>",
+            "sequence": 25000,
+            "workspace_id": "<uuid:2>"
+          }
+        ]
+      }
+    },
+    {
+      "actor": "carol",
+      "method": "GET",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/states/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": [
+        {
+          "color": "#60646C",
+          "default": true,
+          "description": "",
+          "group": "backlog",
+          "id": "<uuid:11>",
+          "name": "Backlog",
+          "order": 1,
+          "project_id": "<uuid:6>",
+          "sequence": 15000,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "color": "#60646C",
+          "default": false,
+          "description": "",
+          "group": "unstarted",
+          "id": "<uuid:12>",
+          "name": "Todo",
+          "order": 1,
+          "project_id": "<uuid:6>",
+          "sequence": 25000,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "color": "#F59E0B",
+          "default": false,
+          "description": "",
+          "group": "started",
+          "id": "<uuid:13>",
+          "name": "In Progress",
+          "order": 1,
+          "project_id": "<uuid:6>",
+          "sequence": 35000,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "color": "#46A758",
+          "default": false,
+          "description": "",
+          "group": "completed",
+          "id": "<uuid:14>",
+          "name": "Done",
+          "order": 1,
+          "project_id": "<uuid:6>",
+          "sequence": 45000,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "color": "#9AA4BC",
+          "default": false,
+          "description": "",
+          "group": "cancelled",
+          "id": "<uuid:15>",
+          "name": "Cancelled",
+          "order": 1,
+          "project_id": "<uuid:6>",
+          "sequence": 55000,
+          "workspace_id": "<uuid:2>"
+        }
+      ]
+    },
+    {
+      "actor": "dan",
+      "method": "GET",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/states/",
+      "status": 403,
+      "content_type": "application/json",
+      "body": {
+        "error": "You don't have the required permissions."
+      }
+    },
+    {
+      "actor": "outsider",
+      "method": "GET",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/states/",
+      "status": 403,
+      "content_type": "application/json",
+      "body": {
+        "error": "You don't have the required permissions."
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/workspaces/acme/states/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": [
+        {
+          "color": "#60646C",
+          "default": true,
+          "description": "",
+          "group": "backlog",
+          "id": "<uuid:11>",
+          "name": "Backlog",
+          "order": 1,
+          "project_id": "<uuid:6>",
+          "sequence": 15000,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "color": "#60646C",
+          "default": false,
+          "description": "",
+          "group": "unstarted",
+          "id": "<uuid:12>",
+          "name": "Todo",
+          "order": 1,
+          "project_id": "<uuid:6>",
+          "sequence": 25000,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "color": "#F59E0B",
+          "default": false,
+          "description": "",
+          "group": "started",
+          "id": "<uuid:13>",
+          "name": "In Progress",
+          "order": 1,
+          "project_id": "<uuid:6>",
+          "sequence": 35000,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "color": "#46A758",
+          "default": false,
+          "description": "",
+          "group": "completed",
+          "id": "<uuid:14>",
+          "name": "Done",
+          "order": 1,
+          "project_id": "<uuid:6>",
+          "sequence": 45000,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "color": "#9AA4BC",
+          "default": false,
+          "description": "",
+          "group": "cancelled",
+          "id": "<uuid:15>",
+          "name": "Cancelled",
+          "order": 1,
+          "project_id": "<uuid:6>",
+          "sequence": 55000,
+          "workspace_id": "<uuid:2>"
+        }
+      ]
+    },
+    {
+      "actor": "dan",
+      "method": "GET",
+      "path": "/api/workspaces/acme/states/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": []
+    },
+    {
+      "actor": "outsider",
+      "method": "GET",
+      "path": "/api/workspaces/acme/states/",
+      "status": 403,
+      "content_type": "application/json",
+      "body": {
+        "detail": "You do not have permission to perform this action."
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/intake-state/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "color": "#4E5355",
+        "default": false,
+        "description": "",
+        "group": "triage",
+        "id": "<uuid:16>",
+        "name": "Triage",
+        "project_id": "<uuid:6>",
+        "sequence": 65000,
+        "workspace_id": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "dan",
+      "method": "GET",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/intake-state/",
+      "status": 403,
+      "content_type": "application/json",
+      "body": {
+        "error": "You don't have the required permissions."
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/states/",
+      "request": {
+        "color": "#ff0000",
+        "group": "started",
+        "name": "Review"
+      },
+      "status": 403,
+      "content_type": "application/json",
+      "body": {
+        "error": "You don't have the required permissions."
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/states/",
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "color": [
+          "This field is required."
+        ],
+        "name": [
+          "This field is required."
+        ]
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/states/",
+      "request": [
+        "x"
+      ],
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "non_field_errors": [
+          "Invalid data. Expected a dictionary, but got list."
+        ]
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/states/",
+      "request": {
+        "color": "",
+        "default": "maybe",
+        "description": null,
+        "group": "nope",
+        "name": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "sequence": "x"
+      },
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "color": [
+          "This field may not be blank."
+        ],
+        "default": [
+          "Must be a valid boolean."
+        ],
+        "description": [
+          "This field may not be null."
+        ],
+        "group": [
+          "\"nope\" is not a valid choice."
+        ],
+        "name": [
+          "Ensure this field has no more than 255 characters."
+        ],
+        "sequence": [
+          "A valid number is required."
+        ]
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/states/",
+      "request": {
+        "color": "#000",
+        "group": "triage",
+        "name": "Waiting"
+      },
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "non_field_errors": [
+          "Cannot create triage state"
+        ]
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/states/",
+      "request": {
+        "color": "#000",
+        "name": "Todo"
+      },
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "name": "The state name is already taken"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/states/",
+      "request": {
+        "color": "#000",
+        "name": "Triage"
+      },
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "name": "The state name is already taken"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/states/",
+      "request": {
+        "color": "#000",
+        "name": "Ordered",
+        "order": 2
+      },
+      "status": 500,
+      "content_type": "application/json",
+      "body": {
+        "error": "Something went wrong please try again later"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/states/",
+      "request": {
+        "color": "#ff0000",
+        "description": "Waiting on review",
+        "group": "started",
+        "id": "<uuid:17>",
+        "name": "In Review!",
+        "project_id": "<uuid:17>",
+        "sequence": 1
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "color": "#ff0000",
+        "default": false,
+        "description": "Waiting on review",
+        "group": "started",
+        "id": "<uuid:18>",
+        "name": "In Review!",
+        "project_id": "<uuid:6>",
+        "sequence": 70000,
+        "workspace_id": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/states/",
+      "request": {
+        "color": "#00ff00",
+        "default": true,
+        "group": "started",
+        "name": "QA"
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "color": "#00ff00",
+        "default": true,
+        "description": "",
+        "group": "started",
+        "id": "<uuid:19>",
+        "name": "QA",
+        "project_id": "<uuid:6>",
+        "sequence": 85000,
+        "workspace_id": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/states/<uuid:18>/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "color": "#ff0000",
+        "default": false,
+        "description": "Waiting on review",
+        "group": "started",
+        "id": "<uuid:18>",
+        "name": "In Review!",
+        "project_id": "<uuid:6>",
+        "sequence": 70000,
+        "workspace_id": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "dan",
+      "method": "GET",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/states/<uuid:18>/",
+      "status": 404,
+      "content_type": "application/json",
+      "body": {
+        "detail": "No State matches the given query."
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/states/<uuid:16>/",
+      "status": 404,
+      "content_type": "application/json",
+      "body": {
+        "detail": "No State matches the given query."
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/states/<uuid:17>/",
+      "status": 404,
+      "content_type": "application/json",
+      "body": {
+        "detail": "No State matches the given query."
+      }
+    },
+    {
+      "actor": "carol",
+      "method": "PATCH",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/states/<uuid:18>/",
+      "request": {
+        "color": "#123456",
+        "name": "Under Review"
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "color": "#123456",
+        "default": false,
+        "description": "Waiting on review",
+        "group": "started",
+        "id": "<uuid:18>",
+        "name": "Under Review",
+        "project_id": "<uuid:6>",
+        "sequence": 70000,
+        "workspace_id": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "dan",
+      "method": "PATCH",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/states/<uuid:18>/",
+      "request": {
+        "name": "Nope"
+      },
+      "status": 403,
+      "content_type": "application/json",
+      "body": {
+        "error": "You don't have the required permissions."
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "PATCH",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/states/<uuid:18>/",
+      "request": {
+        "name": "Todo"
+      },
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "name": "The state name is already taken"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "PATCH",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/states/<uuid:18>/",
+      "request": {
+        "group": "triage"
+      },
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "non_field_errors": [
+          "Cannot create triage state"
+        ]
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "PATCH",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/states/<uuid:18>/",
+      "request": {
+        "default": false,
+        "order": 2,
+        "sequence": 99.5
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "color": "#123456",
+        "default": false,
+        "description": "Waiting on review",
+        "group": "started",
+        "id": "<uuid:18>",
+        "name": "Under Review",
+        "order": 2,
+        "project_id": "<uuid:6>",
+        "sequence": 99.5,
+        "workspace_id": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "PATCH",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/states/<uuid:18>/",
+      "request": {
+        "name": ""
+      },
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "name": [
+          "This field may not be blank."
+        ]
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "PATCH",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/states/<uuid:16>/",
+      "request": {
+        "name": "Inbox"
+      },
+      "status": 404,
+      "content_type": "application/json",
+      "body": {
+        "error": "The required object does not exist."
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "PATCH",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/states/<uuid:17>/",
+      "request": {
+        "name": "X"
+      },
+      "status": 404,
+      "content_type": "application/json",
+      "body": {
+        "error": "The required object does not exist."
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/states/<uuid:18>/mark-default/",
+      "status": 403,
+      "content_type": "application/json",
+      "body": {
+        "error": "You don't have the required permissions."
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/states/<uuid:18>/mark-default/",
+      "status": 204
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/states/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": [
+        {
+          "color": "#123456",
+          "default": true,
+          "description": "Waiting on review",
+          "group": "started",
+          "id": "<uuid:18>",
+          "name": "Under Review",
+          "order": 0.3333333333333333,
+          "project_id": "<uuid:6>",
+          "sequence": 99.5,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "color": "#60646C",
+          "default": false,
+          "description": "",
+          "group": "backlog",
+          "id": "<uuid:11>",
+          "name": "Backlog",
+          "order": 1,
+          "project_id": "<uuid:6>",
+          "sequence": 15000,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "color": "#60646C",
+          "default": false,
+          "description": "",
+          "group": "unstarted",
+          "id": "<uuid:12>",
+          "name": "Todo",
+          "order": 1,
+          "project_id": "<uuid:6>",
+          "sequence": 25000,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "color": "#F59E0B",
+          "default": false,
+          "description": "",
+          "group": "started",
+          "id": "<uuid:13>",
+          "name": "In Progress",
+          "order": 0.6666666666666666,
+          "project_id": "<uuid:6>",
+          "sequence": 35000,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "color": "#46A758",
+          "default": false,
+          "description": "",
+          "group": "completed",
+          "id": "<uuid:14>",
+          "name": "Done",
+          "order": 1,
+          "project_id": "<uuid:6>",
+          "sequence": 45000,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "color": "#9AA4BC",
+          "default": false,
+          "description": "",
+          "group": "cancelled",
+          "id": "<uuid:15>",
+          "name": "Cancelled",
+          "order": 1,
+          "project_id": "<uuid:6>",
+          "sequence": 55000,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "color": "#00ff00",
+          "default": false,
+          "description": "",
+          "group": "started",
+          "id": "<uuid:19>",
+          "name": "QA",
+          "order": 1,
+          "project_id": "<uuid:6>",
+          "sequence": 85000,
+          "workspace_id": "<uuid:2>"
+        }
+      ]
+    },
+    {
+      "actor": "alice",
+      "method": "DELETE",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/states/<uuid:18>/",
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "error": "Default state cannot be deleted"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/states/<uuid:16>/mark-default/",
+      "status": 204
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/states/<uuid:17>/mark-default/",
+      "status": 204
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/states/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": [
+        {
+          "color": "#123456",
+          "default": false,
+          "description": "Waiting on review",
+          "group": "started",
+          "id": "<uuid:18>",
+          "name": "Under Review",
+          "order": 0.3333333333333333,
+          "project_id": "<uuid:6>",
+          "sequence": 99.5,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "color": "#60646C",
+          "default": false,
+          "description": "",
+          "group": "backlog",
+          "id": "<uuid:11>",
+          "name": "Backlog",
+          "order": 1,
+          "project_id": "<uuid:6>",
+          "sequence": 15000,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "color": "#60646C",
+          "default": false,
+          "description": "",
+          "group": "unstarted",
+          "id": "<uuid:12>",
+          "name": "Todo",
+          "order": 1,
+          "project_id": "<uuid:6>",
+          "sequence": 25000,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "color": "#F59E0B",
+          "default": false,
+          "description": "",
+          "group": "started",
+          "id": "<uuid:13>",
+          "name": "In Progress",
+          "order": 0.6666666666666666,
+          "project_id": "<uuid:6>",
+          "sequence": 35000,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "color": "#46A758",
+          "default": false,
+          "description": "",
+          "group": "completed",
+          "id": "<uuid:14>",
+          "name": "Done",
+          "order": 1,
+          "project_id": "<uuid:6>",
+          "sequence": 45000,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "color": "#9AA4BC",
+          "default": false,
+          "description": "",
+          "group": "cancelled",
+          "id": "<uuid:15>",
+          "name": "Cancelled",
+          "order": 1,
+          "project_id": "<uuid:6>",
+          "sequence": 55000,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "color": "#00ff00",
+          "default": false,
+          "description": "",
+          "group": "started",
+          "id": "<uuid:19>",
+          "name": "QA",
+          "order": 1,
+          "project_id": "<uuid:6>",
+          "sequence": 85000,
+          "workspace_id": "<uuid:2>"
+        }
+      ]
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/states/<uuid:11>/mark-default/",
+      "status": 204
+    },
+    {
+      "actor": "bob",
+      "method": "DELETE",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/states/<uuid:18>/",
+      "status": 403,
+      "content_type": "application/json",
+      "body": {
+        "error": "You don't have the required permissions."
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "DELETE",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/states/<uuid:16>/",
+      "status": 404,
+      "content_type": "application/json",
+      "body": {
+        "error": "The required object does not exist."
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "DELETE",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/states/<uuid:18>/",
+      "status": 204
+    },
+    {
+      "actor": "alice",
+      "method": "DELETE",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/states/<uuid:18>/",
+      "status": 404,
+      "content_type": "application/json",
+      "body": {
+        "error": "The required object does not exist."
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "PATCH",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/states/<uuid:12>/",
+      "request": {
+        "name": "Under Review"
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "color": "#60646C",
+        "default": false,
+        "description": "",
+        "group": "unstarted",
+        "id": "<uuid:12>",
+        "name": "Under Review",
+        "project_id": "<uuid:6>",
+        "sequence": 25000,
+        "workspace_id": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "db",
+      "method": "QUERY",
+      "path": "states",
+      "status": 0,
+      "body": [
+        {
+          "color": "#60646C",
+          "created_by_id": "<uuid:1>",
+          "default": true,
+          "description": "",
+          "group": "backlog",
+          "is_triage": false,
+          "live": true,
+          "name": "Backlog",
+          "sequence": 15000,
+          "slug": "",
+          "updated_by_id": null
+        },
+        {
+          "color": "#60646C",
+          "created_by_id": "<uuid:1>",
+          "default": false,
+          "description": "",
+          "group": "unstarted",
+          "is_triage": false,
+          "live": true,
+          "name": "Under Review",
+          "sequence": 25000,
+          "slug": "under-review",
+          "updated_by_id": "<uuid:1>"
+        },
+        {
+          "color": "#F59E0B",
+          "created_by_id": "<uuid:1>",
+          "default": false,
+          "description": "",
+          "group": "started",
+          "is_triage": false,
+          "live": true,
+          "name": "In Progress",
+          "sequence": 35000,
+          "slug": "",
+          "updated_by_id": null
+        },
+        {
+          "color": "#46A758",
+          "created_by_id": "<uuid:1>",
+          "default": false,
+          "description": "",
+          "group": "completed",
+          "is_triage": false,
+          "live": true,
+          "name": "Done",
+          "sequence": 45000,
+          "slug": "",
+          "updated_by_id": null
+        },
+        {
+          "color": "#9AA4BC",
+          "created_by_id": "<uuid:1>",
+          "default": false,
+          "description": "",
+          "group": "cancelled",
+          "is_triage": false,
+          "live": true,
+          "name": "Cancelled",
+          "sequence": 55000,
+          "slug": "",
+          "updated_by_id": null
+        },
+        {
+          "color": "#4E5355",
+          "created_by_id": "<uuid:1>",
+          "default": false,
+          "description": "",
+          "group": "triage",
+          "is_triage": false,
+          "live": true,
+          "name": "Triage",
+          "sequence": 65000,
+          "slug": "",
+          "updated_by_id": null
+        },
+        {
+          "color": "#123456",
+          "created_by_id": "<uuid:1>",
+          "default": false,
+          "description": "Waiting on review",
+          "group": "started",
+          "is_triage": false,
+          "live": false,
+          "name": "Under Review",
+          "sequence": 99.5,
+          "slug": "under-review",
+          "updated_by_id": "<uuid:1>"
+        },
+        {
+          "color": "#00ff00",
+          "created_by_id": "<uuid:1>",
+          "default": false,
+          "description": "",
+          "group": "started",
+          "is_triage": false,
+          "live": true,
+          "name": "QA",
+          "sequence": 85000,
+          "slug": "qa",
+          "updated_by_id": null
+        }
+      ]
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/workspaces/acme/states/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": [
+        {
+          "color": "#60646C",
+          "default": true,
+          "description": "",
+          "group": "backlog",
+          "id": "<uuid:11>",
+          "name": "Backlog",
+          "order": 1,
+          "project_id": "<uuid:6>",
+          "sequence": 15000,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "color": "#60646C",
+          "default": false,
+          "description": "",
+          "group": "unstarted",
+          "id": "<uuid:12>",
+          "name": "Under Review",
+          "order": 1,
+          "project_id": "<uuid:6>",
+          "sequence": 25000,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "color": "#F59E0B",
+          "default": false,
+          "description": "",
+          "group": "started",
+          "id": "<uuid:13>",
+          "name": "In Progress",
+          "order": 0.5,
+          "project_id": "<uuid:6>",
+          "sequence": 35000,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "color": "#46A758",
+          "default": false,
+          "description": "",
+          "group": "completed",
+          "id": "<uuid:14>",
+          "name": "Done",
+          "order": 1,
+          "project_id": "<uuid:6>",
+          "sequence": 45000,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "color": "#9AA4BC",
+          "default": false,
+          "description": "",
+          "group": "cancelled",
+          "id": "<uuid:15>",
+          "name": "Cancelled",
+          "order": 1,
+          "project_id": "<uuid:6>",
+          "sequence": 55000,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "color": "#00ff00",
+          "default": false,
+          "description": "",
+          "group": "started",
+          "id": "<uuid:19>",
+          "name": "QA",
+          "order": 1,
+          "project_id": "<uuid:6>",
+          "sequence": 85000,
+          "workspace_id": "<uuid:2>"
+        }
+      ]
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/archive/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "archived_at": "<masked>"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/states/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": []
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/workspaces/acme/states/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": []
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/states/<uuid:12>/",
+      "status": 404,
+      "content_type": "application/json",
+      "body": {
+        "detail": "No State matches the given query."
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/intake-state/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "color": "#4E5355",
+        "default": false,
+        "description": "",
+        "group": "triage",
+        "id": "<uuid:16>",
+        "name": "Triage",
+        "project_id": "<uuid:6>",
+        "sequence": 65000,
+        "workspace_id": "<uuid:2>"
+      }
+    }
+  ]
+}

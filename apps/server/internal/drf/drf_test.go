@@ -80,3 +80,94 @@ func TestParseUUIDMatchesPython(t *testing.T) {
 		}
 	}
 }
+
+type pyCases struct {
+	FloatParse [][2]*string `json:"float_parse"`
+	IntParse   [][2]*string `json:"int_parse"`
+	Upper      [][2]string  `json:"upper"`
+}
+
+func loadPyCases(t *testing.T) pyCases {
+	var c pyCases
+	if err := json.Unmarshal(fixturesJSON, &c); err != nil {
+		t.Fatal(err)
+	}
+	return c
+}
+
+func TestPyFloatStringMatchesPython(t *testing.T) {
+	for _, c := range loadPyCases(t).FloatParse {
+		f, ok := pyFloatString(*c[0])
+		switch {
+		case c[1] == nil && ok:
+			t.Errorf("float(%q) accepted as %v", *c[0], f)
+		case c[1] != nil && !ok:
+			t.Errorf("float(%q) rejected, Python gives %s", *c[0], *c[1])
+		case c[1] != nil && PyFloatRepr(f) != *c[1]:
+			t.Errorf("float(%q) = %s, want %s", *c[0], PyFloatRepr(f), *c[1])
+		}
+	}
+}
+
+func TestPyIntStringMatchesPython(t *testing.T) {
+	for _, c := range loadPyCases(t).IntParse {
+		n, ok := PyIntString(*c[0])
+		switch {
+		case c[1] == nil && ok:
+			t.Errorf("int(%q) accepted as %v", *c[0], n)
+		case c[1] != nil && (!ok || n.String() != *c[1]):
+			t.Errorf("int(%q) = %v %v, want %s", *c[0], n, ok, *c[1])
+		}
+	}
+}
+
+func TestPyUpperMatchesPython(t *testing.T) {
+	for _, c := range loadPyCases(t).Upper {
+		if got := PyUpper(c[0]); got != c[1] {
+			t.Errorf("%q.upper() = %q, want %q", c[0], got, c[1])
+		}
+	}
+}
+
+func TestSlugifyMatchesDjango(t *testing.T) {
+	var c struct {
+		Slugify [][2]string `json:"slugify"`
+	}
+	if err := json.Unmarshal(fixturesJSON, &c); err != nil {
+		t.Fatal(err)
+	}
+	for _, f := range c.Slugify {
+		if got := Slugify(f[0]); got != f[1] {
+			t.Errorf("slugify(%q) = %q, want %q", f[0], got, f[1])
+		}
+	}
+}
+
+func TestParseDateMatchesDRF(t *testing.T) {
+	var c struct {
+		DateParse [][2]*string `json:"date_parse"`
+		FormDate  [][2]*string `json:"form_date"`
+	}
+	if err := json.Unmarshal(fixturesJSON, &c); err != nil {
+		t.Fatal(err)
+	}
+	for _, f := range c.FormDate {
+		got, ok := ParseFormDate(*f[0])
+		var s string
+		if got != nil {
+			s = got.Format(time.DateOnly)
+		}
+		if f[1] == nil && ok || f[1] != nil && (!ok || s != *f[1]) {
+			t.Errorf("ParseFormDate(%q) = %q, %v, want %v", *f[0], s, ok, f[1])
+		}
+	}
+	for _, f := range c.DateParse {
+		got, ok := ParseDate(*f[0])
+		switch {
+		case f[1] == nil && ok:
+			t.Errorf("ParseDate(%q) = %v, want error", *f[0], got)
+		case f[1] != nil && (!ok || got.Format(time.DateOnly) != *f[1]):
+			t.Errorf("ParseDate(%q) = %v, %v, want %s", *f[0], got, ok, *f[1])
+		}
+	}
+}

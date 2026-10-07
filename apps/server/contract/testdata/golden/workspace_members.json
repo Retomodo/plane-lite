@@ -1,0 +1,3720 @@
+{
+  "steps": [
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/auth/get-csrf-token/",
+      "status": 200,
+      "content_type": "application/json",
+      "cookies": [
+        "csrftoken; value=<set>; Path=/; Max-Age=31449600; HttpOnly; SameSite=Lax"
+      ],
+      "body": {
+        "csrf_token": "<masked>"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/auth/sign-up/",
+      "request": {
+        "csrfmiddlewaretoken": "<masked>",
+        "email": "alice@example.com",
+        "password": "correct-Horse-battery-staple-91"
+      },
+      "status": 302,
+      "location": "http://localhost:3000",
+      "content_type": "text/html",
+      "cookies": [
+        "csrftoken; value=<set>; Path=/; Max-Age=31449600; HttpOnly; SameSite=Lax",
+        "session-id; value=<set>; Path=/; Max-Age=604800; HttpOnly; SameSite=Lax"
+      ]
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/",
+      "request": {
+        "name": "Acme",
+        "slug": "acme"
+      },
+      "status": 201,
+      "content_type": "application/json",
+      "body": {
+        "background_color": "<masked>",
+        "created_at": "<datetime Z>",
+        "created_by": "<uuid:1>",
+        "deleted_at": null,
+        "id": "<uuid:2>",
+        "logo": null,
+        "logo_asset": null,
+        "logo_url": null,
+        "name": "Acme",
+        "organization_size": null,
+        "owner": "<uuid:1>",
+        "role": 20,
+        "slug": "acme",
+        "timezone": "UTC",
+        "total_members": 1,
+        "updated_at": "<datetime Z>",
+        "updated_by": null
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "GET",
+      "path": "/auth/get-csrf-token/",
+      "status": 200,
+      "content_type": "application/json",
+      "cookies": [
+        "csrftoken; value=<set>; Path=/; Max-Age=31449600; HttpOnly; SameSite=Lax"
+      ],
+      "body": {
+        "csrf_token": "<masked>"
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "POST",
+      "path": "/auth/sign-up/",
+      "request": {
+        "csrfmiddlewaretoken": "<masked>",
+        "email": "bob@example.com",
+        "password": "correct-Horse-battery-staple-91"
+      },
+      "status": 302,
+      "location": "http://localhost:3000",
+      "content_type": "text/html",
+      "cookies": [
+        "csrftoken; value=<set>; Path=/; Max-Age=31449600; HttpOnly; SameSite=Lax",
+        "session-id; value=<set>; Path=/; Max-Age=604800; HttpOnly; SameSite=Lax"
+      ]
+    },
+    {
+      "actor": "carol",
+      "method": "GET",
+      "path": "/auth/get-csrf-token/",
+      "status": 200,
+      "content_type": "application/json",
+      "cookies": [
+        "csrftoken; value=<set>; Path=/; Max-Age=31449600; HttpOnly; SameSite=Lax"
+      ],
+      "body": {
+        "csrf_token": "<masked>"
+      }
+    },
+    {
+      "actor": "carol",
+      "method": "POST",
+      "path": "/auth/sign-up/",
+      "request": {
+        "csrfmiddlewaretoken": "<masked>",
+        "email": "carol@example.com",
+        "password": "correct-Horse-battery-staple-91"
+      },
+      "status": 302,
+      "location": "http://localhost:3000",
+      "content_type": "text/html",
+      "cookies": [
+        "csrftoken; value=<set>; Path=/; Max-Age=31449600; HttpOnly; SameSite=Lax",
+        "session-id; value=<set>; Path=/; Max-Age=604800; HttpOnly; SameSite=Lax"
+      ]
+    },
+    {
+      "actor": "erin",
+      "method": "GET",
+      "path": "/auth/get-csrf-token/",
+      "status": 200,
+      "content_type": "application/json",
+      "cookies": [
+        "csrftoken; value=<set>; Path=/; Max-Age=31449600; HttpOnly; SameSite=Lax"
+      ],
+      "body": {
+        "csrf_token": "<masked>"
+      }
+    },
+    {
+      "actor": "erin",
+      "method": "POST",
+      "path": "/auth/sign-up/",
+      "request": {
+        "csrfmiddlewaretoken": "<masked>",
+        "email": "erin@example.com",
+        "password": "correct-Horse-battery-staple-91"
+      },
+      "status": 302,
+      "location": "http://localhost:3000",
+      "content_type": "text/html",
+      "cookies": [
+        "csrftoken; value=<set>; Path=/; Max-Age=31449600; HttpOnly; SameSite=Lax",
+        "session-id; value=<set>; Path=/; Max-Age=604800; HttpOnly; SameSite=Lax"
+      ]
+    },
+    {
+      "actor": "dan",
+      "method": "GET",
+      "path": "/auth/get-csrf-token/",
+      "status": 200,
+      "content_type": "application/json",
+      "cookies": [
+        "csrftoken; value=<set>; Path=/; Max-Age=31449600; HttpOnly; SameSite=Lax"
+      ],
+      "body": {
+        "csrf_token": "<masked>"
+      }
+    },
+    {
+      "actor": "dan",
+      "method": "POST",
+      "path": "/auth/sign-up/",
+      "request": {
+        "csrfmiddlewaretoken": "<masked>",
+        "email": "dan@example.com",
+        "password": "correct-Horse-battery-staple-91"
+      },
+      "status": 302,
+      "location": "http://localhost:3000",
+      "content_type": "text/html",
+      "cookies": [
+        "csrftoken; value=<set>; Path=/; Max-Age=31449600; HttpOnly; SameSite=Lax",
+        "session-id; value=<set>; Path=/; Max-Age=604800; HttpOnly; SameSite=Lax"
+      ]
+    },
+    {
+      "actor": "fay",
+      "method": "GET",
+      "path": "/auth/get-csrf-token/",
+      "status": 200,
+      "content_type": "application/json",
+      "cookies": [
+        "csrftoken; value=<set>; Path=/; Max-Age=31449600; HttpOnly; SameSite=Lax"
+      ],
+      "body": {
+        "csrf_token": "<masked>"
+      }
+    },
+    {
+      "actor": "fay",
+      "method": "POST",
+      "path": "/auth/sign-up/",
+      "request": {
+        "csrfmiddlewaretoken": "<masked>",
+        "email": "fay@example.com",
+        "password": "correct-Horse-battery-staple-91"
+      },
+      "status": 302,
+      "location": "http://localhost:3000",
+      "content_type": "text/html",
+      "cookies": [
+        "csrftoken; value=<set>; Path=/; Max-Age=31449600; HttpOnly; SameSite=Lax",
+        "session-id; value=<set>; Path=/; Max-Age=604800; HttpOnly; SameSite=Lax"
+      ]
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/invitations/",
+      "request": {
+        "emails": [
+          {
+            "email": "bob@example.com",
+            "role": 15
+          },
+          {
+            "email": "carol@example.com",
+            "role": 5
+          },
+          {
+            "email": "erin@example.com",
+            "role": 15
+          },
+          {
+            "email": "fay@example.com",
+            "role": 15
+          }
+        ]
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "message": "Emails sent successfully"
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "GET",
+      "path": "/api/users/me/workspaces/invitations/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": [
+        {
+          "accepted": false,
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:1>",
+          "deleted_at": null,
+          "email": "bob@example.com",
+          "id": "<uuid:3>",
+          "invite_link": "<masked>",
+          "message": "\n\nalice invited you to Acme on Plane\n\n      alice has invited you to join Acme on Plane.\n\n                    Join Acme on Plane\n\n                    alice has invited you to collaborate with them in\n                    Acme workspace on Plane.\n\n                          Accept invite\n\n                    If the button doesn’t work, copy and paste this link into\n                    your browser:\n\n                    http://localhost:3000/workspace-invitations/?invitation_id=<uuid:3>&slug=acme&token=<invite-token:bob@example.com>\n\n                    Note: This invitation was intended for\n                    bob@example.com. If you were not expecting this invitation, you can ignore\n                    this email.\n\n                    Plane Software, Inc.\n\n",
+          "responded_at": null,
+          "role": 15,
+          "token": "<masked>",
+          "updated_at": "<datetime Z>",
+          "updated_by": "<uuid:1>",
+          "workspace": {
+            "id": "<uuid:2>",
+            "logo_url": null,
+            "name": "Acme",
+            "slug": "acme"
+          }
+        }
+      ]
+    },
+    {
+      "actor": "bob",
+      "method": "POST",
+      "path": "/api/users/me/workspaces/invitations/",
+      "request": {
+        "invitations": [
+          "<uuid:3>"
+        ]
+      },
+      "status": 204
+    },
+    {
+      "actor": "carol",
+      "method": "GET",
+      "path": "/api/users/me/workspaces/invitations/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": [
+        {
+          "accepted": false,
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:1>",
+          "deleted_at": null,
+          "email": "carol@example.com",
+          "id": "<uuid:4>",
+          "invite_link": "<masked>",
+          "message": "\n\nalice invited you to Acme on Plane\n\n      alice has invited you to join Acme on Plane.\n\n                    Join Acme on Plane\n\n                    alice has invited you to collaborate with them in\n                    Acme workspace on Plane.\n\n                          Accept invite\n\n                    If the button doesn’t work, copy and paste this link into\n                    your browser:\n\n                    http://localhost:3000/workspace-invitations/?invitation_id=<uuid:4>&slug=acme&token=<invite-token:carol@example.com>\n\n                    Note: This invitation was intended for\n                    carol@example.com. If you were not expecting this invitation, you can ignore\n                    this email.\n\n                    Plane Software, Inc.\n\n",
+          "responded_at": null,
+          "role": 5,
+          "token": "<masked>",
+          "updated_at": "<datetime Z>",
+          "updated_by": "<uuid:1>",
+          "workspace": {
+            "id": "<uuid:2>",
+            "logo_url": null,
+            "name": "Acme",
+            "slug": "acme"
+          }
+        }
+      ]
+    },
+    {
+      "actor": "carol",
+      "method": "POST",
+      "path": "/api/users/me/workspaces/invitations/",
+      "request": {
+        "invitations": [
+          "<uuid:4>"
+        ]
+      },
+      "status": 204
+    },
+    {
+      "actor": "erin",
+      "method": "GET",
+      "path": "/api/users/me/workspaces/invitations/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": [
+        {
+          "accepted": false,
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:1>",
+          "deleted_at": null,
+          "email": "erin@example.com",
+          "id": "<uuid:5>",
+          "invite_link": "<masked>",
+          "message": "\n\nalice invited you to Acme on Plane\n\n      alice has invited you to join Acme on Plane.\n\n                    Join Acme on Plane\n\n                    alice has invited you to collaborate with them in\n                    Acme workspace on Plane.\n\n                          Accept invite\n\n                    If the button doesn’t work, copy and paste this link into\n                    your browser:\n\n                    http://localhost:3000/workspace-invitations/?invitation_id=<uuid:5>&slug=acme&token=<invite-token:erin@example.com>\n\n                    Note: This invitation was intended for\n                    erin@example.com. If you were not expecting this invitation, you can ignore\n                    this email.\n\n                    Plane Software, Inc.\n\n",
+          "responded_at": null,
+          "role": 15,
+          "token": "<masked>",
+          "updated_at": "<datetime Z>",
+          "updated_by": "<uuid:1>",
+          "workspace": {
+            "id": "<uuid:2>",
+            "logo_url": null,
+            "name": "Acme",
+            "slug": "acme"
+          }
+        }
+      ]
+    },
+    {
+      "actor": "erin",
+      "method": "POST",
+      "path": "/api/users/me/workspaces/invitations/",
+      "request": {
+        "invitations": [
+          "<uuid:5>"
+        ]
+      },
+      "status": 204
+    },
+    {
+      "actor": "fay",
+      "method": "GET",
+      "path": "/api/users/me/workspaces/invitations/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": [
+        {
+          "accepted": false,
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:1>",
+          "deleted_at": null,
+          "email": "fay@example.com",
+          "id": "<uuid:6>",
+          "invite_link": "<masked>",
+          "message": "\n\nalice invited you to Acme on Plane\n\n      alice has invited you to join Acme on Plane.\n\n                    Join Acme on Plane\n\n                    alice has invited you to collaborate with them in\n                    Acme workspace on Plane.\n\n                          Accept invite\n\n                    If the button doesn’t work, copy and paste this link into\n                    your browser:\n\n                    http://localhost:3000/workspace-invitations/?invitation_id=<uuid:6>&slug=acme&token=<invite-token:fay@example.com>\n\n                    Note: This invitation was intended for\n                    fay@example.com. If you were not expecting this invitation, you can ignore\n                    this email.\n\n                    Plane Software, Inc.\n\n",
+          "responded_at": null,
+          "role": 15,
+          "token": "<masked>",
+          "updated_at": "<datetime Z>",
+          "updated_by": "<uuid:1>",
+          "workspace": {
+            "id": "<uuid:2>",
+            "logo_url": null,
+            "name": "Acme",
+            "slug": "acme"
+          }
+        }
+      ]
+    },
+    {
+      "actor": "fay",
+      "method": "POST",
+      "path": "/api/users/me/workspaces/invitations/",
+      "request": {
+        "invitations": [
+          "<uuid:6>"
+        ]
+      },
+      "status": 204
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/workspaces/acme/members/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": [
+        {
+          "company_role": null,
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:7>",
+          "default_props": {
+            "display_filters": {
+              "calendar_date_range": "",
+              "group_by": null,
+              "layout": "list",
+              "order_by": "-created_at",
+              "show_empty_groups": true,
+              "sub_issue": true,
+              "type": null
+            },
+            "display_properties": {
+              "assignee": true,
+              "attachment_count": true,
+              "created_on": true,
+              "due_date": true,
+              "estimate": true,
+              "key": true,
+              "labels": true,
+              "link": true,
+              "priority": true,
+              "start_date": true,
+              "state": true,
+              "sub_issue_count": true,
+              "updated_on": true
+            },
+            "filters": {
+              "assignees": null,
+              "created_by": null,
+              "labels": null,
+              "priority": null,
+              "start_date": null,
+              "state": null,
+              "state_group": null,
+              "subscriber": null,
+              "target_date": null
+            }
+          },
+          "deleted_at": null,
+          "explored_features": {},
+          "getting_started_checklist": {},
+          "id": "<uuid:8>",
+          "is_active": true,
+          "issue_props": {
+            "all_issues": true,
+            "assigned": true,
+            "created": true,
+            "subscribed": true
+          },
+          "member": {
+            "avatar": "",
+            "avatar_url": null,
+            "display_name": "fay",
+            "email": "fay@example.com",
+            "first_name": "",
+            "id": "<uuid:7>",
+            "is_bot": false,
+            "last_login_medium": "email",
+            "last_name": ""
+          },
+          "role": 15,
+          "tips": {},
+          "updated_at": "<datetime Z>",
+          "updated_by": null,
+          "view_props": {
+            "display_filters": {
+              "calendar_date_range": "",
+              "group_by": null,
+              "layout": "list",
+              "order_by": "-created_at",
+              "show_empty_groups": true,
+              "sub_issue": true,
+              "type": null
+            },
+            "display_properties": {
+              "assignee": true,
+              "attachment_count": true,
+              "created_on": true,
+              "due_date": true,
+              "estimate": true,
+              "key": true,
+              "labels": true,
+              "link": true,
+              "priority": true,
+              "start_date": true,
+              "state": true,
+              "sub_issue_count": true,
+              "updated_on": true
+            },
+            "filters": {
+              "assignees": null,
+              "created_by": null,
+              "labels": null,
+              "priority": null,
+              "start_date": null,
+              "state": null,
+              "state_group": null,
+              "subscriber": null,
+              "target_date": null
+            }
+          },
+          "workspace": "<uuid:2>"
+        },
+        {
+          "company_role": null,
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:9>",
+          "default_props": {
+            "display_filters": {
+              "calendar_date_range": "",
+              "group_by": null,
+              "layout": "list",
+              "order_by": "-created_at",
+              "show_empty_groups": true,
+              "sub_issue": true,
+              "type": null
+            },
+            "display_properties": {
+              "assignee": true,
+              "attachment_count": true,
+              "created_on": true,
+              "due_date": true,
+              "estimate": true,
+              "key": true,
+              "labels": true,
+              "link": true,
+              "priority": true,
+              "start_date": true,
+              "state": true,
+              "sub_issue_count": true,
+              "updated_on": true
+            },
+            "filters": {
+              "assignees": null,
+              "created_by": null,
+              "labels": null,
+              "priority": null,
+              "start_date": null,
+              "state": null,
+              "state_group": null,
+              "subscriber": null,
+              "target_date": null
+            }
+          },
+          "deleted_at": null,
+          "explored_features": {},
+          "getting_started_checklist": {},
+          "id": "<uuid:10>",
+          "is_active": true,
+          "issue_props": {
+            "all_issues": true,
+            "assigned": true,
+            "created": true,
+            "subscribed": true
+          },
+          "member": {
+            "avatar": "",
+            "avatar_url": null,
+            "display_name": "erin",
+            "email": "erin@example.com",
+            "first_name": "",
+            "id": "<uuid:9>",
+            "is_bot": false,
+            "last_login_medium": "email",
+            "last_name": ""
+          },
+          "role": 15,
+          "tips": {},
+          "updated_at": "<datetime Z>",
+          "updated_by": null,
+          "view_props": {
+            "display_filters": {
+              "calendar_date_range": "",
+              "group_by": null,
+              "layout": "list",
+              "order_by": "-created_at",
+              "show_empty_groups": true,
+              "sub_issue": true,
+              "type": null
+            },
+            "display_properties": {
+              "assignee": true,
+              "attachment_count": true,
+              "created_on": true,
+              "due_date": true,
+              "estimate": true,
+              "key": true,
+              "labels": true,
+              "link": true,
+              "priority": true,
+              "start_date": true,
+              "state": true,
+              "sub_issue_count": true,
+              "updated_on": true
+            },
+            "filters": {
+              "assignees": null,
+              "created_by": null,
+              "labels": null,
+              "priority": null,
+              "start_date": null,
+              "state": null,
+              "state_group": null,
+              "subscriber": null,
+              "target_date": null
+            }
+          },
+          "workspace": "<uuid:2>"
+        },
+        {
+          "company_role": null,
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:11>",
+          "default_props": {
+            "display_filters": {
+              "calendar_date_range": "",
+              "group_by": null,
+              "layout": "list",
+              "order_by": "-created_at",
+              "show_empty_groups": true,
+              "sub_issue": true,
+              "type": null
+            },
+            "display_properties": {
+              "assignee": true,
+              "attachment_count": true,
+              "created_on": true,
+              "due_date": true,
+              "estimate": true,
+              "key": true,
+              "labels": true,
+              "link": true,
+              "priority": true,
+              "start_date": true,
+              "state": true,
+              "sub_issue_count": true,
+              "updated_on": true
+            },
+            "filters": {
+              "assignees": null,
+              "created_by": null,
+              "labels": null,
+              "priority": null,
+              "start_date": null,
+              "state": null,
+              "state_group": null,
+              "subscriber": null,
+              "target_date": null
+            }
+          },
+          "deleted_at": null,
+          "explored_features": {},
+          "getting_started_checklist": {},
+          "id": "<uuid:12>",
+          "is_active": true,
+          "issue_props": {
+            "all_issues": true,
+            "assigned": true,
+            "created": true,
+            "subscribed": true
+          },
+          "member": {
+            "avatar": "",
+            "avatar_url": null,
+            "display_name": "carol",
+            "email": "carol@example.com",
+            "first_name": "",
+            "id": "<uuid:11>",
+            "is_bot": false,
+            "last_login_medium": "email",
+            "last_name": ""
+          },
+          "role": 5,
+          "tips": {},
+          "updated_at": "<datetime Z>",
+          "updated_by": null,
+          "view_props": {
+            "display_filters": {
+              "calendar_date_range": "",
+              "group_by": null,
+              "layout": "list",
+              "order_by": "-created_at",
+              "show_empty_groups": true,
+              "sub_issue": true,
+              "type": null
+            },
+            "display_properties": {
+              "assignee": true,
+              "attachment_count": true,
+              "created_on": true,
+              "due_date": true,
+              "estimate": true,
+              "key": true,
+              "labels": true,
+              "link": true,
+              "priority": true,
+              "start_date": true,
+              "state": true,
+              "sub_issue_count": true,
+              "updated_on": true
+            },
+            "filters": {
+              "assignees": null,
+              "created_by": null,
+              "labels": null,
+              "priority": null,
+              "start_date": null,
+              "state": null,
+              "state_group": null,
+              "subscriber": null,
+              "target_date": null
+            }
+          },
+          "workspace": "<uuid:2>"
+        },
+        {
+          "company_role": null,
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:13>",
+          "default_props": {
+            "display_filters": {
+              "calendar_date_range": "",
+              "group_by": null,
+              "layout": "list",
+              "order_by": "-created_at",
+              "show_empty_groups": true,
+              "sub_issue": true,
+              "type": null
+            },
+            "display_properties": {
+              "assignee": true,
+              "attachment_count": true,
+              "created_on": true,
+              "due_date": true,
+              "estimate": true,
+              "key": true,
+              "labels": true,
+              "link": true,
+              "priority": true,
+              "start_date": true,
+              "state": true,
+              "sub_issue_count": true,
+              "updated_on": true
+            },
+            "filters": {
+              "assignees": null,
+              "created_by": null,
+              "labels": null,
+              "priority": null,
+              "start_date": null,
+              "state": null,
+              "state_group": null,
+              "subscriber": null,
+              "target_date": null
+            }
+          },
+          "deleted_at": null,
+          "explored_features": {},
+          "getting_started_checklist": {},
+          "id": "<uuid:14>",
+          "is_active": true,
+          "issue_props": {
+            "all_issues": true,
+            "assigned": true,
+            "created": true,
+            "subscribed": true
+          },
+          "member": {
+            "avatar": "",
+            "avatar_url": null,
+            "display_name": "bob",
+            "email": "bob@example.com",
+            "first_name": "",
+            "id": "<uuid:13>",
+            "is_bot": false,
+            "last_login_medium": "email",
+            "last_name": ""
+          },
+          "role": 15,
+          "tips": {},
+          "updated_at": "<datetime Z>",
+          "updated_by": null,
+          "view_props": {
+            "display_filters": {
+              "calendar_date_range": "",
+              "group_by": null,
+              "layout": "list",
+              "order_by": "-created_at",
+              "show_empty_groups": true,
+              "sub_issue": true,
+              "type": null
+            },
+            "display_properties": {
+              "assignee": true,
+              "attachment_count": true,
+              "created_on": true,
+              "due_date": true,
+              "estimate": true,
+              "key": true,
+              "labels": true,
+              "link": true,
+              "priority": true,
+              "start_date": true,
+              "state": true,
+              "sub_issue_count": true,
+              "updated_on": true
+            },
+            "filters": {
+              "assignees": null,
+              "created_by": null,
+              "labels": null,
+              "priority": null,
+              "start_date": null,
+              "state": null,
+              "state_group": null,
+              "subscriber": null,
+              "target_date": null
+            }
+          },
+          "workspace": "<uuid:2>"
+        },
+        {
+          "company_role": "",
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:1>",
+          "default_props": {
+            "display_filters": {
+              "calendar_date_range": "",
+              "group_by": null,
+              "layout": "list",
+              "order_by": "-created_at",
+              "show_empty_groups": true,
+              "sub_issue": true,
+              "type": null
+            },
+            "display_properties": {
+              "assignee": true,
+              "attachment_count": true,
+              "created_on": true,
+              "due_date": true,
+              "estimate": true,
+              "key": true,
+              "labels": true,
+              "link": true,
+              "priority": true,
+              "start_date": true,
+              "state": true,
+              "sub_issue_count": true,
+              "updated_on": true
+            },
+            "filters": {
+              "assignees": null,
+              "created_by": null,
+              "labels": null,
+              "priority": null,
+              "start_date": null,
+              "state": null,
+              "state_group": null,
+              "subscriber": null,
+              "target_date": null
+            }
+          },
+          "deleted_at": null,
+          "explored_features": {},
+          "getting_started_checklist": {},
+          "id": "<uuid:15>",
+          "is_active": true,
+          "issue_props": {
+            "all_issues": true,
+            "assigned": true,
+            "created": true,
+            "subscribed": true
+          },
+          "member": {
+            "avatar": "",
+            "avatar_url": null,
+            "display_name": "alice",
+            "email": "alice@example.com",
+            "first_name": "",
+            "id": "<uuid:1>",
+            "is_bot": false,
+            "last_login_medium": "email",
+            "last_name": ""
+          },
+          "role": 20,
+          "tips": {},
+          "updated_at": "<datetime Z>",
+          "updated_by": null,
+          "view_props": {
+            "display_filters": {
+              "calendar_date_range": "",
+              "group_by": null,
+              "layout": "list",
+              "order_by": "-created_at",
+              "show_empty_groups": true,
+              "sub_issue": true,
+              "type": null
+            },
+            "display_properties": {
+              "assignee": true,
+              "attachment_count": true,
+              "created_on": true,
+              "due_date": true,
+              "estimate": true,
+              "key": true,
+              "labels": true,
+              "link": true,
+              "priority": true,
+              "start_date": true,
+              "state": true,
+              "sub_issue_count": true,
+              "updated_on": true
+            },
+            "filters": {
+              "assignees": null,
+              "created_by": null,
+              "labels": null,
+              "priority": null,
+              "start_date": null,
+              "state": null,
+              "state_group": null,
+              "subscriber": null,
+              "target_date": null
+            }
+          },
+          "workspace": "<uuid:2>"
+        }
+      ]
+    },
+    {
+      "actor": "carol",
+      "method": "GET",
+      "path": "/api/workspaces/acme/members/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": [
+        {
+          "company_role": null,
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:7>",
+          "default_props": {
+            "display_filters": {
+              "calendar_date_range": "",
+              "group_by": null,
+              "layout": "list",
+              "order_by": "-created_at",
+              "show_empty_groups": true,
+              "sub_issue": true,
+              "type": null
+            },
+            "display_properties": {
+              "assignee": true,
+              "attachment_count": true,
+              "created_on": true,
+              "due_date": true,
+              "estimate": true,
+              "key": true,
+              "labels": true,
+              "link": true,
+              "priority": true,
+              "start_date": true,
+              "state": true,
+              "sub_issue_count": true,
+              "updated_on": true
+            },
+            "filters": {
+              "assignees": null,
+              "created_by": null,
+              "labels": null,
+              "priority": null,
+              "start_date": null,
+              "state": null,
+              "state_group": null,
+              "subscriber": null,
+              "target_date": null
+            }
+          },
+          "deleted_at": null,
+          "explored_features": {},
+          "getting_started_checklist": {},
+          "id": "<uuid:8>",
+          "is_active": true,
+          "issue_props": {
+            "all_issues": true,
+            "assigned": true,
+            "created": true,
+            "subscribed": true
+          },
+          "member": {
+            "avatar": "",
+            "avatar_url": null,
+            "display_name": "fay",
+            "first_name": "",
+            "id": "<uuid:7>",
+            "is_bot": false,
+            "last_name": ""
+          },
+          "role": 15,
+          "tips": {},
+          "updated_at": "<datetime Z>",
+          "updated_by": null,
+          "view_props": {
+            "display_filters": {
+              "calendar_date_range": "",
+              "group_by": null,
+              "layout": "list",
+              "order_by": "-created_at",
+              "show_empty_groups": true,
+              "sub_issue": true,
+              "type": null
+            },
+            "display_properties": {
+              "assignee": true,
+              "attachment_count": true,
+              "created_on": true,
+              "due_date": true,
+              "estimate": true,
+              "key": true,
+              "labels": true,
+              "link": true,
+              "priority": true,
+              "start_date": true,
+              "state": true,
+              "sub_issue_count": true,
+              "updated_on": true
+            },
+            "filters": {
+              "assignees": null,
+              "created_by": null,
+              "labels": null,
+              "priority": null,
+              "start_date": null,
+              "state": null,
+              "state_group": null,
+              "subscriber": null,
+              "target_date": null
+            }
+          },
+          "workspace": "<uuid:2>"
+        },
+        {
+          "company_role": null,
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:9>",
+          "default_props": {
+            "display_filters": {
+              "calendar_date_range": "",
+              "group_by": null,
+              "layout": "list",
+              "order_by": "-created_at",
+              "show_empty_groups": true,
+              "sub_issue": true,
+              "type": null
+            },
+            "display_properties": {
+              "assignee": true,
+              "attachment_count": true,
+              "created_on": true,
+              "due_date": true,
+              "estimate": true,
+              "key": true,
+              "labels": true,
+              "link": true,
+              "priority": true,
+              "start_date": true,
+              "state": true,
+              "sub_issue_count": true,
+              "updated_on": true
+            },
+            "filters": {
+              "assignees": null,
+              "created_by": null,
+              "labels": null,
+              "priority": null,
+              "start_date": null,
+              "state": null,
+              "state_group": null,
+              "subscriber": null,
+              "target_date": null
+            }
+          },
+          "deleted_at": null,
+          "explored_features": {},
+          "getting_started_checklist": {},
+          "id": "<uuid:10>",
+          "is_active": true,
+          "issue_props": {
+            "all_issues": true,
+            "assigned": true,
+            "created": true,
+            "subscribed": true
+          },
+          "member": {
+            "avatar": "",
+            "avatar_url": null,
+            "display_name": "erin",
+            "first_name": "",
+            "id": "<uuid:9>",
+            "is_bot": false,
+            "last_name": ""
+          },
+          "role": 15,
+          "tips": {},
+          "updated_at": "<datetime Z>",
+          "updated_by": null,
+          "view_props": {
+            "display_filters": {
+              "calendar_date_range": "",
+              "group_by": null,
+              "layout": "list",
+              "order_by": "-created_at",
+              "show_empty_groups": true,
+              "sub_issue": true,
+              "type": null
+            },
+            "display_properties": {
+              "assignee": true,
+              "attachment_count": true,
+              "created_on": true,
+              "due_date": true,
+              "estimate": true,
+              "key": true,
+              "labels": true,
+              "link": true,
+              "priority": true,
+              "start_date": true,
+              "state": true,
+              "sub_issue_count": true,
+              "updated_on": true
+            },
+            "filters": {
+              "assignees": null,
+              "created_by": null,
+              "labels": null,
+              "priority": null,
+              "start_date": null,
+              "state": null,
+              "state_group": null,
+              "subscriber": null,
+              "target_date": null
+            }
+          },
+          "workspace": "<uuid:2>"
+        },
+        {
+          "company_role": null,
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:11>",
+          "default_props": {
+            "display_filters": {
+              "calendar_date_range": "",
+              "group_by": null,
+              "layout": "list",
+              "order_by": "-created_at",
+              "show_empty_groups": true,
+              "sub_issue": true,
+              "type": null
+            },
+            "display_properties": {
+              "assignee": true,
+              "attachment_count": true,
+              "created_on": true,
+              "due_date": true,
+              "estimate": true,
+              "key": true,
+              "labels": true,
+              "link": true,
+              "priority": true,
+              "start_date": true,
+              "state": true,
+              "sub_issue_count": true,
+              "updated_on": true
+            },
+            "filters": {
+              "assignees": null,
+              "created_by": null,
+              "labels": null,
+              "priority": null,
+              "start_date": null,
+              "state": null,
+              "state_group": null,
+              "subscriber": null,
+              "target_date": null
+            }
+          },
+          "deleted_at": null,
+          "explored_features": {},
+          "getting_started_checklist": {},
+          "id": "<uuid:12>",
+          "is_active": true,
+          "issue_props": {
+            "all_issues": true,
+            "assigned": true,
+            "created": true,
+            "subscribed": true
+          },
+          "member": {
+            "avatar": "",
+            "avatar_url": null,
+            "display_name": "carol",
+            "first_name": "",
+            "id": "<uuid:11>",
+            "is_bot": false,
+            "last_name": ""
+          },
+          "role": 5,
+          "tips": {},
+          "updated_at": "<datetime Z>",
+          "updated_by": null,
+          "view_props": {
+            "display_filters": {
+              "calendar_date_range": "",
+              "group_by": null,
+              "layout": "list",
+              "order_by": "-created_at",
+              "show_empty_groups": true,
+              "sub_issue": true,
+              "type": null
+            },
+            "display_properties": {
+              "assignee": true,
+              "attachment_count": true,
+              "created_on": true,
+              "due_date": true,
+              "estimate": true,
+              "key": true,
+              "labels": true,
+              "link": true,
+              "priority": true,
+              "start_date": true,
+              "state": true,
+              "sub_issue_count": true,
+              "updated_on": true
+            },
+            "filters": {
+              "assignees": null,
+              "created_by": null,
+              "labels": null,
+              "priority": null,
+              "start_date": null,
+              "state": null,
+              "state_group": null,
+              "subscriber": null,
+              "target_date": null
+            }
+          },
+          "workspace": "<uuid:2>"
+        },
+        {
+          "company_role": null,
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:13>",
+          "default_props": {
+            "display_filters": {
+              "calendar_date_range": "",
+              "group_by": null,
+              "layout": "list",
+              "order_by": "-created_at",
+              "show_empty_groups": true,
+              "sub_issue": true,
+              "type": null
+            },
+            "display_properties": {
+              "assignee": true,
+              "attachment_count": true,
+              "created_on": true,
+              "due_date": true,
+              "estimate": true,
+              "key": true,
+              "labels": true,
+              "link": true,
+              "priority": true,
+              "start_date": true,
+              "state": true,
+              "sub_issue_count": true,
+              "updated_on": true
+            },
+            "filters": {
+              "assignees": null,
+              "created_by": null,
+              "labels": null,
+              "priority": null,
+              "start_date": null,
+              "state": null,
+              "state_group": null,
+              "subscriber": null,
+              "target_date": null
+            }
+          },
+          "deleted_at": null,
+          "explored_features": {},
+          "getting_started_checklist": {},
+          "id": "<uuid:14>",
+          "is_active": true,
+          "issue_props": {
+            "all_issues": true,
+            "assigned": true,
+            "created": true,
+            "subscribed": true
+          },
+          "member": {
+            "avatar": "",
+            "avatar_url": null,
+            "display_name": "bob",
+            "first_name": "",
+            "id": "<uuid:13>",
+            "is_bot": false,
+            "last_name": ""
+          },
+          "role": 15,
+          "tips": {},
+          "updated_at": "<datetime Z>",
+          "updated_by": null,
+          "view_props": {
+            "display_filters": {
+              "calendar_date_range": "",
+              "group_by": null,
+              "layout": "list",
+              "order_by": "-created_at",
+              "show_empty_groups": true,
+              "sub_issue": true,
+              "type": null
+            },
+            "display_properties": {
+              "assignee": true,
+              "attachment_count": true,
+              "created_on": true,
+              "due_date": true,
+              "estimate": true,
+              "key": true,
+              "labels": true,
+              "link": true,
+              "priority": true,
+              "start_date": true,
+              "state": true,
+              "sub_issue_count": true,
+              "updated_on": true
+            },
+            "filters": {
+              "assignees": null,
+              "created_by": null,
+              "labels": null,
+              "priority": null,
+              "start_date": null,
+              "state": null,
+              "state_group": null,
+              "subscriber": null,
+              "target_date": null
+            }
+          },
+          "workspace": "<uuid:2>"
+        },
+        {
+          "company_role": "",
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:1>",
+          "default_props": {
+            "display_filters": {
+              "calendar_date_range": "",
+              "group_by": null,
+              "layout": "list",
+              "order_by": "-created_at",
+              "show_empty_groups": true,
+              "sub_issue": true,
+              "type": null
+            },
+            "display_properties": {
+              "assignee": true,
+              "attachment_count": true,
+              "created_on": true,
+              "due_date": true,
+              "estimate": true,
+              "key": true,
+              "labels": true,
+              "link": true,
+              "priority": true,
+              "start_date": true,
+              "state": true,
+              "sub_issue_count": true,
+              "updated_on": true
+            },
+            "filters": {
+              "assignees": null,
+              "created_by": null,
+              "labels": null,
+              "priority": null,
+              "start_date": null,
+              "state": null,
+              "state_group": null,
+              "subscriber": null,
+              "target_date": null
+            }
+          },
+          "deleted_at": null,
+          "explored_features": {},
+          "getting_started_checklist": {},
+          "id": "<uuid:15>",
+          "is_active": true,
+          "issue_props": {
+            "all_issues": true,
+            "assigned": true,
+            "created": true,
+            "subscribed": true
+          },
+          "member": {
+            "avatar": "",
+            "avatar_url": null,
+            "display_name": "alice",
+            "first_name": "",
+            "id": "<uuid:1>",
+            "is_bot": false,
+            "last_name": ""
+          },
+          "role": 20,
+          "tips": {},
+          "updated_at": "<datetime Z>",
+          "updated_by": null,
+          "view_props": {
+            "display_filters": {
+              "calendar_date_range": "",
+              "group_by": null,
+              "layout": "list",
+              "order_by": "-created_at",
+              "show_empty_groups": true,
+              "sub_issue": true,
+              "type": null
+            },
+            "display_properties": {
+              "assignee": true,
+              "attachment_count": true,
+              "created_on": true,
+              "due_date": true,
+              "estimate": true,
+              "key": true,
+              "labels": true,
+              "link": true,
+              "priority": true,
+              "start_date": true,
+              "state": true,
+              "sub_issue_count": true,
+              "updated_on": true
+            },
+            "filters": {
+              "assignees": null,
+              "created_by": null,
+              "labels": null,
+              "priority": null,
+              "start_date": null,
+              "state": null,
+              "state_group": null,
+              "subscriber": null,
+              "target_date": null
+            }
+          },
+          "workspace": "<uuid:2>"
+        }
+      ]
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/workspaces/acme/members/?search=bo",
+      "status": 200,
+      "content_type": "application/json",
+      "body": [
+        {
+          "company_role": null,
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:13>",
+          "default_props": {
+            "display_filters": {
+              "calendar_date_range": "",
+              "group_by": null,
+              "layout": "list",
+              "order_by": "-created_at",
+              "show_empty_groups": true,
+              "sub_issue": true,
+              "type": null
+            },
+            "display_properties": {
+              "assignee": true,
+              "attachment_count": true,
+              "created_on": true,
+              "due_date": true,
+              "estimate": true,
+              "key": true,
+              "labels": true,
+              "link": true,
+              "priority": true,
+              "start_date": true,
+              "state": true,
+              "sub_issue_count": true,
+              "updated_on": true
+            },
+            "filters": {
+              "assignees": null,
+              "created_by": null,
+              "labels": null,
+              "priority": null,
+              "start_date": null,
+              "state": null,
+              "state_group": null,
+              "subscriber": null,
+              "target_date": null
+            }
+          },
+          "deleted_at": null,
+          "explored_features": {},
+          "getting_started_checklist": {},
+          "id": "<uuid:14>",
+          "is_active": true,
+          "issue_props": {
+            "all_issues": true,
+            "assigned": true,
+            "created": true,
+            "subscribed": true
+          },
+          "member": {
+            "avatar": "",
+            "avatar_url": null,
+            "display_name": "bob",
+            "email": "bob@example.com",
+            "first_name": "",
+            "id": "<uuid:13>",
+            "is_bot": false,
+            "last_login_medium": "email",
+            "last_name": ""
+          },
+          "role": 15,
+          "tips": {},
+          "updated_at": "<datetime Z>",
+          "updated_by": null,
+          "view_props": {
+            "display_filters": {
+              "calendar_date_range": "",
+              "group_by": null,
+              "layout": "list",
+              "order_by": "-created_at",
+              "show_empty_groups": true,
+              "sub_issue": true,
+              "type": null
+            },
+            "display_properties": {
+              "assignee": true,
+              "attachment_count": true,
+              "created_on": true,
+              "due_date": true,
+              "estimate": true,
+              "key": true,
+              "labels": true,
+              "link": true,
+              "priority": true,
+              "start_date": true,
+              "state": true,
+              "sub_issue_count": true,
+              "updated_on": true
+            },
+            "filters": {
+              "assignees": null,
+              "created_by": null,
+              "labels": null,
+              "priority": null,
+              "start_date": null,
+              "state": null,
+              "state_group": null,
+              "subscriber": null,
+              "target_date": null
+            }
+          },
+          "workspace": "<uuid:2>"
+        }
+      ]
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/workspaces/acme/members/<uuid:14>/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "company_role": null,
+        "created_at": "<datetime Z>",
+        "created_by": "<uuid:13>",
+        "default_props": {
+          "display_filters": {
+            "calendar_date_range": "",
+            "group_by": null,
+            "layout": "list",
+            "order_by": "-created_at",
+            "show_empty_groups": true,
+            "sub_issue": true,
+            "type": null
+          },
+          "display_properties": {
+            "assignee": true,
+            "attachment_count": true,
+            "created_on": true,
+            "due_date": true,
+            "estimate": true,
+            "key": true,
+            "labels": true,
+            "link": true,
+            "priority": true,
+            "start_date": true,
+            "state": true,
+            "sub_issue_count": true,
+            "updated_on": true
+          },
+          "filters": {
+            "assignees": null,
+            "created_by": null,
+            "labels": null,
+            "priority": null,
+            "start_date": null,
+            "state": null,
+            "state_group": null,
+            "subscriber": null,
+            "target_date": null
+          }
+        },
+        "deleted_at": null,
+        "explored_features": {},
+        "getting_started_checklist": {},
+        "id": "<uuid:14>",
+        "is_active": true,
+        "issue_props": {
+          "all_issues": true,
+          "assigned": true,
+          "created": true,
+          "subscribed": true
+        },
+        "member": {
+          "avatar": "",
+          "avatar_url": null,
+          "display_name": "bob",
+          "email": "bob@example.com",
+          "first_name": "",
+          "id": "<uuid:13>",
+          "is_bot": false,
+          "last_login_medium": "email",
+          "last_name": ""
+        },
+        "role": 15,
+        "tips": {},
+        "updated_at": "<datetime Z>",
+        "updated_by": null,
+        "view_props": {
+          "display_filters": {
+            "calendar_date_range": "",
+            "group_by": null,
+            "layout": "list",
+            "order_by": "-created_at",
+            "show_empty_groups": true,
+            "sub_issue": true,
+            "type": null
+          },
+          "display_properties": {
+            "assignee": true,
+            "attachment_count": true,
+            "created_on": true,
+            "due_date": true,
+            "estimate": true,
+            "key": true,
+            "labels": true,
+            "link": true,
+            "priority": true,
+            "start_date": true,
+            "state": true,
+            "sub_issue_count": true,
+            "updated_on": true
+          },
+          "filters": {
+            "assignees": null,
+            "created_by": null,
+            "labels": null,
+            "priority": null,
+            "start_date": null,
+            "state": null,
+            "state_group": null,
+            "subscriber": null,
+            "target_date": null
+          }
+        },
+        "workspace": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "carol",
+      "method": "GET",
+      "path": "/api/workspaces/acme/members/<uuid:14>/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "company_role": null,
+        "created_at": "<datetime Z>",
+        "created_by": "<uuid:13>",
+        "default_props": {
+          "display_filters": {
+            "calendar_date_range": "",
+            "group_by": null,
+            "layout": "list",
+            "order_by": "-created_at",
+            "show_empty_groups": true,
+            "sub_issue": true,
+            "type": null
+          },
+          "display_properties": {
+            "assignee": true,
+            "attachment_count": true,
+            "created_on": true,
+            "due_date": true,
+            "estimate": true,
+            "key": true,
+            "labels": true,
+            "link": true,
+            "priority": true,
+            "start_date": true,
+            "state": true,
+            "sub_issue_count": true,
+            "updated_on": true
+          },
+          "filters": {
+            "assignees": null,
+            "created_by": null,
+            "labels": null,
+            "priority": null,
+            "start_date": null,
+            "state": null,
+            "state_group": null,
+            "subscriber": null,
+            "target_date": null
+          }
+        },
+        "deleted_at": null,
+        "explored_features": {},
+        "getting_started_checklist": {},
+        "id": "<uuid:14>",
+        "is_active": true,
+        "issue_props": {
+          "all_issues": true,
+          "assigned": true,
+          "created": true,
+          "subscribed": true
+        },
+        "member": {
+          "avatar": "",
+          "avatar_url": null,
+          "display_name": "bob",
+          "first_name": "",
+          "id": "<uuid:13>",
+          "is_bot": false,
+          "last_name": ""
+        },
+        "role": 15,
+        "tips": {},
+        "updated_at": "<datetime Z>",
+        "updated_by": null,
+        "view_props": {
+          "display_filters": {
+            "calendar_date_range": "",
+            "group_by": null,
+            "layout": "list",
+            "order_by": "-created_at",
+            "show_empty_groups": true,
+            "sub_issue": true,
+            "type": null
+          },
+          "display_properties": {
+            "assignee": true,
+            "attachment_count": true,
+            "created_on": true,
+            "due_date": true,
+            "estimate": true,
+            "key": true,
+            "labels": true,
+            "link": true,
+            "priority": true,
+            "start_date": true,
+            "state": true,
+            "sub_issue_count": true,
+            "updated_on": true
+          },
+          "filters": {
+            "assignees": null,
+            "created_by": null,
+            "labels": null,
+            "priority": null,
+            "start_date": null,
+            "state": null,
+            "state_group": null,
+            "subscriber": null,
+            "target_date": null
+          }
+        },
+        "workspace": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/workspaces/acme/members/<uuid:16>/",
+      "status": 404,
+      "content_type": "application/json",
+      "body": {
+        "error": "Workspace member not found"
+      }
+    },
+    {
+      "actor": "dan",
+      "method": "GET",
+      "path": "/api/workspaces/acme/members/",
+      "status": 403,
+      "content_type": "application/json",
+      "body": {
+        "error": "You don't have the required permissions."
+      }
+    },
+    {
+      "actor": "dan",
+      "method": "GET",
+      "path": "/api/workspaces/acme/members/<uuid:14>/",
+      "status": 403,
+      "content_type": "application/json",
+      "body": {
+        "error": "You don't have the required permissions."
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/workspaces/acme/workspace-members/me/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "company_role": "",
+        "created_at": "<datetime Z>",
+        "created_by": "<uuid:1>",
+        "default_props": {
+          "display_filters": {
+            "calendar_date_range": "",
+            "group_by": null,
+            "layout": "list",
+            "order_by": "-created_at",
+            "show_empty_groups": true,
+            "sub_issue": true,
+            "type": null
+          },
+          "display_properties": {
+            "assignee": true,
+            "attachment_count": true,
+            "created_on": true,
+            "due_date": true,
+            "estimate": true,
+            "key": true,
+            "labels": true,
+            "link": true,
+            "priority": true,
+            "start_date": true,
+            "state": true,
+            "sub_issue_count": true,
+            "updated_on": true
+          },
+          "filters": {
+            "assignees": null,
+            "created_by": null,
+            "labels": null,
+            "priority": null,
+            "start_date": null,
+            "state": null,
+            "state_group": null,
+            "subscriber": null,
+            "target_date": null
+          }
+        },
+        "deleted_at": null,
+        "draft_issue_count": 0,
+        "explored_features": {},
+        "getting_started_checklist": {},
+        "id": "<uuid:15>",
+        "is_active": true,
+        "issue_props": {
+          "all_issues": true,
+          "assigned": true,
+          "created": true,
+          "subscribed": true
+        },
+        "member": "<uuid:1>",
+        "role": 20,
+        "tips": {},
+        "updated_at": "<datetime Z>",
+        "updated_by": null,
+        "view_props": {
+          "display_filters": {
+            "calendar_date_range": "",
+            "group_by": null,
+            "layout": "list",
+            "order_by": "-created_at",
+            "show_empty_groups": true,
+            "sub_issue": true,
+            "type": null
+          },
+          "display_properties": {
+            "assignee": true,
+            "attachment_count": true,
+            "created_on": true,
+            "due_date": true,
+            "estimate": true,
+            "key": true,
+            "labels": true,
+            "link": true,
+            "priority": true,
+            "start_date": true,
+            "state": true,
+            "sub_issue_count": true,
+            "updated_on": true
+          },
+          "filters": {
+            "assignees": null,
+            "created_by": null,
+            "labels": null,
+            "priority": null,
+            "start_date": null,
+            "state": null,
+            "state_group": null,
+            "subscriber": null,
+            "target_date": null
+          }
+        },
+        "workspace": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "carol",
+      "method": "GET",
+      "path": "/api/workspaces/acme/workspace-members/me/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "company_role": null,
+        "created_at": "<datetime Z>",
+        "created_by": "<uuid:11>",
+        "default_props": {
+          "display_filters": {
+            "calendar_date_range": "",
+            "group_by": null,
+            "layout": "list",
+            "order_by": "-created_at",
+            "show_empty_groups": true,
+            "sub_issue": true,
+            "type": null
+          },
+          "display_properties": {
+            "assignee": true,
+            "attachment_count": true,
+            "created_on": true,
+            "due_date": true,
+            "estimate": true,
+            "key": true,
+            "labels": true,
+            "link": true,
+            "priority": true,
+            "start_date": true,
+            "state": true,
+            "sub_issue_count": true,
+            "updated_on": true
+          },
+          "filters": {
+            "assignees": null,
+            "created_by": null,
+            "labels": null,
+            "priority": null,
+            "start_date": null,
+            "state": null,
+            "state_group": null,
+            "subscriber": null,
+            "target_date": null
+          }
+        },
+        "deleted_at": null,
+        "draft_issue_count": 0,
+        "explored_features": {},
+        "getting_started_checklist": {},
+        "id": "<uuid:12>",
+        "is_active": true,
+        "issue_props": {
+          "all_issues": true,
+          "assigned": true,
+          "created": true,
+          "subscribed": true
+        },
+        "member": "<uuid:11>",
+        "role": 5,
+        "tips": {},
+        "updated_at": "<datetime Z>",
+        "updated_by": null,
+        "view_props": {
+          "display_filters": {
+            "calendar_date_range": "",
+            "group_by": null,
+            "layout": "list",
+            "order_by": "-created_at",
+            "show_empty_groups": true,
+            "sub_issue": true,
+            "type": null
+          },
+          "display_properties": {
+            "assignee": true,
+            "attachment_count": true,
+            "created_on": true,
+            "due_date": true,
+            "estimate": true,
+            "key": true,
+            "labels": true,
+            "link": true,
+            "priority": true,
+            "start_date": true,
+            "state": true,
+            "sub_issue_count": true,
+            "updated_on": true
+          },
+          "filters": {
+            "assignees": null,
+            "created_by": null,
+            "labels": null,
+            "priority": null,
+            "start_date": null,
+            "state": null,
+            "state_group": null,
+            "subscriber": null,
+            "target_date": null
+          }
+        },
+        "workspace": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "dan",
+      "method": "GET",
+      "path": "/api/workspaces/acme/workspace-members/me/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "company_role": "",
+        "created_by": null,
+        "default_props": null,
+        "deleted_at": null,
+        "explored_features": null,
+        "getting_started_checklist": null,
+        "is_active": false,
+        "issue_props": null,
+        "member": null,
+        "role": null,
+        "tips": null,
+        "updated_by": null,
+        "view_props": null,
+        "workspace": null
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/workspaces/missing/workspace-members/me/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "company_role": "",
+        "created_by": null,
+        "default_props": null,
+        "deleted_at": null,
+        "explored_features": null,
+        "getting_started_checklist": null,
+        "is_active": false,
+        "issue_props": null,
+        "member": null,
+        "role": null,
+        "tips": null,
+        "updated_by": null,
+        "view_props": null,
+        "workspace": null
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "PATCH",
+      "path": "/api/workspaces/acme/members/<uuid:12>/",
+      "request": {
+        "role": 15
+      },
+      "status": 403,
+      "content_type": "application/json",
+      "body": {
+        "error": "You don't have the required permissions."
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "PATCH",
+      "path": "/api/workspaces/acme/members/<uuid:15>/",
+      "request": {
+        "role": 5
+      },
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "error": "You cannot update your own role"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "PATCH",
+      "path": "/api/workspaces/acme/members/<uuid:14>/",
+      "request": {
+        "role": 7
+      },
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "role": [
+          "\"7\" is not a valid choice."
+        ]
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "PATCH",
+      "path": "/api/workspaces/acme/members/<uuid:14>/",
+      "request": {
+        "role": "x",
+        "workspace": "<uuid:15>"
+      },
+      "status": 500,
+      "content_type": "application/json",
+      "body": {
+        "error": "Something went wrong please try again later"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "PATCH",
+      "path": "/api/workspaces/acme/members/<uuid:14>/",
+      "request": {
+        "company_role": "Lead",
+        "member": "<uuid:15>",
+        "role": "20"
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "company_role": "Lead",
+        "created_at": "<datetime Z>",
+        "created_by": "<uuid:13>",
+        "default_props": {
+          "display_filters": {
+            "calendar_date_range": "",
+            "group_by": null,
+            "layout": "list",
+            "order_by": "-created_at",
+            "show_empty_groups": true,
+            "sub_issue": true,
+            "type": null
+          },
+          "display_properties": {
+            "assignee": true,
+            "attachment_count": true,
+            "created_on": true,
+            "due_date": true,
+            "estimate": true,
+            "key": true,
+            "labels": true,
+            "link": true,
+            "priority": true,
+            "start_date": true,
+            "state": true,
+            "sub_issue_count": true,
+            "updated_on": true
+          },
+          "filters": {
+            "assignees": null,
+            "created_by": null,
+            "labels": null,
+            "priority": null,
+            "start_date": null,
+            "state": null,
+            "state_group": null,
+            "subscriber": null,
+            "target_date": null
+          }
+        },
+        "deleted_at": null,
+        "explored_features": {},
+        "getting_started_checklist": {},
+        "id": "<uuid:14>",
+        "is_active": true,
+        "issue_props": {
+          "all_issues": true,
+          "assigned": true,
+          "created": true,
+          "subscribed": true
+        },
+        "member": {
+          "avatar": "",
+          "avatar_url": null,
+          "display_name": "bob",
+          "first_name": "",
+          "id": "<uuid:13>",
+          "is_bot": false,
+          "last_name": ""
+        },
+        "role": 20,
+        "tips": {},
+        "updated_at": "<datetime Z>",
+        "updated_by": "<uuid:1>",
+        "view_props": {
+          "display_filters": {
+            "calendar_date_range": "",
+            "group_by": null,
+            "layout": "list",
+            "order_by": "-created_at",
+            "show_empty_groups": true,
+            "sub_issue": true,
+            "type": null
+          },
+          "display_properties": {
+            "assignee": true,
+            "attachment_count": true,
+            "created_on": true,
+            "due_date": true,
+            "estimate": true,
+            "key": true,
+            "labels": true,
+            "link": true,
+            "priority": true,
+            "start_date": true,
+            "state": true,
+            "sub_issue_count": true,
+            "updated_on": true
+          },
+          "filters": {
+            "assignees": null,
+            "created_by": null,
+            "labels": null,
+            "priority": null,
+            "start_date": null,
+            "state": null,
+            "state_group": null,
+            "subscriber": null,
+            "target_date": null
+          }
+        },
+        "workspace": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "PATCH",
+      "path": "/api/workspaces/acme/members/<uuid:10>/",
+      "request": {
+        "is_active": false,
+        "role": 5
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "company_role": null,
+        "created_at": "<datetime Z>",
+        "created_by": "<uuid:9>",
+        "default_props": {
+          "display_filters": {
+            "calendar_date_range": "",
+            "group_by": null,
+            "layout": "list",
+            "order_by": "-created_at",
+            "show_empty_groups": true,
+            "sub_issue": true,
+            "type": null
+          },
+          "display_properties": {
+            "assignee": true,
+            "attachment_count": true,
+            "created_on": true,
+            "due_date": true,
+            "estimate": true,
+            "key": true,
+            "labels": true,
+            "link": true,
+            "priority": true,
+            "start_date": true,
+            "state": true,
+            "sub_issue_count": true,
+            "updated_on": true
+          },
+          "filters": {
+            "assignees": null,
+            "created_by": null,
+            "labels": null,
+            "priority": null,
+            "start_date": null,
+            "state": null,
+            "state_group": null,
+            "subscriber": null,
+            "target_date": null
+          }
+        },
+        "deleted_at": null,
+        "explored_features": {},
+        "getting_started_checklist": {},
+        "id": "<uuid:10>",
+        "is_active": false,
+        "issue_props": {
+          "all_issues": true,
+          "assigned": true,
+          "created": true,
+          "subscribed": true
+        },
+        "member": {
+          "avatar": "",
+          "avatar_url": null,
+          "display_name": "erin",
+          "first_name": "",
+          "id": "<uuid:9>",
+          "is_bot": false,
+          "last_name": ""
+        },
+        "role": 5,
+        "tips": {},
+        "updated_at": "<datetime Z>",
+        "updated_by": "<uuid:1>",
+        "view_props": {
+          "display_filters": {
+            "calendar_date_range": "",
+            "group_by": null,
+            "layout": "list",
+            "order_by": "-created_at",
+            "show_empty_groups": true,
+            "sub_issue": true,
+            "type": null
+          },
+          "display_properties": {
+            "assignee": true,
+            "attachment_count": true,
+            "created_on": true,
+            "due_date": true,
+            "estimate": true,
+            "key": true,
+            "labels": true,
+            "link": true,
+            "priority": true,
+            "start_date": true,
+            "state": true,
+            "sub_issue_count": true,
+            "updated_on": true
+          },
+          "filters": {
+            "assignees": null,
+            "created_by": null,
+            "labels": null,
+            "priority": null,
+            "start_date": null,
+            "state": null,
+            "state_group": null,
+            "subscriber": null,
+            "target_date": null
+          }
+        },
+        "workspace": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "erin",
+      "method": "GET",
+      "path": "/api/workspaces/acme/members/",
+      "status": 403,
+      "content_type": "application/json",
+      "body": {
+        "error": "You don't have the required permissions."
+      }
+    },
+    {
+      "actor": "erin",
+      "method": "GET",
+      "path": "/api/users/me/workspaces/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": []
+    },
+    {
+      "actor": "alice",
+      "method": "PATCH",
+      "path": "/api/workspaces/acme/members/<uuid:16>/",
+      "request": {
+        "role": 5
+      },
+      "status": 404,
+      "content_type": "application/json",
+      "body": {
+        "error": "The required object does not exist."
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "DELETE",
+      "path": "/api/workspaces/acme/members/<uuid:15>/",
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "error": "You cannot remove yourself from the workspace. Please use leave workspace"
+      }
+    },
+    {
+      "actor": "carol",
+      "method": "DELETE",
+      "path": "/api/workspaces/acme/members/<uuid:8>/",
+      "status": 403,
+      "content_type": "application/json",
+      "body": {
+        "error": "You don't have the required permissions."
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "DELETE",
+      "path": "/api/workspaces/acme/members/<uuid:8>/",
+      "status": 204
+    },
+    {
+      "actor": "bob",
+      "method": "DELETE",
+      "path": "/api/workspaces/acme/members/<uuid:8>/",
+      "status": 404,
+      "content_type": "application/json",
+      "body": {
+        "error": "The required object does not exist."
+      }
+    },
+    {
+      "actor": "fay",
+      "method": "GET",
+      "path": "/api/workspaces/acme/members/",
+      "status": 403,
+      "content_type": "application/json",
+      "body": {
+        "error": "You don't have the required permissions."
+      }
+    },
+    {
+      "actor": "fay",
+      "method": "GET",
+      "path": "/api/users/me/workspaces/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": []
+    },
+    {
+      "actor": "bob",
+      "method": "DELETE",
+      "path": "/api/workspaces/acme/members/<uuid:10>/",
+      "status": 404,
+      "content_type": "application/json",
+      "body": {
+        "error": "The required object does not exist."
+      }
+    },
+    {
+      "actor": "carol",
+      "method": "POST",
+      "path": "/api/workspaces/acme/members/leave/",
+      "status": 204
+    },
+    {
+      "actor": "carol",
+      "method": "POST",
+      "path": "/api/workspaces/acme/members/leave/",
+      "status": 403,
+      "content_type": "application/json",
+      "body": {
+        "error": "You don't have the required permissions."
+      }
+    },
+    {
+      "actor": "dan",
+      "method": "POST",
+      "path": "/api/workspaces/acme/members/leave/",
+      "status": 403,
+      "content_type": "application/json",
+      "body": {
+        "error": "You don't have the required permissions."
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/",
+      "request": {
+        "name": "Solo",
+        "slug": "solo"
+      },
+      "status": 201,
+      "content_type": "application/json",
+      "body": {
+        "background_color": "<masked>",
+        "created_at": "<datetime Z>",
+        "created_by": "<uuid:1>",
+        "deleted_at": null,
+        "id": "<uuid:17>",
+        "logo": null,
+        "logo_asset": null,
+        "logo_url": null,
+        "name": "Solo",
+        "organization_size": null,
+        "owner": "<uuid:1>",
+        "role": 20,
+        "slug": "solo",
+        "timezone": "UTC",
+        "total_members": 1,
+        "updated_at": "<datetime Z>",
+        "updated_by": null
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/solo/members/leave/",
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "error": "You cannot leave the workspace as you are the only admin of the workspace you will have to either delete the workspace or promote another user to admin."
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/workspaces/acme/members/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": [
+        {
+          "company_role": null,
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:7>",
+          "default_props": {
+            "display_filters": {
+              "calendar_date_range": "",
+              "group_by": null,
+              "layout": "list",
+              "order_by": "-created_at",
+              "show_empty_groups": true,
+              "sub_issue": true,
+              "type": null
+            },
+            "display_properties": {
+              "assignee": true,
+              "attachment_count": true,
+              "created_on": true,
+              "due_date": true,
+              "estimate": true,
+              "key": true,
+              "labels": true,
+              "link": true,
+              "priority": true,
+              "start_date": true,
+              "state": true,
+              "sub_issue_count": true,
+              "updated_on": true
+            },
+            "filters": {
+              "assignees": null,
+              "created_by": null,
+              "labels": null,
+              "priority": null,
+              "start_date": null,
+              "state": null,
+              "state_group": null,
+              "subscriber": null,
+              "target_date": null
+            }
+          },
+          "deleted_at": null,
+          "explored_features": {},
+          "getting_started_checklist": {},
+          "id": "<uuid:8>",
+          "is_active": false,
+          "issue_props": {
+            "all_issues": true,
+            "assigned": true,
+            "created": true,
+            "subscribed": true
+          },
+          "member": {
+            "avatar": "",
+            "avatar_url": null,
+            "display_name": "fay",
+            "email": "fay@example.com",
+            "first_name": "",
+            "id": "<uuid:7>",
+            "is_bot": false,
+            "last_login_medium": "email",
+            "last_name": ""
+          },
+          "role": 15,
+          "tips": {},
+          "updated_at": "<datetime Z>",
+          "updated_by": "<uuid:13>",
+          "view_props": {
+            "display_filters": {
+              "calendar_date_range": "",
+              "group_by": null,
+              "layout": "list",
+              "order_by": "-created_at",
+              "show_empty_groups": true,
+              "sub_issue": true,
+              "type": null
+            },
+            "display_properties": {
+              "assignee": true,
+              "attachment_count": true,
+              "created_on": true,
+              "due_date": true,
+              "estimate": true,
+              "key": true,
+              "labels": true,
+              "link": true,
+              "priority": true,
+              "start_date": true,
+              "state": true,
+              "sub_issue_count": true,
+              "updated_on": true
+            },
+            "filters": {
+              "assignees": null,
+              "created_by": null,
+              "labels": null,
+              "priority": null,
+              "start_date": null,
+              "state": null,
+              "state_group": null,
+              "subscriber": null,
+              "target_date": null
+            }
+          },
+          "workspace": "<uuid:2>"
+        },
+        {
+          "company_role": null,
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:9>",
+          "default_props": {
+            "display_filters": {
+              "calendar_date_range": "",
+              "group_by": null,
+              "layout": "list",
+              "order_by": "-created_at",
+              "show_empty_groups": true,
+              "sub_issue": true,
+              "type": null
+            },
+            "display_properties": {
+              "assignee": true,
+              "attachment_count": true,
+              "created_on": true,
+              "due_date": true,
+              "estimate": true,
+              "key": true,
+              "labels": true,
+              "link": true,
+              "priority": true,
+              "start_date": true,
+              "state": true,
+              "sub_issue_count": true,
+              "updated_on": true
+            },
+            "filters": {
+              "assignees": null,
+              "created_by": null,
+              "labels": null,
+              "priority": null,
+              "start_date": null,
+              "state": null,
+              "state_group": null,
+              "subscriber": null,
+              "target_date": null
+            }
+          },
+          "deleted_at": null,
+          "explored_features": {},
+          "getting_started_checklist": {},
+          "id": "<uuid:10>",
+          "is_active": false,
+          "issue_props": {
+            "all_issues": true,
+            "assigned": true,
+            "created": true,
+            "subscribed": true
+          },
+          "member": {
+            "avatar": "",
+            "avatar_url": null,
+            "display_name": "erin",
+            "email": "erin@example.com",
+            "first_name": "",
+            "id": "<uuid:9>",
+            "is_bot": false,
+            "last_login_medium": "email",
+            "last_name": ""
+          },
+          "role": 5,
+          "tips": {},
+          "updated_at": "<datetime Z>",
+          "updated_by": "<uuid:1>",
+          "view_props": {
+            "display_filters": {
+              "calendar_date_range": "",
+              "group_by": null,
+              "layout": "list",
+              "order_by": "-created_at",
+              "show_empty_groups": true,
+              "sub_issue": true,
+              "type": null
+            },
+            "display_properties": {
+              "assignee": true,
+              "attachment_count": true,
+              "created_on": true,
+              "due_date": true,
+              "estimate": true,
+              "key": true,
+              "labels": true,
+              "link": true,
+              "priority": true,
+              "start_date": true,
+              "state": true,
+              "sub_issue_count": true,
+              "updated_on": true
+            },
+            "filters": {
+              "assignees": null,
+              "created_by": null,
+              "labels": null,
+              "priority": null,
+              "start_date": null,
+              "state": null,
+              "state_group": null,
+              "subscriber": null,
+              "target_date": null
+            }
+          },
+          "workspace": "<uuid:2>"
+        },
+        {
+          "company_role": null,
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:11>",
+          "default_props": {
+            "display_filters": {
+              "calendar_date_range": "",
+              "group_by": null,
+              "layout": "list",
+              "order_by": "-created_at",
+              "show_empty_groups": true,
+              "sub_issue": true,
+              "type": null
+            },
+            "display_properties": {
+              "assignee": true,
+              "attachment_count": true,
+              "created_on": true,
+              "due_date": true,
+              "estimate": true,
+              "key": true,
+              "labels": true,
+              "link": true,
+              "priority": true,
+              "start_date": true,
+              "state": true,
+              "sub_issue_count": true,
+              "updated_on": true
+            },
+            "filters": {
+              "assignees": null,
+              "created_by": null,
+              "labels": null,
+              "priority": null,
+              "start_date": null,
+              "state": null,
+              "state_group": null,
+              "subscriber": null,
+              "target_date": null
+            }
+          },
+          "deleted_at": null,
+          "explored_features": {},
+          "getting_started_checklist": {},
+          "id": "<uuid:12>",
+          "is_active": false,
+          "issue_props": {
+            "all_issues": true,
+            "assigned": true,
+            "created": true,
+            "subscribed": true
+          },
+          "member": {
+            "avatar": "",
+            "avatar_url": null,
+            "display_name": "carol",
+            "email": "carol@example.com",
+            "first_name": "",
+            "id": "<uuid:11>",
+            "is_bot": false,
+            "last_login_medium": "email",
+            "last_name": ""
+          },
+          "role": 5,
+          "tips": {},
+          "updated_at": "<datetime Z>",
+          "updated_by": "<uuid:11>",
+          "view_props": {
+            "display_filters": {
+              "calendar_date_range": "",
+              "group_by": null,
+              "layout": "list",
+              "order_by": "-created_at",
+              "show_empty_groups": true,
+              "sub_issue": true,
+              "type": null
+            },
+            "display_properties": {
+              "assignee": true,
+              "attachment_count": true,
+              "created_on": true,
+              "due_date": true,
+              "estimate": true,
+              "key": true,
+              "labels": true,
+              "link": true,
+              "priority": true,
+              "start_date": true,
+              "state": true,
+              "sub_issue_count": true,
+              "updated_on": true
+            },
+            "filters": {
+              "assignees": null,
+              "created_by": null,
+              "labels": null,
+              "priority": null,
+              "start_date": null,
+              "state": null,
+              "state_group": null,
+              "subscriber": null,
+              "target_date": null
+            }
+          },
+          "workspace": "<uuid:2>"
+        },
+        {
+          "company_role": "Lead",
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:13>",
+          "default_props": {
+            "display_filters": {
+              "calendar_date_range": "",
+              "group_by": null,
+              "layout": "list",
+              "order_by": "-created_at",
+              "show_empty_groups": true,
+              "sub_issue": true,
+              "type": null
+            },
+            "display_properties": {
+              "assignee": true,
+              "attachment_count": true,
+              "created_on": true,
+              "due_date": true,
+              "estimate": true,
+              "key": true,
+              "labels": true,
+              "link": true,
+              "priority": true,
+              "start_date": true,
+              "state": true,
+              "sub_issue_count": true,
+              "updated_on": true
+            },
+            "filters": {
+              "assignees": null,
+              "created_by": null,
+              "labels": null,
+              "priority": null,
+              "start_date": null,
+              "state": null,
+              "state_group": null,
+              "subscriber": null,
+              "target_date": null
+            }
+          },
+          "deleted_at": null,
+          "explored_features": {},
+          "getting_started_checklist": {},
+          "id": "<uuid:14>",
+          "is_active": true,
+          "issue_props": {
+            "all_issues": true,
+            "assigned": true,
+            "created": true,
+            "subscribed": true
+          },
+          "member": {
+            "avatar": "",
+            "avatar_url": null,
+            "display_name": "bob",
+            "email": "bob@example.com",
+            "first_name": "",
+            "id": "<uuid:13>",
+            "is_bot": false,
+            "last_login_medium": "email",
+            "last_name": ""
+          },
+          "role": 20,
+          "tips": {},
+          "updated_at": "<datetime Z>",
+          "updated_by": "<uuid:1>",
+          "view_props": {
+            "display_filters": {
+              "calendar_date_range": "",
+              "group_by": null,
+              "layout": "list",
+              "order_by": "-created_at",
+              "show_empty_groups": true,
+              "sub_issue": true,
+              "type": null
+            },
+            "display_properties": {
+              "assignee": true,
+              "attachment_count": true,
+              "created_on": true,
+              "due_date": true,
+              "estimate": true,
+              "key": true,
+              "labels": true,
+              "link": true,
+              "priority": true,
+              "start_date": true,
+              "state": true,
+              "sub_issue_count": true,
+              "updated_on": true
+            },
+            "filters": {
+              "assignees": null,
+              "created_by": null,
+              "labels": null,
+              "priority": null,
+              "start_date": null,
+              "state": null,
+              "state_group": null,
+              "subscriber": null,
+              "target_date": null
+            }
+          },
+          "workspace": "<uuid:2>"
+        },
+        {
+          "company_role": "",
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:1>",
+          "default_props": {
+            "display_filters": {
+              "calendar_date_range": "",
+              "group_by": null,
+              "layout": "list",
+              "order_by": "-created_at",
+              "show_empty_groups": true,
+              "sub_issue": true,
+              "type": null
+            },
+            "display_properties": {
+              "assignee": true,
+              "attachment_count": true,
+              "created_on": true,
+              "due_date": true,
+              "estimate": true,
+              "key": true,
+              "labels": true,
+              "link": true,
+              "priority": true,
+              "start_date": true,
+              "state": true,
+              "sub_issue_count": true,
+              "updated_on": true
+            },
+            "filters": {
+              "assignees": null,
+              "created_by": null,
+              "labels": null,
+              "priority": null,
+              "start_date": null,
+              "state": null,
+              "state_group": null,
+              "subscriber": null,
+              "target_date": null
+            }
+          },
+          "deleted_at": null,
+          "explored_features": {},
+          "getting_started_checklist": {},
+          "id": "<uuid:15>",
+          "is_active": true,
+          "issue_props": {
+            "all_issues": true,
+            "assigned": true,
+            "created": true,
+            "subscribed": true
+          },
+          "member": {
+            "avatar": "",
+            "avatar_url": null,
+            "display_name": "alice",
+            "email": "alice@example.com",
+            "first_name": "",
+            "id": "<uuid:1>",
+            "is_bot": false,
+            "last_login_medium": "email",
+            "last_name": ""
+          },
+          "role": 20,
+          "tips": {},
+          "updated_at": "<datetime Z>",
+          "updated_by": null,
+          "view_props": {
+            "display_filters": {
+              "calendar_date_range": "",
+              "group_by": null,
+              "layout": "list",
+              "order_by": "-created_at",
+              "show_empty_groups": true,
+              "sub_issue": true,
+              "type": null
+            },
+            "display_properties": {
+              "assignee": true,
+              "attachment_count": true,
+              "created_on": true,
+              "due_date": true,
+              "estimate": true,
+              "key": true,
+              "labels": true,
+              "link": true,
+              "priority": true,
+              "start_date": true,
+              "state": true,
+              "sub_issue_count": true,
+              "updated_on": true
+            },
+            "filters": {
+              "assignees": null,
+              "created_by": null,
+              "labels": null,
+              "priority": null,
+              "start_date": null,
+              "state": null,
+              "state_group": null,
+              "subscriber": null,
+              "target_date": null
+            }
+          },
+          "workspace": "<uuid:2>"
+        }
+      ]
+    },
+    {
+      "actor": "bob",
+      "method": "GET",
+      "path": "/api/workspaces/acme/user-properties/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "created_at": "<datetime Z>",
+        "created_by": "<uuid:13>",
+        "deleted_at": null,
+        "display_filters": {
+          "display_filters": {
+            "calendar_date_range": "",
+            "group_by": null,
+            "layout": "list",
+            "order_by": "-created_at",
+            "show_empty_groups": true,
+            "sub_issue": true,
+            "type": null
+          }
+        },
+        "display_properties": {
+          "display_properties": {
+            "assignee": true,
+            "attachment_count": true,
+            "created_on": true,
+            "due_date": true,
+            "estimate": true,
+            "key": true,
+            "labels": true,
+            "link": true,
+            "priority": true,
+            "start_date": true,
+            "state": true,
+            "sub_issue_count": true,
+            "updated_on": true
+          }
+        },
+        "filters": {
+          "assignees": null,
+          "created_by": null,
+          "labels": null,
+          "priority": null,
+          "start_date": null,
+          "state": null,
+          "state_group": null,
+          "subscriber": null,
+          "target_date": null
+        },
+        "id": "<uuid:18>",
+        "navigation_control_preference": "ACCORDION",
+        "navigation_project_limit": 10,
+        "rich_filters": {},
+        "updated_at": "<datetime Z>",
+        "updated_by": null,
+        "user": "<uuid:13>",
+        "workspace": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "PATCH",
+      "path": "/api/workspaces/acme/user-properties/",
+      "request": {
+        "filters": {
+          "priority": [
+            "high"
+          ]
+        },
+        "navigation_control_preference": "TABBED",
+        "navigation_project_limit": 5,
+        "rich_filters": {
+          "and": []
+        },
+        "user": "<uuid:15>"
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "created_at": "<datetime Z>",
+        "created_by": "<uuid:13>",
+        "deleted_at": null,
+        "display_filters": {
+          "display_filters": {
+            "calendar_date_range": "",
+            "group_by": null,
+            "layout": "list",
+            "order_by": "-created_at",
+            "show_empty_groups": true,
+            "sub_issue": true,
+            "type": null
+          }
+        },
+        "display_properties": {
+          "display_properties": {
+            "assignee": true,
+            "attachment_count": true,
+            "created_on": true,
+            "due_date": true,
+            "estimate": true,
+            "key": true,
+            "labels": true,
+            "link": true,
+            "priority": true,
+            "start_date": true,
+            "state": true,
+            "sub_issue_count": true,
+            "updated_on": true
+          }
+        },
+        "filters": {
+          "priority": [
+            "high"
+          ]
+        },
+        "id": "<uuid:18>",
+        "navigation_control_preference": "TABBED",
+        "navigation_project_limit": 5,
+        "rich_filters": {
+          "and": []
+        },
+        "updated_at": "<datetime Z>",
+        "updated_by": "<uuid:13>",
+        "user": "<uuid:13>",
+        "workspace": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "PATCH",
+      "path": "/api/workspaces/acme/user-properties/",
+      "request": {
+        "display_filters": null,
+        "navigation_control_preference": "GRID",
+        "navigation_project_limit": "many"
+      },
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "display_filters": [
+          "This field may not be null."
+        ],
+        "navigation_control_preference": [
+          "\"GRID\" is not a valid choice."
+        ],
+        "navigation_project_limit": [
+          "A valid integer is required."
+        ]
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "GET",
+      "path": "/api/workspaces/acme/user-properties/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "created_at": "<datetime Z>",
+        "created_by": "<uuid:13>",
+        "deleted_at": null,
+        "display_filters": {
+          "display_filters": {
+            "calendar_date_range": "",
+            "group_by": null,
+            "layout": "list",
+            "order_by": "-created_at",
+            "show_empty_groups": true,
+            "sub_issue": true,
+            "type": null
+          }
+        },
+        "display_properties": {
+          "display_properties": {
+            "assignee": true,
+            "attachment_count": true,
+            "created_on": true,
+            "due_date": true,
+            "estimate": true,
+            "key": true,
+            "labels": true,
+            "link": true,
+            "priority": true,
+            "start_date": true,
+            "state": true,
+            "sub_issue_count": true,
+            "updated_on": true
+          }
+        },
+        "filters": {
+          "priority": [
+            "high"
+          ]
+        },
+        "id": "<uuid:18>",
+        "navigation_control_preference": "TABBED",
+        "navigation_project_limit": 5,
+        "rich_filters": {
+          "and": []
+        },
+        "updated_at": "<datetime Z>",
+        "updated_by": "<uuid:13>",
+        "user": "<uuid:13>",
+        "workspace": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "dan",
+      "method": "GET",
+      "path": "/api/workspaces/acme/user-properties/",
+      "status": 403,
+      "content_type": "application/json",
+      "body": {
+        "detail": "You do not have permission to perform this action."
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "GET",
+      "path": "/api/workspaces/acme/sidebar-preferences/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "active_cycles": {
+          "is_pinned": false,
+          "sort_order": 75535
+        },
+        "analytics": {
+          "is_pinned": false,
+          "sort_order": 85535
+        },
+        "archives": {
+          "is_pinned": false,
+          "sort_order": 115535
+        },
+        "drafts": {
+          "is_pinned": true,
+          "sort_order": 95535
+        },
+        "stickies": {
+          "is_pinned": true,
+          "sort_order": 125535
+        },
+        "views": {
+          "is_pinned": false,
+          "sort_order": 65535
+        },
+        "your_work": {
+          "is_pinned": true,
+          "sort_order": 105535
+        }
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "PATCH",
+      "path": "/api/workspaces/acme/sidebar-preferences/",
+      "request": [
+        {
+          "is_pinned": true,
+          "key": "views",
+          "sort_order": 1.5
+        },
+        {
+          "is_pinned": false,
+          "key": "drafts"
+        },
+        {
+          "is_pinned": true,
+          "key": "unknown"
+        },
+        {
+          "is_pinned": true
+        }
+      ],
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "message": "Successfully updated"
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "GET",
+      "path": "/api/workspaces/acme/sidebar-preferences/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "active_cycles": {
+          "is_pinned": false,
+          "sort_order": 75535
+        },
+        "analytics": {
+          "is_pinned": false,
+          "sort_order": 85535
+        },
+        "archives": {
+          "is_pinned": false,
+          "sort_order": 115535
+        },
+        "drafts": {
+          "is_pinned": false,
+          "sort_order": 95535
+        },
+        "stickies": {
+          "is_pinned": true,
+          "sort_order": 125535
+        },
+        "views": {
+          "is_pinned": true,
+          "sort_order": 1.5
+        },
+        "your_work": {
+          "is_pinned": true,
+          "sort_order": 105535
+        }
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "PATCH",
+      "path": "/api/workspaces/acme/sidebar-preferences/",
+      "request": [
+        {
+          "is_pinned": "maybe",
+          "key": "views"
+        }
+      ],
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "error": "Please provide valid detail"
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "PATCH",
+      "path": "/api/workspaces/acme/sidebar-preferences/",
+      "request": [
+        {
+          "is_pinned": null,
+          "key": "views"
+        }
+      ],
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "error": "The payload is not valid"
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "PATCH",
+      "path": "/api/workspaces/acme/sidebar-preferences/",
+      "request": [
+        {
+          "is_pinned": "t",
+          "key": "analytics",
+          "sort_order": "2.5"
+        },
+        {
+          "key": "views",
+          "sort_order": "abc"
+        }
+      ],
+      "status": 500,
+      "content_type": "application/json",
+      "body": {
+        "error": "Something went wrong please try again later"
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "PATCH",
+      "path": "/api/workspaces/acme/sidebar-preferences/",
+      "request": {
+        "key": "views"
+      },
+      "status": 500,
+      "content_type": "application/json",
+      "body": {
+        "error": "Something went wrong please try again later"
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "PATCH",
+      "path": "/api/workspaces/acme/sidebar-preferences/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "message": "Successfully updated"
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "GET",
+      "path": "/api/workspaces/acme/sidebar-preferences/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "active_cycles": {
+          "is_pinned": false,
+          "sort_order": 75535
+        },
+        "analytics": {
+          "is_pinned": true,
+          "sort_order": 2.5
+        },
+        "archives": {
+          "is_pinned": false,
+          "sort_order": 115535
+        },
+        "drafts": {
+          "is_pinned": false,
+          "sort_order": 95535
+        },
+        "stickies": {
+          "is_pinned": true,
+          "sort_order": 125535
+        },
+        "views": {
+          "is_pinned": true,
+          "sort_order": 1.5
+        },
+        "your_work": {
+          "is_pinned": true,
+          "sort_order": 105535
+        }
+      }
+    },
+    {
+      "actor": "dan",
+      "method": "GET",
+      "path": "/api/workspaces/acme/sidebar-preferences/",
+      "status": 403,
+      "content_type": "application/json",
+      "body": {
+        "error": "You don't have the required permissions."
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "PATCH",
+      "path": "/api/workspaces/acme/user-properties/",
+      "request": {
+        "navigation_project_limit": "7.00"
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "created_at": "<datetime Z>",
+        "created_by": "<uuid:13>",
+        "deleted_at": null,
+        "display_filters": {
+          "display_filters": {
+            "calendar_date_range": "",
+            "group_by": null,
+            "layout": "list",
+            "order_by": "-created_at",
+            "show_empty_groups": true,
+            "sub_issue": true,
+            "type": null
+          }
+        },
+        "display_properties": {
+          "display_properties": {
+            "assignee": true,
+            "attachment_count": true,
+            "created_on": true,
+            "due_date": true,
+            "estimate": true,
+            "key": true,
+            "labels": true,
+            "link": true,
+            "priority": true,
+            "start_date": true,
+            "state": true,
+            "sub_issue_count": true,
+            "updated_on": true
+          }
+        },
+        "filters": {
+          "priority": [
+            "high"
+          ]
+        },
+        "id": "<uuid:18>",
+        "navigation_control_preference": "TABBED",
+        "navigation_project_limit": 7,
+        "rich_filters": {
+          "and": []
+        },
+        "updated_at": "<datetime Z>",
+        "updated_by": "<uuid:13>",
+        "user": "<uuid:13>",
+        "workspace": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "PATCH",
+      "path": "/api/workspaces/acme/user-properties/",
+      "request": {
+        "navigation_project_limit": true
+      },
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "navigation_project_limit": [
+          "A valid integer is required."
+        ]
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "PATCH",
+      "path": "/api/workspaces/acme/user-properties/",
+      "request": {
+        "navigation_project_limit": 2147483648
+      },
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "navigation_project_limit": [
+          "Ensure this value is less than or equal to 2147483647."
+        ]
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "POST",
+      "path": "/api/workspaces/acme/workspace-views/",
+      "request": {
+        "view_props": null
+      },
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "error": "The payload is not valid"
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "POST",
+      "path": "/api/workspaces/acme/workspace-views/",
+      "request": {
+        "view_props": {
+          "layout": "board"
+        }
+      },
+      "status": 204
+    },
+    {
+      "actor": "bob",
+      "method": "GET",
+      "path": "/api/workspaces/acme/workspace-members/me/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "company_role": "Lead",
+        "created_at": "<datetime Z>",
+        "created_by": "<uuid:13>",
+        "default_props": {
+          "display_filters": {
+            "calendar_date_range": "",
+            "group_by": null,
+            "layout": "list",
+            "order_by": "-created_at",
+            "show_empty_groups": true,
+            "sub_issue": true,
+            "type": null
+          },
+          "display_properties": {
+            "assignee": true,
+            "attachment_count": true,
+            "created_on": true,
+            "due_date": true,
+            "estimate": true,
+            "key": true,
+            "labels": true,
+            "link": true,
+            "priority": true,
+            "start_date": true,
+            "state": true,
+            "sub_issue_count": true,
+            "updated_on": true
+          },
+          "filters": {
+            "assignees": null,
+            "created_by": null,
+            "labels": null,
+            "priority": null,
+            "start_date": null,
+            "state": null,
+            "state_group": null,
+            "subscriber": null,
+            "target_date": null
+          }
+        },
+        "deleted_at": null,
+        "draft_issue_count": 0,
+        "explored_features": {},
+        "getting_started_checklist": {},
+        "id": "<uuid:14>",
+        "is_active": true,
+        "issue_props": {
+          "all_issues": true,
+          "assigned": true,
+          "created": true,
+          "subscribed": true
+        },
+        "member": "<uuid:13>",
+        "role": 20,
+        "tips": {},
+        "updated_at": "<datetime Z>",
+        "updated_by": "<uuid:13>",
+        "view_props": {
+          "layout": "board"
+        },
+        "workspace": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "dan",
+      "method": "POST",
+      "path": "/api/workspaces/acme/workspace-views/",
+      "request": {
+        "view_props": {}
+      },
+      "status": 404,
+      "content_type": "application/json",
+      "body": {
+        "error": "The required object does not exist."
+      }
+    }
+  ]
+}

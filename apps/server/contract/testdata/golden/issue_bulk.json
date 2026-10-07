@@ -1,0 +1,2686 @@
+{
+  "steps": [
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/auth/get-csrf-token/",
+      "status": 200,
+      "content_type": "application/json",
+      "cookies": [
+        "csrftoken; value=<set>; Path=/; Max-Age=31449600; HttpOnly; SameSite=Lax"
+      ],
+      "body": {
+        "csrf_token": "<masked>"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/auth/sign-up/",
+      "request": {
+        "csrfmiddlewaretoken": "<masked>",
+        "email": "alice@example.com",
+        "password": "correct-Horse-battery-staple-91"
+      },
+      "status": 302,
+      "location": "http://localhost:3000",
+      "content_type": "text/html",
+      "cookies": [
+        "csrftoken; value=<set>; Path=/; Max-Age=31449600; HttpOnly; SameSite=Lax",
+        "session-id; value=<set>; Path=/; Max-Age=604800; HttpOnly; SameSite=Lax"
+      ]
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/",
+      "request": {
+        "name": "Acme",
+        "slug": "acme"
+      },
+      "status": 201,
+      "content_type": "application/json",
+      "body": {
+        "background_color": "<masked>",
+        "created_at": "<datetime Z>",
+        "created_by": "<uuid:1>",
+        "deleted_at": null,
+        "id": "<uuid:2>",
+        "logo": null,
+        "logo_asset": null,
+        "logo_url": null,
+        "name": "Acme",
+        "organization_size": null,
+        "owner": "<uuid:1>",
+        "role": 20,
+        "slug": "acme",
+        "timezone": "UTC",
+        "total_members": 1,
+        "updated_at": "<datetime Z>",
+        "updated_by": null
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "GET",
+      "path": "/auth/get-csrf-token/",
+      "status": 200,
+      "content_type": "application/json",
+      "cookies": [
+        "csrftoken; value=<set>; Path=/; Max-Age=31449600; HttpOnly; SameSite=Lax"
+      ],
+      "body": {
+        "csrf_token": "<masked>"
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "POST",
+      "path": "/auth/sign-up/",
+      "request": {
+        "csrfmiddlewaretoken": "<masked>",
+        "email": "bob@example.com",
+        "password": "correct-Horse-battery-staple-91"
+      },
+      "status": 302,
+      "location": "http://localhost:3000",
+      "content_type": "text/html",
+      "cookies": [
+        "csrftoken; value=<set>; Path=/; Max-Age=31449600; HttpOnly; SameSite=Lax",
+        "session-id; value=<set>; Path=/; Max-Age=604800; HttpOnly; SameSite=Lax"
+      ]
+    },
+    {
+      "actor": "carol",
+      "method": "GET",
+      "path": "/auth/get-csrf-token/",
+      "status": 200,
+      "content_type": "application/json",
+      "cookies": [
+        "csrftoken; value=<set>; Path=/; Max-Age=31449600; HttpOnly; SameSite=Lax"
+      ],
+      "body": {
+        "csrf_token": "<masked>"
+      }
+    },
+    {
+      "actor": "carol",
+      "method": "POST",
+      "path": "/auth/sign-up/",
+      "request": {
+        "csrfmiddlewaretoken": "<masked>",
+        "email": "carol@example.com",
+        "password": "correct-Horse-battery-staple-91"
+      },
+      "status": 302,
+      "location": "http://localhost:3000",
+      "content_type": "text/html",
+      "cookies": [
+        "csrftoken; value=<set>; Path=/; Max-Age=31449600; HttpOnly; SameSite=Lax",
+        "session-id; value=<set>; Path=/; Max-Age=604800; HttpOnly; SameSite=Lax"
+      ]
+    },
+    {
+      "actor": "dan",
+      "method": "GET",
+      "path": "/auth/get-csrf-token/",
+      "status": 200,
+      "content_type": "application/json",
+      "cookies": [
+        "csrftoken; value=<set>; Path=/; Max-Age=31449600; HttpOnly; SameSite=Lax"
+      ],
+      "body": {
+        "csrf_token": "<masked>"
+      }
+    },
+    {
+      "actor": "dan",
+      "method": "POST",
+      "path": "/auth/sign-up/",
+      "request": {
+        "csrfmiddlewaretoken": "<masked>",
+        "email": "dan@example.com",
+        "password": "correct-Horse-battery-staple-91"
+      },
+      "status": 302,
+      "location": "http://localhost:3000",
+      "content_type": "text/html",
+      "cookies": [
+        "csrftoken; value=<set>; Path=/; Max-Age=31449600; HttpOnly; SameSite=Lax",
+        "session-id; value=<set>; Path=/; Max-Age=604800; HttpOnly; SameSite=Lax"
+      ]
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/invitations/",
+      "request": {
+        "emails": [
+          {
+            "email": "bob@example.com",
+            "role": 15
+          },
+          {
+            "email": "carol@example.com",
+            "role": 5
+          },
+          {
+            "email": "dan@example.com",
+            "role": 15
+          }
+        ]
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "message": "Emails sent successfully"
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "GET",
+      "path": "/api/users/me/workspaces/invitations/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": [
+        {
+          "accepted": false,
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:1>",
+          "deleted_at": null,
+          "email": "bob@example.com",
+          "id": "<uuid:3>",
+          "invite_link": "/workspace-invitations/?invitation_id=<uuid:3>&slug=acme&token=<invite-token:bob@example.com>",
+          "message": "\n\nalice invited you to Acme on Plane\n\n      alice has invited you to join Acme on Plane.\n\n                    Join Acme on Plane\n\n                    alice has invited you to collaborate with them in\n                    Acme workspace on Plane.\n\n                          Accept invite\n\n                    If the button doesn’t work, copy and paste this link into\n                    your browser:\n\n                    http://localhost:3000/workspace-invitations/?invitation_id=<uuid:3>&slug=acme&token=<invite-token:bob@example.com>\n\n                    Note: This invitation was intended for\n                    bob@example.com. If you were not expecting this invitation, you can ignore\n                    this email.\n\n                    Plane Software, Inc.\n\n",
+          "responded_at": null,
+          "role": 15,
+          "token": "<invite-token:bob@example.com>",
+          "updated_at": "<datetime Z>",
+          "updated_by": "<uuid:1>",
+          "workspace": {
+            "id": "<uuid:2>",
+            "logo_url": null,
+            "name": "Acme",
+            "slug": "acme"
+          }
+        }
+      ]
+    },
+    {
+      "actor": "bob",
+      "method": "POST",
+      "path": "/api/users/me/workspaces/invitations/",
+      "request": {
+        "invitations": [
+          "<uuid:3>"
+        ]
+      },
+      "status": 204
+    },
+    {
+      "actor": "carol",
+      "method": "GET",
+      "path": "/api/users/me/workspaces/invitations/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": [
+        {
+          "accepted": false,
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:1>",
+          "deleted_at": null,
+          "email": "carol@example.com",
+          "id": "<uuid:4>",
+          "invite_link": "/workspace-invitations/?invitation_id=<uuid:4>&slug=acme&token=<invite-token:carol@example.com>",
+          "message": "\n\nalice invited you to Acme on Plane\n\n      alice has invited you to join Acme on Plane.\n\n                    Join Acme on Plane\n\n                    alice has invited you to collaborate with them in\n                    Acme workspace on Plane.\n\n                          Accept invite\n\n                    If the button doesn’t work, copy and paste this link into\n                    your browser:\n\n                    http://localhost:3000/workspace-invitations/?invitation_id=<uuid:4>&slug=acme&token=<invite-token:carol@example.com>\n\n                    Note: This invitation was intended for\n                    carol@example.com. If you were not expecting this invitation, you can ignore\n                    this email.\n\n                    Plane Software, Inc.\n\n",
+          "responded_at": null,
+          "role": 5,
+          "token": "<invite-token:carol@example.com>",
+          "updated_at": "<datetime Z>",
+          "updated_by": "<uuid:1>",
+          "workspace": {
+            "id": "<uuid:2>",
+            "logo_url": null,
+            "name": "Acme",
+            "slug": "acme"
+          }
+        }
+      ]
+    },
+    {
+      "actor": "carol",
+      "method": "POST",
+      "path": "/api/users/me/workspaces/invitations/",
+      "request": {
+        "invitations": [
+          "<uuid:4>"
+        ]
+      },
+      "status": 204
+    },
+    {
+      "actor": "dan",
+      "method": "GET",
+      "path": "/api/users/me/workspaces/invitations/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": [
+        {
+          "accepted": false,
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:1>",
+          "deleted_at": null,
+          "email": "dan@example.com",
+          "id": "<uuid:5>",
+          "invite_link": "/workspace-invitations/?invitation_id=<uuid:5>&slug=acme&token=<invite-token:dan@example.com>",
+          "message": "\n\nalice invited you to Acme on Plane\n\n      alice has invited you to join Acme on Plane.\n\n                    Join Acme on Plane\n\n                    alice has invited you to collaborate with them in\n                    Acme workspace on Plane.\n\n                          Accept invite\n\n                    If the button doesn’t work, copy and paste this link into\n                    your browser:\n\n                    http://localhost:3000/workspace-invitations/?invitation_id=<uuid:5>&slug=acme&token=<invite-token:dan@example.com>\n\n                    Note: This invitation was intended for\n                    dan@example.com. If you were not expecting this invitation, you can ignore\n                    this email.\n\n                    Plane Software, Inc.\n\n",
+          "responded_at": null,
+          "role": 15,
+          "token": "<invite-token:dan@example.com>",
+          "updated_at": "<datetime Z>",
+          "updated_by": "<uuid:1>",
+          "workspace": {
+            "id": "<uuid:2>",
+            "logo_url": null,
+            "name": "Acme",
+            "slug": "acme"
+          }
+        }
+      ]
+    },
+    {
+      "actor": "dan",
+      "method": "POST",
+      "path": "/api/users/me/workspaces/invitations/",
+      "request": {
+        "invitations": [
+          "<uuid:5>"
+        ]
+      },
+      "status": 204
+    },
+    {
+      "actor": "outsider",
+      "method": "GET",
+      "path": "/auth/get-csrf-token/",
+      "status": 200,
+      "content_type": "application/json",
+      "cookies": [
+        "csrftoken; value=<set>; Path=/; Max-Age=31449600; HttpOnly; SameSite=Lax"
+      ],
+      "body": {
+        "csrf_token": "<masked>"
+      }
+    },
+    {
+      "actor": "outsider",
+      "method": "POST",
+      "path": "/auth/sign-up/",
+      "request": {
+        "csrfmiddlewaretoken": "<masked>",
+        "email": "outsider@example.com",
+        "password": "correct-Horse-battery-staple-91"
+      },
+      "status": 302,
+      "location": "http://localhost:3000",
+      "content_type": "text/html",
+      "cookies": [
+        "csrftoken; value=<set>; Path=/; Max-Age=31449600; HttpOnly; SameSite=Lax",
+        "session-id; value=<set>; Path=/; Max-Age=604800; HttpOnly; SameSite=Lax"
+      ]
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/",
+      "request": {
+        "identifier": "PL",
+        "name": "Plane Lite"
+      },
+      "status": 201,
+      "content_type": "application/json",
+      "body": {
+        "anchor": null,
+        "archive_in": 0,
+        "archived_at": null,
+        "close_in": 0,
+        "cover_image": null,
+        "cover_image_asset": null,
+        "cover_image_url": null,
+        "created_at": "<datetime Z>",
+        "created_by": "<uuid:1>",
+        "cycle_view": false,
+        "default_assignee": null,
+        "default_state": null,
+        "deleted_at": null,
+        "description": "",
+        "description_html": null,
+        "description_text": null,
+        "emoji": null,
+        "estimate": null,
+        "external_id": null,
+        "external_source": null,
+        "guest_view_all_features": false,
+        "icon_prop": null,
+        "id": "<uuid:6>",
+        "identifier": "PL",
+        "inbox_view": false,
+        "intake_view": false,
+        "is_favorite": false,
+        "is_issue_type_enabled": false,
+        "is_time_tracking_enabled": false,
+        "issue_views_view": false,
+        "logo_props": {},
+        "member_role": 20,
+        "members": [
+          "<uuid:1>"
+        ],
+        "module_view": false,
+        "name": "Plane Lite",
+        "network": 2,
+        "next_work_item_sequence": 1,
+        "page_view": true,
+        "project_lead": null,
+        "sort_order": 65535,
+        "timezone": "UTC",
+        "updated_at": "<datetime Z>",
+        "updated_by": null,
+        "workspace": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "GET",
+      "path": "/api/users/me/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "avatar": "",
+        "avatar_url": null,
+        "cover_image": null,
+        "cover_image_url": null,
+        "date_joined": "<datetime Z>",
+        "display_name": "bob",
+        "email": "bob@example.com",
+        "first_name": "",
+        "id": "<uuid:7>",
+        "is_active": true,
+        "is_bot": false,
+        "is_email_verified": false,
+        "is_password_autoset": false,
+        "last_login_medium": "email",
+        "last_login_time": "<datetime Z>",
+        "last_name": "",
+        "user_timezone": "UTC",
+        "username": "<hex32>"
+      }
+    },
+    {
+      "actor": "carol",
+      "method": "GET",
+      "path": "/api/users/me/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "avatar": "",
+        "avatar_url": null,
+        "cover_image": null,
+        "cover_image_url": null,
+        "date_joined": "<datetime Z>",
+        "display_name": "carol",
+        "email": "carol@example.com",
+        "first_name": "",
+        "id": "<uuid:8>",
+        "is_active": true,
+        "is_bot": false,
+        "is_email_verified": false,
+        "is_password_autoset": false,
+        "last_login_medium": "email",
+        "last_login_time": "<datetime Z>",
+        "last_name": "",
+        "user_timezone": "UTC",
+        "username": "<hex32>"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/members/",
+      "request": {
+        "members": [
+          {
+            "member_id": "<uuid:7>",
+            "role": 15
+          },
+          {
+            "member_id": "<uuid:8>",
+            "role": 5
+          }
+        ]
+      },
+      "status": 201,
+      "content_type": "application/json",
+      "body": [
+        {
+          "created_at": "<datetime Z>",
+          "id": "<uuid:9>",
+          "member": "<uuid:8>",
+          "original_role": 5,
+          "project": "<uuid:6>",
+          "role": 5
+        },
+        {
+          "created_at": "<datetime Z>",
+          "id": "<uuid:10>",
+          "member": "<uuid:7>",
+          "original_role": 15,
+          "project": "<uuid:6>",
+          "role": 15
+        }
+      ]
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/states/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": [
+        {
+          "color": "#60646C",
+          "default": true,
+          "description": "",
+          "group": "backlog",
+          "id": "<uuid:11>",
+          "name": "Backlog",
+          "order": 1,
+          "project_id": "<uuid:6>",
+          "sequence": 15000,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "color": "#60646C",
+          "default": false,
+          "description": "",
+          "group": "unstarted",
+          "id": "<uuid:12>",
+          "name": "Todo",
+          "order": 1,
+          "project_id": "<uuid:6>",
+          "sequence": 25000,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "color": "#F59E0B",
+          "default": false,
+          "description": "",
+          "group": "started",
+          "id": "<uuid:13>",
+          "name": "In Progress",
+          "order": 1,
+          "project_id": "<uuid:6>",
+          "sequence": 35000,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "color": "#46A758",
+          "default": false,
+          "description": "",
+          "group": "completed",
+          "id": "<uuid:14>",
+          "name": "Done",
+          "order": 1,
+          "project_id": "<uuid:6>",
+          "sequence": 45000,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "color": "#9AA4BC",
+          "default": false,
+          "description": "",
+          "group": "cancelled",
+          "id": "<uuid:15>",
+          "name": "Cancelled",
+          "order": 1,
+          "project_id": "<uuid:6>",
+          "sequence": 55000,
+          "workspace_id": "<uuid:2>"
+        }
+      ]
+    },
+    {
+      "actor": "bob",
+      "method": "GET",
+      "path": "/api/users/me/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "avatar": "",
+        "avatar_url": null,
+        "cover_image": null,
+        "cover_image_url": null,
+        "date_joined": "<datetime Z>",
+        "display_name": "bob",
+        "email": "bob@example.com",
+        "first_name": "",
+        "id": "<uuid:7>",
+        "is_active": true,
+        "is_bot": false,
+        "is_email_verified": false,
+        "is_password_autoset": false,
+        "last_login_medium": "email",
+        "last_login_time": "<datetime Z>",
+        "last_name": "",
+        "user_timezone": "UTC",
+        "username": "<hex32>"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/issues/",
+      "request": {
+        "assignee_ids": [
+          "<uuid:7>"
+        ],
+        "name": "Shipped",
+        "state_id": "<uuid:14>"
+      },
+      "status": 201,
+      "content_type": "application/json",
+      "body": {
+        "archived_at": null,
+        "assignee_ids": [
+          "<uuid:7>"
+        ],
+        "attachment_count": null,
+        "completed_at": "<datetime Z>",
+        "created_at": "<datetime Z>",
+        "created_by": "<uuid:1>",
+        "cycle_id": null,
+        "deleted_at": null,
+        "estimate_point": null,
+        "id": "<uuid:16>",
+        "is_draft": false,
+        "label_ids": [],
+        "link_count": null,
+        "module_ids": [],
+        "name": "Shipped",
+        "parent_id": null,
+        "priority": "none",
+        "project_id": "<uuid:6>",
+        "sequence_id": 1,
+        "sort_order": 65535,
+        "start_date": null,
+        "state_id": "<uuid:14>",
+        "sub_issues_count": null,
+        "target_date": null,
+        "updated_at": "<datetime Z>",
+        "updated_by": null
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/issues/",
+      "request": {
+        "name": "Dropped",
+        "state_id": "<uuid:15>"
+      },
+      "status": 201,
+      "content_type": "application/json",
+      "body": {
+        "archived_at": null,
+        "assignee_ids": [],
+        "attachment_count": null,
+        "completed_at": null,
+        "created_at": "<datetime Z>",
+        "created_by": "<uuid:1>",
+        "cycle_id": null,
+        "deleted_at": null,
+        "estimate_point": null,
+        "id": "<uuid:17>",
+        "is_draft": false,
+        "label_ids": [],
+        "link_count": null,
+        "module_ids": [],
+        "name": "Dropped",
+        "parent_id": null,
+        "priority": "none",
+        "project_id": "<uuid:6>",
+        "sequence_id": 2,
+        "sort_order": 65535,
+        "start_date": null,
+        "state_id": "<uuid:15>",
+        "sub_issues_count": null,
+        "target_date": null,
+        "updated_at": "<datetime Z>",
+        "updated_by": null
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/issues/",
+      "request": {
+        "name": "Open",
+        "start_date": "2026-10-01",
+        "state_id": "<uuid:12>"
+      },
+      "status": 201,
+      "content_type": "application/json",
+      "body": {
+        "archived_at": null,
+        "assignee_ids": [],
+        "attachment_count": null,
+        "completed_at": null,
+        "created_at": "<datetime Z>",
+        "created_by": "<uuid:7>",
+        "cycle_id": null,
+        "deleted_at": null,
+        "estimate_point": null,
+        "id": "<uuid:18>",
+        "is_draft": false,
+        "label_ids": [],
+        "link_count": null,
+        "module_ids": [],
+        "name": "Open",
+        "parent_id": null,
+        "priority": "none",
+        "project_id": "<uuid:6>",
+        "sequence_id": 3,
+        "sort_order": 65535,
+        "start_date": "2026-10-01",
+        "state_id": "<uuid:12>",
+        "sub_issues_count": null,
+        "target_date": null,
+        "updated_at": "<datetime Z>",
+        "updated_by": null
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/issues/",
+      "request": {
+        "name": "Done too",
+        "state_id": "<uuid:14>",
+        "target_date": "2026-12-01"
+      },
+      "status": 201,
+      "content_type": "application/json",
+      "body": {
+        "archived_at": null,
+        "assignee_ids": [],
+        "attachment_count": null,
+        "completed_at": "<datetime Z>",
+        "created_at": "<datetime Z>",
+        "created_by": "<uuid:1>",
+        "cycle_id": null,
+        "deleted_at": null,
+        "estimate_point": null,
+        "id": "<uuid:19>",
+        "is_draft": false,
+        "label_ids": [],
+        "link_count": null,
+        "module_ids": [],
+        "name": "Done too",
+        "parent_id": null,
+        "priority": "none",
+        "project_id": "<uuid:6>",
+        "sequence_id": 4,
+        "sort_order": 75535,
+        "start_date": null,
+        "state_id": "<uuid:14>",
+        "sub_issues_count": null,
+        "target_date": "2026-12-01",
+        "updated_at": "<datetime Z>",
+        "updated_by": null
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/issues/",
+      "request": {
+        "name": "Later",
+        "state_id": "<uuid:12>"
+      },
+      "status": 201,
+      "content_type": "application/json",
+      "body": {
+        "archived_at": null,
+        "assignee_ids": [],
+        "attachment_count": null,
+        "completed_at": null,
+        "created_at": "<datetime Z>",
+        "created_by": "<uuid:1>",
+        "cycle_id": null,
+        "deleted_at": null,
+        "estimate_point": null,
+        "id": "<uuid:20>",
+        "is_draft": false,
+        "label_ids": [],
+        "link_count": null,
+        "module_ids": [],
+        "name": "Later",
+        "parent_id": null,
+        "priority": "none",
+        "project_id": "<uuid:6>",
+        "sequence_id": 5,
+        "sort_order": 75535,
+        "start_date": null,
+        "state_id": "<uuid:12>",
+        "sub_issues_count": null,
+        "target_date": null,
+        "updated_at": "<datetime Z>",
+        "updated_by": null
+      }
+    },
+    {
+      "actor": "carol",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/issues/<uuid:16>/archive/",
+      "status": 403,
+      "content_type": "application/json",
+      "body": {
+        "error": "You don't have the required permissions."
+      }
+    },
+    {
+      "actor": "dan",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/issues/<uuid:16>/archive/",
+      "status": 403,
+      "content_type": "application/json",
+      "body": {
+        "error": "You don't have the required permissions."
+      }
+    },
+    {
+      "actor": "outsider",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/issues/<uuid:16>/archive/",
+      "status": 403,
+      "content_type": "application/json",
+      "body": {
+        "error": "You don't have the required permissions."
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/issues/<uuid:18>/archive/",
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "error": "Can only archive completed or cancelled state group issue"
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/issues/<uuid:21>/archive/",
+      "status": 404,
+      "content_type": "application/json",
+      "body": {
+        "error": "The required object does not exist."
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/issues/<uuid:16>/archive/",
+      "request": {
+        "archived_at": "2020-01-01"
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "archived_at": "2026-10-07"
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/issues/<uuid:16>/archive/",
+      "status": 404,
+      "content_type": "application/json",
+      "body": {
+        "error": "The required object does not exist."
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/issues/<uuid:16>/archive/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "archived_at": "2026-10-07",
+        "completed_at": "<datetime Z>",
+        "created_at": "<datetime Z>",
+        "created_by": "<uuid:1>",
+        "description_html": "<p></p>",
+        "estimate_point": null,
+        "id": "<uuid:16>",
+        "is_draft": false,
+        "is_subscribed": true,
+        "name": "Shipped",
+        "parent_id": null,
+        "priority": "none",
+        "project_id": "<uuid:6>",
+        "sequence_id": 1,
+        "sort_order": 65535,
+        "start_date": null,
+        "state_id": "<uuid:14>",
+        "target_date": null,
+        "updated_at": "<datetime Z>",
+        "updated_by": "<uuid:7>"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/archived-issues/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "count": 1,
+        "extra_stats": null,
+        "grouped_by": null,
+        "next_cursor": "1000:1:0",
+        "next_page_results": false,
+        "prev_cursor": "1000:-1:1",
+        "prev_page_results": false,
+        "results": [
+          {
+            "archived_at": "2026-10-07",
+            "assignee_ids": [
+              "<uuid:7>"
+            ],
+            "attachment_count": null,
+            "completed_at": "<datetime Z>",
+            "created_at": "<datetime Z>",
+            "created_by": "<uuid:1>",
+            "cycle_id": null,
+            "estimate_point": null,
+            "id": "<uuid:16>",
+            "is_draft": false,
+            "label_ids": [],
+            "link_count": null,
+            "module_ids": [],
+            "name": "Shipped",
+            "parent_id": null,
+            "priority": "none",
+            "project_id": "<uuid:6>",
+            "sequence_id": 1,
+            "sort_order": 65535,
+            "start_date": null,
+            "state__group": "completed",
+            "state_id": "<uuid:14>",
+            "sub_issues_count": null,
+            "target_date": null,
+            "updated_at": "<datetime Z>",
+            "updated_by": "<uuid:7>"
+          }
+        ],
+        "sub_grouped_by": null,
+        "total_count": 1,
+        "total_pages": 1,
+        "total_results": 1
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/issues/<uuid:16>/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "archived_at": "2026-10-07",
+        "assignee_ids": [
+          "<uuid:7>"
+        ],
+        "attachment_count": null,
+        "completed_at": "<datetime Z>",
+        "created_at": "<datetime Z>",
+        "created_by": "<uuid:1>",
+        "cycle_id": null,
+        "description_html": "<p></p>",
+        "estimate_point": null,
+        "id": "<uuid:16>",
+        "is_draft": false,
+        "is_subscribed": true,
+        "label_ids": [],
+        "link_count": null,
+        "module_ids": [],
+        "name": "Shipped",
+        "parent_id": null,
+        "priority": "none",
+        "project_id": "<uuid:6>",
+        "sequence_id": 1,
+        "sort_order": 65535,
+        "start_date": null,
+        "state_id": "<uuid:14>",
+        "sub_issues_count": null,
+        "target_date": null,
+        "updated_at": "<datetime Z>",
+        "updated_by": "<uuid:7>"
+      }
+    },
+    {
+      "actor": "carol",
+      "method": "DELETE",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/issues/<uuid:16>/archive/",
+      "status": 403,
+      "content_type": "application/json",
+      "body": {
+        "error": "You don't have the required permissions."
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "DELETE",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/issues/<uuid:17>/archive/",
+      "status": 404,
+      "content_type": "application/json",
+      "body": {
+        "error": "The required object does not exist."
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "DELETE",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/issues/<uuid:16>/archive/",
+      "status": 204
+    },
+    {
+      "actor": "alice",
+      "method": "DELETE",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/issues/<uuid:16>/archive/",
+      "status": 404,
+      "content_type": "application/json",
+      "body": {
+        "error": "The required object does not exist."
+      }
+    },
+    {
+      "actor": "carol",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/bulk-archive-issues/",
+      "request": {
+        "issue_ids": [
+          "<uuid:16>"
+        ]
+      },
+      "status": 403,
+      "content_type": "application/json",
+      "body": {
+        "detail": "You do not have permission to perform this action."
+      }
+    },
+    {
+      "actor": "dan",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/bulk-archive-issues/",
+      "request": {
+        "issue_ids": [
+          "<uuid:16>"
+        ]
+      },
+      "status": 403,
+      "content_type": "application/json",
+      "body": {
+        "detail": "You do not have permission to perform this action."
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/bulk-archive-issues/",
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "error": "Issue IDs are required"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/bulk-archive-issues/",
+      "request": {
+        "issue_ids": []
+      },
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "error": "Issue IDs are required"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/bulk-archive-issues/",
+      "request": {
+        "issue_ids": ""
+      },
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "error": "Issue IDs are required"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/bulk-archive-issues/",
+      "request": {
+        "issue_ids": "abc"
+      },
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "error": "Please provide valid detail"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/bulk-archive-issues/",
+      "request": {
+        "issue_ids": [
+          "nope"
+        ]
+      },
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "error": "Please provide valid detail"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/bulk-archive-issues/",
+      "request": {
+        "issue_ids": 5
+      },
+      "status": 500,
+      "content_type": "application/json",
+      "body": {
+        "error": "Something went wrong please try again later"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/bulk-archive-issues/",
+      "request": [
+        "<uuid:16>"
+      ],
+      "status": 500,
+      "content_type": "application/json",
+      "body": {
+        "error": "Something went wrong please try again later"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/bulk-archive-issues/",
+      "request": {
+        "issue_ids": [
+          "<uuid:21>"
+        ]
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "archived_at": "2026-10-07"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/bulk-archive-issues/",
+      "request": {
+        "issue_ids": [
+          "<uuid:16>",
+          "<uuid:20>"
+        ]
+      },
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "error_code": 4091,
+        "error_message": "INVALID_ARCHIVE_STATE_GROUP"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/bulk-archive-issues/",
+      "request": {
+        "issue_ids": [
+          "<uuid:18>",
+          "<uuid:19>"
+        ]
+      },
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "error_code": 4091,
+        "error_message": "INVALID_ARCHIVE_STATE_GROUP"
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/bulk-archive-issues/",
+      "request": {
+        "issue_ids": [
+          "<uuid:16>",
+          "<uuid:17>",
+          "<uuid:19>"
+        ]
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "archived_at": "2026-10-07"
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/bulk-archive-issues/",
+      "request": {
+        "issue_ids": [
+          "<uuid:16>"
+        ]
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "archived_at": "2026-10-07"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/archived-issues/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "count": 3,
+        "extra_stats": null,
+        "grouped_by": null,
+        "next_cursor": "1000:1:0",
+        "next_page_results": false,
+        "prev_cursor": "1000:-1:1",
+        "prev_page_results": false,
+        "results": [
+          {
+            "archived_at": "2026-10-07",
+            "assignee_ids": [],
+            "attachment_count": null,
+            "completed_at": "<datetime Z>",
+            "created_at": "<datetime Z>",
+            "created_by": "<uuid:1>",
+            "cycle_id": null,
+            "estimate_point": null,
+            "id": "<uuid:19>",
+            "is_draft": false,
+            "label_ids": [],
+            "link_count": null,
+            "module_ids": [],
+            "name": "Done too",
+            "parent_id": null,
+            "priority": "none",
+            "project_id": "<uuid:6>",
+            "sequence_id": 4,
+            "sort_order": 75535,
+            "start_date": null,
+            "state__group": "completed",
+            "state_id": "<uuid:14>",
+            "sub_issues_count": null,
+            "target_date": "2026-12-01",
+            "updated_at": "<datetime Z>",
+            "updated_by": null
+          },
+          {
+            "archived_at": "2026-10-07",
+            "assignee_ids": [],
+            "attachment_count": null,
+            "completed_at": null,
+            "created_at": "<datetime Z>",
+            "created_by": "<uuid:1>",
+            "cycle_id": null,
+            "estimate_point": null,
+            "id": "<uuid:17>",
+            "is_draft": false,
+            "label_ids": [],
+            "link_count": null,
+            "module_ids": [],
+            "name": "Dropped",
+            "parent_id": null,
+            "priority": "none",
+            "project_id": "<uuid:6>",
+            "sequence_id": 2,
+            "sort_order": 65535,
+            "start_date": null,
+            "state__group": "cancelled",
+            "state_id": "<uuid:15>",
+            "sub_issues_count": null,
+            "target_date": null,
+            "updated_at": "<datetime Z>",
+            "updated_by": null
+          },
+          {
+            "archived_at": "2026-10-07",
+            "assignee_ids": [
+              "<uuid:7>"
+            ],
+            "attachment_count": null,
+            "completed_at": "<datetime Z>",
+            "created_at": "<datetime Z>",
+            "created_by": "<uuid:1>",
+            "cycle_id": null,
+            "estimate_point": null,
+            "id": "<uuid:16>",
+            "is_draft": false,
+            "label_ids": [],
+            "link_count": null,
+            "module_ids": [],
+            "name": "Shipped",
+            "parent_id": null,
+            "priority": "none",
+            "project_id": "<uuid:6>",
+            "sequence_id": 1,
+            "sort_order": 65535,
+            "start_date": null,
+            "state__group": "completed",
+            "state_id": "<uuid:14>",
+            "sub_issues_count": null,
+            "target_date": null,
+            "updated_at": "<datetime Z>",
+            "updated_by": "<uuid:1>"
+          }
+        ],
+        "sub_grouped_by": null,
+        "total_count": 3,
+        "total_pages": 1,
+        "total_results": 3
+      }
+    },
+    {
+      "actor": "carol",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/issue-dates/",
+      "request": {
+        "updates": [
+          {
+            "id": "<uuid:18>",
+            "start_date": "2026-10-02"
+          }
+        ]
+      },
+      "status": 403,
+      "content_type": "application/json",
+      "body": {
+        "error": "You don't have the required permissions."
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/issue-dates/",
+      "request": {
+        "updates": [
+          {
+            "id": "<uuid:18>",
+            "start_date": "2026-10-05",
+            "target_date": "2026-10-20"
+          },
+          {
+            "id": "<uuid:20>",
+            "target_date": "2026-11-15"
+          },
+          {
+            "id": "<uuid:21>",
+            "start_date": "2026-01-01"
+          }
+        ]
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "message": "Issues updated successfully"
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/issue-dates/",
+      "request": {
+        "updates": [
+          {
+            "id": "<uuid:18>",
+            "start_date": "2026-10-25"
+          }
+        ]
+      },
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "message": "Start date cannot exceed target date"
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/issue-dates/",
+      "request": {
+        "updates": [
+          {
+            "id": "<uuid:20>",
+            "start_date": "2026-11-01",
+            "target_date": ""
+          }
+        ]
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "message": "Issues updated successfully"
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/issue-dates/",
+      "request": {
+        "updates": [
+          {
+            "id": "<uuid:20>",
+            "start_date": "2026-1-2"
+          }
+        ]
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "message": "Issues updated successfully"
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/issue-dates/",
+      "request": {
+        "updates": [
+          {
+            "id": "<uuid:20>",
+            "start_date": "2026-13-01"
+          }
+        ]
+      },
+      "status": 500,
+      "content_type": "application/json",
+      "body": {
+        "error": "Something went wrong please try again later"
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/issue-dates/",
+      "request": {
+        "updates": [
+          {
+            "id": "nope"
+          }
+        ]
+      },
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "error": "Please provide valid detail"
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/issue-dates/",
+      "request": {
+        "updates": [
+          {
+            "start_date": "2026-10-01"
+          }
+        ]
+      },
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "error": "The required key does not exist."
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/issue-dates/",
+      "request": {
+        "updates": []
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "message": "Issues updated successfully"
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/issue-dates/",
+      "request": {
+        "updates": {}
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "message": "Issues updated successfully"
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/issue-dates/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "message": "Issues updated successfully"
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/issue-dates/",
+      "status": 500,
+      "content_type": "application/json",
+      "body": {
+        "error": "Something went wrong please try again later"
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/issue-dates/",
+      "request": {
+        "updates": [
+          {
+            "id": "<uuid:16>",
+            "target_date": "2026-12-31"
+          },
+          {
+            "id": "<uuid:16>",
+            "start_date": "2027-01-01"
+          }
+        ]
+      },
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "message": "Start date cannot exceed target date"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/issues/?order_by=sort_order",
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "count": 2,
+        "extra_stats": null,
+        "grouped_by": null,
+        "next_cursor": "1000:1:0",
+        "next_page_results": false,
+        "prev_cursor": "1000:-1:1",
+        "prev_page_results": false,
+        "results": [
+          {
+            "archived_at": null,
+            "assignee_ids": [],
+            "attachment_count": null,
+            "completed_at": null,
+            "created_at": "<datetime Z>",
+            "created_by": "<uuid:7>",
+            "cycle_id": null,
+            "estimate_point": null,
+            "id": "<uuid:18>",
+            "is_draft": false,
+            "label_ids": [],
+            "link_count": null,
+            "module_ids": [],
+            "name": "Open",
+            "parent_id": null,
+            "priority": "none",
+            "project_id": "<uuid:6>",
+            "sequence_id": 3,
+            "sort_order": 65535,
+            "start_date": "2026-10-05",
+            "state__group": "unstarted",
+            "state_id": "<uuid:12>",
+            "sub_issues_count": null,
+            "target_date": "2026-10-20",
+            "updated_at": "<datetime Z>",
+            "updated_by": null
+          },
+          {
+            "archived_at": null,
+            "assignee_ids": [],
+            "attachment_count": null,
+            "completed_at": null,
+            "created_at": "<datetime Z>",
+            "created_by": "<uuid:1>",
+            "cycle_id": null,
+            "estimate_point": null,
+            "id": "<uuid:20>",
+            "is_draft": false,
+            "label_ids": [],
+            "link_count": null,
+            "module_ids": [],
+            "name": "Later",
+            "parent_id": null,
+            "priority": "none",
+            "project_id": "<uuid:6>",
+            "sequence_id": 5,
+            "sort_order": 75535,
+            "start_date": "2026-01-02",
+            "state__group": "unstarted",
+            "state_id": "<uuid:12>",
+            "sub_issues_count": null,
+            "target_date": "2026-11-15",
+            "updated_at": "<datetime Z>",
+            "updated_by": null
+          }
+        ],
+        "sub_grouped_by": null,
+        "total_count": 2,
+        "total_pages": 1,
+        "total_results": 2
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "DELETE",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/bulk-delete-issues/",
+      "request": {
+        "issue_ids": [
+          "<uuid:20>"
+        ]
+      },
+      "status": 403,
+      "content_type": "application/json",
+      "body": {
+        "error": "You don't have the required permissions."
+      }
+    },
+    {
+      "actor": "carol",
+      "method": "DELETE",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/bulk-delete-issues/",
+      "request": {
+        "issue_ids": [
+          "<uuid:20>"
+        ]
+      },
+      "status": 403,
+      "content_type": "application/json",
+      "body": {
+        "error": "You don't have the required permissions."
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "DELETE",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/bulk-delete-issues/",
+      "request": {
+        "issue_ids": []
+      },
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "error": "Issue IDs are required"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "DELETE",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/bulk-delete-issues/",
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "error": "Issue IDs are required"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "DELETE",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/bulk-delete-issues/",
+      "request": {
+        "issue_ids": [
+          "nope"
+        ]
+      },
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "error": "Please provide valid detail"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "DELETE",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/bulk-delete-issues/",
+      "request": {
+        "issue_ids": [
+          "<uuid:20>",
+          "<uuid:17>",
+          "<uuid:21>"
+        ]
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "message": "1 issues were deleted"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "DELETE",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/bulk-delete-issues/",
+      "request": {
+        "issue_ids": [
+          "<uuid:20>"
+        ]
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "message": "0 issues were deleted"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/issues/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "count": 1,
+        "extra_stats": null,
+        "grouped_by": null,
+        "next_cursor": "1000:1:0",
+        "next_page_results": false,
+        "prev_cursor": "1000:-1:1",
+        "prev_page_results": false,
+        "results": [
+          {
+            "archived_at": null,
+            "assignee_ids": [],
+            "attachment_count": null,
+            "completed_at": null,
+            "created_at": "<datetime Z>",
+            "created_by": "<uuid:7>",
+            "cycle_id": null,
+            "estimate_point": null,
+            "id": "<uuid:18>",
+            "is_draft": false,
+            "label_ids": [],
+            "link_count": null,
+            "module_ids": [],
+            "name": "Open",
+            "parent_id": null,
+            "priority": "none",
+            "project_id": "<uuid:6>",
+            "sequence_id": 3,
+            "sort_order": 65535,
+            "start_date": "2026-10-05",
+            "state__group": "unstarted",
+            "state_id": "<uuid:12>",
+            "sub_issues_count": null,
+            "target_date": "2026-10-20",
+            "updated_at": "<datetime Z>",
+            "updated_by": null
+          }
+        ],
+        "sub_grouped_by": null,
+        "total_count": 1,
+        "total_pages": 1,
+        "total_results": 1
+      }
+    },
+    {
+      "actor": "db",
+      "method": "QUERY",
+      "path": "issues",
+      "status": 0,
+      "body": [
+        {
+          "archived_at": "2026-10-07",
+          "completed": true,
+          "created_by": "alice@example.com",
+          "description_html": "<p></p>",
+          "description_json": {},
+          "description_stripped": "",
+          "external_id": null,
+          "external_source": null,
+          "identifier": "PL",
+          "is_draft": false,
+          "live": true,
+          "name": "Shipped",
+          "parent": null,
+          "point": null,
+          "priority": "none",
+          "sequence_id": 1,
+          "sort_order": 65535,
+          "start_date": null,
+          "state": "Done",
+          "target_date": null,
+          "touched": true,
+          "updated_by": "alice@example.com"
+        },
+        {
+          "archived_at": "2026-10-07",
+          "completed": false,
+          "created_by": "alice@example.com",
+          "description_html": "<p></p>",
+          "description_json": {},
+          "description_stripped": "",
+          "external_id": null,
+          "external_source": null,
+          "identifier": "PL",
+          "is_draft": false,
+          "live": true,
+          "name": "Dropped",
+          "parent": null,
+          "point": null,
+          "priority": "none",
+          "sequence_id": 2,
+          "sort_order": 65535,
+          "start_date": null,
+          "state": "Cancelled",
+          "target_date": null,
+          "touched": true,
+          "updated_by": null
+        },
+        {
+          "archived_at": null,
+          "completed": false,
+          "created_by": "bob@example.com",
+          "description_html": "<p></p>",
+          "description_json": {},
+          "description_stripped": "",
+          "external_id": null,
+          "external_source": null,
+          "identifier": "PL",
+          "is_draft": false,
+          "live": true,
+          "name": "Open",
+          "parent": null,
+          "point": null,
+          "priority": "none",
+          "sequence_id": 3,
+          "sort_order": 65535,
+          "start_date": "2026-10-05",
+          "state": "Todo",
+          "target_date": "2026-10-20",
+          "touched": true,
+          "updated_by": null
+        },
+        {
+          "archived_at": "2026-10-07",
+          "completed": true,
+          "created_by": "alice@example.com",
+          "description_html": "<p></p>",
+          "description_json": {},
+          "description_stripped": "",
+          "external_id": null,
+          "external_source": null,
+          "identifier": "PL",
+          "is_draft": false,
+          "live": true,
+          "name": "Done too",
+          "parent": null,
+          "point": null,
+          "priority": "none",
+          "sequence_id": 4,
+          "sort_order": 75535,
+          "start_date": null,
+          "state": "Done",
+          "target_date": "2026-12-01",
+          "touched": true,
+          "updated_by": null
+        },
+        {
+          "archived_at": null,
+          "completed": false,
+          "created_by": "alice@example.com",
+          "description_html": "<p></p>",
+          "description_json": {},
+          "description_stripped": "",
+          "external_id": null,
+          "external_source": null,
+          "identifier": "PL",
+          "is_draft": false,
+          "live": false,
+          "name": "Later",
+          "parent": null,
+          "point": null,
+          "priority": "none",
+          "sequence_id": 5,
+          "sort_order": 75535,
+          "start_date": "2026-01-02",
+          "state": "Todo",
+          "target_date": "2026-11-15",
+          "touched": true,
+          "updated_by": null
+        }
+      ]
+    },
+    {
+      "actor": "db",
+      "method": "QUERY",
+      "path": "issue_sequences",
+      "status": 0,
+      "body": [
+        {
+          "deleted": false,
+          "identifier": "PL",
+          "live": true,
+          "name": "Shipped",
+          "sequence": 1
+        },
+        {
+          "deleted": false,
+          "identifier": "PL",
+          "live": true,
+          "name": "Dropped",
+          "sequence": 2
+        },
+        {
+          "deleted": false,
+          "identifier": "PL",
+          "live": true,
+          "name": "Open",
+          "sequence": 3
+        },
+        {
+          "deleted": false,
+          "identifier": "PL",
+          "live": true,
+          "name": "Done too",
+          "sequence": 4
+        },
+        {
+          "deleted": false,
+          "identifier": "PL",
+          "live": true,
+          "name": "Later",
+          "sequence": 5
+        }
+      ]
+    },
+    {
+      "actor": "db",
+      "method": "QUERY",
+      "path": "issue_assignees",
+      "status": 0,
+      "body": [
+        {
+          "created_by": "alice@example.com",
+          "email": "bob@example.com",
+          "live": true,
+          "name": "Shipped",
+          "updated_by": null
+        }
+      ]
+    },
+    {
+      "actor": "db",
+      "method": "QUERY",
+      "path": "issue_labels",
+      "status": 0,
+      "body": []
+    },
+    {
+      "actor": "db",
+      "method": "QUERY",
+      "path": "issue_activities",
+      "status": 0,
+      "body": [
+        {
+          "actor": "alice@example.com",
+          "comment": "created the issue",
+          "created_by": "alice@example.com",
+          "field": null,
+          "has_epoch": true,
+          "issue": "Done too",
+          "live": true,
+          "new_identifier": null,
+          "new_value": null,
+          "old_identifier": null,
+          "old_value": null,
+          "verb": "created"
+        },
+        {
+          "actor": "bob@example.com",
+          "comment": "Actor has archived the issue",
+          "created_by": null,
+          "field": "archived_at",
+          "has_epoch": true,
+          "issue": "Done too",
+          "live": true,
+          "new_identifier": null,
+          "new_value": "manual_archive",
+          "old_identifier": null,
+          "old_value": null,
+          "verb": "updated"
+        },
+        {
+          "actor": "alice@example.com",
+          "comment": "Actor has archived the issue",
+          "created_by": null,
+          "field": "archived_at",
+          "has_epoch": true,
+          "issue": "Done too",
+          "live": true,
+          "new_identifier": null,
+          "new_value": "manual_archive",
+          "old_identifier": null,
+          "old_value": null,
+          "verb": "updated"
+        },
+        {
+          "actor": "alice@example.com",
+          "comment": "created the issue",
+          "created_by": "alice@example.com",
+          "field": null,
+          "has_epoch": true,
+          "issue": "Dropped",
+          "live": true,
+          "new_identifier": null,
+          "new_value": null,
+          "old_identifier": null,
+          "old_value": null,
+          "verb": "created"
+        },
+        {
+          "actor": "bob@example.com",
+          "comment": "Actor has archived the issue",
+          "created_by": null,
+          "field": "archived_at",
+          "has_epoch": true,
+          "issue": "Dropped",
+          "live": true,
+          "new_identifier": null,
+          "new_value": "manual_archive",
+          "old_identifier": null,
+          "old_value": null,
+          "verb": "updated"
+        },
+        {
+          "actor": "alice@example.com",
+          "comment": "created the issue",
+          "created_by": "alice@example.com",
+          "field": null,
+          "has_epoch": true,
+          "issue": "Later",
+          "live": true,
+          "new_identifier": null,
+          "new_value": null,
+          "old_identifier": null,
+          "old_value": null,
+          "verb": "created"
+        },
+        {
+          "actor": "bob@example.com",
+          "comment": "updated the start date to ",
+          "created_by": null,
+          "field": "start_date",
+          "has_epoch": true,
+          "issue": "Later",
+          "live": true,
+          "new_identifier": null,
+          "new_value": "2026-1-2",
+          "old_identifier": null,
+          "old_value": "2026-11-01",
+          "verb": "updated"
+        },
+        {
+          "actor": "bob@example.com",
+          "comment": "updated the start date to ",
+          "created_by": null,
+          "field": "start_date",
+          "has_epoch": true,
+          "issue": "Later",
+          "live": true,
+          "new_identifier": null,
+          "new_value": "2026-11-01",
+          "old_identifier": null,
+          "old_value": "None",
+          "verb": "updated"
+        },
+        {
+          "actor": "bob@example.com",
+          "comment": "updated the target date to",
+          "created_by": null,
+          "field": "target_date",
+          "has_epoch": true,
+          "issue": "Later",
+          "live": true,
+          "new_identifier": null,
+          "new_value": "2026-11-15",
+          "old_identifier": null,
+          "old_value": "None",
+          "verb": "updated"
+        },
+        {
+          "actor": "bob@example.com",
+          "comment": "created the issue",
+          "created_by": "bob@example.com",
+          "field": null,
+          "has_epoch": true,
+          "issue": "Open",
+          "live": true,
+          "new_identifier": null,
+          "new_value": null,
+          "old_identifier": null,
+          "old_value": null,
+          "verb": "created"
+        },
+        {
+          "actor": "bob@example.com",
+          "comment": "updated the start date to ",
+          "created_by": null,
+          "field": "start_date",
+          "has_epoch": true,
+          "issue": "Open",
+          "live": true,
+          "new_identifier": null,
+          "new_value": "2026-10-05",
+          "old_identifier": null,
+          "old_value": "2026-10-01",
+          "verb": "updated"
+        },
+        {
+          "actor": "bob@example.com",
+          "comment": "updated the target date to",
+          "created_by": null,
+          "field": "target_date",
+          "has_epoch": true,
+          "issue": "Open",
+          "live": true,
+          "new_identifier": null,
+          "new_value": "2026-10-20",
+          "old_identifier": null,
+          "old_value": "None",
+          "verb": "updated"
+        },
+        {
+          "actor": "alice@example.com",
+          "comment": "created the issue",
+          "created_by": "alice@example.com",
+          "field": null,
+          "has_epoch": true,
+          "issue": "Shipped",
+          "live": true,
+          "new_identifier": null,
+          "new_value": null,
+          "old_identifier": null,
+          "old_value": null,
+          "verb": "created"
+        },
+        {
+          "actor": "bob@example.com",
+          "comment": "Actor has archived the issue",
+          "created_by": null,
+          "field": "archived_at",
+          "has_epoch": true,
+          "issue": "Shipped",
+          "live": true,
+          "new_identifier": null,
+          "new_value": "manual_archive",
+          "old_identifier": null,
+          "old_value": null,
+          "verb": "updated"
+        },
+        {
+          "actor": "bob@example.com",
+          "comment": "Actor has archived the issue",
+          "created_by": null,
+          "field": "archived_at",
+          "has_epoch": true,
+          "issue": "Shipped",
+          "live": true,
+          "new_identifier": null,
+          "new_value": "manual_archive",
+          "old_identifier": null,
+          "old_value": null,
+          "verb": "updated"
+        },
+        {
+          "actor": "alice@example.com",
+          "comment": "has restored the issue",
+          "created_by": null,
+          "field": "archived_at",
+          "has_epoch": true,
+          "issue": "Shipped",
+          "live": true,
+          "new_identifier": null,
+          "new_value": "restore",
+          "old_identifier": null,
+          "old_value": "archive",
+          "verb": "updated"
+        },
+        {
+          "actor": "alice@example.com",
+          "comment": "added assignee ",
+          "created_by": null,
+          "field": "assignees",
+          "has_epoch": true,
+          "issue": "Shipped",
+          "live": true,
+          "new_identifier": "<uuid:7>",
+          "new_value": "bob",
+          "old_identifier": null,
+          "old_value": "",
+          "verb": "updated"
+        },
+        {
+          "actor": "bob@example.com",
+          "comment": "updated the target date to",
+          "created_by": null,
+          "field": "target_date",
+          "has_epoch": true,
+          "issue": "Shipped",
+          "live": true,
+          "new_identifier": null,
+          "new_value": "2026-12-31",
+          "old_identifier": null,
+          "old_value": "None",
+          "verb": "updated"
+        }
+      ]
+    },
+    {
+      "actor": "db",
+      "method": "QUERY",
+      "path": "issue_subscribers",
+      "status": 0,
+      "body": [
+        {
+          "created_by": "alice@example.com",
+          "email": "alice@example.com",
+          "live": true,
+          "name": "Done too",
+          "updated_by": null
+        },
+        {
+          "created_by": "bob@example.com",
+          "email": "bob@example.com",
+          "live": true,
+          "name": "Done too",
+          "updated_by": null
+        },
+        {
+          "created_by": "alice@example.com",
+          "email": "alice@example.com",
+          "live": true,
+          "name": "Dropped",
+          "updated_by": null
+        },
+        {
+          "created_by": "bob@example.com",
+          "email": "bob@example.com",
+          "live": true,
+          "name": "Dropped",
+          "updated_by": null
+        },
+        {
+          "created_by": "alice@example.com",
+          "email": "alice@example.com",
+          "live": true,
+          "name": "Later",
+          "updated_by": null
+        },
+        {
+          "created_by": "bob@example.com",
+          "email": "bob@example.com",
+          "live": true,
+          "name": "Open",
+          "updated_by": null
+        },
+        {
+          "created_by": "alice@example.com",
+          "email": "alice@example.com",
+          "live": true,
+          "name": "Shipped",
+          "updated_by": null
+        },
+        {
+          "created_by": "bob@example.com",
+          "email": "bob@example.com",
+          "live": true,
+          "name": "Shipped",
+          "updated_by": "bob@example.com"
+        }
+      ]
+    },
+    {
+      "actor": "db",
+      "method": "QUERY",
+      "path": "issue_mentions",
+      "status": 0,
+      "body": []
+    },
+    {
+      "actor": "db",
+      "method": "QUERY",
+      "path": "notifications",
+      "status": 0,
+      "body": [
+        {
+          "activity_ok": false,
+          "entity_name": "issue",
+          "field": "archived_at",
+          "identifier": "PL",
+          "issue": "Done too",
+          "issue_comment": "",
+          "issue_data": {
+            "id": "<uuid:19>",
+            "identifier": "PL",
+            "name": "Done too",
+            "sequence_id": 4,
+            "state_group": "completed",
+            "state_name": "Done"
+          },
+          "message": null,
+          "message_html": "<p></p>",
+          "new_identifier": null,
+          "new_value": "manual_archive",
+          "old_identifier": null,
+          "old_value": "None",
+          "receiver": "alice@example.com",
+          "sender": "in_app:issue_activities:created",
+          "title": "Actor has archived the issue",
+          "triggered_by": "bob@example.com",
+          "unread": true,
+          "verb": "updated"
+        },
+        {
+          "activity_ok": false,
+          "entity_name": "issue",
+          "field": "archived_at",
+          "identifier": "PL",
+          "issue": "Dropped",
+          "issue_comment": "",
+          "issue_data": {
+            "id": "<uuid:17>",
+            "identifier": "PL",
+            "name": "Dropped",
+            "sequence_id": 2,
+            "state_group": "cancelled",
+            "state_name": "Cancelled"
+          },
+          "message": null,
+          "message_html": "<p></p>",
+          "new_identifier": null,
+          "new_value": "manual_archive",
+          "old_identifier": null,
+          "old_value": "None",
+          "receiver": "alice@example.com",
+          "sender": "in_app:issue_activities:created",
+          "title": "Actor has archived the issue",
+          "triggered_by": "bob@example.com",
+          "unread": true,
+          "verb": "updated"
+        },
+        {
+          "activity_ok": false,
+          "entity_name": "issue",
+          "field": "archived_at",
+          "identifier": "PL",
+          "issue": "Shipped",
+          "issue_comment": "",
+          "issue_data": {
+            "id": "<uuid:16>",
+            "identifier": "PL",
+            "name": "Shipped",
+            "sequence_id": 1,
+            "state_group": "completed",
+            "state_name": "Done"
+          },
+          "message": null,
+          "message_html": "<p></p>",
+          "new_identifier": null,
+          "new_value": "manual_archive",
+          "old_identifier": null,
+          "old_value": "None",
+          "receiver": "alice@example.com",
+          "sender": "in_app:issue_activities:created",
+          "title": "Actor has archived the issue",
+          "triggered_by": "bob@example.com",
+          "unread": true,
+          "verb": "updated"
+        },
+        {
+          "activity_ok": false,
+          "entity_name": "issue",
+          "field": "archived_at",
+          "identifier": "PL",
+          "issue": "Shipped",
+          "issue_comment": "",
+          "issue_data": {
+            "id": "<uuid:16>",
+            "identifier": "PL",
+            "name": "Shipped",
+            "sequence_id": 1,
+            "state_group": "completed",
+            "state_name": "Done"
+          },
+          "message": null,
+          "message_html": "<p></p>",
+          "new_identifier": null,
+          "new_value": "manual_archive",
+          "old_identifier": null,
+          "old_value": "None",
+          "receiver": "alice@example.com",
+          "sender": "in_app:issue_activities:created",
+          "title": "Actor has archived the issue",
+          "triggered_by": "bob@example.com",
+          "unread": true,
+          "verb": "updated"
+        },
+        {
+          "activity_ok": false,
+          "entity_name": "issue",
+          "field": "assignees",
+          "identifier": "PL",
+          "issue": "Shipped",
+          "issue_comment": "",
+          "issue_data": {
+            "id": "<uuid:16>",
+            "identifier": "PL",
+            "name": "Shipped",
+            "sequence_id": 1,
+            "state_group": "completed",
+            "state_name": "Done"
+          },
+          "message": null,
+          "message_html": "<p></p>",
+          "new_identifier": "<uuid:7>",
+          "new_value": "bob",
+          "old_identifier": null,
+          "old_value": "",
+          "receiver": "bob@example.com",
+          "sender": "in_app:issue_activities:assigned",
+          "title": "added assignee ",
+          "triggered_by": "alice@example.com",
+          "unread": true,
+          "verb": "updated"
+        },
+        {
+          "activity_ok": false,
+          "entity_name": "issue",
+          "field": "archived_at",
+          "identifier": "PL",
+          "issue": "Shipped",
+          "issue_comment": "",
+          "issue_data": {
+            "id": "<uuid:16>",
+            "identifier": "PL",
+            "name": "Shipped",
+            "sequence_id": 1,
+            "state_group": "completed",
+            "state_name": "Done"
+          },
+          "message": null,
+          "message_html": "<p></p>",
+          "new_identifier": null,
+          "new_value": "restore",
+          "old_identifier": null,
+          "old_value": "archive",
+          "receiver": "bob@example.com",
+          "sender": "in_app:issue_activities:assigned",
+          "title": "has restored the issue",
+          "triggered_by": "alice@example.com",
+          "unread": true,
+          "verb": "updated"
+        }
+      ]
+    },
+    {
+      "actor": "db",
+      "method": "QUERY",
+      "path": "email_notification_logs",
+      "status": 0,
+      "body": [
+        {
+          "entity": "",
+          "entity_name": "issue",
+          "field": "archived_at",
+          "has_time": true,
+          "issue": "Done too",
+          "issue_data": {
+            "id": "<uuid:19>",
+            "identifier": "PL",
+            "name": "Done too",
+            "project_id": "<uuid:6>",
+            "sequence_id": 4,
+            "state_group": "completed",
+            "state_name": "Done",
+            "workspace_slug": "acme"
+          },
+          "new_value": "manual_archive",
+          "old_value": "None",
+          "pending": true,
+          "receiver": "alice@example.com",
+          "triggered_by": "bob@example.com",
+          "verb": "updated"
+        },
+        {
+          "entity": "",
+          "entity_name": "issue",
+          "field": "archived_at",
+          "has_time": true,
+          "issue": "Dropped",
+          "issue_data": {
+            "id": "<uuid:17>",
+            "identifier": "PL",
+            "name": "Dropped",
+            "project_id": "<uuid:6>",
+            "sequence_id": 2,
+            "state_group": "cancelled",
+            "state_name": "Cancelled",
+            "workspace_slug": "acme"
+          },
+          "new_value": "manual_archive",
+          "old_value": "None",
+          "pending": true,
+          "receiver": "alice@example.com",
+          "triggered_by": "bob@example.com",
+          "verb": "updated"
+        },
+        {
+          "entity": "",
+          "entity_name": "issue",
+          "field": "archived_at",
+          "has_time": true,
+          "issue": "Shipped",
+          "issue_data": {
+            "id": "<uuid:16>",
+            "identifier": "PL",
+            "name": "Shipped",
+            "project_id": "<uuid:6>",
+            "sequence_id": 1,
+            "state_group": "completed",
+            "state_name": "Done",
+            "workspace_slug": "acme"
+          },
+          "new_value": "manual_archive",
+          "old_value": "None",
+          "pending": true,
+          "receiver": "alice@example.com",
+          "triggered_by": "bob@example.com",
+          "verb": "updated"
+        },
+        {
+          "entity": "",
+          "entity_name": "issue",
+          "field": "archived_at",
+          "has_time": true,
+          "issue": "Shipped",
+          "issue_data": {
+            "id": "<uuid:16>",
+            "identifier": "PL",
+            "name": "Shipped",
+            "project_id": "<uuid:6>",
+            "sequence_id": 1,
+            "state_group": "completed",
+            "state_name": "Done",
+            "workspace_slug": "acme"
+          },
+          "new_value": "manual_archive",
+          "old_value": "None",
+          "pending": true,
+          "receiver": "alice@example.com",
+          "triggered_by": "bob@example.com",
+          "verb": "updated"
+        },
+        {
+          "entity": "",
+          "entity_name": "issue",
+          "field": "archived_at",
+          "has_time": true,
+          "issue": "Shipped",
+          "issue_data": {
+            "id": "<uuid:16>",
+            "identifier": "PL",
+            "name": "Shipped",
+            "project_id": "<uuid:6>",
+            "sequence_id": 1,
+            "state_group": "completed",
+            "state_name": "Done",
+            "workspace_slug": "acme"
+          },
+          "new_value": "restore",
+          "old_value": "archive",
+          "pending": true,
+          "receiver": "bob@example.com",
+          "triggered_by": "alice@example.com",
+          "verb": "updated"
+        },
+        {
+          "entity": "",
+          "entity_name": "issue",
+          "field": "assignees",
+          "has_time": true,
+          "issue": "Shipped",
+          "issue_data": {
+            "id": "<uuid:16>",
+            "identifier": "PL",
+            "name": "Shipped",
+            "project_id": "<uuid:6>",
+            "sequence_id": 1,
+            "state_group": "completed",
+            "state_name": "Done",
+            "workspace_slug": "acme"
+          },
+          "new_value": "bob",
+          "old_value": "",
+          "pending": true,
+          "receiver": "bob@example.com",
+          "triggered_by": "alice@example.com",
+          "verb": "updated"
+        }
+      ]
+    },
+    {
+      "actor": "db",
+      "method": "QUERY",
+      "path": "issue_description_versions",
+      "status": 0,
+      "body": [
+        {
+          "created_by": "alice@example.com",
+          "description_html": "<p></p>",
+          "description_json": {},
+          "description_stripped": "",
+          "name": "Done too",
+          "owned_by": "alice@example.com",
+          "saved_after": false,
+          "updated_by": null
+        },
+        {
+          "created_by": "alice@example.com",
+          "description_html": "<p></p>",
+          "description_json": {},
+          "description_stripped": "",
+          "name": "Dropped",
+          "owned_by": "alice@example.com",
+          "saved_after": false,
+          "updated_by": null
+        },
+        {
+          "created_by": "alice@example.com",
+          "description_html": "<p></p>",
+          "description_json": {},
+          "description_stripped": "",
+          "name": "Later",
+          "owned_by": "alice@example.com",
+          "saved_after": false,
+          "updated_by": null
+        },
+        {
+          "created_by": "bob@example.com",
+          "description_html": "<p></p>",
+          "description_json": {},
+          "description_stripped": "",
+          "name": "Open",
+          "owned_by": "bob@example.com",
+          "saved_after": false,
+          "updated_by": null
+        },
+        {
+          "created_by": "alice@example.com",
+          "description_html": "<p></p>",
+          "description_json": {},
+          "description_stripped": "",
+          "name": "Shipped",
+          "owned_by": "alice@example.com",
+          "saved_after": false,
+          "updated_by": null
+        }
+      ]
+    },
+    {
+      "actor": "db",
+      "method": "QUERY",
+      "path": "recent_visits",
+      "status": 0,
+      "body": [
+        {
+          "by_user": true,
+          "email": "alice@example.com",
+          "entity_name": "issue",
+          "identifier": "PL",
+          "issue": "Shipped",
+          "live": true
+        }
+      ]
+    }
+  ]
+}

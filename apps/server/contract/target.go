@@ -215,8 +215,8 @@ func (s *Scenario) LatestEmail(addr string) Email {
 					"from":    m.From.Address,
 					"to":      to,
 					"subject": codeRe.ReplaceAllString(m.Subject, "<code>"),
-					"text": resetParamRe.ReplaceAllString(
-						codeRe.ReplaceAllString(strings.Join(strings.Fields(m.Text), " "), "<code>"), "$1=<masked>"),
+					"text": s.ids.replace(resetParamRe.ReplaceAllString(
+						codeRe.ReplaceAllString(strings.Join(strings.Fields(m.Text), " "), "<code>"), "$1=<masked>")),
 				},
 			})
 			return m
@@ -243,4 +243,38 @@ func getJSON(u string, v any) error {
 
 func urlQuery(s string) string {
 	return strings.NewReplacer(" ", "%20", "+", "%2B", "@", "%40", ":", "%3A", `"`, "%22").Replace(s)
+}
+
+// DBStrings runs a query against the target's database and returns the first
+// column of each row as text, for reading values no response exposes (e.g.
+// invitation tokens to alias).
+func (s *Scenario) DBStrings(sql string, args ...any) []string {
+	s.t.Helper()
+	rows, err := s.tgt.pool.Query(context.Background(), sql, args...)
+	if err != nil {
+		s.t.Fatal(err)
+	}
+	out, err := pgx.CollectRows(rows, pgx.RowTo[string])
+	if err != nil {
+		s.t.Fatal(err)
+	}
+	return out
+}
+
+// DBRows records a query's rows as a step (actor "db"), for side effects no
+// response shows. Rows are JSON objects with ids normalized; select
+// comparisons rather than raw timestamps, whose text format differs.
+func (s *Scenario) DBRows(label, sql string, args ...any) {
+	s.t.Helper()
+	var raw []byte
+	if err := s.tgt.pool.QueryRow(context.Background(),
+		`SELECT coalesce(json_agg(t), '[]') FROM (`+sql+`) t`, args...).Scan(&raw); err != nil {
+		s.t.Fatal(err)
+	}
+	var rows any
+	if err := json.Unmarshal(raw, &rows); err != nil {
+		s.t.Fatal(err)
+	}
+	n := &normalizer{ids: s.ids, masks: map[string]bool{}, exact: map[string]bool{}, sorts: map[string]string{}, unordered: map[string]bool{}}
+	s.steps = append(s.steps, Step{Actor: "db", Method: "QUERY", Path: label, Body: n.value("body", rows)})
 }

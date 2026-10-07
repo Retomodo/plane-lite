@@ -1,0 +1,3225 @@
+{
+  "steps": [
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/auth/get-csrf-token/",
+      "status": 200,
+      "content_type": "application/json",
+      "cookies": [
+        "csrftoken; value=<set>; Path=/; Max-Age=31449600; HttpOnly; SameSite=Lax"
+      ],
+      "body": {
+        "csrf_token": "<masked>"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/auth/sign-up/",
+      "request": {
+        "csrfmiddlewaretoken": "<masked>",
+        "email": "alice@example.com",
+        "password": "correct-Horse-battery-staple-91"
+      },
+      "status": 302,
+      "location": "http://localhost:3000",
+      "content_type": "text/html",
+      "cookies": [
+        "csrftoken; value=<set>; Path=/; Max-Age=31449600; HttpOnly; SameSite=Lax",
+        "session-id; value=<set>; Path=/; Max-Age=604800; HttpOnly; SameSite=Lax"
+      ]
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/",
+      "request": {
+        "name": "Acme",
+        "slug": "acme"
+      },
+      "status": 201,
+      "content_type": "application/json",
+      "body": {
+        "background_color": "<masked>",
+        "created_at": "<datetime Z>",
+        "created_by": "<uuid:1>",
+        "deleted_at": null,
+        "id": "<uuid:2>",
+        "logo": null,
+        "logo_asset": null,
+        "logo_url": null,
+        "name": "Acme",
+        "organization_size": null,
+        "owner": "<uuid:1>",
+        "role": 20,
+        "slug": "acme",
+        "timezone": "UTC",
+        "total_members": 1,
+        "updated_at": "<datetime Z>",
+        "updated_by": null
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "GET",
+      "path": "/auth/get-csrf-token/",
+      "status": 200,
+      "content_type": "application/json",
+      "cookies": [
+        "csrftoken; value=<set>; Path=/; Max-Age=31449600; HttpOnly; SameSite=Lax"
+      ],
+      "body": {
+        "csrf_token": "<masked>"
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "POST",
+      "path": "/auth/sign-up/",
+      "request": {
+        "csrfmiddlewaretoken": "<masked>",
+        "email": "bob@example.com",
+        "password": "correct-Horse-battery-staple-91"
+      },
+      "status": 302,
+      "location": "http://localhost:3000",
+      "content_type": "text/html",
+      "cookies": [
+        "csrftoken; value=<set>; Path=/; Max-Age=31449600; HttpOnly; SameSite=Lax",
+        "session-id; value=<set>; Path=/; Max-Age=604800; HttpOnly; SameSite=Lax"
+      ]
+    },
+    {
+      "actor": "carol",
+      "method": "GET",
+      "path": "/auth/get-csrf-token/",
+      "status": 200,
+      "content_type": "application/json",
+      "cookies": [
+        "csrftoken; value=<set>; Path=/; Max-Age=31449600; HttpOnly; SameSite=Lax"
+      ],
+      "body": {
+        "csrf_token": "<masked>"
+      }
+    },
+    {
+      "actor": "carol",
+      "method": "POST",
+      "path": "/auth/sign-up/",
+      "request": {
+        "csrfmiddlewaretoken": "<masked>",
+        "email": "carol@example.com",
+        "password": "correct-Horse-battery-staple-91"
+      },
+      "status": 302,
+      "location": "http://localhost:3000",
+      "content_type": "text/html",
+      "cookies": [
+        "csrftoken; value=<set>; Path=/; Max-Age=31449600; HttpOnly; SameSite=Lax",
+        "session-id; value=<set>; Path=/; Max-Age=604800; HttpOnly; SameSite=Lax"
+      ]
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/invitations/",
+      "request": {
+        "emails": [
+          {
+            "email": "bob@example.com",
+            "role": 15
+          },
+          {
+            "email": "carol@example.com",
+            "role": 5
+          }
+        ]
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "message": "Emails sent successfully"
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "GET",
+      "path": "/api/users/me/workspaces/invitations/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": [
+        {
+          "accepted": false,
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:1>",
+          "deleted_at": null,
+          "email": "bob@example.com",
+          "id": "<uuid:3>",
+          "invite_link": "/workspace-invitations/?invitation_id=<uuid:3>&slug=acme&token=<invite-token:bob@example.com>",
+          "message": "\n\nalice invited you to Acme on Plane\n\n      alice has invited you to join Acme on Plane.\n\n                    Join Acme on Plane\n\n                    alice has invited you to collaborate with them in\n                    Acme workspace on Plane.\n\n                          Accept invite\n\n                    If the button doesn’t work, copy and paste this link into\n                    your browser:\n\n                    http://localhost:3000/workspace-invitations/?invitation_id=<uuid:3>&slug=acme&token=<invite-token:bob@example.com>\n\n                    Note: This invitation was intended for\n                    bob@example.com. If you were not expecting this invitation, you can ignore\n                    this email.\n\n                    Plane Software, Inc.\n\n",
+          "responded_at": null,
+          "role": 15,
+          "token": "<invite-token:bob@example.com>",
+          "updated_at": "<datetime Z>",
+          "updated_by": "<uuid:1>",
+          "workspace": {
+            "id": "<uuid:2>",
+            "logo_url": null,
+            "name": "Acme",
+            "slug": "acme"
+          }
+        }
+      ]
+    },
+    {
+      "actor": "bob",
+      "method": "POST",
+      "path": "/api/users/me/workspaces/invitations/",
+      "request": {
+        "invitations": [
+          "<uuid:3>"
+        ]
+      },
+      "status": 204
+    },
+    {
+      "actor": "carol",
+      "method": "GET",
+      "path": "/api/users/me/workspaces/invitations/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": [
+        {
+          "accepted": false,
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:1>",
+          "deleted_at": null,
+          "email": "carol@example.com",
+          "id": "<uuid:4>",
+          "invite_link": "/workspace-invitations/?invitation_id=<uuid:4>&slug=acme&token=<invite-token:carol@example.com>",
+          "message": "\n\nalice invited you to Acme on Plane\n\n      alice has invited you to join Acme on Plane.\n\n                    Join Acme on Plane\n\n                    alice has invited you to collaborate with them in\n                    Acme workspace on Plane.\n\n                          Accept invite\n\n                    If the button doesn’t work, copy and paste this link into\n                    your browser:\n\n                    http://localhost:3000/workspace-invitations/?invitation_id=<uuid:4>&slug=acme&token=<invite-token:carol@example.com>\n\n                    Note: This invitation was intended for\n                    carol@example.com. If you were not expecting this invitation, you can ignore\n                    this email.\n\n                    Plane Software, Inc.\n\n",
+          "responded_at": null,
+          "role": 5,
+          "token": "<invite-token:carol@example.com>",
+          "updated_at": "<datetime Z>",
+          "updated_by": "<uuid:1>",
+          "workspace": {
+            "id": "<uuid:2>",
+            "logo_url": null,
+            "name": "Acme",
+            "slug": "acme"
+          }
+        }
+      ]
+    },
+    {
+      "actor": "carol",
+      "method": "POST",
+      "path": "/api/users/me/workspaces/invitations/",
+      "request": {
+        "invitations": [
+          "<uuid:4>"
+        ]
+      },
+      "status": 204
+    },
+    {
+      "actor": "bob",
+      "method": "GET",
+      "path": "/api/users/me/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "avatar": "",
+        "avatar_url": null,
+        "cover_image": null,
+        "cover_image_url": null,
+        "date_joined": "<datetime Z>",
+        "display_name": "bob",
+        "email": "bob@example.com",
+        "first_name": "",
+        "id": "<uuid:5>",
+        "is_active": true,
+        "is_bot": false,
+        "is_email_verified": false,
+        "is_password_autoset": false,
+        "last_login_medium": "email",
+        "last_login_time": "<datetime Z>",
+        "last_name": "",
+        "user_timezone": "UTC",
+        "username": "<hex32>"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/workspaces/acme/projects/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": []
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/workspaces/acme/projects/details/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": []
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/",
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "identifier": [
+          "This field is required."
+        ],
+        "name": [
+          "This field is required."
+        ]
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/",
+      "request": {
+        "identifier": "P.L",
+        "name": "Plane-Lite"
+      },
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "identifier": [
+          "PROJECT_IDENTIFIER_CANNOT_CONTAIN_SPECIAL_CHARACTERS"
+        ],
+        "name": [
+          "PROJECT_NAME_CANNOT_CONTAIN_SPECIAL_CHARACTERS"
+        ]
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/",
+      "request": {
+        "archive_in": 13,
+        "close_in": -1,
+        "identifier": "AAAAAAAAAAAAA",
+        "name": "",
+        "network": 1
+      },
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "archive_in": [
+          "Ensure this value is less than or equal to 12."
+        ],
+        "close_in": [
+          "Ensure this value is greater than or equal to 0."
+        ],
+        "identifier": [
+          "Ensure this field has no more than 12 characters."
+        ],
+        "name": [
+          "This field may not be blank."
+        ],
+        "network": [
+          "\"1\" is not a valid choice."
+        ]
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/",
+      "request": {
+        "archived_at": "soon",
+        "cover_image": "xxxxxxxxxx",
+        "default_state": "<uuid:6>",
+        "estimate": "nope",
+        "external_id": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "guest_view_all_features": 1,
+        "identifier": "BAD",
+        "logo_props": null,
+        "module_view": "maybe",
+        "name": "Bad refs",
+        "project_lead": "<uuid:6>",
+        "timezone": "Mars/Base",
+        "workspace": "<uuid:6>"
+      },
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "archived_at": [
+          "Datetime has wrong format. Use one of these formats instead: YYYY-MM-DDThh:mm[:ss[.uuuuuu]][+HH:MM|-HH:MM|Z]."
+        ],
+        "default_state": [
+          "Invalid pk \"<uuid:6>\" - object does not exist."
+        ],
+        "estimate": [
+          "“nope” is not a valid UUID."
+        ],
+        "external_id": [
+          "Ensure this field has no more than 255 characters."
+        ],
+        "logo_props": [
+          "This field may not be null."
+        ],
+        "module_view": [
+          "Must be a valid boolean."
+        ],
+        "project_lead": [
+          "Invalid pk \"<uuid:6>\" - object does not exist."
+        ],
+        "timezone": [
+          "\"Mars/Base\" is not a valid choice."
+        ]
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/",
+      "request": [
+        "x"
+      ],
+      "status": 500,
+      "content_type": "application/json",
+      "body": {
+        "error": "Something went wrong please try again later"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/",
+      "request": {
+        "cycle_view": true,
+        "description": "Team notes and tickets",
+        "identifier": " pl ",
+        "inbox_view": true,
+        "logo_props": {
+          "emoji": {
+            "value": "128640"
+          },
+          "in_use": "emoji"
+        },
+        "module_view": true,
+        "name": "Plane Lite",
+        "network": 2,
+        "project_lead": "<uuid:5>",
+        "workspace": "<uuid:6>"
+      },
+      "status": 201,
+      "content_type": "application/json",
+      "body": {
+        "anchor": null,
+        "archive_in": 0,
+        "archived_at": null,
+        "close_in": 0,
+        "cover_image": null,
+        "cover_image_asset": null,
+        "cover_image_url": null,
+        "created_at": "<datetime Z>",
+        "created_by": "<uuid:1>",
+        "cycle_view": true,
+        "default_assignee": null,
+        "default_state": null,
+        "deleted_at": null,
+        "description": "Team notes and tickets",
+        "description_html": null,
+        "description_text": null,
+        "emoji": null,
+        "estimate": null,
+        "external_id": null,
+        "external_source": null,
+        "guest_view_all_features": false,
+        "icon_prop": null,
+        "id": "<uuid:7>",
+        "identifier": "PL",
+        "inbox_view": false,
+        "intake_view": false,
+        "is_favorite": false,
+        "is_issue_type_enabled": false,
+        "is_time_tracking_enabled": false,
+        "issue_views_view": false,
+        "logo_props": {
+          "emoji": {
+            "value": "128640"
+          },
+          "in_use": "emoji"
+        },
+        "member_role": 20,
+        "members": [
+          "<uuid:5>",
+          "<uuid:1>"
+        ],
+        "module_view": true,
+        "name": "Plane Lite",
+        "network": 2,
+        "next_work_item_sequence": 1,
+        "page_view": true,
+        "project_lead": "<uuid:5>",
+        "sort_order": 65535,
+        "timezone": "UTC",
+        "updated_at": "<datetime Z>",
+        "updated_by": null,
+        "workspace": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "db",
+      "method": "QUERY",
+      "path": "PL states",
+      "status": 0,
+      "body": [
+        {
+          "color": "#60646C",
+          "created_by_id": "<uuid:1>",
+          "default": true,
+          "description": "",
+          "external_id": null,
+          "external_source": null,
+          "group": "backlog",
+          "is_triage": false,
+          "live": true,
+          "name": "Backlog",
+          "sequence": 15000,
+          "slug": "",
+          "updated_by_id": null,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "color": "#60646C",
+          "created_by_id": "<uuid:1>",
+          "default": false,
+          "description": "",
+          "external_id": null,
+          "external_source": null,
+          "group": "unstarted",
+          "is_triage": false,
+          "live": true,
+          "name": "Todo",
+          "sequence": 25000,
+          "slug": "",
+          "updated_by_id": null,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "color": "#F59E0B",
+          "created_by_id": "<uuid:1>",
+          "default": false,
+          "description": "",
+          "external_id": null,
+          "external_source": null,
+          "group": "started",
+          "is_triage": false,
+          "live": true,
+          "name": "In Progress",
+          "sequence": 35000,
+          "slug": "",
+          "updated_by_id": null,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "color": "#46A758",
+          "created_by_id": "<uuid:1>",
+          "default": false,
+          "description": "",
+          "external_id": null,
+          "external_source": null,
+          "group": "completed",
+          "is_triage": false,
+          "live": true,
+          "name": "Done",
+          "sequence": 45000,
+          "slug": "",
+          "updated_by_id": null,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "color": "#9AA4BC",
+          "created_by_id": "<uuid:1>",
+          "default": false,
+          "description": "",
+          "external_id": null,
+          "external_source": null,
+          "group": "cancelled",
+          "is_triage": false,
+          "live": true,
+          "name": "Cancelled",
+          "sequence": 55000,
+          "slug": "",
+          "updated_by_id": null,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "color": "#4E5355",
+          "created_by_id": "<uuid:1>",
+          "default": false,
+          "description": "",
+          "external_id": null,
+          "external_source": null,
+          "group": "triage",
+          "is_triage": false,
+          "live": true,
+          "name": "Triage",
+          "sequence": 65000,
+          "slug": "",
+          "updated_by_id": null,
+          "workspace_id": "<uuid:2>"
+        }
+      ]
+    },
+    {
+      "actor": "db",
+      "method": "QUERY",
+      "path": "PL members",
+      "status": 0,
+      "body": [
+        {
+          "comment": null,
+          "created_by_id": "<uuid:1>",
+          "default_props": {
+            "display_filters": {
+              "calendar_date_range": "",
+              "group_by": null,
+              "layout": "list",
+              "order_by": "-created_at",
+              "show_empty_groups": true,
+              "sub_issue": true,
+              "type": null
+            },
+            "filters": {
+              "assignees": null,
+              "created_by": null,
+              "labels": null,
+              "priority": null,
+              "start_date": null,
+              "state": null,
+              "state_group": null,
+              "subscriber": null,
+              "target_date": null
+            }
+          },
+          "is_active": true,
+          "member_id": "<uuid:1>",
+          "preferences": {
+            "navigation": {
+              "default_tab": "work_items",
+              "hide_in_more_menu": []
+            },
+            "pages": {
+              "block_display": true
+            }
+          },
+          "property_created_by": "<uuid:1>",
+          "property_sort_order": 65535,
+          "property_updated_by": null,
+          "role": 20,
+          "sort_order": 65535,
+          "updated_by_id": null,
+          "view_props": {
+            "display_filters": {
+              "calendar_date_range": "",
+              "group_by": null,
+              "layout": "list",
+              "order_by": "-created_at",
+              "show_empty_groups": true,
+              "sub_issue": true,
+              "type": null
+            },
+            "filters": {
+              "assignees": null,
+              "created_by": null,
+              "labels": null,
+              "priority": null,
+              "start_date": null,
+              "state": null,
+              "state_group": null,
+              "subscriber": null,
+              "target_date": null
+            }
+          }
+        },
+        {
+          "comment": null,
+          "created_by_id": "<uuid:1>",
+          "default_props": {
+            "display_filters": {
+              "calendar_date_range": "",
+              "group_by": null,
+              "layout": "list",
+              "order_by": "-created_at",
+              "show_empty_groups": true,
+              "sub_issue": true,
+              "type": null
+            },
+            "filters": {
+              "assignees": null,
+              "created_by": null,
+              "labels": null,
+              "priority": null,
+              "start_date": null,
+              "state": null,
+              "state_group": null,
+              "subscriber": null,
+              "target_date": null
+            }
+          },
+          "is_active": true,
+          "member_id": "<uuid:5>",
+          "preferences": {
+            "navigation": {
+              "default_tab": "work_items",
+              "hide_in_more_menu": []
+            },
+            "pages": {
+              "block_display": true
+            }
+          },
+          "property_created_by": "<uuid:1>",
+          "property_sort_order": 65535,
+          "property_updated_by": null,
+          "role": 20,
+          "sort_order": 65535,
+          "updated_by_id": null,
+          "view_props": {
+            "display_filters": {
+              "calendar_date_range": "",
+              "group_by": null,
+              "layout": "list",
+              "order_by": "-created_at",
+              "show_empty_groups": true,
+              "sub_issue": true,
+              "type": null
+            },
+            "filters": {
+              "assignees": null,
+              "created_by": null,
+              "labels": null,
+              "priority": null,
+              "start_date": null,
+              "state": null,
+              "state_group": null,
+              "subscriber": null,
+              "target_date": null
+            }
+          }
+        }
+      ]
+    },
+    {
+      "actor": "db",
+      "method": "QUERY",
+      "path": "PL identifier",
+      "status": 0,
+      "body": [
+        {
+          "created_by_id": null,
+          "name": "PL",
+          "project_id": "<uuid:7>",
+          "updated_by_id": null,
+          "workspace_id": "<uuid:2>"
+        }
+      ]
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/",
+      "request": {
+        "identifier": "PL",
+        "name": "Plane Lite"
+      },
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "identifier": [
+          "PROJECT_IDENTIFIER_ALREADY_EXIST"
+        ],
+        "name": [
+          "PROJECT_NAME_ALREADY_EXIST"
+        ]
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/",
+      "request": {
+        "identifier": "pl",
+        "name": "Secret"
+      },
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "error": "The payload is not valid"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/",
+      "request": {
+        "identifier": "SEC",
+        "name": "Secret",
+        "network": 0,
+        "timezone": "Asia/Tokyo"
+      },
+      "status": 201,
+      "content_type": "application/json",
+      "body": {
+        "anchor": null,
+        "archive_in": 0,
+        "archived_at": null,
+        "close_in": 0,
+        "cover_image": null,
+        "cover_image_asset": null,
+        "cover_image_url": null,
+        "created_at": "<datetime Z>",
+        "created_by": "<uuid:1>",
+        "cycle_view": false,
+        "default_assignee": null,
+        "default_state": null,
+        "deleted_at": null,
+        "description": "",
+        "description_html": null,
+        "description_text": null,
+        "emoji": null,
+        "estimate": null,
+        "external_id": null,
+        "external_source": null,
+        "guest_view_all_features": false,
+        "icon_prop": null,
+        "id": "<uuid:8>",
+        "identifier": "SEC",
+        "inbox_view": false,
+        "intake_view": false,
+        "is_favorite": false,
+        "is_issue_type_enabled": false,
+        "is_time_tracking_enabled": false,
+        "issue_views_view": false,
+        "logo_props": {},
+        "member_role": 20,
+        "members": [
+          "<uuid:1>"
+        ],
+        "module_view": false,
+        "name": "Secret",
+        "network": 0,
+        "next_work_item_sequence": 1,
+        "page_view": true,
+        "project_lead": null,
+        "sort_order": 55535,
+        "timezone": "Asia/Tokyo",
+        "updated_at": "<datetime Z>",
+        "updated_by": null,
+        "workspace": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/",
+      "request": {
+        "identifier": "BOB",
+        "name": "Bobs"
+      },
+      "status": 201,
+      "content_type": "application/json",
+      "body": {
+        "anchor": null,
+        "archive_in": 0,
+        "archived_at": null,
+        "close_in": 0,
+        "cover_image": null,
+        "cover_image_asset": null,
+        "cover_image_url": null,
+        "created_at": "<datetime Z>",
+        "created_by": "<uuid:5>",
+        "cycle_view": false,
+        "default_assignee": null,
+        "default_state": null,
+        "deleted_at": null,
+        "description": "",
+        "description_html": null,
+        "description_text": null,
+        "emoji": null,
+        "estimate": null,
+        "external_id": null,
+        "external_source": null,
+        "guest_view_all_features": false,
+        "icon_prop": null,
+        "id": "<uuid:9>",
+        "identifier": "BOB",
+        "inbox_view": false,
+        "intake_view": false,
+        "is_favorite": false,
+        "is_issue_type_enabled": false,
+        "is_time_tracking_enabled": false,
+        "issue_views_view": false,
+        "logo_props": {},
+        "member_role": 20,
+        "members": [
+          "<uuid:5>"
+        ],
+        "module_view": false,
+        "name": "Bobs",
+        "network": 2,
+        "next_work_item_sequence": 1,
+        "page_view": true,
+        "project_lead": null,
+        "sort_order": 55535,
+        "timezone": "UTC",
+        "updated_at": "<datetime Z>",
+        "updated_by": null,
+        "workspace": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "carol",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/",
+      "request": {
+        "identifier": "GST",
+        "name": "Guest"
+      },
+      "status": 403,
+      "content_type": "application/json",
+      "body": {
+        "error": "You don't have the required permissions."
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/workspaces/acme/projects/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": [
+        {
+          "archived_at": null,
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:5>",
+          "cycle_view": false,
+          "guest_view_all_features": false,
+          "id": "<uuid:9>",
+          "identifier": "BOB",
+          "inbox_view": false,
+          "intake_count": 0,
+          "issue_views_view": false,
+          "logo_props": {},
+          "member_role": null,
+          "module_view": false,
+          "name": "Bobs",
+          "network": 2,
+          "page_view": true,
+          "project_lead": null,
+          "sort_order": null,
+          "updated_at": "<datetime Z>",
+          "updated_by": null,
+          "workspace": "<uuid:2>"
+        },
+        {
+          "archived_at": null,
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:1>",
+          "cycle_view": true,
+          "guest_view_all_features": false,
+          "id": "<uuid:7>",
+          "identifier": "PL",
+          "inbox_view": false,
+          "intake_count": 0,
+          "issue_views_view": false,
+          "logo_props": {
+            "emoji": {
+              "value": "128640"
+            },
+            "in_use": "emoji"
+          },
+          "member_role": 20,
+          "module_view": true,
+          "name": "Plane Lite",
+          "network": 2,
+          "page_view": true,
+          "project_lead": "<uuid:5>",
+          "sort_order": 65535,
+          "updated_at": "<datetime Z>",
+          "updated_by": null,
+          "workspace": "<uuid:2>"
+        },
+        {
+          "archived_at": null,
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:1>",
+          "cycle_view": false,
+          "guest_view_all_features": false,
+          "id": "<uuid:8>",
+          "identifier": "SEC",
+          "inbox_view": false,
+          "intake_count": 0,
+          "issue_views_view": false,
+          "logo_props": {},
+          "member_role": 20,
+          "module_view": false,
+          "name": "Secret",
+          "network": 0,
+          "page_view": true,
+          "project_lead": null,
+          "sort_order": 55535,
+          "updated_at": "<datetime Z>",
+          "updated_by": null,
+          "workspace": "<uuid:2>"
+        }
+      ]
+    },
+    {
+      "actor": "bob",
+      "method": "GET",
+      "path": "/api/workspaces/acme/projects/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": [
+        {
+          "archived_at": null,
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:5>",
+          "cycle_view": false,
+          "guest_view_all_features": false,
+          "id": "<uuid:9>",
+          "identifier": "BOB",
+          "inbox_view": false,
+          "intake_count": 0,
+          "issue_views_view": false,
+          "logo_props": {},
+          "member_role": 20,
+          "module_view": false,
+          "name": "Bobs",
+          "network": 2,
+          "page_view": true,
+          "project_lead": null,
+          "sort_order": 55535,
+          "updated_at": "<datetime Z>",
+          "updated_by": null,
+          "workspace": "<uuid:2>"
+        },
+        {
+          "archived_at": null,
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:1>",
+          "cycle_view": true,
+          "guest_view_all_features": false,
+          "id": "<uuid:7>",
+          "identifier": "PL",
+          "inbox_view": false,
+          "intake_count": 0,
+          "issue_views_view": false,
+          "logo_props": {
+            "emoji": {
+              "value": "128640"
+            },
+            "in_use": "emoji"
+          },
+          "member_role": 20,
+          "module_view": true,
+          "name": "Plane Lite",
+          "network": 2,
+          "page_view": true,
+          "project_lead": "<uuid:5>",
+          "sort_order": 65535,
+          "updated_at": "<datetime Z>",
+          "updated_by": null,
+          "workspace": "<uuid:2>"
+        }
+      ]
+    },
+    {
+      "actor": "carol",
+      "method": "GET",
+      "path": "/api/workspaces/acme/projects/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": []
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/workspaces/acme/projects/details/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": [
+        {
+          "anchor": null,
+          "archive_in": 0,
+          "archived_at": null,
+          "close_in": 0,
+          "cover_image": null,
+          "cover_image_asset": null,
+          "cover_image_url": null,
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:1>",
+          "cycle_view": false,
+          "default_assignee": null,
+          "default_state": null,
+          "deleted_at": null,
+          "description": "",
+          "description_html": null,
+          "description_text": null,
+          "emoji": null,
+          "estimate": null,
+          "external_id": null,
+          "external_source": null,
+          "guest_view_all_features": false,
+          "icon_prop": null,
+          "id": "<uuid:8>",
+          "identifier": "SEC",
+          "inbox_view": false,
+          "intake_view": false,
+          "is_favorite": false,
+          "is_issue_type_enabled": false,
+          "is_time_tracking_enabled": false,
+          "issue_views_view": false,
+          "logo_props": {},
+          "member_role": 20,
+          "members": [
+            "<uuid:1>"
+          ],
+          "module_view": false,
+          "name": "Secret",
+          "network": 0,
+          "next_work_item_sequence": 1,
+          "page_view": true,
+          "project_lead": null,
+          "sort_order": 55535,
+          "timezone": "Asia/Tokyo",
+          "updated_at": "<datetime Z>",
+          "updated_by": null,
+          "workspace": "<uuid:2>"
+        },
+        {
+          "anchor": null,
+          "archive_in": 0,
+          "archived_at": null,
+          "close_in": 0,
+          "cover_image": null,
+          "cover_image_asset": null,
+          "cover_image_url": null,
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:1>",
+          "cycle_view": true,
+          "default_assignee": null,
+          "default_state": null,
+          "deleted_at": null,
+          "description": "Team notes and tickets",
+          "description_html": null,
+          "description_text": null,
+          "emoji": null,
+          "estimate": null,
+          "external_id": null,
+          "external_source": null,
+          "guest_view_all_features": false,
+          "icon_prop": null,
+          "id": "<uuid:7>",
+          "identifier": "PL",
+          "inbox_view": false,
+          "intake_view": false,
+          "is_favorite": false,
+          "is_issue_type_enabled": false,
+          "is_time_tracking_enabled": false,
+          "issue_views_view": false,
+          "logo_props": {
+            "emoji": {
+              "value": "128640"
+            },
+            "in_use": "emoji"
+          },
+          "member_role": 20,
+          "members": [
+            "<uuid:5>",
+            "<uuid:1>"
+          ],
+          "module_view": true,
+          "name": "Plane Lite",
+          "network": 2,
+          "next_work_item_sequence": 1,
+          "page_view": true,
+          "project_lead": "<uuid:5>",
+          "sort_order": 65535,
+          "timezone": "UTC",
+          "updated_at": "<datetime Z>",
+          "updated_by": null,
+          "workspace": "<uuid:2>"
+        },
+        {
+          "anchor": null,
+          "archive_in": 0,
+          "archived_at": null,
+          "close_in": 0,
+          "cover_image": null,
+          "cover_image_asset": null,
+          "cover_image_url": null,
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:5>",
+          "cycle_view": false,
+          "default_assignee": null,
+          "default_state": null,
+          "deleted_at": null,
+          "description": "",
+          "description_html": null,
+          "description_text": null,
+          "emoji": null,
+          "estimate": null,
+          "external_id": null,
+          "external_source": null,
+          "guest_view_all_features": false,
+          "icon_prop": null,
+          "id": "<uuid:9>",
+          "identifier": "BOB",
+          "inbox_view": false,
+          "intake_view": false,
+          "is_favorite": false,
+          "is_issue_type_enabled": false,
+          "is_time_tracking_enabled": false,
+          "issue_views_view": false,
+          "logo_props": {},
+          "member_role": null,
+          "members": [
+            "<uuid:5>"
+          ],
+          "module_view": false,
+          "name": "Bobs",
+          "network": 2,
+          "next_work_item_sequence": 1,
+          "page_view": true,
+          "project_lead": null,
+          "sort_order": null,
+          "timezone": "UTC",
+          "updated_at": "<datetime Z>",
+          "updated_by": null,
+          "workspace": "<uuid:2>"
+        }
+      ]
+    },
+    {
+      "actor": "bob",
+      "method": "GET",
+      "path": "/api/workspaces/acme/projects/details/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": [
+        {
+          "anchor": null,
+          "archive_in": 0,
+          "archived_at": null,
+          "close_in": 0,
+          "cover_image": null,
+          "cover_image_asset": null,
+          "cover_image_url": null,
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:5>",
+          "cycle_view": false,
+          "default_assignee": null,
+          "default_state": null,
+          "deleted_at": null,
+          "description": "",
+          "description_html": null,
+          "description_text": null,
+          "emoji": null,
+          "estimate": null,
+          "external_id": null,
+          "external_source": null,
+          "guest_view_all_features": false,
+          "icon_prop": null,
+          "id": "<uuid:9>",
+          "identifier": "BOB",
+          "inbox_view": false,
+          "intake_view": false,
+          "is_favorite": false,
+          "is_issue_type_enabled": false,
+          "is_time_tracking_enabled": false,
+          "issue_views_view": false,
+          "logo_props": {},
+          "member_role": 20,
+          "members": [
+            "<uuid:5>"
+          ],
+          "module_view": false,
+          "name": "Bobs",
+          "network": 2,
+          "next_work_item_sequence": 1,
+          "page_view": true,
+          "project_lead": null,
+          "sort_order": 55535,
+          "timezone": "UTC",
+          "updated_at": "<datetime Z>",
+          "updated_by": null,
+          "workspace": "<uuid:2>"
+        },
+        {
+          "anchor": null,
+          "archive_in": 0,
+          "archived_at": null,
+          "close_in": 0,
+          "cover_image": null,
+          "cover_image_asset": null,
+          "cover_image_url": null,
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:1>",
+          "cycle_view": true,
+          "default_assignee": null,
+          "default_state": null,
+          "deleted_at": null,
+          "description": "Team notes and tickets",
+          "description_html": null,
+          "description_text": null,
+          "emoji": null,
+          "estimate": null,
+          "external_id": null,
+          "external_source": null,
+          "guest_view_all_features": false,
+          "icon_prop": null,
+          "id": "<uuid:7>",
+          "identifier": "PL",
+          "inbox_view": false,
+          "intake_view": false,
+          "is_favorite": false,
+          "is_issue_type_enabled": false,
+          "is_time_tracking_enabled": false,
+          "issue_views_view": false,
+          "logo_props": {
+            "emoji": {
+              "value": "128640"
+            },
+            "in_use": "emoji"
+          },
+          "member_role": 20,
+          "members": [
+            "<uuid:5>",
+            "<uuid:1>"
+          ],
+          "module_view": true,
+          "name": "Plane Lite",
+          "network": 2,
+          "next_work_item_sequence": 1,
+          "page_view": true,
+          "project_lead": "<uuid:5>",
+          "sort_order": 65535,
+          "timezone": "UTC",
+          "updated_at": "<datetime Z>",
+          "updated_by": null,
+          "workspace": "<uuid:2>"
+        }
+      ]
+    },
+    {
+      "actor": "carol",
+      "method": "GET",
+      "path": "/api/workspaces/acme/projects/details/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": []
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/workspaces/acme/projects/details/?fields=id,name",
+      "status": 200,
+      "content_type": "application/json",
+      "body": [
+        {
+          "anchor": null,
+          "archive_in": 0,
+          "archived_at": null,
+          "close_in": 0,
+          "cover_image": null,
+          "cover_image_asset": null,
+          "cover_image_url": null,
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:1>",
+          "cycle_view": false,
+          "default_assignee": null,
+          "default_state": null,
+          "deleted_at": null,
+          "description": "",
+          "description_html": null,
+          "description_text": null,
+          "emoji": null,
+          "estimate": null,
+          "external_id": null,
+          "external_source": null,
+          "guest_view_all_features": false,
+          "icon_prop": null,
+          "id": "<uuid:8>",
+          "identifier": "SEC",
+          "inbox_view": false,
+          "intake_view": false,
+          "is_favorite": false,
+          "is_issue_type_enabled": false,
+          "is_time_tracking_enabled": false,
+          "issue_views_view": false,
+          "logo_props": {},
+          "member_role": 20,
+          "members": [
+            "<uuid:1>"
+          ],
+          "module_view": false,
+          "name": "Secret",
+          "network": 0,
+          "next_work_item_sequence": 1,
+          "page_view": true,
+          "project_lead": null,
+          "sort_order": 55535,
+          "timezone": "Asia/Tokyo",
+          "updated_at": "<datetime Z>",
+          "updated_by": null,
+          "workspace": "<uuid:2>"
+        },
+        {
+          "anchor": null,
+          "archive_in": 0,
+          "archived_at": null,
+          "close_in": 0,
+          "cover_image": null,
+          "cover_image_asset": null,
+          "cover_image_url": null,
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:1>",
+          "cycle_view": true,
+          "default_assignee": null,
+          "default_state": null,
+          "deleted_at": null,
+          "description": "Team notes and tickets",
+          "description_html": null,
+          "description_text": null,
+          "emoji": null,
+          "estimate": null,
+          "external_id": null,
+          "external_source": null,
+          "guest_view_all_features": false,
+          "icon_prop": null,
+          "id": "<uuid:7>",
+          "identifier": "PL",
+          "inbox_view": false,
+          "intake_view": false,
+          "is_favorite": false,
+          "is_issue_type_enabled": false,
+          "is_time_tracking_enabled": false,
+          "issue_views_view": false,
+          "logo_props": {
+            "emoji": {
+              "value": "128640"
+            },
+            "in_use": "emoji"
+          },
+          "member_role": 20,
+          "members": [
+            "<uuid:5>",
+            "<uuid:1>"
+          ],
+          "module_view": true,
+          "name": "Plane Lite",
+          "network": 2,
+          "next_work_item_sequence": 1,
+          "page_view": true,
+          "project_lead": "<uuid:5>",
+          "sort_order": 65535,
+          "timezone": "UTC",
+          "updated_at": "<datetime Z>",
+          "updated_by": null,
+          "workspace": "<uuid:2>"
+        },
+        {
+          "anchor": null,
+          "archive_in": 0,
+          "archived_at": null,
+          "close_in": 0,
+          "cover_image": null,
+          "cover_image_asset": null,
+          "cover_image_url": null,
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:5>",
+          "cycle_view": false,
+          "default_assignee": null,
+          "default_state": null,
+          "deleted_at": null,
+          "description": "",
+          "description_html": null,
+          "description_text": null,
+          "emoji": null,
+          "estimate": null,
+          "external_id": null,
+          "external_source": null,
+          "guest_view_all_features": false,
+          "icon_prop": null,
+          "id": "<uuid:9>",
+          "identifier": "BOB",
+          "inbox_view": false,
+          "intake_view": false,
+          "is_favorite": false,
+          "is_issue_type_enabled": false,
+          "is_time_tracking_enabled": false,
+          "issue_views_view": false,
+          "logo_props": {},
+          "member_role": null,
+          "members": [
+            "<uuid:5>"
+          ],
+          "module_view": false,
+          "name": "Bobs",
+          "network": 2,
+          "next_work_item_sequence": 1,
+          "page_view": true,
+          "project_lead": null,
+          "sort_order": null,
+          "timezone": "UTC",
+          "updated_at": "<datetime Z>",
+          "updated_by": null,
+          "workspace": "<uuid:2>"
+        }
+      ]
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/workspaces/acme/projects/details/?per_page=1&cursor=1:0:0",
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "count": 1,
+        "extra_stats": null,
+        "grouped_by": null,
+        "next_cursor": "1:1:0",
+        "next_page_results": true,
+        "prev_cursor": "1:-1:1",
+        "prev_page_results": false,
+        "results": [
+          {
+            "anchor": null,
+            "archive_in": 0,
+            "archived_at": null,
+            "close_in": 0,
+            "cover_image": null,
+            "cover_image_asset": null,
+            "cover_image_url": null,
+            "created_at": "<datetime Z>",
+            "created_by": "<uuid:5>",
+            "cycle_view": false,
+            "default_assignee": null,
+            "default_state": null,
+            "deleted_at": null,
+            "description": "",
+            "description_html": null,
+            "description_text": null,
+            "emoji": null,
+            "estimate": null,
+            "external_id": null,
+            "external_source": null,
+            "guest_view_all_features": false,
+            "icon_prop": null,
+            "id": "<uuid:9>",
+            "identifier": "BOB",
+            "inbox_view": false,
+            "intake_view": false,
+            "is_favorite": false,
+            "is_issue_type_enabled": false,
+            "is_time_tracking_enabled": false,
+            "issue_views_view": false,
+            "logo_props": {},
+            "member_role": null,
+            "members": [
+              "<uuid:5>"
+            ],
+            "module_view": false,
+            "name": "Bobs",
+            "network": 2,
+            "next_work_item_sequence": 1,
+            "page_view": true,
+            "project_lead": null,
+            "sort_order": null,
+            "timezone": "UTC",
+            "updated_at": "<datetime Z>",
+            "updated_by": null,
+            "workspace": "<uuid:2>"
+          }
+        ],
+        "sub_grouped_by": null,
+        "total_count": 3,
+        "total_pages": 3,
+        "total_results": 3
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/workspaces/acme/projects/details/?per_page=1&cursor=1:1:0&order_by=-name",
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "count": 1,
+        "extra_stats": null,
+        "grouped_by": null,
+        "next_cursor": "1:2:0",
+        "next_page_results": true,
+        "prev_cursor": "1:0:1",
+        "prev_page_results": true,
+        "results": [
+          {
+            "anchor": null,
+            "archive_in": 0,
+            "archived_at": null,
+            "close_in": 0,
+            "cover_image": null,
+            "cover_image_asset": null,
+            "cover_image_url": null,
+            "created_at": "<datetime Z>",
+            "created_by": "<uuid:1>",
+            "cycle_view": true,
+            "default_assignee": null,
+            "default_state": null,
+            "deleted_at": null,
+            "description": "Team notes and tickets",
+            "description_html": null,
+            "description_text": null,
+            "emoji": null,
+            "estimate": null,
+            "external_id": null,
+            "external_source": null,
+            "guest_view_all_features": false,
+            "icon_prop": null,
+            "id": "<uuid:7>",
+            "identifier": "PL",
+            "inbox_view": false,
+            "intake_view": false,
+            "is_favorite": false,
+            "is_issue_type_enabled": false,
+            "is_time_tracking_enabled": false,
+            "issue_views_view": false,
+            "logo_props": {
+              "emoji": {
+                "value": "128640"
+              },
+              "in_use": "emoji"
+            },
+            "member_role": 20,
+            "members": [
+              "<uuid:5>",
+              "<uuid:1>"
+            ],
+            "module_view": true,
+            "name": "Plane Lite",
+            "network": 2,
+            "next_work_item_sequence": 1,
+            "page_view": true,
+            "project_lead": "<uuid:5>",
+            "sort_order": 65535,
+            "timezone": "UTC",
+            "updated_at": "<datetime Z>",
+            "updated_by": null,
+            "workspace": "<uuid:2>"
+          }
+        ],
+        "sub_grouped_by": null,
+        "total_count": 3,
+        "total_pages": 3,
+        "total_results": 3
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/workspaces/acme/projects/details/?per_page=1&cursor=nope",
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "detail": "Invalid cursor parameter."
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/workspaces/acme/projects/details/?per_page=x&cursor=1:0:0",
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "detail": "Invalid per_page parameter."
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/workspaces/acme/projects/details/?per_page=5000&cursor=1:0:0",
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "detail": "Invalid per_page value. Cannot exceed 1000."
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/workspaces/acme/projects/details/?per_page=10&cursor=10:0:0&order_by=--name",
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "count": 3,
+        "extra_stats": null,
+        "grouped_by": null,
+        "next_cursor": "10:1:0",
+        "next_page_results": false,
+        "prev_cursor": "10:-1:1",
+        "prev_page_results": false,
+        "results": [
+          {
+            "anchor": null,
+            "archive_in": 0,
+            "archived_at": null,
+            "close_in": 0,
+            "cover_image": null,
+            "cover_image_asset": null,
+            "cover_image_url": null,
+            "created_at": "<datetime Z>",
+            "created_by": "<uuid:5>",
+            "cycle_view": false,
+            "default_assignee": null,
+            "default_state": null,
+            "deleted_at": null,
+            "description": "",
+            "description_html": null,
+            "description_text": null,
+            "emoji": null,
+            "estimate": null,
+            "external_id": null,
+            "external_source": null,
+            "guest_view_all_features": false,
+            "icon_prop": null,
+            "id": "<uuid:9>",
+            "identifier": "BOB",
+            "inbox_view": false,
+            "intake_view": false,
+            "is_favorite": false,
+            "is_issue_type_enabled": false,
+            "is_time_tracking_enabled": false,
+            "issue_views_view": false,
+            "logo_props": {},
+            "member_role": null,
+            "members": [
+              "<uuid:5>"
+            ],
+            "module_view": false,
+            "name": "Bobs",
+            "network": 2,
+            "next_work_item_sequence": 1,
+            "page_view": true,
+            "project_lead": null,
+            "sort_order": null,
+            "timezone": "UTC",
+            "updated_at": "<datetime Z>",
+            "updated_by": null,
+            "workspace": "<uuid:2>"
+          },
+          {
+            "anchor": null,
+            "archive_in": 0,
+            "archived_at": null,
+            "close_in": 0,
+            "cover_image": null,
+            "cover_image_asset": null,
+            "cover_image_url": null,
+            "created_at": "<datetime Z>",
+            "created_by": "<uuid:1>",
+            "cycle_view": false,
+            "default_assignee": null,
+            "default_state": null,
+            "deleted_at": null,
+            "description": "",
+            "description_html": null,
+            "description_text": null,
+            "emoji": null,
+            "estimate": null,
+            "external_id": null,
+            "external_source": null,
+            "guest_view_all_features": false,
+            "icon_prop": null,
+            "id": "<uuid:8>",
+            "identifier": "SEC",
+            "inbox_view": false,
+            "intake_view": false,
+            "is_favorite": false,
+            "is_issue_type_enabled": false,
+            "is_time_tracking_enabled": false,
+            "issue_views_view": false,
+            "logo_props": {},
+            "member_role": 20,
+            "members": [
+              "<uuid:1>"
+            ],
+            "module_view": false,
+            "name": "Secret",
+            "network": 0,
+            "next_work_item_sequence": 1,
+            "page_view": true,
+            "project_lead": null,
+            "sort_order": 55535,
+            "timezone": "Asia/Tokyo",
+            "updated_at": "<datetime Z>",
+            "updated_by": null,
+            "workspace": "<uuid:2>"
+          },
+          {
+            "anchor": null,
+            "archive_in": 0,
+            "archived_at": null,
+            "close_in": 0,
+            "cover_image": null,
+            "cover_image_asset": null,
+            "cover_image_url": null,
+            "created_at": "<datetime Z>",
+            "created_by": "<uuid:1>",
+            "cycle_view": true,
+            "default_assignee": null,
+            "default_state": null,
+            "deleted_at": null,
+            "description": "Team notes and tickets",
+            "description_html": null,
+            "description_text": null,
+            "emoji": null,
+            "estimate": null,
+            "external_id": null,
+            "external_source": null,
+            "guest_view_all_features": false,
+            "icon_prop": null,
+            "id": "<uuid:7>",
+            "identifier": "PL",
+            "inbox_view": false,
+            "intake_view": false,
+            "is_favorite": false,
+            "is_issue_type_enabled": false,
+            "is_time_tracking_enabled": false,
+            "issue_views_view": false,
+            "logo_props": {
+              "emoji": {
+                "value": "128640"
+              },
+              "in_use": "emoji"
+            },
+            "member_role": 20,
+            "members": [
+              "<uuid:5>",
+              "<uuid:1>"
+            ],
+            "module_view": true,
+            "name": "Plane Lite",
+            "network": 2,
+            "next_work_item_sequence": 1,
+            "page_view": true,
+            "project_lead": "<uuid:5>",
+            "sort_order": 65535,
+            "timezone": "UTC",
+            "updated_at": "<datetime Z>",
+            "updated_by": null,
+            "workspace": "<uuid:2>"
+          }
+        ],
+        "sub_grouped_by": null,
+        "total_count": 3,
+        "total_pages": 1,
+        "total_results": 3
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/workspaces/acme/projects/<uuid:7>/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "anchor": null,
+        "archive_in": 0,
+        "archived_at": null,
+        "close_in": 0,
+        "cover_image": null,
+        "cover_image_asset": null,
+        "cover_image_url": null,
+        "created_at": "<datetime Z>",
+        "created_by": "<uuid:1>",
+        "cycle_view": true,
+        "default_assignee": null,
+        "default_state": null,
+        "deleted_at": null,
+        "description": "Team notes and tickets",
+        "description_html": null,
+        "description_text": null,
+        "emoji": null,
+        "estimate": null,
+        "external_id": null,
+        "external_source": null,
+        "guest_view_all_features": false,
+        "icon_prop": null,
+        "id": "<uuid:7>",
+        "identifier": "PL",
+        "inbox_view": false,
+        "intake_view": false,
+        "is_favorite": false,
+        "is_issue_type_enabled": false,
+        "is_time_tracking_enabled": false,
+        "issue_views_view": false,
+        "logo_props": {
+          "emoji": {
+            "value": "128640"
+          },
+          "in_use": "emoji"
+        },
+        "member_role": 20,
+        "members": [
+          "<uuid:5>",
+          "<uuid:1>"
+        ],
+        "module_view": true,
+        "name": "Plane Lite",
+        "network": 2,
+        "next_work_item_sequence": 1,
+        "page_view": true,
+        "project_lead": "<uuid:5>",
+        "sort_order": 65535,
+        "timezone": "UTC",
+        "updated_at": "<datetime Z>",
+        "updated_by": null,
+        "workspace": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "GET",
+      "path": "/api/workspaces/acme/projects/<uuid:7>/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "anchor": null,
+        "archive_in": 0,
+        "archived_at": null,
+        "close_in": 0,
+        "cover_image": null,
+        "cover_image_asset": null,
+        "cover_image_url": null,
+        "created_at": "<datetime Z>",
+        "created_by": "<uuid:1>",
+        "cycle_view": true,
+        "default_assignee": null,
+        "default_state": null,
+        "deleted_at": null,
+        "description": "Team notes and tickets",
+        "description_html": null,
+        "description_text": null,
+        "emoji": null,
+        "estimate": null,
+        "external_id": null,
+        "external_source": null,
+        "guest_view_all_features": false,
+        "icon_prop": null,
+        "id": "<uuid:7>",
+        "identifier": "PL",
+        "inbox_view": false,
+        "intake_view": false,
+        "is_favorite": false,
+        "is_issue_type_enabled": false,
+        "is_time_tracking_enabled": false,
+        "issue_views_view": false,
+        "logo_props": {
+          "emoji": {
+            "value": "128640"
+          },
+          "in_use": "emoji"
+        },
+        "member_role": 20,
+        "members": [
+          "<uuid:5>",
+          "<uuid:1>"
+        ],
+        "module_view": true,
+        "name": "Plane Lite",
+        "network": 2,
+        "next_work_item_sequence": 1,
+        "page_view": true,
+        "project_lead": "<uuid:5>",
+        "sort_order": 65535,
+        "timezone": "UTC",
+        "updated_at": "<datetime Z>",
+        "updated_by": null,
+        "workspace": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "GET",
+      "path": "/api/workspaces/acme/projects/<uuid:8>/",
+      "status": 403,
+      "content_type": "application/json",
+      "body": {
+        "error": "You do not have permission"
+      }
+    },
+    {
+      "actor": "carol",
+      "method": "GET",
+      "path": "/api/workspaces/acme/projects/<uuid:7>/",
+      "status": 409,
+      "content_type": "application/json",
+      "body": {
+        "error": "You are not a member of this project"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/",
+      "status": 404,
+      "content_type": "application/json",
+      "body": {
+        "error": "Project does not exist"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/workspaces/other/projects/<uuid:7>/",
+      "status": 403,
+      "content_type": "application/json",
+      "body": {
+        "error": "You don't have the required permissions."
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/workspaces/acme/projects/<uuid:7>/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "anchor": null,
+        "archive_in": 0,
+        "archived_at": null,
+        "close_in": 0,
+        "cover_image": null,
+        "cover_image_asset": null,
+        "cover_image_url": null,
+        "created_at": "<datetime Z>",
+        "created_by": "<uuid:1>",
+        "cycle_view": true,
+        "default_assignee": null,
+        "default_state": null,
+        "deleted_at": null,
+        "description": "Team notes and tickets",
+        "description_html": null,
+        "description_text": null,
+        "emoji": null,
+        "estimate": null,
+        "external_id": null,
+        "external_source": null,
+        "guest_view_all_features": false,
+        "icon_prop": null,
+        "id": "<uuid:7>",
+        "identifier": "PL",
+        "inbox_view": false,
+        "intake_view": false,
+        "is_favorite": false,
+        "is_issue_type_enabled": false,
+        "is_time_tracking_enabled": false,
+        "issue_views_view": false,
+        "logo_props": {
+          "emoji": {
+            "value": "128640"
+          },
+          "in_use": "emoji"
+        },
+        "member_role": 20,
+        "members": [
+          "<uuid:5>",
+          "<uuid:1>"
+        ],
+        "module_view": true,
+        "name": "Plane Lite",
+        "network": 2,
+        "next_work_item_sequence": 1,
+        "page_view": true,
+        "project_lead": "<uuid:5>",
+        "sort_order": 65535,
+        "timezone": "UTC",
+        "updated_at": "<datetime Z>",
+        "updated_by": null,
+        "workspace": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "db",
+      "method": "QUERY",
+      "path": "recent visits",
+      "status": 0,
+      "body": [
+        {
+          "created_by_id": "<uuid:1>",
+          "entity_identifier": "<uuid:7>",
+          "entity_name": "project",
+          "project_id": "<uuid:7>",
+          "touched": true,
+          "updated_by_id": "<uuid:1>",
+          "user_id": "<uuid:1>",
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "created_by_id": "<uuid:5>",
+          "entity_identifier": "<uuid:7>",
+          "entity_name": "project",
+          "project_id": "<uuid:7>",
+          "touched": true,
+          "updated_by_id": "<uuid:5>",
+          "user_id": "<uuid:5>",
+          "workspace_id": "<uuid:2>"
+        }
+      ]
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/workspaces/acme/project-identifiers/?name=pl",
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "exists": 1,
+        "identifiers": [
+          {
+            "id": 1,
+            "name": "PL",
+            "project": "<uuid:7>"
+          }
+        ]
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/workspaces/acme/project-identifiers/?name=%20",
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "error": "Name is required"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/workspaces/acme/project-identifiers/?name=zz",
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "exists": 0,
+        "identifiers": []
+      }
+    },
+    {
+      "actor": "carol",
+      "method": "GET",
+      "path": "/api/workspaces/acme/project-identifiers/?name=pl",
+      "status": 403,
+      "content_type": "application/json",
+      "body": {
+        "error": "You don't have the required permissions."
+      }
+    },
+    {
+      "actor": "carol",
+      "method": "PATCH",
+      "path": "/api/workspaces/acme/projects/<uuid:7>/",
+      "request": {
+        "name": "Mine"
+      },
+      "status": 403,
+      "content_type": "application/json",
+      "body": {
+        "error": "You don't have the required permissions."
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "PATCH",
+      "path": "/api/workspaces/acme/projects/<uuid:7>/",
+      "request": {
+        "close_in": 3,
+        "description": "",
+        "name": "Plane Lite 2",
+        "timezone": "Europe/Paris"
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "anchor": null,
+        "archive_in": 0,
+        "archived_at": null,
+        "close_in": 3,
+        "cover_image": null,
+        "cover_image_asset": null,
+        "cover_image_url": null,
+        "created_at": "<datetime Z>",
+        "created_by": "<uuid:1>",
+        "cycle_view": true,
+        "default_assignee": null,
+        "default_state": null,
+        "deleted_at": null,
+        "description": "",
+        "description_html": null,
+        "description_text": null,
+        "emoji": null,
+        "estimate": null,
+        "external_id": null,
+        "external_source": null,
+        "guest_view_all_features": false,
+        "icon_prop": null,
+        "id": "<uuid:7>",
+        "identifier": "PL",
+        "inbox_view": false,
+        "intake_view": false,
+        "is_favorite": false,
+        "is_issue_type_enabled": false,
+        "is_time_tracking_enabled": false,
+        "issue_views_view": false,
+        "logo_props": {
+          "emoji": {
+            "value": "128640"
+          },
+          "in_use": "emoji"
+        },
+        "member_role": 20,
+        "members": [
+          "<uuid:5>",
+          "<uuid:1>"
+        ],
+        "module_view": true,
+        "name": "Plane Lite 2",
+        "network": 2,
+        "next_work_item_sequence": 1,
+        "page_view": true,
+        "project_lead": "<uuid:5>",
+        "sort_order": 65535,
+        "timezone": "Europe/Paris",
+        "updated_at": "<datetime Z>",
+        "updated_by": "<uuid:5>",
+        "workspace": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "PATCH",
+      "path": "/api/workspaces/acme/projects/<uuid:7>/",
+      "request": {
+        "identifier": "sec"
+      },
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "error": "The payload is not valid"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "PATCH",
+      "path": "/api/workspaces/acme/projects/<uuid:7>/",
+      "request": {
+        "archive_in": "x",
+        "name": "Secret",
+        "network": "2"
+      },
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "archive_in": [
+          "A valid integer is required."
+        ],
+        "name": [
+          "PROJECT_NAME_ALREADY_EXIST"
+        ]
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "PATCH",
+      "path": "/api/workspaces/acme/projects/<uuid:7>/",
+      "request": {
+        "identifier": "plx",
+        "inbox_view": true,
+        "page_view": false
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "anchor": null,
+        "archive_in": 0,
+        "archived_at": null,
+        "close_in": 3,
+        "cover_image": null,
+        "cover_image_asset": null,
+        "cover_image_url": null,
+        "created_at": "<datetime Z>",
+        "created_by": "<uuid:1>",
+        "cycle_view": true,
+        "default_assignee": null,
+        "default_state": null,
+        "deleted_at": null,
+        "description": "",
+        "description_html": null,
+        "description_text": null,
+        "emoji": null,
+        "estimate": null,
+        "external_id": null,
+        "external_source": null,
+        "guest_view_all_features": false,
+        "icon_prop": null,
+        "id": "<uuid:7>",
+        "identifier": "PLX",
+        "inbox_view": true,
+        "intake_view": true,
+        "is_favorite": false,
+        "is_issue_type_enabled": false,
+        "is_time_tracking_enabled": false,
+        "issue_views_view": false,
+        "logo_props": {
+          "emoji": {
+            "value": "128640"
+          },
+          "in_use": "emoji"
+        },
+        "member_role": 20,
+        "members": [
+          "<uuid:5>",
+          "<uuid:1>"
+        ],
+        "module_view": true,
+        "name": "Plane Lite 2",
+        "network": 2,
+        "next_work_item_sequence": 1,
+        "page_view": false,
+        "project_lead": "<uuid:5>",
+        "sort_order": 65535,
+        "timezone": "Europe/Paris",
+        "updated_at": "<datetime Z>",
+        "updated_by": "<uuid:1>",
+        "workspace": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "PATCH",
+      "path": "/api/workspaces/acme/projects/<uuid:7>/",
+      "request": {
+        "inbox_view": false
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "anchor": null,
+        "archive_in": 0,
+        "archived_at": null,
+        "close_in": 3,
+        "cover_image": null,
+        "cover_image_asset": null,
+        "cover_image_url": null,
+        "created_at": "<datetime Z>",
+        "created_by": "<uuid:1>",
+        "cycle_view": true,
+        "default_assignee": null,
+        "default_state": null,
+        "deleted_at": null,
+        "description": "",
+        "description_html": null,
+        "description_text": null,
+        "emoji": null,
+        "estimate": null,
+        "external_id": null,
+        "external_source": null,
+        "guest_view_all_features": false,
+        "icon_prop": null,
+        "id": "<uuid:7>",
+        "identifier": "PLX",
+        "inbox_view": false,
+        "intake_view": false,
+        "is_favorite": false,
+        "is_issue_type_enabled": false,
+        "is_time_tracking_enabled": false,
+        "issue_views_view": false,
+        "logo_props": {
+          "emoji": {
+            "value": "128640"
+          },
+          "in_use": "emoji"
+        },
+        "member_role": 20,
+        "members": [
+          "<uuid:5>",
+          "<uuid:1>"
+        ],
+        "module_view": true,
+        "name": "Plane Lite 2",
+        "network": 2,
+        "next_work_item_sequence": 1,
+        "page_view": false,
+        "project_lead": "<uuid:5>",
+        "sort_order": 65535,
+        "timezone": "Europe/Paris",
+        "updated_at": "<datetime Z>",
+        "updated_by": "<uuid:1>",
+        "workspace": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "PATCH",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/",
+      "request": {
+        "name": "X"
+      },
+      "status": 404,
+      "content_type": "application/json",
+      "body": {
+        "error": "The required object does not exist."
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/workspaces/acme/project-identifiers/?name=plx",
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "exists": 0,
+        "identifiers": []
+      }
+    },
+    {
+      "actor": "carol",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:7>/archive/",
+      "status": 403,
+      "content_type": "application/json",
+      "body": {
+        "error": "You don't have the required permissions."
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:7>/archive/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "archived_at": "<masked>"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/workspaces/acme/projects/<uuid:7>/",
+      "status": 404,
+      "content_type": "application/json",
+      "body": {
+        "error": "Project does not exist"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "PATCH",
+      "path": "/api/workspaces/acme/projects/<uuid:7>/",
+      "request": {
+        "name": "Archived"
+      },
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "error": "Archived projects cannot be updated"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/workspaces/acme/projects/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": [
+        {
+          "archived_at": null,
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:5>",
+          "cycle_view": false,
+          "guest_view_all_features": false,
+          "id": "<uuid:9>",
+          "identifier": "BOB",
+          "inbox_view": false,
+          "intake_count": 0,
+          "issue_views_view": false,
+          "logo_props": {},
+          "member_role": null,
+          "module_view": false,
+          "name": "Bobs",
+          "network": 2,
+          "page_view": true,
+          "project_lead": null,
+          "sort_order": null,
+          "updated_at": "<datetime Z>",
+          "updated_by": null,
+          "workspace": "<uuid:2>"
+        },
+        {
+          "archived_at": "<datetime Z>",
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:1>",
+          "cycle_view": true,
+          "guest_view_all_features": false,
+          "id": "<uuid:7>",
+          "identifier": "PLX",
+          "inbox_view": false,
+          "intake_count": 0,
+          "issue_views_view": false,
+          "logo_props": {
+            "emoji": {
+              "value": "128640"
+            },
+            "in_use": "emoji"
+          },
+          "member_role": 20,
+          "module_view": true,
+          "name": "Plane Lite 2",
+          "network": 2,
+          "page_view": false,
+          "project_lead": "<uuid:5>",
+          "sort_order": 65535,
+          "updated_at": "<datetime Z>",
+          "updated_by": "<uuid:1>",
+          "workspace": "<uuid:2>"
+        },
+        {
+          "archived_at": null,
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:1>",
+          "cycle_view": false,
+          "guest_view_all_features": false,
+          "id": "<uuid:8>",
+          "identifier": "SEC",
+          "inbox_view": false,
+          "intake_count": 0,
+          "issue_views_view": false,
+          "logo_props": {},
+          "member_role": 20,
+          "module_view": false,
+          "name": "Secret",
+          "network": 0,
+          "page_view": true,
+          "project_lead": null,
+          "sort_order": 55535,
+          "updated_at": "<datetime Z>",
+          "updated_by": null,
+          "workspace": "<uuid:2>"
+        }
+      ]
+    },
+    {
+      "actor": "alice",
+      "method": "DELETE",
+      "path": "/api/workspaces/acme/projects/<uuid:7>/archive/",
+      "status": 204
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/workspaces/acme/projects/<uuid:7>/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "anchor": null,
+        "archive_in": 0,
+        "archived_at": null,
+        "close_in": 3,
+        "cover_image": null,
+        "cover_image_asset": null,
+        "cover_image_url": null,
+        "created_at": "<datetime Z>",
+        "created_by": "<uuid:1>",
+        "cycle_view": true,
+        "default_assignee": null,
+        "default_state": null,
+        "deleted_at": null,
+        "description": "",
+        "description_html": null,
+        "description_text": null,
+        "emoji": null,
+        "estimate": null,
+        "external_id": null,
+        "external_source": null,
+        "guest_view_all_features": false,
+        "icon_prop": null,
+        "id": "<uuid:7>",
+        "identifier": "PLX",
+        "inbox_view": false,
+        "intake_view": false,
+        "is_favorite": false,
+        "is_issue_type_enabled": false,
+        "is_time_tracking_enabled": false,
+        "issue_views_view": false,
+        "logo_props": {
+          "emoji": {
+            "value": "128640"
+          },
+          "in_use": "emoji"
+        },
+        "member_role": 20,
+        "members": [
+          "<uuid:5>",
+          "<uuid:1>"
+        ],
+        "module_view": true,
+        "name": "Plane Lite 2",
+        "network": 2,
+        "next_work_item_sequence": 1,
+        "page_view": false,
+        "project_lead": "<uuid:5>",
+        "sort_order": 65535,
+        "timezone": "Europe/Paris",
+        "updated_at": "<datetime Z>",
+        "updated_by": "<uuid:1>",
+        "workspace": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "carol",
+      "method": "DELETE",
+      "path": "/api/workspaces/acme/projects/<uuid:8>/",
+      "status": 403,
+      "content_type": "application/json",
+      "body": {
+        "error": "You don't have the required permissions."
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "DELETE",
+      "path": "/api/workspaces/acme/projects/<uuid:8>/",
+      "status": 403,
+      "content_type": "application/json",
+      "body": {
+        "error": "You don't have the required permissions."
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "DELETE",
+      "path": "/api/workspaces/acme/projects/<uuid:8>/",
+      "status": 204
+    },
+    {
+      "actor": "alice",
+      "method": "DELETE",
+      "path": "/api/workspaces/acme/projects/<uuid:8>/",
+      "status": 404,
+      "content_type": "application/json",
+      "body": {
+        "error": "The required object does not exist."
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/workspaces/acme/projects/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": [
+        {
+          "archived_at": null,
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:5>",
+          "cycle_view": false,
+          "guest_view_all_features": false,
+          "id": "<uuid:9>",
+          "identifier": "BOB",
+          "inbox_view": false,
+          "intake_count": 0,
+          "issue_views_view": false,
+          "logo_props": {},
+          "member_role": null,
+          "module_view": false,
+          "name": "Bobs",
+          "network": 2,
+          "page_view": true,
+          "project_lead": null,
+          "sort_order": null,
+          "updated_at": "<datetime Z>",
+          "updated_by": null,
+          "workspace": "<uuid:2>"
+        },
+        {
+          "archived_at": null,
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:1>",
+          "cycle_view": true,
+          "guest_view_all_features": false,
+          "id": "<uuid:7>",
+          "identifier": "PLX",
+          "inbox_view": false,
+          "intake_count": 0,
+          "issue_views_view": false,
+          "logo_props": {
+            "emoji": {
+              "value": "128640"
+            },
+            "in_use": "emoji"
+          },
+          "member_role": 20,
+          "module_view": true,
+          "name": "Plane Lite 2",
+          "network": 2,
+          "page_view": false,
+          "project_lead": "<uuid:5>",
+          "sort_order": 65535,
+          "updated_at": "<datetime Z>",
+          "updated_by": "<uuid:1>",
+          "workspace": "<uuid:2>"
+        }
+      ]
+    },
+    {
+      "actor": "db",
+      "method": "QUERY",
+      "path": "deleted project",
+      "status": 0,
+      "body": [
+        {
+          "deleted": true,
+          "live_identifiers": 0,
+          "live_members": 0,
+          "live_properties": 0,
+          "live_states": 1,
+          "live_visits": 0,
+          "updated_by_id": "<uuid:1>"
+        }
+      ]
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/workspaces/acme/project-identifiers/?name=sec",
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "exists": 0,
+        "identifiers": []
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/",
+      "request": {
+        "identifier": "SEC",
+        "name": "Secret"
+      },
+      "status": 201,
+      "content_type": "application/json",
+      "body": {
+        "anchor": null,
+        "archive_in": 0,
+        "archived_at": null,
+        "close_in": 0,
+        "cover_image": null,
+        "cover_image_asset": null,
+        "cover_image_url": null,
+        "created_at": "<datetime Z>",
+        "created_by": "<uuid:1>",
+        "cycle_view": false,
+        "default_assignee": null,
+        "default_state": null,
+        "deleted_at": null,
+        "description": "",
+        "description_html": null,
+        "description_text": null,
+        "emoji": null,
+        "estimate": null,
+        "external_id": null,
+        "external_source": null,
+        "guest_view_all_features": false,
+        "icon_prop": null,
+        "id": "<uuid:10>",
+        "identifier": "SEC",
+        "inbox_view": false,
+        "intake_view": false,
+        "is_favorite": false,
+        "is_issue_type_enabled": false,
+        "is_time_tracking_enabled": false,
+        "issue_views_view": false,
+        "logo_props": {},
+        "member_role": 20,
+        "members": [
+          "<uuid:1>"
+        ],
+        "module_view": false,
+        "name": "Secret",
+        "network": 2,
+        "next_work_item_sequence": 1,
+        "page_view": true,
+        "project_lead": null,
+        "sort_order": 55535,
+        "timezone": "UTC",
+        "updated_at": "<datetime Z>",
+        "updated_by": null,
+        "workspace": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "PATCH",
+      "path": "/api/workspaces/acme/projects/<uuid:7>/",
+      "request": {
+        "description_html": "<p onclick=\"x()\">Hi <script>x()</script><a href=\"javascript:y()\">there</a> &amp; <b>bold</b></p>"
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "anchor": null,
+        "archive_in": 0,
+        "archived_at": null,
+        "close_in": 3,
+        "cover_image": null,
+        "cover_image_asset": null,
+        "cover_image_url": null,
+        "created_at": "<datetime Z>",
+        "created_by": "<uuid:1>",
+        "cycle_view": true,
+        "default_assignee": null,
+        "default_state": null,
+        "deleted_at": null,
+        "description": "",
+        "description_html": "<p>Hi <a rel=\"noopener noreferrer\">there</a> &amp; <b>bold</b></p>",
+        "description_text": null,
+        "emoji": null,
+        "estimate": null,
+        "external_id": null,
+        "external_source": null,
+        "guest_view_all_features": false,
+        "icon_prop": null,
+        "id": "<uuid:7>",
+        "identifier": "PLX",
+        "inbox_view": false,
+        "intake_view": false,
+        "is_favorite": false,
+        "is_issue_type_enabled": false,
+        "is_time_tracking_enabled": false,
+        "issue_views_view": false,
+        "logo_props": {
+          "emoji": {
+            "value": "128640"
+          },
+          "in_use": "emoji"
+        },
+        "member_role": 20,
+        "members": [
+          "<uuid:5>",
+          "<uuid:1>"
+        ],
+        "module_view": true,
+        "name": "Plane Lite 2",
+        "network": 2,
+        "next_work_item_sequence": 1,
+        "page_view": false,
+        "project_lead": "<uuid:5>",
+        "sort_order": 65535,
+        "timezone": "Europe/Paris",
+        "updated_at": "<datetime Z>",
+        "updated_by": "<uuid:1>",
+        "workspace": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "db",
+      "method": "QUERY",
+      "path": "project html",
+      "status": 0,
+      "body": [
+        {
+          "description_html": "<p>Hi <a rel=\"noopener noreferrer\">there</a> &amp; <b>bold</b></p>"
+        }
+      ]
+    },
+    {
+      "actor": "alice",
+      "method": "PATCH",
+      "path": "/api/workspaces/acme/projects/<uuid:7>/",
+      "request": {
+        "description_html": {
+          "html": "<i>x</i>"
+        }
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "anchor": null,
+        "archive_in": 0,
+        "archived_at": null,
+        "close_in": 3,
+        "cover_image": null,
+        "cover_image_asset": null,
+        "cover_image_url": null,
+        "created_at": "<datetime Z>",
+        "created_by": "<uuid:1>",
+        "cycle_view": true,
+        "default_assignee": null,
+        "default_state": null,
+        "deleted_at": null,
+        "description": "",
+        "description_html": "{'html': '<i>x</i>'}",
+        "description_text": null,
+        "emoji": null,
+        "estimate": null,
+        "external_id": null,
+        "external_source": null,
+        "guest_view_all_features": false,
+        "icon_prop": null,
+        "id": "<uuid:7>",
+        "identifier": "PLX",
+        "inbox_view": false,
+        "intake_view": false,
+        "is_favorite": false,
+        "is_issue_type_enabled": false,
+        "is_time_tracking_enabled": false,
+        "issue_views_view": false,
+        "logo_props": {
+          "emoji": {
+            "value": "128640"
+          },
+          "in_use": "emoji"
+        },
+        "member_role": 20,
+        "members": [
+          "<uuid:5>",
+          "<uuid:1>"
+        ],
+        "module_view": true,
+        "name": "Plane Lite 2",
+        "network": 2,
+        "next_work_item_sequence": 1,
+        "page_view": false,
+        "project_lead": "<uuid:5>",
+        "sort_order": 65535,
+        "timezone": "Europe/Paris",
+        "updated_at": "<datetime Z>",
+        "updated_by": "<uuid:1>",
+        "workspace": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "db",
+      "method": "QUERY",
+      "path": "project html",
+      "status": 0,
+      "body": [
+        {
+          "description_html": "{'html': '<i>x</i>'}"
+        }
+      ]
+    },
+    {
+      "actor": "alice",
+      "method": "PATCH",
+      "path": "/api/workspaces/acme/projects/<uuid:7>/",
+      "request": {
+        "description_html": ""
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "anchor": null,
+        "archive_in": 0,
+        "archived_at": null,
+        "close_in": 3,
+        "cover_image": null,
+        "cover_image_asset": null,
+        "cover_image_url": null,
+        "created_at": "<datetime Z>",
+        "created_by": "<uuid:1>",
+        "cycle_view": true,
+        "default_assignee": null,
+        "default_state": null,
+        "deleted_at": null,
+        "description": "",
+        "description_html": "",
+        "description_text": null,
+        "emoji": null,
+        "estimate": null,
+        "external_id": null,
+        "external_source": null,
+        "guest_view_all_features": false,
+        "icon_prop": null,
+        "id": "<uuid:7>",
+        "identifier": "PLX",
+        "inbox_view": false,
+        "intake_view": false,
+        "is_favorite": false,
+        "is_issue_type_enabled": false,
+        "is_time_tracking_enabled": false,
+        "issue_views_view": false,
+        "logo_props": {
+          "emoji": {
+            "value": "128640"
+          },
+          "in_use": "emoji"
+        },
+        "member_role": 20,
+        "members": [
+          "<uuid:5>",
+          "<uuid:1>"
+        ],
+        "module_view": true,
+        "name": "Plane Lite 2",
+        "network": 2,
+        "next_work_item_sequence": 1,
+        "page_view": false,
+        "project_lead": "<uuid:5>",
+        "sort_order": 65535,
+        "timezone": "Europe/Paris",
+        "updated_at": "<datetime Z>",
+        "updated_by": "<uuid:1>",
+        "workspace": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "db",
+      "method": "QUERY",
+      "path": "project html",
+      "status": 0,
+      "body": [
+        {
+          "description_html": ""
+        }
+      ]
+    },
+    {
+      "actor": "alice",
+      "method": "PATCH",
+      "path": "/api/workspaces/acme/projects/<uuid:7>/",
+      "request": {
+        "description_html": null
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "anchor": null,
+        "archive_in": 0,
+        "archived_at": null,
+        "close_in": 3,
+        "cover_image": null,
+        "cover_image_asset": null,
+        "cover_image_url": null,
+        "created_at": "<datetime Z>",
+        "created_by": "<uuid:1>",
+        "cycle_view": true,
+        "default_assignee": null,
+        "default_state": null,
+        "deleted_at": null,
+        "description": "",
+        "description_html": null,
+        "description_text": null,
+        "emoji": null,
+        "estimate": null,
+        "external_id": null,
+        "external_source": null,
+        "guest_view_all_features": false,
+        "icon_prop": null,
+        "id": "<uuid:7>",
+        "identifier": "PLX",
+        "inbox_view": false,
+        "intake_view": false,
+        "is_favorite": false,
+        "is_issue_type_enabled": false,
+        "is_time_tracking_enabled": false,
+        "issue_views_view": false,
+        "logo_props": {
+          "emoji": {
+            "value": "128640"
+          },
+          "in_use": "emoji"
+        },
+        "member_role": 20,
+        "members": [
+          "<uuid:5>",
+          "<uuid:1>"
+        ],
+        "module_view": true,
+        "name": "Plane Lite 2",
+        "network": 2,
+        "next_work_item_sequence": 1,
+        "page_view": false,
+        "project_lead": "<uuid:5>",
+        "sort_order": 65535,
+        "timezone": "Europe/Paris",
+        "updated_at": "<datetime Z>",
+        "updated_by": "<uuid:1>",
+        "workspace": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "db",
+      "method": "QUERY",
+      "path": "project html",
+      "status": 0,
+      "body": [
+        {
+          "description_html": null
+        }
+      ]
+    },
+    {
+      "actor": "alice",
+      "method": "PATCH",
+      "path": "/api/workspaces/acme/projects/<uuid:7>/",
+      "request": {
+        "description_html": 0
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "anchor": null,
+        "archive_in": 0,
+        "archived_at": null,
+        "close_in": 3,
+        "cover_image": null,
+        "cover_image_asset": null,
+        "cover_image_url": null,
+        "created_at": "<datetime Z>",
+        "created_by": "<uuid:1>",
+        "cycle_view": true,
+        "default_assignee": null,
+        "default_state": null,
+        "deleted_at": null,
+        "description": "",
+        "description_html": 0,
+        "description_text": null,
+        "emoji": null,
+        "estimate": null,
+        "external_id": null,
+        "external_source": null,
+        "guest_view_all_features": false,
+        "icon_prop": null,
+        "id": "<uuid:7>",
+        "identifier": "PLX",
+        "inbox_view": false,
+        "intake_view": false,
+        "is_favorite": false,
+        "is_issue_type_enabled": false,
+        "is_time_tracking_enabled": false,
+        "issue_views_view": false,
+        "logo_props": {
+          "emoji": {
+            "value": "128640"
+          },
+          "in_use": "emoji"
+        },
+        "member_role": 20,
+        "members": [
+          "<uuid:5>",
+          "<uuid:1>"
+        ],
+        "module_view": true,
+        "name": "Plane Lite 2",
+        "network": 2,
+        "next_work_item_sequence": 1,
+        "page_view": false,
+        "project_lead": "<uuid:5>",
+        "sort_order": 65535,
+        "timezone": "Europe/Paris",
+        "updated_at": "<datetime Z>",
+        "updated_by": "<uuid:1>",
+        "workspace": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "db",
+      "method": "QUERY",
+      "path": "project html",
+      "status": 0,
+      "body": [
+        {
+          "description_html": 0
+        }
+      ]
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/",
+      "request": {
+        "description_html": "<p>a<style>b</style></p>",
+        "identifier": "HTML",
+        "name": "Html"
+      },
+      "status": 201,
+      "content_type": "application/json",
+      "body": {
+        "anchor": null,
+        "archive_in": 0,
+        "archived_at": null,
+        "close_in": 0,
+        "cover_image": null,
+        "cover_image_asset": null,
+        "cover_image_url": null,
+        "created_at": "<datetime Z>",
+        "created_by": "<uuid:1>",
+        "cycle_view": false,
+        "default_assignee": null,
+        "default_state": null,
+        "deleted_at": null,
+        "description": "",
+        "description_html": "<p>a</p>",
+        "description_text": null,
+        "emoji": null,
+        "estimate": null,
+        "external_id": null,
+        "external_source": null,
+        "guest_view_all_features": false,
+        "icon_prop": null,
+        "id": "<uuid:11>",
+        "identifier": "HTML",
+        "inbox_view": false,
+        "intake_view": false,
+        "is_favorite": false,
+        "is_issue_type_enabled": false,
+        "is_time_tracking_enabled": false,
+        "issue_views_view": false,
+        "logo_props": {},
+        "member_role": 20,
+        "members": [
+          "<uuid:1>"
+        ],
+        "module_view": false,
+        "name": "Html",
+        "network": 2,
+        "next_work_item_sequence": 1,
+        "page_view": true,
+        "project_lead": null,
+        "sort_order": 45535,
+        "timezone": "UTC",
+        "updated_at": "<datetime Z>",
+        "updated_by": null,
+        "workspace": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "db",
+      "method": "QUERY",
+      "path": "created html",
+      "status": 0,
+      "body": [
+        {
+          "description_html": "<p>a</p>"
+        }
+      ]
+    }
+  ]
+}

@@ -24,6 +24,40 @@ func ParseDateTime(s string, loc *time.Location) (t time.Time, ok bool) {
 	return p.at(loc)
 }
 
+// ParseDate is django.utils.dateparse.parse_date as DateField calls it:
+// date.fromisoformat, then Django's \d{4}-\d{1,2}-\d{1,2}$ pattern (with
+// Unicode digits). ok is false where DRF says "Date has wrong format".
+func ParseDate(s string) (time.Time, bool) {
+	b := []byte(s)
+	if n := len(b); n == 7 || n == 8 || n == 10 {
+		at := func(i int) byte {
+			if i < 0 || i >= n {
+				return 0
+			}
+			return b[i]
+		}
+		var p isoParts
+		if isoDate(at, n, &p) {
+			if t, ok := p.at(time.UTC); ok {
+				return t, true
+			}
+		}
+	}
+	m := djangoDateRe.FindStringSubmatch(s)
+	if m == nil {
+		return time.Time{}, false
+	}
+	num := func(s string) int {
+		n, _ := parsePyIntString(s)
+		return int(n.Int64())
+	}
+	return isoParts{year: num(m[1]), month: num(m[2]), day: num(m[3])}.at(time.UTC)
+}
+
+// djangoDateRe is dateparse.date_re under re.match: \d is any Unicode
+// decimal digit and $ also matches before a final newline.
+var djangoDateRe = regexp.MustCompile(`^(\p{Nd}{4})-(\p{Nd}{1,2})-(\p{Nd}{1,2})\n?$`)
+
 type isoParts struct {
 	year, month, day, hour, minute, second, usec int
 	aware                                        bool

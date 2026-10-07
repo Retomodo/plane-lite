@@ -39,6 +39,8 @@ type Ctx struct {
 	W    http.ResponseWriter
 	R    *http.Request
 	User *Principal // nil when anonymous
+
+	query map[string][]string
 }
 
 func (c *Ctx) Context() context.Context { return c.R.Context() }
@@ -64,7 +66,14 @@ func (c *Ctx) UUIDParam(name string) (uuid.UUID, error) {
 	return id, nil
 }
 
-func (c *Ctx) Query(name string) string { return c.R.URL.Query().Get(name) }
+// Query is request.GET.get(name): the last value, or "".
+func (c *Ctx) Query(name string) string {
+	vs := c.QueryValues()[name]
+	if len(vs) == 0 {
+		return ""
+	}
+	return vs[len(vs)-1]
+}
 
 // JSON writes v with the given status.
 func (c *Ctx) JSON(status int, v any) error {
