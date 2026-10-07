@@ -1,0 +1,50 @@
+{
+  "steps": [
+    {
+      "actor": "anon",
+      "method": "GET",
+      "path": "/api/instances",
+      "status": 301,
+      "location": "/api/instances/",
+      "content_type": "text/html"
+    },
+    {
+      "actor": "anon",
+      "method": "GET",
+      "path": "/api/instances?foo=bar",
+      "status": 301,
+      "location": "/api/instances/?foo=bar",
+      "content_type": "text/html"
+    },
+    {
+      "actor": "anon",
+      "method": "GET",
+      "path": "/api/no-such-endpoint/",
+      "status": 404,
+      "content_type": "application/json",
+      "body": {
+        "error": "Page not found."
+      }
+    },
+    {
+      "actor": "anon",
+      "method": "DELETE",
+      "path": "/auth/get-csrf-token/",
+      "status": 405,
+      "content_type": "application/json",
+      "body": {
+        "detail": "Method \"DELETE\" not allowed."
+      }
+    },
+    {
+      "actor": "anon",
+      "method": "POST",
+      "path": "/api/users/me/",
+      "status": 401,
+      "content_type": "application/json",
+      "body": {
+        "detail": "Authentication credentials were not provided."
+      }
+    }
+  ]
+}

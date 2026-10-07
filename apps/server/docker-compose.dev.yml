@@ -1,0 +1,86 @@
+# Local dev/test services for the Go server. Production does not use this
+# file: there, DATABASE_URL and REDIS_URL point at managed services.
+#
+#   docker compose -f docker-compose.dev.yml up -d                      # db, redis, mail
+#   docker compose -f docker-compose.dev.yml --profile reference up -d  # + Django reference
+name: plane-lite-dev
+
+services:
+  db:
+    image: postgres:15.7-alpine
+    environment:
+      POSTGRES_USER: plane
+      POSTGRES_PASSWORD: plane
+      POSTGRES_DB: plane
+    # Throwaway data; durability off for fast test resets.
+    command: postgres -c fsync=off -c synchronous_commit=off -c full_page_writes=off
+    tmpfs:
+      - /var/lib/postgresql/data
+    volumes:
+      - ./contract/reference/initdb.sql:/docker-entrypoint-initdb.d/initdb.sql:ro
+    ports:
+      - "127.0.0.1:55432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U plane -d plane"]
+      interval: 2s
+      timeout: 3s
+      retries: 30
+
+  redis:
+    image: valkey/valkey:7.2.11-alpine
+    ports:
+      - "127.0.0.1:56379:6379"
+    healthcheck:
+      test: ["CMD", "valkey-cli", "ping"]
+      interval: 2s
+      timeout: 3s
+      retries: 30
+
+  mail:
+    image: axllent/mailpit:v1.27
+    ports:
+      - "127.0.0.1:51025:1025"
+      - "127.0.0.1:58025:8025"
+
+  # Django reference implementation, used only to record contract goldens.
+  reference:
+    profiles: ["reference"]
+    build:
+      context: ../api
+      dockerfile: Dockerfile.dev
+    volumes:
+      - ./contract/reference/reference_settings.py:/code/plane/settings/reference.py:ro
+    environment:
+      DJANGO_SETTINGS_MODULE: plane.settings.reference
+      DEBUG: "0"
+      SECRET_KEY: reference-secret-key-not-for-production-use-0123456789
+      DATABASE_URL: postgresql://plane:plane@db:5432/plane_ref
+      REDIS_URL: redis://redis:6379/1
+      SKIP_ENV_VAR: "0"
+      ENABLE_SIGNUP: "1"
+      ENABLE_EMAIL_PASSWORD: "1"
+      ENABLE_MAGIC_LINK_LOGIN: "1"
+      EMAIL_HOST: mail
+      EMAIL_PORT: "1025"
+      EMAIL_USE_TLS: "0"
+      EMAIL_USE_SSL: "0"
+      EMAIL_FROM: "Plane <plane@example.com>"
+      WEB_URL: http://localhost:58000
+      APP_BASE_URL: http://localhost:3000
+      ADMIN_BASE_URL: http://localhost:3001
+      SPACE_BASE_URL: http://localhost:3002
+      LIVE_BASE_URL: http://localhost:3100
+      CORS_ALLOWED_ORIGINS: http://localhost:3000
+      APP_VERSION: v1.4.2
+      USE_MINIO: "0"
+      FILE_SIZE_LIMIT: "5242880"
+    command: >
+      sh -c "python manage.py migrate --noinput &&
+             exec uvicorn plane.asgi:application --host 0.0.0.0 --port 8000 --workers 2"
+    ports:
+      - "127.0.0.1:58000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy

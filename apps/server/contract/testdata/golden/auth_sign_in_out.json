@@ -1,0 +1,167 @@
+{
+  "steps": [
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/auth/get-csrf-token/",
+      "status": 200,
+      "content_type": "application/json",
+      "cookies": [
+        "csrftoken; value=<set>; Path=/; Max-Age=31449600; HttpOnly; SameSite=Lax"
+      ],
+      "body": {
+        "csrf_token": "<masked>"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/auth/sign-up/",
+      "request": {
+        "csrfmiddlewaretoken": "<masked>",
+        "email": "alice@example.com",
+        "password": "correct-Horse-battery-staple-91"
+      },
+      "status": 302,
+      "location": "http://localhost:3000",
+      "content_type": "text/html",
+      "cookies": [
+        "csrftoken; value=<set>; Path=/; Max-Age=31449600; HttpOnly; SameSite=Lax",
+        "session-id; value=<set>; Path=/; Max-Age=604800; HttpOnly; SameSite=Lax"
+      ]
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/auth/get-csrf-token/",
+      "status": 200,
+      "content_type": "application/json",
+      "cookies": [
+        "csrftoken; value=<set>; Path=/; Max-Age=31449600; HttpOnly; SameSite=Lax"
+      ],
+      "body": {
+        "csrf_token": "<masked>"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/auth/sign-out/",
+      "request": {
+        "csrfmiddlewaretoken": "<masked>"
+      },
+      "status": 302,
+      "location": "http://localhost:3000",
+      "content_type": "text/html",
+      "cookies": [
+        "session-id; value=<deleted>; Path=/; SameSite=Lax"
+      ]
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/users/me/",
+      "status": 401,
+      "content_type": "application/json",
+      "body": {
+        "detail": "Authentication credentials were not provided."
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/auth/get-csrf-token/",
+      "status": 200,
+      "content_type": "application/json",
+      "cookies": [
+        "csrftoken; value=<set>; Path=/; Max-Age=31449600; HttpOnly; SameSite=Lax"
+      ],
+      "body": {
+        "csrf_token": "<masked>"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/auth/sign-in/",
+      "request": {
+        "csrfmiddlewaretoken": "<masked>",
+        "email": "alice@example.com",
+        "password": "wrong-correct-Horse-battery-staple-91"
+      },
+      "status": 302,
+      "location": "http://localhost:3000/?error_code=5065&error_message=AUTHENTICATION_FAILED_SIGN_IN&email=alice%40example.com",
+      "content_type": "text/html"
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/auth/sign-in/",
+      "request": {
+        "csrfmiddlewaretoken": "<masked>",
+        "email": "nobody@example.com",
+        "password": "correct-Horse-battery-staple-91"
+      },
+      "status": 302,
+      "location": "http://localhost:3000/?error_code=5060&error_message=USER_DOES_NOT_EXIST&email=nobody%40example.com",
+      "content_type": "text/html"
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/auth/sign-in/",
+      "request": {
+        "csrfmiddlewaretoken": "<masked>",
+        "email": "alice@example.com"
+      },
+      "status": 302,
+      "location": "http://localhost:3000/?error_code=5070&error_message=REQUIRED_EMAIL_PASSWORD_SIGN_IN&email=alice%40example.com",
+      "content_type": "text/html"
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/auth/sign-in/",
+      "request": {
+        "csrfmiddlewaretoken": "<masked>",
+        "email": "ALICE@example.com",
+        "next_path": "//evil.example.com/steal",
+        "password": "correct-Horse-battery-staple-91"
+      },
+      "status": 302,
+      "location": "http://localhost:3000/?next_path=/steal",
+      "content_type": "text/html",
+      "cookies": [
+        "csrftoken; value=<set>; Path=/; Max-Age=31449600; HttpOnly; SameSite=Lax",
+        "session-id; value=<set>; Path=/; Max-Age=604800; HttpOnly; SameSite=Lax"
+      ]
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/users/me/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "avatar": "",
+        "avatar_url": null,
+        "cover_image": null,
+        "cover_image_url": null,
+        "date_joined": "<datetime Z>",
+        "display_name": "alice",
+        "email": "alice@example.com",
+        "first_name": "",
+        "id": "<uuid:1>",
+        "is_active": true,
+        "is_bot": false,
+        "is_email_verified": false,
+        "is_password_autoset": false,
+        "last_login_medium": "email",
+        "last_login_time": "<datetime Z>",
+        "last_name": "",
+        "user_timezone": "UTC",
+        "username": "<hex32>"
+      }
+    }
+  ]
+}

@@ -1,0 +1,152 @@
+{
+  "steps": [
+    {
+      "actor": "anon",
+      "method": "GET",
+      "path": "/api/instances/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "config": {
+          "admin_base_url": "http://localhost:3001",
+          "app_base_url": "http://localhost:3000",
+          "enable_signup": true,
+          "file_size_limit": 5242880,
+          "github_app_name": "",
+          "has_llm_configured": false,
+          "has_unsplash_configured": false,
+          "instance_changelog_url": "https://sites.plane.so/pages/691ef037bcfe416a902e48cb55f59891/",
+          "is_email_password_enabled": true,
+          "is_gitea_enabled": false,
+          "is_github_enabled": false,
+          "is_gitlab_enabled": false,
+          "is_google_enabled": false,
+          "is_magic_login_enabled": true,
+          "is_self_managed": true,
+          "is_smtp_configured": true,
+          "is_workspace_creation_disabled": false,
+          "slack_client_id": null,
+          "space_base_url": "http://localhost:3002"
+        },
+        "instance": {
+          "created_at": "<datetime Z>",
+          "created_by": null,
+          "current_version": "v1.4.2",
+          "deleted_at": null,
+          "domain": "",
+          "edition": "PLANE_COMMUNITY",
+          "id": "<uuid:1>",
+          "instance_id": "contract0instance0id0001",
+          "instance_name": "Plane Community Edition",
+          "is_current_version_deprecated": false,
+          "is_setup_done": true,
+          "is_signup_screen_visited": true,
+          "is_support_required": true,
+          "is_telemetry_enabled": true,
+          "is_test": false,
+          "is_verified": false,
+          "last_checked_at": "<datetime Z>",
+          "latest_version": "v1.4.2",
+          "namespace": null,
+          "updated_at": "<datetime Z>",
+          "updated_by": null,
+          "whitelist_emails": null,
+          "workspaces_exist": false
+        }
+      }
+    },
+    {
+      "actor": "anon",
+      "method": "GET",
+      "path": "/api/users/me/",
+      "status": 401,
+      "content_type": "application/json",
+      "body": {
+        "detail": "Authentication credentials were not provided."
+      }
+    },
+    {
+      "actor": "anon",
+      "method": "POST",
+      "path": "/auth/email-check/",
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "error_code": 5010,
+        "error_message": "EMAIL_REQUIRED"
+      }
+    },
+    {
+      "actor": "anon",
+      "method": "POST",
+      "path": "/auth/email-check/",
+      "request": {
+        "email": "not-an-email"
+      },
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "error_code": 5005,
+        "error_message": "INVALID_EMAIL"
+      }
+    },
+    {
+      "actor": "anon",
+      "method": "POST",
+      "path": "/auth/email-check/",
+      "request": {
+        "email": "  New@Example.com "
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "existing": false,
+        "status": "MAGIC_CODE"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/auth/get-csrf-token/",
+      "status": 200,
+      "content_type": "application/json",
+      "cookies": [
+        "csrftoken; value=<set>; Path=/; Max-Age=31449600; HttpOnly; SameSite=Lax"
+      ],
+      "body": {
+        "csrf_token": "<masked>"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/auth/sign-up/",
+      "request": {
+        "csrfmiddlewaretoken": "<masked>",
+        "email": "alice@example.com",
+        "password": "correct-Horse-battery-staple-91"
+      },
+      "status": 302,
+      "location": "http://localhost:3000",
+      "content_type": "text/html",
+      "cookies": [
+        "csrftoken; value=<set>; Path=/; Max-Age=31449600; HttpOnly; SameSite=Lax",
+        "session-id; value=<set>; Path=/; Max-Age=604800; HttpOnly; SameSite=Lax"
+      ]
+    },
+    {
+      "actor": "anon",
+      "method": "POST",
+      "path": "/auth/email-check/",
+      "request": {
+        "email": "ALICE@example.com"
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "existing": true,
+        "status": "CREDENTIAL"
+      }
+    }
+  ]
+}
