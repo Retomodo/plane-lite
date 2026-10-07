@@ -19,12 +19,16 @@ var (
 // so references between responses stay checkable while values differ
 // between runs and implementations.
 type idMap struct {
-	ids map[string]string
+	ids     map[string]string
+	aliases [][2]string
 }
 
 func newIDMap() *idMap { return &idMap{ids: map[string]string{}} }
 
 func (m *idMap) replace(s string) string {
+	for _, a := range m.aliases {
+		s = strings.ReplaceAll(s, a[0], a[1])
+	}
 	return uuidRe.ReplaceAllStringFunc(s, func(id string) string {
 		p, ok := m.ids[id]
 		if !ok {
@@ -40,7 +44,10 @@ func (m *idMap) replace(s string) string {
 type normalizer struct {
 	ids   *idMap
 	masks map[string]bool // dotted paths whose values are replaced by "<masked>"
+	exact map[string]bool // dotted paths kept verbatim
 	sorts map[string]string
+	// noCSRF is a request option carried here for convenience.
+	noCSRF bool
 }
 
 func (n *normalizer) value(path string, v any) any {
@@ -72,6 +79,9 @@ func (n *normalizer) value(path string, v any) any {
 		}
 		return out
 	case string:
+		if n.exact[path] {
+			return x
+		}
 		return n.str(x)
 	default:
 		return v

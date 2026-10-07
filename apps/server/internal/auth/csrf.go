@@ -41,32 +41,57 @@ func (c *CSRF) Rotate(w http.ResponseWriter) {
 	c.setCookie(w, RandomString(csrfSecretLength, alnum))
 }
 
-// Check runs CsrfViewMiddleware.process_view for an unsafe request whose
-// form has already been parsed. It returns false when the request must be
-// rejected.
-func (c *CSRF) Check(r *http.Request, form url.Values) bool {
+// CSRFError carries Django's rejection reason.
+type CSRFError struct{ Reason string }
+
+func (e *CSRFError) Error() string { return e.Reason }
+
+// Check runs CsrfViewMiddleware.process_view for an unsafe request. form is
+// request.POST: the parsed body of a form post, or nil for JSON requests
+// (where only the X-CSRFToken header counts).
+func (c *CSRF) Check(r *http.Request, form url.Values) error {
 	if origin := r.Header.Get("Origin"); origin != "" {
 		if !c.originAllowed(r, origin) {
-			return false
+			return &CSRFError{"Origin checking failed - " + origin + " does not match any trusted origins."}
 		}
-	} else if isSecure(r) && !c.refererAllowed(r) {
-		return false
+	} else if isSecure(r) {
+		if r.Referer() == "" {
+			return &CSRFError{"Referer checking failed - no Referer."}
+		}
+		if !c.refererAllowed(r) {
+			return &CSRFError{"Referer checking failed - " + r.Referer() + " does not match any trusted origins."}
+		}
 	}
 	secret := c.secret(r)
 	if secret == "" {
-		return false
+		return &CSRFError{"CSRF cookie not set."}
 	}
-	token := form.Get("csrfmiddlewaretoken")
+	source := "POST"
+	token := ""
+	if r.Method == http.MethodPost && form != nil {
+		token = form.Get("csrfmiddlewaretoken")
+	}
 	if token == "" {
-		token = r.Header.Get("X-CSRFToken")
+		vals, ok := r.Header["X-Csrftoken"]
+		if !ok || len(vals) == 0 {
+			return &CSRFError{"CSRF token missing."}
+		}
+		token = vals[0]
+		source = "the 'X-Csrftoken' HTTP header"
+	}
+	if len(token) != csrfSecretLength && len(token) != 2*csrfSecretLength {
+		return &CSRFError{"CSRF token from " + source + " has incorrect length."}
 	}
 	if !validTokenFormat(token) {
-		return false
+		return &CSRFError{"CSRF token from " + source + " has invalid characters."}
 	}
 	if len(token) == 2*csrfSecretLength {
 		token = unmask(token)
 	}
-	return subtle.ConstantTimeCompare([]byte(token), []byte(secret)) == 1
+	if subtle.ConstantTimeCompare([]byte(token), []byte(secret)) != 1 {
+		return &CSRFError{"CSRF token from " + source + " incorrect."}
+	}
+	return nil
 }
 
 func (c *CSRF) secret(r *http.Request) string {

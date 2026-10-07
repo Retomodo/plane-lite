@@ -89,7 +89,7 @@
       "method": "POST",
       "path": "/auth/magic-sign-up/",
       "request": {
-        "code": "928111",
+        "code": "714834",
         "csrfmiddlewaretoken": "<masked>",
         "email": "carol@example.com",
         "next_path": "/acme/"
@@ -147,7 +147,7 @@
       "method": "POST",
       "path": "/auth/magic-sign-up/",
       "request": {
-        "code": "928111",
+        "code": "714834",
         "csrfmiddlewaretoken": "<masked>",
         "email": "carol@example.com"
       },

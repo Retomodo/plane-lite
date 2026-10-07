@@ -146,6 +146,9 @@ func (a *API) verifyMagicCode(ctx context.Context, key, code string) (string, er
 
 // magicGenerate ports authentication.views.app.magic.MagicGenerateEndpoint.
 func (a *API) magicGenerate(c *httpx.Ctx) error {
+	if err := a.drfCSRF(c); err != nil {
+		return err
+	}
 	if c.User == nil {
 		if err := a.throttle(c, "authentication", a.authRate); err != nil {
 			return err

@@ -5,6 +5,9 @@ import (
 	"net/url"
 	"strings"
 	"testing"
+	"time"
+
+	"github.com/google/uuid"
 
 	"plane-lite/server/internal/config"
 )
@@ -89,7 +92,7 @@ func TestCSRFMaskRoundTrip(t *testing.T) {
 		if origin != "" {
 			r.Header.Set("Origin", origin)
 		}
-		return c.Check(r, form)
+		return c.Check(r, form) == nil
 	}
 	if !post(url.Values{"csrfmiddlewaretoken": {token}}, "") {
 		t.Error("valid masked token rejected")
@@ -105,5 +108,52 @@ func TestCSRFMaskRoundTrip(t *testing.T) {
 	}
 	if !post(url.Values{"csrfmiddlewaretoken": {token}}, "http://api.example.com") {
 		t.Error("same-origin post rejected")
+	}
+}
+
+func TestResetTokenMatchesDjango(t *testing.T) {
+	const secret = "reference-secret-key-not-for-production-use-0123456789"
+	login := time.Date(2026, 10, 7, 18, 1, 26, 123456000, time.UTC)
+	u := ResetSubject{
+		ID:           uuid.MustParse("0b6d8f0e-1c51-4c55-9a4e-6f3f1d6c3d01"),
+		PasswordHash: "pbkdf2_sha256$1000000$abc$def=",
+		LastLogin:    &login,
+		Email:        "alice@example.com",
+	}
+	now := time.Date(2026, 10, 8, 9, 30, 0, 0, time.UTC)
+	if got := MakeResetToken(secret, u, now); got != "dg4ie0-6d227fe51d3998101fd8edf98334646e" {
+		t.Errorf("token = %s", got)
+	}
+	noLogin := u
+	noLogin.LastLogin = nil
+	if got := MakeResetToken(secret, noLogin, now); got != "dg4ie0-64abe3b7c7931508abfc9397cf6417b0" {
+		t.Errorf("token without last_login = %s", got)
+	}
+	tok := MakeResetToken(secret, u, now)
+	if !CheckResetToken(secret, u, tok, now.Add(time.Hour), time.Hour) {
+		t.Error("token rejected within timeout")
+	}
+	if CheckResetToken(secret, u, tok, now.Add(time.Hour+time.Second), time.Hour) {
+		t.Error("expired token accepted")
+	}
+	changed := u
+	changed.PasswordHash += "x"
+	if CheckResetToken(secret, changed, tok, now, time.Hour) {
+		t.Error("token survived a password change")
+	}
+
+	if got := EncodeUID(u.ID); got != "MGI2ZDhmMGUtMWM1MS00YzU1LTlhNGUtNmYzZjFkNmMzZDAx" {
+		t.Errorf("uid = %s", got)
+	}
+	for in, want := range map[string]error{
+		"MGI2ZDhmMGUtMWM1MS00YzU1LTlhNGUtNmYzZjFkNmMzZDAx": nil,
+		"!!!":      ErrUIDNotUUID, // decodes to "" in Python
+		"bm9ib2R5": ErrUIDNotUUID, // "nobody"
+		"Zm9vY":    ErrUIDDecode,
+		"_w":       ErrUIDUnicode, // 0xff
+	} {
+		if _, err := DecodeUID(in); err != want {
+			t.Errorf("DecodeUID(%q) err = %v, want %v", in, err, want)
+		}
 	}
 }

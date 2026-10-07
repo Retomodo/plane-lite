@@ -29,7 +29,7 @@ type Step struct {
 	Location    string   `json:"location,omitempty"`
 	ContentType string   `json:"content_type,omitempty"`
 	Cookies     []string `json:"cookies,omitempty"`
-	Body        any      `json:"body,omitempty"`
+	Body        any      `json:"body,omitzero"` // omitzero keeps [] and {}
 }
 
 type golden struct {
@@ -128,6 +128,14 @@ func (s *Scenario) finish() {
 	}
 }
 
+// Alias makes value normalize to placeholder wherever it appears (paths,
+// bodies, redirects), for opaque values like reset tokens.
+func (s *Scenario) Alias(value, placeholder string) {
+	if value != "" {
+		s.ids.aliases = append(s.ids.aliases, [2]string{value, placeholder})
+	}
+}
+
 // Client is one actor with its own cookie jar (a browser session).
 type Client struct {
 	s    *Scenario
@@ -155,6 +163,20 @@ func (s *Scenario) ClientFrom(name, ip string) *Client {
 
 // Opt adjusts how a step is normalized.
 type Opt func(*normalizer)
+
+// Exact keeps the values at paths verbatim, skipping datetime/ID
+// normalization, for fields whose exact value is the point of the step.
+func Exact(paths ...string) Opt {
+	return func(n *normalizer) {
+		for _, p := range paths {
+			n.exact["body."+p] = true
+		}
+	}
+}
+
+// NoCSRF omits the X-CSRFToken header the client otherwise sends on unsafe
+// requests, to exercise CSRF rejection.
+func NoCSRF() Opt { return func(n *normalizer) { n.noCSRF = true } }
 
 // Mask replaces the values at the given dotted body paths (e.g.
 // "csrf_token", "results[].token") with "<masked>".
@@ -273,7 +295,11 @@ func (c *Client) Do(method, path string, body any, opts ...Opt) *Response {
 	if c.ip != "" {
 		req.Header.Set("X-Forwarded-For", c.ip)
 	}
-	if csrf := c.cookie("csrftoken"); csrf != "" && method != http.MethodGet {
+	n := &normalizer{ids: c.s.ids, masks: map[string]bool{}, exact: map[string]bool{}, sorts: map[string]string{}}
+	for _, o := range opts {
+		o(n)
+	}
+	if csrf := c.cookie("csrftoken"); csrf != "" && method != http.MethodGet && !n.noCSRF {
 		req.Header.Set("X-CSRFToken", csrf)
 	}
 	resp, err := c.http.Do(req)
@@ -294,10 +320,6 @@ func (c *Client) Do(method, path string, body any, opts ...Opt) *Response {
 		}
 	}
 
-	n := &normalizer{ids: c.s.ids, masks: map[string]bool{}, sorts: map[string]string{}}
-	for _, o := range opts {
-		o(n)
-	}
 	step := Step{
 		Actor:       c.name,
 		Method:      method,

@@ -1,0 +1,232 @@
+{
+  "steps": [
+    {
+      "actor": "anon",
+      "method": "DELETE",
+      "path": "/api/users/me/",
+      "status": 401,
+      "content_type": "application/json",
+      "body": {
+        "detail": "Authentication credentials were not provided."
+      }
+    },
+    {
+      "actor": "carol",
+      "method": "GET",
+      "path": "/auth/get-csrf-token/",
+      "status": 200,
+      "content_type": "application/json",
+      "cookies": [
+        "csrftoken; value=<set>; Path=/; Max-Age=31449600; HttpOnly; SameSite=Lax"
+      ],
+      "body": {
+        "csrf_token": "<masked>"
+      }
+    },
+    {
+      "actor": "carol",
+      "method": "POST",
+      "path": "/auth/sign-up/",
+      "request": {
+        "csrfmiddlewaretoken": "<masked>",
+        "email": "carol@example.com",
+        "password": "correct-Horse-battery-staple-91"
+      },
+      "status": 302,
+      "location": "http://localhost:3000",
+      "content_type": "text/html",
+      "cookies": [
+        "csrftoken; value=<set>; Path=/; Max-Age=31449600; HttpOnly; SameSite=Lax",
+        "session-id; value=<set>; Path=/; Max-Age=604800; HttpOnly; SameSite=Lax"
+      ]
+    },
+    {
+      "actor": "carol",
+      "method": "PATCH",
+      "path": "/api/users/me/onboard/",
+      "request": {
+        "is_onboarded": true
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "message": "Updated successfully"
+      }
+    },
+    {
+      "actor": "carol-laptop",
+      "method": "GET",
+      "path": "/auth/get-csrf-token/",
+      "status": 200,
+      "content_type": "application/json",
+      "cookies": [
+        "csrftoken; value=<set>; Path=/; Max-Age=31449600; HttpOnly; SameSite=Lax"
+      ],
+      "body": {
+        "csrf_token": "<masked>"
+      }
+    },
+    {
+      "actor": "carol-laptop",
+      "method": "POST",
+      "path": "/auth/sign-in/",
+      "request": {
+        "csrfmiddlewaretoken": "<masked>",
+        "email": "carol@example.com",
+        "password": "correct-Horse-battery-staple-91"
+      },
+      "status": 302,
+      "location": "http://localhost:3000",
+      "content_type": "text/html",
+      "cookies": [
+        "csrftoken; value=<set>; Path=/; Max-Age=31449600; HttpOnly; SameSite=Lax",
+        "session-id; value=<set>; Path=/; Max-Age=604800; HttpOnly; SameSite=Lax"
+      ]
+    },
+    {
+      "actor": "carol",
+      "method": "DELETE",
+      "path": "/api/users/me/",
+      "status": 204,
+      "cookies": [
+        "session-id; value=<deleted>; Path=/; SameSite=Lax"
+      ]
+    },
+    {
+      "actor": "mail",
+      "method": "EMAIL",
+      "path": "carol@example.com",
+      "status": 0,
+      "body": {
+        "from": "plane@example.com",
+        "subject": "carol has been deactivated on Plane",
+        "text": "Your Plane account has been deactivated You are out of Plane now. You have deactivated your account successfully. Your issues, cycles, and other project data will still be accessible if the project is active and there are other members in it. Reactivate account ­ ­ ­ ­ ­ Despite our popularity, we are humbly early-stage. We are shipping fast, so please reach out to us with feature requests, major and minor nits, and anything else you find missing. We read every message, tweet, and conversation and update our public roadmap. ­ ­ ­ ­ ­ ­ ­ This email was sent to carol@example.com. Please delete if you aren't the intended recipient.",
+        "to": [
+          "carol@example.com"
+        ]
+      }
+    },
+    {
+      "actor": "carol",
+      "method": "GET",
+      "path": "/api/users/me/",
+      "status": 401,
+      "content_type": "application/json",
+      "body": {
+        "detail": "Authentication credentials were not provided."
+      }
+    },
+    {
+      "actor": "carol-laptop",
+      "method": "GET",
+      "path": "/api/users/me/",
+      "status": 401,
+      "content_type": "application/json",
+      "cookies": [
+        "session-id; value=<deleted>; Path=/; SameSite=Lax"
+      ],
+      "body": {
+        "detail": "Authentication credentials were not provided."
+      }
+    },
+    {
+      "actor": "carol",
+      "method": "GET",
+      "path": "/auth/get-csrf-token/",
+      "status": 200,
+      "content_type": "application/json",
+      "cookies": [
+        "csrftoken; value=<set>; Path=/; Max-Age=31449600; HttpOnly; SameSite=Lax"
+      ],
+      "body": {
+        "csrf_token": "<masked>"
+      }
+    },
+    {
+      "actor": "carol",
+      "method": "POST",
+      "path": "/auth/sign-in/",
+      "request": {
+        "csrfmiddlewaretoken": "<masked>",
+        "email": "carol@example.com",
+        "password": "correct-Horse-battery-staple-91"
+      },
+      "status": 302,
+      "location": "http://localhost:3000/?error_code=5065&error_message=AUTHENTICATION_FAILED_SIGN_IN&email=carol%40example.com",
+      "content_type": "text/html"
+    },
+    {
+      "actor": "carol",
+      "method": "POST",
+      "path": "/auth/magic-generate/",
+      "request": {
+        "email": "carol@example.com"
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "key": "magic_carol@example.com"
+      }
+    },
+    {
+      "actor": "mail",
+      "method": "EMAIL",
+      "path": "carol@example.com",
+      "status": 0,
+      "body": {
+        "from": "plane@example.com",
+        "subject": "Your unique Plane login code is <code>",
+        "text": "Your Plane login code Your Plane login code <code> is valid for 10 minutes. Your login code for Plane <code> This code is valid for the next 10 minutes. Enter it on the sign-in page to complete your login. Note: This email was sent to carol@example.com. If you were not expecting a sign-in code, you can safely ignore this message. Plane Software, Inc.",
+        "to": [
+          "carol@example.com"
+        ]
+      }
+    },
+    {
+      "actor": "carol",
+      "method": "GET",
+      "path": "/auth/get-csrf-token/",
+      "status": 200,
+      "content_type": "application/json",
+      "cookies": [
+        "csrftoken; value=<set>; Path=/; Max-Age=31449600; HttpOnly; SameSite=Lax"
+      ],
+      "body": {
+        "csrf_token": "<masked>"
+      }
+    },
+    {
+      "actor": "carol",
+      "method": "POST",
+      "path": "/auth/magic-sign-in/",
+      "request": {
+        "code": "597486",
+        "csrfmiddlewaretoken": "<masked>",
+        "email": "carol@example.com"
+      },
+      "status": 302,
+      "location": "http://localhost:3000/?error_code=5019&error_message=USER_ACCOUNT_DEACTIVATED&email=carol%40example.com",
+      "content_type": "text/html"
+    },
+    {
+      "actor": "carol",
+      "method": "GET",
+      "path": "/api/users/me/",
+      "status": 401,
+      "content_type": "application/json",
+      "body": {
+        "detail": "Authentication credentials were not provided."
+      }
+    },
+    {
+      "actor": "carol",
+      "method": "GET",
+      "path": "/api/users/me/profile/",
+      "status": 401,
+      "content_type": "application/json",
+      "body": {
+        "detail": "Authentication credentials were not provided."
+      }
+    }
+  ]
+}

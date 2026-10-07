@@ -1,0 +1,588 @@
+{
+  "steps": [
+    {
+      "actor": "anon",
+      "method": "GET",
+      "path": "/api/users/session/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "is_authenticated": false
+      }
+    },
+    {
+      "actor": "anon",
+      "method": "GET",
+      "path": "/api/users/me/profile/",
+      "status": 401,
+      "content_type": "application/json",
+      "body": {
+        "detail": "Authentication credentials were not provided."
+      }
+    },
+    {
+      "actor": "anon",
+      "method": "PATCH",
+      "path": "/api/users/me/onboard/",
+      "request": {
+        "is_onboarded": true
+      },
+      "status": 401,
+      "content_type": "application/json",
+      "body": {
+        "detail": "Authentication credentials were not provided."
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/auth/get-csrf-token/",
+      "status": 200,
+      "content_type": "application/json",
+      "cookies": [
+        "csrftoken; value=<set>; Path=/; Max-Age=31449600; HttpOnly; SameSite=Lax"
+      ],
+      "body": {
+        "csrf_token": "<masked>"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/auth/sign-up/",
+      "request": {
+        "csrfmiddlewaretoken": "<masked>",
+        "email": "alice@example.com",
+        "password": "correct-Horse-battery-staple-91"
+      },
+      "status": 302,
+      "location": "http://localhost:3000",
+      "content_type": "text/html",
+      "cookies": [
+        "csrftoken; value=<set>; Path=/; Max-Age=31449600; HttpOnly; SameSite=Lax",
+        "session-id; value=<set>; Path=/; Max-Age=604800; HttpOnly; SameSite=Lax"
+      ]
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/users/session/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "is_authenticated": true,
+        "user": {
+          "avatar": "",
+          "avatar_url": null,
+          "cover_image": null,
+          "cover_image_url": null,
+          "date_joined": "<datetime Z>",
+          "display_name": "alice",
+          "email": "alice@example.com",
+          "first_name": "",
+          "id": "<uuid:1>",
+          "is_active": true,
+          "is_bot": false,
+          "is_email_verified": false,
+          "is_password_autoset": false,
+          "last_login_medium": "email",
+          "last_login_time": "<datetime Z>",
+          "last_name": "",
+          "user_timezone": "UTC",
+          "username": "<hex32>"
+        }
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/users/me/settings/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "email": "alice@example.com",
+        "id": "<uuid:1>",
+        "workspace": {
+          "fallback_workspace_id": null,
+          "fallback_workspace_slug": null,
+          "invites": 0,
+          "last_workspace_id": null,
+          "last_workspace_slug": null
+        }
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/users/me/instance-admin/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "is_instance_admin": false
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/users/me/accounts/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": []
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/users/me/accounts/<uuid:2>/",
+      "status": 404,
+      "content_type": "application/json",
+      "body": {
+        "error": "The required object does not exist."
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/users/me/profile/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "background_color": "<masked>",
+        "billing_address": null,
+        "billing_address_country": "INDIA",
+        "company_name": "",
+        "created_at": "<datetime Z>",
+        "goals": {},
+        "has_billing_address": false,
+        "has_marketing_email_consent": false,
+        "id": "<uuid:3>",
+        "is_app_rail_docked": true,
+        "is_mobile_onboarded": false,
+        "is_navigation_tour_completed": false,
+        "is_onboarded": false,
+        "is_smooth_cursor_enabled": false,
+        "is_subscribed_to_changelog": false,
+        "is_tour_completed": false,
+        "language": "en",
+        "last_workspace_id": null,
+        "mobile_onboarding_step": {
+          "profile_complete": false,
+          "workspace_create": false,
+          "workspace_join": false
+        },
+        "mobile_timezone_auto_set": false,
+        "notification_view_mode": "full",
+        "onboarding_step": {
+          "profile_complete": false,
+          "workspace_create": false,
+          "workspace_invite": false,
+          "workspace_join": false
+        },
+        "product_tour": {
+          "cycles": false,
+          "intake": false,
+          "modules": false,
+          "pages": false,
+          "work_items": false
+        },
+        "role": null,
+        "start_of_the_week": 0,
+        "theme": {},
+        "updated_at": "<datetime Z>",
+        "use_case": null,
+        "user": "<uuid:1>"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "PATCH",
+      "path": "/api/users/me/profile/",
+      "request": {
+        "billing_address": null,
+        "company_name": 5,
+        "goals": [
+          1,
+          "two"
+        ],
+        "has_billing_address": 1,
+        "id": "<uuid:2>",
+        "is_app_rail_docked": "false",
+        "is_mobile_onboarded": "on",
+        "language": "fr",
+        "last_workspace_id": "0B6D8F0E1C514C559A4E6F3F1D6C3D01",
+        "notification_view_mode": "compact",
+        "role": "  Engineer  ",
+        "start_of_the_week": "1",
+        "theme": {
+          "sidebar": "#123",
+          "theme": "dark"
+        },
+        "unknown": "ignored",
+        "use_case": null,
+        "user": "<uuid:2>"
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "background_color": "<masked>",
+        "billing_address": null,
+        "billing_address_country": "INDIA",
+        "company_name": "5",
+        "created_at": "<datetime Z>",
+        "goals": [
+          1,
+          "two"
+        ],
+        "has_billing_address": true,
+        "has_marketing_email_consent": false,
+        "id": "<uuid:3>",
+        "is_app_rail_docked": false,
+        "is_mobile_onboarded": true,
+        "is_navigation_tour_completed": false,
+        "is_onboarded": false,
+        "is_smooth_cursor_enabled": false,
+        "is_subscribed_to_changelog": false,
+        "is_tour_completed": false,
+        "language": "fr",
+        "last_workspace_id": "<uuid:4>",
+        "mobile_onboarding_step": {
+          "profile_complete": false,
+          "workspace_create": false,
+          "workspace_join": false
+        },
+        "mobile_timezone_auto_set": false,
+        "notification_view_mode": "compact",
+        "onboarding_step": {
+          "profile_complete": false,
+          "workspace_create": false,
+          "workspace_invite": false,
+          "workspace_join": false
+        },
+        "product_tour": {
+          "cycles": false,
+          "intake": false,
+          "modules": false,
+          "pages": false,
+          "work_items": false
+        },
+        "role": "Engineer",
+        "start_of_the_week": 1,
+        "theme": {
+          "sidebar": "#123",
+          "theme": "dark"
+        },
+        "updated_at": "<datetime Z>",
+        "use_case": null,
+        "user": "<uuid:1>"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "PATCH",
+      "path": "/api/users/me/profile/",
+      "request": {
+        "background_color": "   ",
+        "billing_address_country": true,
+        "company_name": {},
+        "is_smooth_cursor_enabled": 2,
+        "is_tour_completed": "maybe",
+        "language": "",
+        "last_workspace_id": "nope",
+        "notification_view_mode": "",
+        "role": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "start_of_the_week": 7,
+        "theme": null,
+        "use_case": "a\u0000b"
+      },
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "background_color": [
+          "This field may not be blank."
+        ],
+        "billing_address_country": [
+          "Not a valid string."
+        ],
+        "company_name": [
+          "Not a valid string."
+        ],
+        "is_smooth_cursor_enabled": [
+          "Must be a valid boolean."
+        ],
+        "is_tour_completed": [
+          "Must be a valid boolean."
+        ],
+        "language": [
+          "This field may not be blank."
+        ],
+        "last_workspace_id": [
+          "Must be a valid UUID."
+        ],
+        "notification_view_mode": [
+          "\"\" is not a valid choice."
+        ],
+        "role": [
+          "Ensure this field has no more than 300 characters."
+        ],
+        "start_of_the_week": [
+          "\"7\" is not a valid choice."
+        ],
+        "theme": [
+          "This field may not be null."
+        ],
+        "use_case": [
+          "Null characters are not allowed."
+        ]
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "PATCH",
+      "path": "/api/users/me/profile/",
+      "request": {
+        "is_onboarded": null,
+        "last_workspace_id": 5,
+        "start_of_the_week": 3
+      },
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "is_onboarded": [
+          "This field may not be null."
+        ]
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "PATCH",
+      "path": "/api/users/me/profile/",
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "non_field_errors": [
+          "Invalid data. Expected a dictionary, but got list."
+        ]
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "PATCH",
+      "path": "/api/users/me/profile/",
+      "request": {
+        "last_workspace_id": null,
+        "role": "",
+        "use_case": "   "
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "background_color": "<masked>",
+        "billing_address": null,
+        "billing_address_country": "INDIA",
+        "company_name": "5",
+        "created_at": "<datetime Z>",
+        "goals": [
+          1,
+          "two"
+        ],
+        "has_billing_address": true,
+        "has_marketing_email_consent": false,
+        "id": "<uuid:3>",
+        "is_app_rail_docked": false,
+        "is_mobile_onboarded": true,
+        "is_navigation_tour_completed": false,
+        "is_onboarded": false,
+        "is_smooth_cursor_enabled": false,
+        "is_subscribed_to_changelog": false,
+        "is_tour_completed": false,
+        "language": "fr",
+        "last_workspace_id": null,
+        "mobile_onboarding_step": {
+          "profile_complete": false,
+          "workspace_create": false,
+          "workspace_join": false
+        },
+        "mobile_timezone_auto_set": false,
+        "notification_view_mode": "compact",
+        "onboarding_step": {
+          "profile_complete": false,
+          "workspace_create": false,
+          "workspace_invite": false,
+          "workspace_join": false
+        },
+        "product_tour": {
+          "cycles": false,
+          "intake": false,
+          "modules": false,
+          "pages": false,
+          "work_items": false
+        },
+        "role": "",
+        "start_of_the_week": 1,
+        "theme": {
+          "sidebar": "#123",
+          "theme": "dark"
+        },
+        "updated_at": "<datetime Z>",
+        "use_case": "",
+        "user": "<uuid:1>"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "PATCH",
+      "path": "/api/users/me/onboard/",
+      "request": {
+        "is_onboarded": true
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "message": "Updated successfully"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "PATCH",
+      "path": "/api/users/me/onboard/",
+      "request": {
+        "is_onboarded": "yes"
+      },
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "error": "Please provide valid detail"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "PATCH",
+      "path": "/api/users/me/onboard/",
+      "request": {
+        "is_onboarded": null
+      },
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "error": "The payload is not valid"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "PATCH",
+      "path": "/api/users/me/onboard/",
+      "request": {
+        "is_onboarded": "f"
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "message": "Updated successfully"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "PATCH",
+      "path": "/api/users/me/tour-completed/",
+      "request": {
+        "is_tour_completed": 1
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "message": "Updated successfully"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "PATCH",
+      "path": "/api/users/me/tour-completed/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "message": "Updated successfully"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "PATCH",
+      "path": "/api/users/me/onboard/",
+      "request": {
+        "is_onboarded": "True"
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "message": "Updated successfully"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/users/me/profile/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "background_color": "<masked>",
+        "billing_address": null,
+        "billing_address_country": "INDIA",
+        "company_name": "5",
+        "created_at": "<datetime Z>",
+        "goals": [
+          1,
+          "two"
+        ],
+        "has_billing_address": true,
+        "has_marketing_email_consent": false,
+        "id": "<uuid:3>",
+        "is_app_rail_docked": false,
+        "is_mobile_onboarded": true,
+        "is_navigation_tour_completed": false,
+        "is_onboarded": true,
+        "is_smooth_cursor_enabled": false,
+        "is_subscribed_to_changelog": false,
+        "is_tour_completed": false,
+        "language": "fr",
+        "last_workspace_id": null,
+        "mobile_onboarding_step": {
+          "profile_complete": false,
+          "workspace_create": false,
+          "workspace_join": false
+        },
+        "mobile_timezone_auto_set": false,
+        "notification_view_mode": "compact",
+        "onboarding_step": {
+          "profile_complete": false,
+          "workspace_create": false,
+          "workspace_invite": false,
+          "workspace_join": false
+        },
+        "product_tour": {
+          "cycles": false,
+          "intake": false,
+          "modules": false,
+          "pages": false,
+          "work_items": false
+        },
+        "role": "",
+        "start_of_the_week": 1,
+        "theme": {
+          "sidebar": "#123",
+          "theme": "dark"
+        },
+        "updated_at": "<datetime Z>",
+        "use_case": "",
+        "user": "<uuid:1>"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/users/me/profile/",
+      "status": 405,
+      "content_type": "application/json",
+      "body": {
+        "detail": "Method \"POST\" not allowed."
+      }
+    }
+  ]
+}

@@ -12,3 +12,6 @@ the contract goldens. These are the known, intentional differences.
 | Login redirect | Computes `get_redirection_path()` ("onboarding", a slug, ...) and then discards it because it lacks a leading `/` | Skips the computation; same redirect (app root, or `next_path`) | Same behaviour, no wasted queries |
 | Session payload | Django's signed, compressed `session_data` | Plain JSON in the same `sessions` table | Clean cutover; sessions don't need to be readable by Django. Existing sessions are invalidated on migration (users sign in again) |
 | Background jobs | Celery on RabbitMQ, separate worker and beat processes; a failed task is logged and dropped | River queue in Postgres, worked inside the server process; email jobs retry up to 3 times | No broker to run; jobs survive Redis eviction |
+| Malformed JSON bodies | 400 `{"detail": "JSON parse error - <Python json message>"}` | Same status and prefix; the message after the dash is Go's | Not worth reimplementing Python's parser messages |
+| Lone UTF-16 surrogates in JSON (`"\ud800"`) | Accepted by the parser; CharFields answer "Surrogate characters are not allowed" | Rejected as malformed JSON (400) | Go strings can't hold lone surrogates |
+| `/api/users/me/accounts/` | Lists the user's OAuth accounts | Always `[]`; `/accounts/<id>/` is always 404 | OAuth is cut, so no accounts can exist |

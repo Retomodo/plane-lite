@@ -43,7 +43,7 @@ func (a *API) formPost(c *httpx.Ctx, throttled bool) (form url.Values, ok bool, 
 	if err != nil {
 		return nil, false, err
 	}
-	if !a.csrf.Check(c.R, form) {
+	if a.csrf.Check(c.R, form) != nil {
 		return nil, false, a.csrfFailure(c)
 	}
 	if throttled && c.User == nil {
@@ -69,6 +69,23 @@ func postValue(form url.Values, key string) (string, bool) {
 
 func normalizeEmail(s string) string { return strings.ToLower(strings.TrimSpace(s)) }
 
+// drfCSRF is DRF SessionAuthentication.enforce_csrf, which applies to the
+// APIViews that keep DRF's default authentication (unlike Plane's own
+// BaseAPIView): unsafe requests from logged-in users need the token header.
+func (a *API) drfCSRF(c *httpx.Ctx) error {
+	if c.User == nil {
+		return nil
+	}
+	switch c.R.Method {
+	case http.MethodGet, http.MethodHead, http.MethodOptions, http.MethodTrace:
+		return nil
+	}
+	if err := a.csrf.Check(c.R, nil); err != nil {
+		return httpx.Detail(http.StatusForbidden, "CSRF Failed: "+err.Error())
+	}
+	return nil
+}
+
 // getCSRFToken ports authentication.views.common.CSRFTokenEndpoint.
 func (a *API) getCSRFToken(c *httpx.Ctx) error {
 	return c.JSON(http.StatusOK, map[string]any{"csrf_token": a.csrf.Token(c.W, c.R)})
@@ -76,6 +93,9 @@ func (a *API) getCSRFToken(c *httpx.Ctx) error {
 
 // emailCheck ports authentication.views.app.check.EmailCheckEndpoint.
 func (a *API) emailCheck(c *httpx.Ctx) error {
+	if err := a.drfCSRF(c); err != nil {
+		return err
+	}
 	if c.User == nil {
 		if err := a.throttle(c, "authentication", a.authRate); err != nil {
 			return err

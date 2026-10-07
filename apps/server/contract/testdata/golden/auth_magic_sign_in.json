@@ -153,7 +153,7 @@
       "method": "POST",
       "path": "/auth/magic-sign-in/",
       "request": {
-        "code": "231710",
+        "code": "688586",
         "csrfmiddlewaretoken": "<masked>",
         "email": "ALICE@example.com "
       },

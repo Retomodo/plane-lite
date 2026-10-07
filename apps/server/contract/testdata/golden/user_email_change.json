@@ -1,0 +1,360 @@
+{
+  "steps": [
+    {
+      "actor": "bob",
+      "method": "GET",
+      "path": "/auth/get-csrf-token/",
+      "status": 200,
+      "content_type": "application/json",
+      "cookies": [
+        "csrftoken; value=<set>; Path=/; Max-Age=31449600; HttpOnly; SameSite=Lax"
+      ],
+      "body": {
+        "csrf_token": "<masked>"
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "POST",
+      "path": "/auth/sign-up/",
+      "request": {
+        "csrfmiddlewaretoken": "<masked>",
+        "email": "bob@example.com",
+        "password": "correct-Horse-battery-staple-91"
+      },
+      "status": 302,
+      "location": "http://localhost:3000",
+      "content_type": "text/html",
+      "cookies": [
+        "csrftoken; value=<set>; Path=/; Max-Age=31449600; HttpOnly; SameSite=Lax",
+        "session-id; value=<set>; Path=/; Max-Age=604800; HttpOnly; SameSite=Lax"
+      ]
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/auth/get-csrf-token/",
+      "status": 200,
+      "content_type": "application/json",
+      "cookies": [
+        "csrftoken; value=<set>; Path=/; Max-Age=31449600; HttpOnly; SameSite=Lax"
+      ],
+      "body": {
+        "csrf_token": "<masked>"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/auth/sign-up/",
+      "request": {
+        "csrfmiddlewaretoken": "<masked>",
+        "email": "alice@example.com",
+        "password": "correct-Horse-battery-staple-91"
+      },
+      "status": 302,
+      "location": "http://localhost:3000",
+      "content_type": "text/html",
+      "cookies": [
+        "csrftoken; value=<set>; Path=/; Max-Age=31449600; HttpOnly; SameSite=Lax",
+        "session-id; value=<set>; Path=/; Max-Age=604800; HttpOnly; SameSite=Lax"
+      ]
+    },
+    {
+      "actor": "alice",
+      "method": "PATCH",
+      "path": "/api/users/me/email/",
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "error": "Email is required"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "PATCH",
+      "path": "/api/users/me/email/",
+      "request": {
+        "email": "bad"
+      },
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "error": "Invalid email format"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "PATCH",
+      "path": "/api/users/me/email/",
+      "request": {
+        "email": " ALICE@example.com"
+      },
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "error": "New email must be different from current email"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "PATCH",
+      "path": "/api/users/me/email/",
+      "request": {
+        "email": "bob@example.com"
+      },
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "error": "An account with this email already exists"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "PATCH",
+      "path": "/api/users/me/email/",
+      "request": {
+        "email": "alice2@example.com"
+      },
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "error": "Verification code is required"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "PATCH",
+      "path": "/api/users/me/email/",
+      "request": {
+        "code": "123456",
+        "email": "alice2@example.com"
+      },
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "error": "Verification code has expired or is invalid"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "PATCH",
+      "path": "/api/users/me/email/",
+      "request": {
+        "email": 5
+      },
+      "status": 500,
+      "content_type": "application/json",
+      "body": {
+        "error": "Something went wrong please try again later"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/users/me/email/generate-code/",
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "error": "Email is required"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/users/me/email/generate-code/",
+      "request": {
+        "email": "bob@example.com"
+      },
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "error": "An account with this email already exists"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/users/me/email/generate-code/",
+      "request": {
+        "email": " Alice2@Example.com "
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "message": "Verification code sent to email"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/users/me/email/generate-code/",
+      "request": {
+        "email": "alice3@example.com"
+      },
+      "status": 429,
+      "content_type": "application/json",
+      "body": {
+        "error_code": 5900,
+        "error_message": "RATE_LIMIT_EXCEEDED"
+      }
+    },
+    {
+      "actor": "mail",
+      "method": "EMAIL",
+      "path": "alice2@example.com",
+      "status": 0,
+      "body": {
+        "from": "plane@example.com",
+        "subject": "Verify your new email address",
+        "text": "Your Plane login code Your Plane login code <code> is valid for 10 minutes. Your login code for Plane <code> This code is valid for the next 10 minutes. Enter it on the sign-in page to complete your login. Note: This email was sent to alice2@example.com. If you were not expecting a sign-in code, you can safely ignore this message. Plane Software, Inc.",
+        "to": [
+          "alice2@example.com"
+        ]
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "PATCH",
+      "path": "/api/users/me/email/",
+      "request": {
+        "code": "000000",
+        "email": "alice2@example.com"
+      },
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "error": "Invalid verification code"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "PATCH",
+      "path": "/api/users/me/email/",
+      "request": {
+        "code": " 467699 ",
+        "email": "alice2@example.com"
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "cookies": [
+        "session-id; value=<deleted>; Path=/; SameSite=Lax"
+      ],
+      "body": {
+        "avatar": "",
+        "avatar_url": null,
+        "cover_image": null,
+        "cover_image_url": null,
+        "date_joined": "<datetime Z>",
+        "display_name": "alice",
+        "email": "alice2@example.com",
+        "first_name": "",
+        "id": "<uuid:1>",
+        "is_active": true,
+        "is_bot": false,
+        "is_email_verified": false,
+        "is_password_autoset": false,
+        "last_login_medium": "email",
+        "last_login_time": "<datetime Z>",
+        "last_name": "",
+        "user_timezone": "UTC",
+        "username": "<hex32>"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/users/me/",
+      "status": 401,
+      "content_type": "application/json",
+      "body": {
+        "detail": "Authentication credentials were not provided."
+      }
+    },
+    {
+      "actor": "mail",
+      "method": "EMAIL",
+      "path": "alice2@example.com",
+      "status": 0,
+      "body": {
+        "from": "plane@example.com",
+        "subject": "Plane email address successfully updated",
+        "text": "Plane email address successfully updated Plane email address successfully updated You have successfully updated your email address with Plane to alice2@example.com. You can now log in using this email address. ­ ­ ­ This email was sent to alice2@example.com. Please delete if you aren't the intended recipient.",
+        "to": [
+          "alice2@example.com"
+        ]
+      }
+    },
+    {
+      "actor": "mail",
+      "method": "EMAIL",
+      "path": "alice@example.com",
+      "status": 0,
+      "body": {
+        "from": "plane@example.com",
+        "subject": "Plane email address successfully updated",
+        "text": "Plane email address successfully updated Plane email address successfully updated You have successfully updated your email address with Plane to alice@example.com. You can now log in using this email address. ­ ­ ­ This email was sent to alice@example.com. Please delete if you aren't the intended recipient.",
+        "to": [
+          "alice@example.com"
+        ]
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/auth/get-csrf-token/",
+      "status": 200,
+      "content_type": "application/json",
+      "cookies": [
+        "csrftoken; value=<set>; Path=/; Max-Age=31449600; HttpOnly; SameSite=Lax"
+      ],
+      "body": {
+        "csrf_token": "<masked>"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/auth/sign-in/",
+      "request": {
+        "csrfmiddlewaretoken": "<masked>",
+        "email": "alice2@example.com",
+        "password": "correct-Horse-battery-staple-91"
+      },
+      "status": 302,
+      "location": "http://localhost:3000",
+      "content_type": "text/html",
+      "cookies": [
+        "csrftoken; value=<set>; Path=/; Max-Age=31449600; HttpOnly; SameSite=Lax",
+        "session-id; value=<set>; Path=/; Max-Age=604800; HttpOnly; SameSite=Lax"
+      ]
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/users/me/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "avatar": "",
+        "avatar_url": null,
+        "cover_image": null,
+        "cover_image_url": null,
+        "date_joined": "<datetime Z>",
+        "display_name": "alice",
+        "email": "alice2@example.com",
+        "first_name": "",
+        "id": "<uuid:1>",
+        "is_active": true,
+        "is_bot": false,
+        "is_email_verified": false,
+        "is_password_autoset": false,
+        "last_login_medium": "email",
+        "last_login_time": "<datetime Z>",
+        "last_name": "",
+        "user_timezone": "UTC",
+        "username": "<hex32>"
+      }
+    }
+  ]
+}

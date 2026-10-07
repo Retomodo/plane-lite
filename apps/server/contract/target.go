@@ -175,7 +175,11 @@ type Email struct {
 	To      []struct{ Address string }
 }
 
-var codeRe = regexp.MustCompile(`\b\d{6}\b`)
+var (
+	codeRe = regexp.MustCompile(`\b\d{6}\b`)
+	// Password-reset link parameters.
+	resetParamRe = regexp.MustCompile(`(uidb64|token)=[^&\s"]+`)
+)
 
 // Code returns the first 6-digit code in the email (magic sign-in codes).
 func (e Email) Code() string { return codeRe.FindString(e.Subject + " " + e.Text) }
@@ -211,7 +215,8 @@ func (s *Scenario) LatestEmail(addr string) Email {
 					"from":    m.From.Address,
 					"to":      to,
 					"subject": codeRe.ReplaceAllString(m.Subject, "<code>"),
-					"text":    codeRe.ReplaceAllString(strings.Join(strings.Fields(m.Text), " "), "<code>"),
+					"text": resetParamRe.ReplaceAllString(
+						codeRe.ReplaceAllString(strings.Join(strings.Fields(m.Text), " "), "<code>"), "$1=<masked>"),
 				},
 			})
 			return m

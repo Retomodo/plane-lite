@@ -13,6 +13,7 @@ Postgres and Redis, configured through `DATABASE_URL` and `REDIS_URL`.
 | `internal/api` | Endpoint handlers; each names the Django view it ports |
 | `internal/auth` | Django-compatible passwords, sessions, CSRF and email validation |
 | `internal/httpx` | Router, DRF-style errors, and JSON rendered in the user's timezone |
+| `internal/drf` | DRF request parsing and serializer-field validation (coercions and exact error messages), with Python-compatible `fromisoformat`, URLValidator, `str()` and `uuid.UUID()`; `testdata/fixtures.json` comes from `contract/reference/gen_drf_fixtures.py` |
 | `internal/db` | Pool and migrations. `0001_baseline.sql` is Django's schema; `0002` adds the ORM's defaults at the DB level |
 | `internal/throttle` | DRF throttling on Redis |
 | `internal/jobs` | Background jobs (Plane's Celery tasks) on a Postgres queue (River), run in-process |
@@ -58,3 +59,5 @@ Variables use the Django backend's names:
 |---|---|---|
 | 1 | Routing conventions (slash redirect, 404, 405), `GET /api/instances/`, `/auth/get-csrf-token/`, `/auth/email-check/`, `/auth/sign-up/`, `/auth/sign-in/`, `/auth/sign-out/`, `GET /api/users/me/` | done |
 | 2 | `/auth/magic-generate/`, `/auth/magic-sign-in/`, `/auth/magic-sign-up/`; auth rate limiting; magic-code and activation emails | done |
+| 3 | `/auth/forgot-password/`, `/auth/reset-password/{uidb64}/{token}/`, `/auth/change-password/`, `/auth/set-password/`; DRF CSRF enforcement for logged-in users | done |
+| 4 | `/api/users/me/` PATCH and DELETE (deactivate), `/api/users/session/`, `/api/users/me/settings/`, `/api/users/me/profile/` GET/PATCH, `/api/users/me/onboard/`, `/api/users/me/tour-completed/`, `/api/users/me/email/generate-code/`, `/api/users/me/email/`, `/api/users/me/instance-admin/`, `/api/users/me/accounts/` (stub); DRF serializer validation (`internal/drf`) | done |

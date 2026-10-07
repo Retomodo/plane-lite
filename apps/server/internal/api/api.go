@@ -6,6 +6,7 @@ package api
 import (
 	"log/slog"
 	"net/http"
+	"time"
 
 	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/redis/go-redis/v9"
@@ -62,6 +63,8 @@ func New(d Deps) *API {
 		mailer:   d.Mailer,
 	}
 	a.registerEmailJobs()
+	a.registerPasswordJobs()
+	a.registerUserJobs()
 	return a
 }
 
@@ -79,9 +82,23 @@ func (a *API) Register(rt *httpx.Router) {
 	rt.HandlePublic("/auth/magic-generate/", httpx.Methods{"POST": a.magicGenerate})
 	rt.HandlePublic("/auth/magic-sign-in/", httpx.Methods{"POST": a.magicSignIn})
 	rt.HandlePublic("/auth/magic-sign-up/", httpx.Methods{"POST": a.magicSignUp})
+	rt.HandlePublic("/auth/forgot-password/", httpx.Methods{"POST": a.forgotPassword})
+	rt.HandlePublic("/auth/reset-password/{uidb64}/{token}/", httpx.Methods{"POST": a.resetPassword})
+	rt.Handle("/auth/change-password/", httpx.Methods{"POST": a.changePassword})
+	rt.Handle("/auth/set-password/", httpx.Methods{"POST": a.setPassword})
 
 	// plane/app/urls/user.py
-	rt.Handle("/api/users/me/", httpx.Methods{"GET": a.getMe})
+	rt.Handle("/api/users/me/", httpx.Methods{"GET": a.getMe, "PATCH": a.patchMe, "DELETE": a.deactivateMe})
+	rt.HandlePublic("/api/users/session/", httpx.Methods{"GET": a.anon(a.userSession)})
+	rt.Handle("/api/users/me/settings/", httpx.Methods{"GET": a.userSettings})
+	rt.Handle("/api/users/me/email/generate-code/", httpx.Methods{"POST": a.emailGenerateCode})
+	rt.Handle("/api/users/me/email/", httpx.Methods{"PATCH": a.updateEmail})
+	rt.Handle("/api/users/me/profile/", httpx.Methods{"GET": a.getProfile, "PATCH": a.patchProfile})
+	rt.Handle("/api/users/me/accounts/", httpx.Methods{"GET": a.listAccounts, "DELETE": a.accountsNoPK})
+	rt.Handle("/api/users/me/accounts/{pk}/", httpx.Methods{"GET": a.account, "DELETE": a.account})
+	rt.Handle("/api/users/me/instance-admin/", httpx.Methods{"GET": a.instanceAdmin})
+	rt.Handle("/api/users/me/onboard/", httpx.Methods{"PATCH": a.setProfileFlag("is_onboarded")})
+	rt.Handle("/api/users/me/tour-completed/", httpx.Methods{"PATCH": a.setProfileFlag("is_tour_completed")})
 }
 
 // anon applies DRF's default AnonRateThrottle to an AllowAny view.
@@ -105,6 +122,11 @@ func (a *API) throttle(c *httpx.Ctx, scope string, rate throttle.Rate) error {
 	if ok {
 		return nil
 	}
+	return a.rateLimited(c, wait)
+}
+
+// rateLimited is Plane's throttle failure response.
+func (a *API) rateLimited(c *httpx.Ctx, wait time.Duration) error {
 	if wait > 0 {
 		c.W.Header().Set("Retry-After", throttle.RetryAfter(wait))
 	}
