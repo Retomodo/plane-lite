@@ -28,6 +28,8 @@ const envSchema = z.object({
   REDIS_HOST: z.string().optional(),
   REDIS_PORT: z.string().default("6379").transform(Number),
   REDIS_URL: z.string().optional(),
+  // Prepended to every Redis key and channel, so a shared Redis is safe (same variable as the API server)
+  REDIS_KEY_PREFIX: z.string().default(""),
 });
 
 const validateEnv = () => {

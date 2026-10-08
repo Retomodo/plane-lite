@@ -175,9 +175,6 @@ export const PROJECT_MEMBERS = (projectId: string, projectRole: EUserPermissions
 export const PROJECT_STATES = (projectId: string, projectRole: EUserPermissions | undefined) =>
   `PROJECT_STATES_${projectId.toString().toUpperCase()}_${projectRole}`;
 
-export const PROJECT_INTAKE_STATE = (projectId: string, projectRole: EUserPermissions | undefined) =>
-  `PROJECT_INTAKE_STATE_${projectId.toString().toUpperCase()}_${projectRole}`;
-
 export const PROJECT_ESTIMATES = (projectId: string, projectRole: EUserPermissions | undefined) =>
   `PROJECT_ESTIMATES_${projectId.toString().toUpperCase()}_${projectRole}`;
 

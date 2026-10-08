@@ -277,6 +277,8 @@
   "updating": "Güncelleniyor",
   "create_new_issue": "Yeni iş öğesi oluştur",
   "editor_is_not_ready_to_discard_changes": "Düzenleyici değişiklikleri atmaya hazır değil",
+  "discard_changes_title": "Değişiklikler silinsin mi?",
+  "discard_changes_description": "Kaydedilmemiş değişiklikleriniz var. Şimdi kapatırsanız kaybolacaklar.",
   "failed_to_move_issue_to_project": "İş öğesi projeye taşınamadı",
   "create_more": "Daha fazla oluştur",
   "add_to_project": "Projeye ekle",

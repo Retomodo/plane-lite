@@ -8,7 +8,7 @@ Hand-verified notes are added on top.
 This document covers every **kept** endpoint that is not yet ported. CUT features and the batch-1 endpoints are listed
 only in [Appendix A](#appendix-a-excluded-endpoints).
 
-> Status: sections 1 and 2 are ported (batches 3 and 4), section 3 (batch 5), section 4 (batch 6), section 5 (batch 7), section 6 (batch 8), section 7 except the v2 attachments (batch 9), sections 10, 13, 14 and 18 (batches 12, 15, 16 and 20), except the unused rows noted in DEVIATIONS.md; their rows are ticked.
+> Status: sections 1 and 2 are ported (batches 3 and 4), section 3 (batch 5), section 4 (batch 6), section 5 (batch 7), section 6 (batch 8), section 7 (batches 9 and 19), sections 8 to 18 (batches 10 to 20), except the unused rows noted in DEVIATIONS.md; their rows are ticked.
 
 ## How to read the tables
 
@@ -242,7 +242,7 @@ Depends on: issue_filters + ComplexFilterBackend, grouper, order_issue_queryset,
 | ☑ | POST | `P/issues/` | `IssueViewSet.create` issue/base.py:405 | IssueCreateSerializer | AP[A,M]/PROJ | issue_activity(+notif); model_activity†; issue_description_version_task. IssueCreateSerializer writes assignees/labels; Issue.save takes pg_advisory_xact_lock for sequence_id + IssueSequence row; response re-queried with list annotations | web | L |
 | ☐ | GET | `P/issues-detail/` | `IssueDetailEndpoint.get` issue/base.py:1028 | IssueListDetailSerializer | AP[A,M,G]/PROJ | paginated detail list incl. issue_relation/sub_issues expand | web | L |
 | ☐ | GET | `P/v2/issues/` | `IssuePaginatedViewSet.list` issue/base.py:865 | — (dict/values) | AP[A,M,G]/PROJ | `updated_at__gt` delta sync for local cache (global_paginator) | **UNUSED** (dead web service fn `getIssuesForSync`) | L |
-| ☑ | GET | `P/issues/<pk>/` | `IssueViewSet.retrieve` issue/base.py:493 | IssueDetailSerializer | AP[A,M,G]/PROJ+creator(Issue) | recent_visited_task. heavy annotations (cycle_id, module_ids, label_ids, assignee_ids, counts, is_subscribed) + prefetch | web | L  Batch 8: `?expand=issue_attachments` answers each attachment's `asset` as the stored object key; revisit with storage URLs in section 17 |
+| ☑ | GET | `P/issues/<pk>/` | `IssueViewSet.retrieve` issue/base.py:493 | IssueDetailSerializer | AP[A,M,G]/PROJ+creator(Issue) | recent_visited_task. heavy annotations (cycle_id, module_ids, label_ids, assignee_ids, counts, is_subscribed) + prefetch | web | L   Batch 8: `?expand=issue_attachments` answers each attachment's `asset` as the stored object key, as Django does |
 | ☐ | PUT | `P/issues/<pk>/` | `IssueViewSet.update` (DRF default) class issue/base.py:208; get_queryset issue/base.py:218 | — (dict/values) | IsAuthenticated | — | **UNUSED** | S |
 | ☑ | PATCH | `P/issues/<pk>/` | `IssueViewSet.partial_update` issue/base.py:628 | IssueDetailSerializer, IssueCreateSerializer | AP[A,M]/PROJ+creator(Issue) | issue_activity(+notif); model_activity†; issue_description_version_task. activity diff computed in task from requested_data vs current_instance JSON; mentions handled in notification task | web | L |
 | ☑ | DELETE | `P/issues/<pk>/` | `IssueViewSet.destroy` issue/base.py:717 | — (dict/values) | AP[A]/PROJ+creator(Issue) | issue_activity(+notif). soft delete → soft_delete_related_objects task | web | M |
@@ -276,10 +276,10 @@ Almost every write here emits `issue_activity(+notif)`; the `history/` endpoint 
 | ☐ | GET | `P/issues/<issue_id>/issue-attachments/`<br>`P/issues/<issue_id>/issue-attachments/<pk>/` | `IssueAttachmentEndpoint.get` issue/attachment.py:89 | IssueAttachmentSerializer | AP[A,M,G]/PROJ | — | **UNUSED** | S |
 | ☐ | POST | `P/issues/<issue_id>/issue-attachments/`<br>`P/issues/<issue_id>/issue-attachments/<pk>/` | `IssueAttachmentEndpoint.post` issue/attachment.py:38 | IssueAttachmentSerializer | AP[A,M,G]/PROJ | issue_activity(+notif) | **UNUSED** | M |
 | ☐ | DELETE | `P/issues/<issue_id>/issue-attachments/`<br>`P/issues/<issue_id>/issue-attachments/<pk>/` | `IssueAttachmentEndpoint.delete` issue/attachment.py:63 | — (dict/values) | AP[A]/PROJ+creator(FileAsset) | issue_activity(+notif) | **UNUSED** | M |
-| ☐ | GET | `AP/issues/<issue_id>/attachments/`<br>`AP/issues/<issue_id>/attachments/<pk>/` (unused) | `IssueAttachmentV2Endpoint.get` issue/attachment.py:173 | IssueAttachmentSerializer | AP[A,M,G]/PROJ | with pk → 302 to presigned URL; without → list | web | M |
-| ☐ | POST | `AP/issues/<issue_id>/attachments/`<br>`AP/issues/<issue_id>/attachments/<pk>/` (unused) | `IssueAttachmentV2Endpoint.post` issue/attachment.py:100 | IssueAttachmentSerializer | AP[A,M,G]/PROJ | creates FileAsset(is_uploaded=False) + presigned S3 POST | web | M |
-| ☐ | PATCH | `AP/issues/<issue_id>/attachments/` (unused)<br>`AP/issues/<issue_id>/attachments/<pk>/` | `IssueAttachmentV2Endpoint.patch` issue/attachment.py:206 | IssueAttachmentSerializer | AP[A,M,G]/PROJ | issue_activity(+notif); get_asset_object_metadata. marks uploaded; `get_asset_object_metadata` (S3 HEAD → FileAsset.storage_metadata) | web | M |
-| ☐ | DELETE | `AP/issues/<issue_id>/attachments/` (unused)<br>`AP/issues/<issue_id>/attachments/<pk>/` | `IssueAttachmentV2Endpoint.delete` issue/attachment.py:150 | — (dict/values) | AP[A]/PROJ+creator(FileAsset) | issue_activity(+notif) | web | M |
+| ☑ | GET | `AP/issues/<issue_id>/attachments/`<br>`AP/issues/<issue_id>/attachments/<pk>/` (unused) | `IssueAttachmentV2Endpoint.get` issue/attachment.py:173 | IssueAttachmentSerializer | AP[A,M,G]/PROJ | with pk → 302 to presigned URL; without → list | web | M |
+| ☑ | POST | `AP/issues/<issue_id>/attachments/`<br>`AP/issues/<issue_id>/attachments/<pk>/` (unused) | `IssueAttachmentV2Endpoint.post` issue/attachment.py:100 | IssueAttachmentSerializer | AP[A,M,G]/PROJ | creates FileAsset(is_uploaded=False) + presigned S3 POST | web | M |
+| ☑ | PATCH | `AP/issues/<issue_id>/attachments/` (unused)<br>`AP/issues/<issue_id>/attachments/<pk>/` | `IssueAttachmentV2Endpoint.patch` issue/attachment.py:206 | IssueAttachmentSerializer | AP[A,M,G]/PROJ | issue_activity(+notif); get_asset_object_metadata. marks uploaded; `get_asset_object_metadata` (S3 HEAD → FileAsset.storage_metadata) | web | M |
+| ☑ | DELETE | `AP/issues/<issue_id>/attachments/` (unused)<br>`AP/issues/<issue_id>/attachments/<pk>/` | `IssueAttachmentV2Endpoint.delete` issue/attachment.py:150 | — (dict/values) | AP[A]/PROJ+creator(FileAsset) | issue_activity(+notif) | web | M |
 | ☑ | GET | `P/issues/<issue_id>/history/` | `IssueActivityEndpoint.get` issue/activity.py:30 | IssueActivitySerializer, IssueCommentSerializer | AP[A,M,G]/PROJ · ProjectEntityPermission | merges IssueActivity + IssueComment (with reactions) ordered by created_at; `activity_type` filter | web | M |
 | ☐ | GET | `P/issues/<issue_id>/comments/` | `IssueCommentViewSet.list` (DRF default) class issue/comment.py:28; get_queryset issue/comment.py:35 | IssueCommentSerializer | IsAuthenticated | — | **UNUSED** | S |
 | ☑ | POST | `P/issues/<issue_id>/comments/` | `IssueCommentViewSet.create` issue/comment.py:64 | IssueCommentSerializer | AP[A,M,G]/PROJ | issue_activity(+notif); model_activity†. comment mentions → notifications | web | M |
@@ -311,30 +311,30 @@ Almost every write here emits `issue_activity(+notif)`; the `history/` endpoint 
 
 Cycle status/progress annotations depend on project timezone (`convert_to_utc`, `user_timezone_converter`). Cycle issue lists in web use `CycleIssueViewSet.list` (cycle store) as well as `IssueViewSet.list`.
 
-| ☐ | Method | URL | View · file:line | Serializer(s) | Permission | Side effects | Caller | Cx |
+| ☑ | Method | URL | View · file:line | Serializer(s) | Permission | Side effects | Caller | Cx |
 |---|---|---|---|---|---|---|---|---|
-| ☐ | GET | `P/cycles/` | `CycleViewSet.list` cycle/base.py:184 | — (dict/values) | AP[A,M,G]/PROJ | annotations: status (CASE on dates, project tz), issue counts by state group, progress, assignee/label stats for active cycle | web | L |
-| ☐ | POST | `P/cycles/` | `CycleViewSet.create` cycle/base.py:271 | CycleWriteSerializer | AP[A,M]/PROJ | model_activity†. both dates or neither (400); response datetimes converted to project timezone | web | M |
-| ☐ | GET | `P/cycles/<pk>/` | `CycleViewSet.retrieve` cycle/base.py:411 | — (dict/values) | AP[A,M]/PROJ | recent_visited_task | web | L |
+| ☑ | GET | `P/cycles/` | `CycleViewSet.list` cycle/base.py:184 | — (dict/values) | AP[A,M,G]/PROJ | annotations: status (CASE on dates, project tz), issue counts by state group, progress, assignee/label stats for active cycle | web | L |
+| ☑ | POST | `P/cycles/` | `CycleViewSet.create` cycle/base.py:271 | CycleWriteSerializer | AP[A,M]/PROJ | model_activity†. both dates or neither (400); response datetimes converted to project timezone | web | M |
+| ☑ | GET | `P/cycles/<pk>/` | `CycleViewSet.retrieve` cycle/base.py:411 | — (dict/values) | AP[A,M]/PROJ | recent_visited_task | web | L |
 | ☐ | PUT | `P/cycles/<pk>/` | `CycleViewSet.update` (DRF default) class cycle/base.py:64; get_queryset cycle/base.py:69 | CycleSerializer | IsAuthenticated | — | **UNUSED** | M |
-| ☐ | PATCH | `P/cycles/<pk>/` | `CycleViewSet.partial_update` cycle/base.py:336 | CycleSerializer, CycleWriteSerializer | AP[A,M]/PROJ | model_activity†. archived → 400; completed cycle only accepts sort_order; project-tz conversion | web | M |
-| ☐ | DELETE | `P/cycles/<pk>/` | `CycleViewSet.destroy` cycle/base.py:478 | — (dict/values) | AP[A]/PROJ+creator(Cycle) | issue_activity(+notif). one issue_activity(cycle.activity.deleted) covering all cycle issues; soft-deletes favorites; hard-deletes recent visits | web | M |
-| ☐ | GET | `P/cycles/<cycle_id>/cycle-issues/` | `CycleIssueViewSet.list` cycle/issue.py:110 | — (dict/values) | AP[A,M]/PROJ | — | web | L |
-| ☐ | POST | `P/cycles/<cycle_id>/cycle-issues/` | `CycleIssueViewSet.create` cycle/issue.py:224 | — (dict/values) | AP[A,M]/PROJ | issue_activity(+notif). 400 if cycle completed; bulk_create new + bulk_update moved CycleIssue rows; single issue_activity with created/updated lists | web | L |
+| ☑ | PATCH | `P/cycles/<pk>/` | `CycleViewSet.partial_update` cycle/base.py:336 | CycleSerializer, CycleWriteSerializer | AP[A,M]/PROJ | model_activity†. archived → 400; completed cycle only accepts sort_order; project-tz conversion | web | M |
+| ☑ | DELETE | `P/cycles/<pk>/` | `CycleViewSet.destroy` cycle/base.py:478 | — (dict/values) | AP[A]/PROJ+creator(Cycle) | issue_activity(+notif). one issue_activity(cycle.activity.deleted) covering all cycle issues; soft-deletes favorites; hard-deletes recent visits | web | M |
+| ☑ | GET | `P/cycles/<cycle_id>/cycle-issues/` | `CycleIssueViewSet.list` cycle/issue.py:110 | — (dict/values) | AP[A,M]/PROJ | — | web | L |
+| ☑ | POST | `P/cycles/<cycle_id>/cycle-issues/` | `CycleIssueViewSet.create` cycle/issue.py:224 | — (dict/values) | AP[A,M]/PROJ | issue_activity(+notif). 400 if cycle completed; bulk_create new + bulk_update moved CycleIssue rows; single issue_activity with created/updated lists | web | L |
 | ☐ | GET | `P/cycles/<cycle_id>/cycle-issues/<issue_id>/` | `CycleIssueViewSet.retrieve` (DRF default) class cycle/issue.py:40; get_queryset cycle/issue.py:51 | CycleIssueSerializer | IsAuthenticated | — | **UNUSED** | M |
 | ☐ | PUT | `P/cycles/<cycle_id>/cycle-issues/<issue_id>/` | `CycleIssueViewSet.update` (DRF default) class cycle/issue.py:40; get_queryset cycle/issue.py:51 | CycleIssueSerializer | IsAuthenticated | — | **UNUSED** | M |
 | ☐ | PATCH | `P/cycles/<cycle_id>/cycle-issues/<issue_id>/` | `CycleIssueViewSet.partial_update` (DRF default) class cycle/issue.py:40; get_queryset cycle/issue.py:51 | CycleIssueSerializer | IsAuthenticated | — | **UNUSED** | M |
-| ☐ | DELETE | `P/cycles/<cycle_id>/cycle-issues/<issue_id>/` | `CycleIssueViewSet.destroy` cycle/issue.py:320 | — (dict/values) | AP[A,M]/PROJ | issue_activity(+notif) | web | M |
-| ☐ | POST | `P/cycles/date-check/` | `CycleDateCheckEndpoint.post` cycle/base.py:522 | — (dict/values) | AP[A,M]/PROJ | — | web | S |
-| ☐ | POST | `P/cycles/<cycle_id>/transfer-issues/` | `TransferCycleIssueEndpoint.post` cycle/base.py:596 | — (dict/values) | AP[A,M]/PROJ | issue_activity. `transfer_cycle_issues` (utils/cycle_transfer_issues.py, 478 lines): snapshots progress into Cycle.progress_snapshot, moves incomplete issues, activity per issue | web | L |
-| ☐ | GET | `P/cycles/<cycle_id>/user-properties/` | `CycleUserPropertiesEndpoint.get` cycle/base.py:647 | CycleUserPropertiesSerializer | AP[A,M,G]/PROJ | writes on GET | web | S |
-| ☐ | PATCH | `P/cycles/<cycle_id>/user-properties/` | `CycleUserPropertiesEndpoint.patch` cycle/base.py:627 | CycleUserPropertiesSerializer | AP[A,M,G]/PROJ | — | web | S |
-| ☐ | GET | `P/cycles/<cycle_id>/archive/` (unused)<br>`P/archived-cycles/`<br>`P/archived-cycles/<pk>/` | `CycleArchiveUnarchiveEndpoint.get` cycle/archive.py:272 | — (dict/values) | AP[A,M]/PROJ | huge annotated queryset (49 annotate calls incl. distribution/estimate stats) | web | L |
-| ☐ | POST | `P/cycles/<cycle_id>/archive/`<br>`P/archived-cycles/` (unused)<br>`P/archived-cycles/<pk>/` (unused) | `CycleArchiveUnarchiveEndpoint.post` cycle/archive.py:587 | — (dict/values) | AP[A,M]/PROJ | sets archived_at (completed cycles only); removes favorites | web | S |
-| ☐ | DELETE | `P/cycles/<cycle_id>/archive/`<br>`P/archived-cycles/` (unused)<br>`P/archived-cycles/<pk>/` (unused) | `CycleArchiveUnarchiveEndpoint.delete` cycle/archive.py:607 | — (dict/values) | AP[A,M]/PROJ | — | web | S |
-| ☐ | GET | `P/cycles/<cycle_id>/progress/` | `CycleProgressEndpoint.get` cycle/base.py:660 | — (dict/values) | AP[A,M,G]/PROJ | per-state-group counts + estimate-point sums (points estimates) | web | M |
-| ☐ | GET | `P/cycles/<cycle_id>/analytics/` | `CycleAnalyticsEndpoint.get` cycle/base.py:788 | — (dict/values) | AP[A,M,G]/PROJ | assignee/label/completion-chart distributions; `?type=issues\|points` | web | L |
-| ☐ | GET | `W/cycles/` | `WorkspaceCyclesEndpoint.get` workspace/cycle.py:22 | CycleSerializer | WorkspaceViewerPermission | — | web | L |
+| ☑ | DELETE | `P/cycles/<cycle_id>/cycle-issues/<issue_id>/` | `CycleIssueViewSet.destroy` cycle/issue.py:320 | — (dict/values) | AP[A,M]/PROJ | issue_activity(+notif) | web | M |
+| ☑ | POST | `P/cycles/date-check/` | `CycleDateCheckEndpoint.post` cycle/base.py:522 | — (dict/values) | AP[A,M]/PROJ | — | web | S |
+| ☑ | POST | `P/cycles/<cycle_id>/transfer-issues/` | `TransferCycleIssueEndpoint.post` cycle/base.py:596 | — (dict/values) | AP[A,M]/PROJ | issue_activity. `transfer_cycle_issues` (utils/cycle_transfer_issues.py, 478 lines): snapshots progress into Cycle.progress_snapshot, moves incomplete issues, activity per issue | web | L |
+| ☑ | GET | `P/cycles/<cycle_id>/user-properties/` | `CycleUserPropertiesEndpoint.get` cycle/base.py:647 | CycleUserPropertiesSerializer | AP[A,M,G]/PROJ | writes on GET | web | S |
+| ☑ | PATCH | `P/cycles/<cycle_id>/user-properties/` | `CycleUserPropertiesEndpoint.patch` cycle/base.py:627 | CycleUserPropertiesSerializer | AP[A,M,G]/PROJ | — | web | S |
+| ☑ | GET | `P/cycles/<cycle_id>/archive/` (unused)<br>`P/archived-cycles/`<br>`P/archived-cycles/<pk>/` | `CycleArchiveUnarchiveEndpoint.get` cycle/archive.py:272 | — (dict/values) | AP[A,M]/PROJ | huge annotated queryset (49 annotate calls incl. distribution/estimate stats) | web | L |
+| ☑ | POST | `P/cycles/<cycle_id>/archive/`<br>`P/archived-cycles/` (unused)<br>`P/archived-cycles/<pk>/` (unused) | `CycleArchiveUnarchiveEndpoint.post` cycle/archive.py:587 | — (dict/values) | AP[A,M]/PROJ | sets archived_at (completed cycles only); removes favorites | web | S |
+| ☑ | DELETE | `P/cycles/<cycle_id>/archive/`<br>`P/archived-cycles/` (unused)<br>`P/archived-cycles/<pk>/` (unused) | `CycleArchiveUnarchiveEndpoint.delete` cycle/archive.py:607 | — (dict/values) | AP[A,M]/PROJ | — | web | S |
+| ☑ | GET | `P/cycles/<cycle_id>/progress/` | `CycleProgressEndpoint.get` cycle/base.py:660 | — (dict/values) | AP[A,M,G]/PROJ | per-state-group counts + estimate-point sums (points estimates) | web | M |
+| ☑ | GET | `P/cycles/<cycle_id>/analytics/` | `CycleAnalyticsEndpoint.get` cycle/base.py:788 | — (dict/values) | AP[A,M,G]/PROJ | assignee/label/completion-chart distributions; `?type=issues\|points` | web | L |
+| ☑ | GET | `W/cycles/` | `WorkspaceCyclesEndpoint.get` workspace/cycle.py:22 | CycleSerializer | WorkspaceViewerPermission | — | web | L |
 
 ### 9. Modules
 
@@ -342,33 +342,33 @@ Cycle status/progress annotations depend on project timezone (`convert_to_utc`, 
 
 Module detail/list/archive views share very large annotation blocks (26–56 `annotate` calls) — factor them into one Go query builder. `ModuleIssueViewSet.list` is unused by web.
 
-| ☐ | Method | URL | View · file:line | Serializer(s) | Permission | Side effects | Caller | Cx |
+| ☑ | Method | URL | View · file:line | Serializer(s) | Permission | Side effects | Caller | Cx |
 |---|---|---|---|---|---|---|---|---|
-| ☐ | GET | `P/modules/` | `ModuleViewSet.list` module/base.py:354 | ModuleSerializer | AP[A,M,G]/PROJ | 26 annotations (issue counts per state group, estimate sums, member_ids) | web | L |
-| ☐ | POST | `P/modules/` | `ModuleViewSet.create` module/base.py:295 | ModuleWriteSerializer | AP[A,M]/PROJ | model_activity† | web | L |
-| ☐ | GET | `P/modules/<pk>/` | `ModuleViewSet.retrieve` module/base.py:396 | ModuleDetailSerializer | AP[A,M]/PROJ | recent_visited_task. assignee/label distribution + completion chart; `estimate_distribution` for points estimates | web | L |
+| ☑ | GET | `P/modules/` | `ModuleViewSet.list` module/base.py:354 | ModuleSerializer | AP[A,M,G]/PROJ | 26 annotations (issue counts per state group, estimate sums, member_ids) | web | L |
+| ☑ | POST | `P/modules/` | `ModuleViewSet.create` module/base.py:295 | ModuleWriteSerializer | AP[A,M]/PROJ | model_activity† | web | L |
+| ☑ | GET | `P/modules/<pk>/` | `ModuleViewSet.retrieve` module/base.py:396 | ModuleDetailSerializer | AP[A,M]/PROJ | recent_visited_task. assignee/label distribution + completion chart; `estimate_distribution` for points estimates | web | L |
 | ☐ | PUT | `P/modules/<pk>/` | `ModuleViewSet.update` (DRF default) class module/base.py:71; get_queryset module/base.py:78 | — (dict/values) | IsAuthenticated | — | **UNUSED** (dead web service fn `updateModule`) | L |
-| ☐ | PATCH | `P/modules/<pk>/` | `ModuleViewSet.partial_update` module/base.py:652 | ModuleSerializer, ModuleWriteSerializer | AP[A,M]/PROJ | model_activity† | web | L |
-| ☐ | DELETE | `P/modules/<pk>/` | `ModuleViewSet.destroy` module/base.py:724 | — (dict/values) | AP[A]/PROJ+creator(Module) | issue_activity(+notif). issue_activity(module.activity.deleted); deletes ModuleIssue, favorites; hard-deletes recent visits | web | M |
-| ☐ | POST | `P/issues/<issue_id>/modules/` | `ModuleIssueViewSet.create_issue_modules` module/issue.py:258 | — (dict/values) | AP[A,M]/PROJ | issue_activity(+notif). adds `modules` + deletes `removed_modules` for one issue; activity per change | web | M |
-| ☐ | POST | `P/modules/<module_id>/issues/` | `ModuleIssueViewSet.create_module_issues` module/issue.py:211 | — (dict/values) | AP[A,M]/PROJ | issue_activity(+notif) | web | M |
+| ☑ | PATCH | `P/modules/<pk>/` | `ModuleViewSet.partial_update` module/base.py:652 | ModuleSerializer, ModuleWriteSerializer | AP[A,M]/PROJ | model_activity† | web | L |
+| ☑ | DELETE | `P/modules/<pk>/` | `ModuleViewSet.destroy` module/base.py:724 | — (dict/values) | AP[A]/PROJ+creator(Module) | issue_activity(+notif). issue_activity(module.activity.deleted); deletes ModuleIssue, favorites; hard-deletes recent visits | web | M |
+| ☑ | POST | `P/issues/<issue_id>/modules/` | `ModuleIssueViewSet.create_issue_modules` module/issue.py:258 | — (dict/values) | AP[A,M]/PROJ | issue_activity(+notif). adds `modules` + deletes `removed_modules` for one issue; activity per change | web | M |
+| ☑ | POST | `P/modules/<module_id>/issues/` | `ModuleIssueViewSet.create_module_issues` module/issue.py:211 | — (dict/values) | AP[A,M]/PROJ | issue_activity(+notif) | web | M |
 | ☐ | GET | `P/modules/<module_id>/issues/` | `ModuleIssueViewSet.list` module/issue.py:96 | — (dict/values) | AP[A,M]/PROJ | — | **UNUSED** (dead web service fn `getModuleIssues`) | L |
 | ☐ | GET | `P/modules/<module_id>/issues/<issue_id>/` | `ModuleIssueViewSet.retrieve` (DRF default) class module/issue.py:45; get_queryset module/issue.py:84 | ModuleIssueSerializer | IsAuthenticated | — | **UNUSED** | S |
 | ☐ | PUT | `P/modules/<module_id>/issues/<issue_id>/` | `ModuleIssueViewSet.update` (DRF default) class module/issue.py:45; get_queryset module/issue.py:84 | ModuleIssueSerializer | IsAuthenticated | — | **UNUSED** | S |
 | ☐ | PATCH | `P/modules/<module_id>/issues/<issue_id>/` | `ModuleIssueViewSet.partial_update` (DRF default) class module/issue.py:45; get_queryset module/issue.py:84 | ModuleIssueSerializer | IsAuthenticated | — | **UNUSED** | S |
-| ☐ | DELETE | `P/modules/<module_id>/issues/<issue_id>/` | `ModuleIssueViewSet.destroy` module/issue.py:326 | — (dict/values) | AP[A,M]/PROJ | issue_activity(+notif) | web | M |
+| ☑ | DELETE | `P/modules/<module_id>/issues/<issue_id>/` | `ModuleIssueViewSet.destroy` module/issue.py:326 | — (dict/values) | AP[A,M]/PROJ | issue_activity(+notif) | web | M |
 | ☐ | GET | `P/modules/<module_id>/module-links/` | `ModuleLinkViewSet.list` (DRF default) class module/base.py:762; get_queryset module/base.py:774 | ModuleLinkSerializer | ProjectEntityPermission | — | **UNUSED** | S |
-| ☐ | POST | `P/modules/<module_id>/module-links/` | `ModuleLinkViewSet.create` (DRF default) class module/base.py:762; perform_create module/base.py:768, get_queryset module/base.py:774 | ModuleLinkSerializer | ProjectEntityPermission | — | web | S |
+| ☑ | POST | `P/modules/<module_id>/module-links/` | `ModuleLinkViewSet.create` (DRF default) class module/base.py:762; perform_create module/base.py:768, get_queryset module/base.py:774 | ModuleLinkSerializer | ProjectEntityPermission | — | web | S |
 | ☐ | GET | `P/modules/<module_id>/module-links/<pk>/` | `ModuleLinkViewSet.retrieve` (DRF default) class module/base.py:762; get_queryset module/base.py:774 | ModuleLinkSerializer | ProjectEntityPermission | — | **UNUSED** | S |
 | ☐ | PUT | `P/modules/<module_id>/module-links/<pk>/` | `ModuleLinkViewSet.update` (DRF default) class module/base.py:762; get_queryset module/base.py:774 | ModuleLinkSerializer | ProjectEntityPermission | — | **UNUSED** | S |
-| ☐ | PATCH | `P/modules/<module_id>/module-links/<pk>/` | `ModuleLinkViewSet.partial_update` (DRF default) class module/base.py:762; get_queryset module/base.py:774 | ModuleLinkSerializer | ProjectEntityPermission | — | web | S |
-| ☐ | DELETE | `P/modules/<module_id>/module-links/<pk>/` | `ModuleLinkViewSet.destroy` (DRF default) class module/base.py:762; get_queryset module/base.py:774 | ModuleLinkSerializer | ProjectEntityPermission | — | web | S |
-| ☐ | GET | `P/modules/<module_id>/user-properties/` | `ModuleUserPropertiesEndpoint.get` module/base.py:847 | ModuleUserPropertiesSerializer | AP[A,M,G]/PROJ | writes on GET | web | S |
-| ☐ | PATCH | `P/modules/<module_id>/user-properties/` | `ModuleUserPropertiesEndpoint.patch` module/base.py:827 | ModuleUserPropertiesSerializer | AP[A,M,G]/PROJ | — | web | S |
-| ☐ | GET | `P/modules/<module_id>/archive/` (unused)<br>`P/archived-modules/`<br>`P/archived-modules/<pk>/` | `ModuleArchiveUnarchiveEndpoint.get` module/archive.py:258 | ModuleDetailSerializer | ProjectEntityPermission | — | web | L |
-| ☐ | POST | `P/modules/<module_id>/archive/`<br>`P/archived-modules/` (unused)<br>`P/archived-modules/<pk>/` (unused) | `ModuleArchiveUnarchiveEndpoint.post` module/archive.py:544 | — (dict/values) | ProjectEntityPermission | — | web | S |
-| ☐ | DELETE | `P/modules/<module_id>/archive/`<br>`P/archived-modules/` (unused)<br>`P/archived-modules/<pk>/` (unused) | `ModuleArchiveUnarchiveEndpoint.delete` module/archive.py:561 | — (dict/values) | ProjectEntityPermission | — | web | S |
-| ☐ | GET | `W/modules/` | `WorkspaceModulesEndpoint.get` workspace/module.py:25 | ModuleSerializer | WorkspaceViewerPermission | boot call (`fetchModulesSlim`) | web | L |
+| ☑ | PATCH | `P/modules/<module_id>/module-links/<pk>/` | `ModuleLinkViewSet.partial_update` (DRF default) class module/base.py:762; get_queryset module/base.py:774 | ModuleLinkSerializer | ProjectEntityPermission | — | web | S |
+| ☑ | DELETE | `P/modules/<module_id>/module-links/<pk>/` | `ModuleLinkViewSet.destroy` (DRF default) class module/base.py:762; get_queryset module/base.py:774 | ModuleLinkSerializer | ProjectEntityPermission | — | web | S |
+| ☑ | GET | `P/modules/<module_id>/user-properties/` | `ModuleUserPropertiesEndpoint.get` module/base.py:847 | ModuleUserPropertiesSerializer | AP[A,M,G]/PROJ | writes on GET | web | S |
+| ☑ | PATCH | `P/modules/<module_id>/user-properties/` | `ModuleUserPropertiesEndpoint.patch` module/base.py:827 | ModuleUserPropertiesSerializer | AP[A,M,G]/PROJ | — | web | S |
+| ☑ | GET | `P/modules/<module_id>/archive/` (unused)<br>`P/archived-modules/`<br>`P/archived-modules/<pk>/` | `ModuleArchiveUnarchiveEndpoint.get` module/archive.py:258 | ModuleDetailSerializer | ProjectEntityPermission | — | web | L |
+| ☑ | POST | `P/modules/<module_id>/archive/`<br>`P/archived-modules/` (unused)<br>`P/archived-modules/<pk>/` (unused) | `ModuleArchiveUnarchiveEndpoint.post` module/archive.py:544 | — (dict/values) | ProjectEntityPermission | — | web | S |
+| ☑ | DELETE | `P/modules/<module_id>/archive/`<br>`P/archived-modules/` (unused)<br>`P/archived-modules/<pk>/` (unused) | `ModuleArchiveUnarchiveEndpoint.delete` module/archive.py:561 | — (dict/values) | ProjectEntityPermission | — | web | S |
+| ☑ | GET | `W/modules/` | `WorkspaceModulesEndpoint.get` workspace/module.py:25 | ModuleSerializer | WorkspaceViewerPermission | boot call (`fetchModulesSlim`) | web | L |
 
 ### 10. Estimates
 
@@ -395,21 +395,21 @@ Small. `W/estimates/` (boot, cached) and `P/estimates/` are the main reads.
 
 `WorkspaceViewIssuesViewSet.list` (`W/issues/`) is the workspace-views issue list — same filter/pagination stack as issues.
 
-| ☐ | Method | URL | View · file:line | Serializer(s) | Permission | Side effects | Caller | Cx |
+| ☑ | Method | URL | View · file:line | Serializer(s) | Permission | Side effects | Caller | Cx |
 |---|---|---|---|---|---|---|---|---|
-| ☐ | GET | `P/views/` | `IssueViewViewSet.list` view/base.py:296 | IssueViewSerializer | AP[A,M,G]/PROJ | annotates is_favorite | web | S |
-| ☐ | POST | `P/views/` | `IssueViewViewSet.create` (DRF default) class view/base.py:262; perform_create view/base.py:266, get_queryset view/base.py:269 | IssueViewSerializer | IsAuthenticated | — | web | S |
-| ☐ | GET | `P/views/<pk>/` | `IssueViewViewSet.retrieve` view/base.py:315 | IssueViewSerializer | AP[A,M,G]/PROJ | recent_visited_task | web | M |
+| ☑ | GET | `P/views/` | `IssueViewViewSet.list` view/base.py:296 | IssueViewSerializer | AP[A,M,G]/PROJ | annotates is_favorite | web | S |
+| ☑ | POST | `P/views/` | `IssueViewViewSet.create` (DRF default) class view/base.py:262; perform_create view/base.py:266, get_queryset view/base.py:269 | IssueViewSerializer | IsAuthenticated | — | web | S |
+| ☑ | GET | `P/views/<pk>/` | `IssueViewViewSet.retrieve` view/base.py:315 | IssueViewSerializer | AP[A,M,G]/PROJ | recent_visited_task | web | M |
 | ☐ | PUT | `P/views/<pk>/` | `IssueViewViewSet.update` (DRF default) class view/base.py:262; get_queryset view/base.py:269 | IssueViewSerializer | IsAuthenticated | — | **UNUSED** | S |
-| ☐ | PATCH | `P/views/<pk>/` | `IssueViewViewSet.partial_update` view/base.py:350 | IssueViewSerializer | AP[—]/PROJ+creator(IssueView) | — | web | S |
-| ☐ | DELETE | `P/views/<pk>/` | `IssueViewViewSet.destroy` view/base.py:372 | — (dict/values) | AP[A]/PROJ+creator(IssueView) | owner or admin only; deletes favorites, hard-deletes recent visits | web | M |
-| ☐ | GET | `W/views/` | `WorkspaceViewViewSet.list` view/base.py:78 | IssueViewSerializer | AP[A,M,G]/WS | — | web | S |
-| ☐ | POST | `W/views/` | `WorkspaceViewViewSet.create` (DRF default) class view/base.py:52; perform_create view/base.py:56, get_queryset view/base.py:60 | IssueViewSerializer | IsAuthenticated | — | web | S |
-| ☐ | GET | `W/views/<pk>/` | `WorkspaceViewViewSet.retrieve` view/base.py:108 | IssueViewSerializer | IsAuthenticated | recent_visited_task | web | S |
+| ☑ | PATCH | `P/views/<pk>/` | `IssueViewViewSet.partial_update` view/base.py:350 | IssueViewSerializer | AP[—]/PROJ+creator(IssueView) | — | web | S |
+| ☑ | DELETE | `P/views/<pk>/` | `IssueViewViewSet.destroy` view/base.py:372 | — (dict/values) | AP[A]/PROJ+creator(IssueView) | owner or admin only; deletes favorites, hard-deletes recent visits | web | M |
+| ☑ | GET | `W/views/` | `WorkspaceViewViewSet.list` view/base.py:78 | IssueViewSerializer | AP[A,M,G]/WS | — | web | S |
+| ☑ | POST | `W/views/` | `WorkspaceViewViewSet.create` (DRF default) class view/base.py:52; perform_create view/base.py:56, get_queryset view/base.py:60 | IssueViewSerializer | IsAuthenticated | — | web | S |
+| ☑ | GET | `W/views/<pk>/` | `WorkspaceViewViewSet.retrieve` view/base.py:108 | IssueViewSerializer | IsAuthenticated | recent_visited_task | web | S |
 | ☐ | PUT | `W/views/<pk>/` | `WorkspaceViewViewSet.update` (DRF default) class view/base.py:52; get_queryset view/base.py:60 | IssueViewSerializer | IsAuthenticated | — | **UNUSED** | S |
-| ☐ | PATCH | `W/views/<pk>/` | `WorkspaceViewViewSet.partial_update` view/base.py:87 | IssueViewSerializer | AP[—]/WS+creator(IssueView) | — | web | S |
-| ☐ | DELETE | `W/views/<pk>/` | `WorkspaceViewViewSet.destroy` view/base.py:121 | — (dict/values) | AP[A]/WS+creator(IssueView) | owner or admin only; deletes favorites, hard-deletes recent visits | web | S |
-| ☐ | GET | `W/issues/` | `WorkspaceViewIssuesViewSet.list` view/base.py:223 | ViewIssueListSerializer | AP[A,M,G]/WS | workspace-wide issue list across projects where user is an active member (guest restrictions); filters + paginate | web | L |
+| ☑ | PATCH | `W/views/<pk>/` | `WorkspaceViewViewSet.partial_update` view/base.py:87 | IssueViewSerializer | AP[—]/WS+creator(IssueView) | — | web | S |
+| ☑ | DELETE | `W/views/<pk>/` | `WorkspaceViewViewSet.destroy` view/base.py:121 | — (dict/values) | AP[A]/WS+creator(IssueView) | owner or admin only; deletes favorites, hard-deletes recent visits | web | S |
+| ☑ | GET | `W/issues/` | `WorkspaceViewIssuesViewSet.list` view/base.py:223 | ViewIssueListSerializer | AP[A,M,G]/WS | workspace-wide issue list across projects where user is an active member (guest restrictions); filters + paginate | web | L |
 
 ### 12. Pages
 
@@ -417,23 +417,23 @@ Small. `W/estimates/` (boot, cached) and `P/estimates/` are the main reads.
 
 apps/live calls `GET/PATCH P/pages/<id>/`, `GET/PATCH P/pages/<id>/description/` and asset GETs with the user's cookie on every collaborative session — port these early if the editor must work. `ProjectPagePermission` (page access/owner rules) gates every row.
 
-| ☐ | Method | URL | View · file:line | Serializer(s) | Permission | Side effects | Caller | Cx |
+| ☑ | Method | URL | View · file:line | Serializer(s) | Permission | Side effects | Caller | Cx |
 |---|---|---|---|---|---|---|---|---|
 | ☐ | GET | `P/pages-summary/` | `PageViewSet.summary` page/base.py:436 | — (dict/values) | ProjectPagePermission | — | **UNUSED** | S |
-| ☐ | GET | `P/pages/` | `PageViewSet.list` page/base.py:306 | PageSerializer | ProjectPagePermission | annotations is_favorite, label_ids, project_ids | web | M |
-| ☐ | POST | `P/pages/` | `PageViewSet.create` page/base.py:144 | PageSerializer, PageDetailSerializer | ProjectPagePermission | page_transaction. PageSerializer creates Page + ProjectPage; page_transaction parses description_html mentions → PageLog | web | M |
-| ☐ | GET | `P/pages/<page_id>/` | `PageViewSet.retrieve` page/base.py:217 | PageDetailSerializer | ProjectPagePermission | recent_visited_task. `?track_visit` (default true) → recent visit; adds `issue_ids` from PageLog; also called by apps/live | live+web | M |
-| ☐ | PATCH | `P/pages/<page_id>/` | `PageViewSet.partial_update` page/base.py:169 | PageDetailSerializer | ProjectPagePermission | page_transaction. 400 if locked; parent validation; only owner may change access | web | M |
-| ☐ | DELETE | `P/pages/<page_id>/` | `PageViewSet.destroy` page/base.py:383 | — (dict/values) | ProjectPagePermission | must be archived first; owner or ws admin; children parent=NULL; deletes favorites | web | M |
-| ☐ | POST | `P/pages/<page_id>/archive/` | `PageViewSet.archive` page/base.py:323 | — (dict/values) | ProjectPagePermission | owner/admin only; recursive CTE sets archived_at on descendants; removes favorites | web | M |
-| ☐ | DELETE | `P/pages/<page_id>/archive/` | `PageViewSet.unarchive` page/base.py:354 | — (dict/values) | ProjectPagePermission | recursive CTE clears archived_at | web | M |
-| ☐ | POST | `P/pages/<page_id>/lock/` | `PageViewSet.lock` page/base.py:261 | — (dict/values) | ProjectPagePermission | — | web | S |
-| ☐ | DELETE | `P/pages/<page_id>/lock/` | `PageViewSet.unlock` page/base.py:273 | — (dict/values) | ProjectPagePermission | — | web | S |
-| ☐ | POST | `P/pages/<page_id>/access/` | `PageViewSet.access` page/base.py:286 | — (dict/values) | ProjectPagePermission | — | web | S |
-| ☐ | GET | `P/pages/<page_id>/description/` | `PagesDescriptionViewSet.retrieve` page/base.py:516 | — (dict/values) | ProjectPagePermission | streams `description_binary` (Yjs) as application/octet-stream; used by apps/live | live+web | M |
-| ☐ | PATCH | `P/pages/<page_id>/description/` | `PagesDescriptionViewSet.partial_update` page/base.py:536 | PageBinaryUpdateSerializer | ProjectPagePermission | page_transaction; track_page_version. called by apps/live on every save: base64 Yjs `description_binary` + html; 400 PAGE_LOCKED/PAGE_ARCHIVED error codes; page_transaction + track_page_version (PageVersion, keeps 20) | live+web | L |
-| ☐ | GET | `P/pages/<page_id>/versions/`<br>`P/pages/<page_id>/versions/<pk>/` | `PageVersionEndpoint.get` page/version.py:19 | PageVersionDetailSerializer, PageVersionSerializer | ProjectPagePermission | — | web | S |
-| ☐ | POST | `P/pages/<page_id>/duplicate/` | `PageDuplicateEndpoint.post` page/base.py:596 | PageDetailSerializer | ProjectPagePermission | page_transaction; copy_s3_objects_of_description_and_assets. copy page + `copy_s3_objects_of_description_and_assets` (duplicates S3 objects, rewrites asset ids in HTML) | web | M |
+| ☑ | GET | `P/pages/` | `PageViewSet.list` page/base.py:306 | PageSerializer | ProjectPagePermission | annotations is_favorite, label_ids, project_ids | web | M |
+| ☑ | POST | `P/pages/` | `PageViewSet.create` page/base.py:144 | PageSerializer, PageDetailSerializer | ProjectPagePermission | page_transaction. PageSerializer creates Page + ProjectPage; page_transaction parses description_html mentions → PageLog | web | M |
+| ☑ | GET | `P/pages/<page_id>/` | `PageViewSet.retrieve` page/base.py:217 | PageDetailSerializer | ProjectPagePermission | recent_visited_task. `?track_visit` (default true) → recent visit; adds `issue_ids` from PageLog; also called by apps/live | live+web | M |
+| ☑ | PATCH | `P/pages/<page_id>/` | `PageViewSet.partial_update` page/base.py:169 | PageDetailSerializer | ProjectPagePermission | page_transaction. 400 if locked; parent validation; only owner may change access | web | M |
+| ☑ | DELETE | `P/pages/<page_id>/` | `PageViewSet.destroy` page/base.py:383 | — (dict/values) | ProjectPagePermission | must be archived first; owner or ws admin; children parent=NULL; deletes favorites | web | M |
+| ☑ | POST | `P/pages/<page_id>/archive/` | `PageViewSet.archive` page/base.py:323 | — (dict/values) | ProjectPagePermission | owner/admin only; recursive CTE sets archived_at on descendants; removes favorites | web | M |
+| ☑ | DELETE | `P/pages/<page_id>/archive/` | `PageViewSet.unarchive` page/base.py:354 | — (dict/values) | ProjectPagePermission | recursive CTE clears archived_at | web | M |
+| ☑ | POST | `P/pages/<page_id>/lock/` | `PageViewSet.lock` page/base.py:261 | — (dict/values) | ProjectPagePermission | — | web | S |
+| ☑ | DELETE | `P/pages/<page_id>/lock/` | `PageViewSet.unlock` page/base.py:273 | — (dict/values) | ProjectPagePermission | — | web | S |
+| ☑ | POST | `P/pages/<page_id>/access/` | `PageViewSet.access` page/base.py:286 | — (dict/values) | ProjectPagePermission | — | web | S |
+| ☑ | GET | `P/pages/<page_id>/description/` | `PagesDescriptionViewSet.retrieve` page/base.py:516 | — (dict/values) | ProjectPagePermission | streams `description_binary` (Yjs) as application/octet-stream; used by apps/live | live+web | M |
+| ☑ | PATCH | `P/pages/<page_id>/description/` | `PagesDescriptionViewSet.partial_update` page/base.py:536 | PageBinaryUpdateSerializer | ProjectPagePermission | page_transaction; track_page_version. called by apps/live on every save: base64 Yjs `description_binary` + html; 400 PAGE_LOCKED/PAGE_ARCHIVED error codes; page_transaction + track_page_version (PageVersion, keeps 20) | live+web | L |
+| ☑ | GET | `P/pages/<page_id>/versions/`<br>`P/pages/<page_id>/versions/<pk>/` | `PageVersionEndpoint.get` page/version.py:19 | PageVersionDetailSerializer, PageVersionSerializer | ProjectPagePermission | — | web | S |
+| ☑ | POST | `P/pages/<page_id>/duplicate/` | `PageDuplicateEndpoint.post` page/base.py:596 | PageDetailSerializer | ProjectPagePermission | page_transaction; copy_s3_objects_of_description_and_assets. copy page + `copy_s3_objects_of_description_and_assets` (duplicates S3 objects, rewrites asset ids in HTML) | web | M |
 
 ### 13. Stickies & home
 
@@ -483,38 +483,38 @@ Home page boot: `W/home-preferences/` (lazily creates rows), `W/quick-links/`, `
 
 `W/user-favorites/` is a boot call. All entity-specific favorite endpoints write `UserFavorite` (sequence computed in `UserFavorite.save`). Recent visits are written only by `recent_visited_task`: issue/project/page/cycle/module/view retrieves, plus the project issue lists (`P/issues/`, `P/issues/list/`), which record a `project` visit.
 
-| ☐ | Method | URL | View · file:line | Serializer(s) | Permission | Side effects | Caller | Cx |
+| ☑ | Method | URL | View · file:line | Serializer(s) | Permission | Side effects | Caller | Cx |
 |---|---|---|---|---|---|---|---|---|
 | ☐ | GET | `P/user-favorite-cycles/` | `CycleFavoriteViewSet.list` (DRF default) class cycle/base.py:559; get_queryset cycle/base.py:562 | — (dict/values) | IsAuthenticated | — | **UNUSED** | S |
-| ☐ | POST | `P/user-favorite-cycles/` | `CycleFavoriteViewSet.create` cycle/base.py:572 | — (dict/values) | AP[A,M]/PROJ | — | web | S |
-| ☐ | DELETE | `P/user-favorite-cycles/<cycle_id>/` | `CycleFavoriteViewSet.destroy` cycle/base.py:582 | — (dict/values) | AP[A,M]/PROJ | — | web | S |
+| ☑ | POST | `P/user-favorite-cycles/` | `CycleFavoriteViewSet.create` cycle/base.py:572 | — (dict/values) | AP[A,M]/PROJ | — | web | S |
+| ☑ | DELETE | `P/user-favorite-cycles/<cycle_id>/` | `CycleFavoriteViewSet.destroy` cycle/base.py:582 | — (dict/values) | AP[A,M]/PROJ | — | web | S |
 | ☐ | GET | `P/user-favorite-modules/` | `ModuleFavoriteViewSet.list` (DRF default) class module/base.py:791; get_queryset module/base.py:795 | — (dict/values) | ProjectLitePermission | — | **UNUSED** | S |
-| ☐ | POST | `P/user-favorite-modules/` | `ModuleFavoriteViewSet.create` module/base.py:804 | — (dict/values) | ProjectLitePermission | — | web | S |
-| ☐ | DELETE | `P/user-favorite-modules/<module_id>/` | `ModuleFavoriteViewSet.destroy` module/base.py:813 | — (dict/values) | ProjectLitePermission | — | web | S |
-| ☐ | POST | `P/favorite-pages/<page_id>/` | `PageFavoriteViewSet.create` page/base.py:491 | — (dict/values) | AP[A,M]/PROJ | — | web | S |
+| ☑ | POST | `P/user-favorite-modules/` | `ModuleFavoriteViewSet.create` module/base.py:804 | — (dict/values) | ProjectLitePermission | — | web | S |
+| ☑ | DELETE | `P/user-favorite-modules/<module_id>/` | `ModuleFavoriteViewSet.destroy` module/base.py:813 | — (dict/values) | ProjectLitePermission | — | web | S |
+| ☑ | POST | `P/favorite-pages/<page_id>/` | `PageFavoriteViewSet.create` page/base.py:491 | — (dict/values) | AP[A,M]/PROJ | — | web | S |
 | ☐ | DELETE | `P/favorite-pages/<page_id>/` | `PageFavoriteViewSet.destroy` page/base.py:501 | — (dict/values) | AP[A,M]/PROJ | — | **UNUSED** (dead web service fn `removeFromFavorites`) | S |
 | ☐ | GET | `W/user-favorite-projects/` | `ProjectFavoritesViewSet.list` (DRF default) class project/base.py:498; get_queryset project/base.py:501 | — (dict/values) | IsAuthenticated | — | **UNUSED** (dead web service fn `getUserProjectFavorites`) | S |
-| ☐ | POST | `W/user-favorite-projects/` | `ProjectFavoritesViewSet.create` project/base.py:514 | — (dict/values) | IsAuthenticated | — | web | S |
-| ☐ | DELETE | `W/user-favorite-projects/<project_id>/` | `ProjectFavoritesViewSet.destroy` project/base.py:523 | — (dict/values) | IsAuthenticated | — | web | S |
+| ☑ | POST | `W/user-favorite-projects/` | `ProjectFavoritesViewSet.create` project/base.py:514 | — (dict/values) | IsAuthenticated | — | web | S |
+| ☑ | DELETE | `W/user-favorite-projects/<project_id>/` | `ProjectFavoritesViewSet.destroy` project/base.py:523 | — (dict/values) | IsAuthenticated | — | web | S |
 | ☐ | GET | `P/user-favorite-views/` | `IssueViewFavoriteViewSet.list` (DRF default) class view/base.py:407; get_queryset view/base.py:410 | — (dict/values) | IsAuthenticated | — | **UNUSED** | S |
-| ☐ | POST | `P/user-favorite-views/` | `IssueViewFavoriteViewSet.create` view/base.py:420 | — (dict/values) | AP[A,M]/PROJ | — | web | S |
-| ☐ | DELETE | `P/user-favorite-views/<view_id>/` | `IssueViewFavoriteViewSet.destroy` view/base.py:430 | — (dict/values) | AP[A,M]/PROJ | — | web | S |
-| ☐ | GET | `W/user-favorites/`<br>`W/user-favorites/<favorite_id>/` (unused) | `WorkspaceFavoriteEndpoint.get` workspace/favorite.py:24 | UserFavoriteSerializer | AP[A,M]/WS | boot call; root favorites (parent NULL) the user can still see; UserFavoriteSerializer builds `entity_data` per entity_type | web | M |
-| ☐ | POST | `W/user-favorites/`<br>`W/user-favorites/<favorite_id>/` (unused) | `WorkspaceFavoriteEndpoint.post` workspace/favorite.py:38 | UserFavoriteSerializer | AP[A,M]/WS | folder/entity favorites; sequence calc in UserFavorite.save | web | M |
-| ☐ | PATCH | `W/user-favorites/` (unused)<br>`W/user-favorites/<favorite_id>/` | `WorkspaceFavoriteEndpoint.patch` workspace/favorite.py:70 | UserFavoriteSerializer | AP[A,M]/WS | — | web | S |
-| ☐ | DELETE | `W/user-favorites/` (unused)<br>`W/user-favorites/<favorite_id>/` | `WorkspaceFavoriteEndpoint.delete` workspace/favorite.py:79 | — (dict/values) | AP[A,M]/WS | — | web | S |
-| ☐ | GET | `W/user-favorites/<favorite_id>/group/` | `WorkspaceFavoriteGroupEndpoint.get` workspace/favorite.py:87 | UserFavoriteSerializer | AP[A,M]/WS | — | web | S |
-| ☐ | GET | `W/recent-visits/` | `UserRecentVisitViewSet.list` workspace/recent_visit.py:25 | WorkspaceRecentVisitSerializer | AP[A,M,G]/WS | `?entity_name`; only issue/page/project; top 20; serializer resolves `entity_data` per type | web | M |
+| ☑ | POST | `P/user-favorite-views/` | `IssueViewFavoriteViewSet.create` view/base.py:420 | — (dict/values) | AP[A,M]/PROJ | — | web | S |
+| ☑ | DELETE | `P/user-favorite-views/<view_id>/` | `IssueViewFavoriteViewSet.destroy` view/base.py:430 | — (dict/values) | AP[A,M]/PROJ | — | web | S |
+| ☑ | GET | `W/user-favorites/`<br>`W/user-favorites/<favorite_id>/` (unused) | `WorkspaceFavoriteEndpoint.get` workspace/favorite.py:24 | UserFavoriteSerializer | AP[A,M]/WS | boot call; root favorites (parent NULL) the user can still see; UserFavoriteSerializer builds `entity_data` per entity_type | web | M |
+| ☑ | POST | `W/user-favorites/`<br>`W/user-favorites/<favorite_id>/` (unused) | `WorkspaceFavoriteEndpoint.post` workspace/favorite.py:38 | UserFavoriteSerializer | AP[A,M]/WS | folder/entity favorites; sequence calc in UserFavorite.save | web | M |
+| ☑ | PATCH | `W/user-favorites/` (unused)<br>`W/user-favorites/<favorite_id>/` | `WorkspaceFavoriteEndpoint.patch` workspace/favorite.py:70 | UserFavoriteSerializer | AP[A,M]/WS | — | web | S |
+| ☑ | DELETE | `W/user-favorites/` (unused)<br>`W/user-favorites/<favorite_id>/` | `WorkspaceFavoriteEndpoint.delete` workspace/favorite.py:79 | — (dict/values) | AP[A,M]/WS | — | web | S |
+| ☑ | GET | `W/user-favorites/<favorite_id>/group/` | `WorkspaceFavoriteGroupEndpoint.get` workspace/favorite.py:87 | UserFavoriteSerializer | AP[A,M]/WS | — | web | S |
+| ☑ | GET | `W/recent-visits/` | `UserRecentVisitViewSet.list` workspace/recent_visit.py:25 | WorkspaceRecentVisitSerializer | AP[A,M,G]/WS | `?entity_name`; only issue/page/project; top 20; serializer resolves `entity_data` per type | web | M |
 
 ### 16. Search
 
 3 endpoints · 1 L / 2 M / 0 S · 0 unused by web/live
 
-| ☐ | Method | URL | View · file:line | Serializer(s) | Permission | Side effects | Caller | Cx |
+| ☑ | Method | URL | View · file:line | Serializer(s) | Permission | Side effects | Caller | Cx |
 |---|---|---|---|---|---|---|---|---|
-| ☐ | GET | `W/search/` | `GlobalSearchEndpoint.get` search/base.py:271 | — (dict/values) | IsAuthenticated | icontains over workspace/project/issue/cycle/module/issue_view/page/intake (intake CUT → return []); `?entities=` subset | web | M |
-| ☐ | GET | `P/search-issues/` | `IssueSearchEndpoint.get` search/issue.py:99 | — (dict/values) | IsAuthenticated | `search_issues` util + filters (parent/issue_relation/cycle/module/sub_issue exclusion) | web | M |
-| ☐ | GET | `W/entity-search/` | `SearchEndpoint.get` search/base.py:308 | — (dict/values) | WorkspaceUserPermission | mention/link picker: `query_type`=user_mention,project,issue,cycle,module,page; project- or workspace-scoped; 423 lines | web | L |
+| ☑ | GET | `W/search/` | `GlobalSearchEndpoint.get` search/base.py:271 | — (dict/values) | IsAuthenticated | icontains over workspace/project/issue/cycle/module/issue_view/page/intake (intake CUT → return []); `?entities=` subset | web | M |
+| ☑ | GET | `P/search-issues/` | `IssueSearchEndpoint.get` search/issue.py:99 | — (dict/values) | IsAuthenticated | `search_issues` util + filters (parent/issue_relation/cycle/module/sub_issue exclusion) | web | M |
+| ☑ | GET | `W/entity-search/` | `SearchEndpoint.get` search/base.py:308 | — (dict/values) | WorkspaceUserPermission | mention/link picker: `query_type`=user_mention,project,issue,cycle,module,page; project- or workspace-scoped; 423 lines | web | L |
 
 ### 17. File assets
 
@@ -522,33 +522,33 @@ Home page boot: `W/home-preferences/` (lazily creates rows), `W/quick-links/`, `
 
 All v2 endpoints implement the presigned-upload protocol: POST → FileAsset(is_uploaded=False) + presigned POST form; client uploads to S3; PATCH marks uploaded and enqueues `get_asset_object_metadata`; GET 302-redirects to a presigned URL. `StaticFileAssetEndpoint` is reached via `avatar_url`/`logo_url`/`cover_image_url` values emitted by serializers.
 
-| ☐ | Method | URL | View · file:line | Serializer(s) | Permission | Side effects | Caller | Cx |
+| ☑ | Method | URL | View · file:line | Serializer(s) | Permission | Side effects | Caller | Cx |
 |---|---|---|---|---|---|---|---|---|
 | ☐ | GET | `W/file-assets/`<br>`/api/workspaces/file-assets/<workspace_id>/<str:asset_key>/` | `FileAssetEndpoint.get` asset/base.py:26 | FileAssetSerializer | WorkspaceMemberPermission | — | **UNUSED** | S |
 | ☐ | POST | `W/file-assets/`<br>`/api/workspaces/file-assets/<workspace_id>/<str:asset_key>/` | `FileAssetEndpoint.post` asset/base.py:38 | FileAssetSerializer | WorkspaceMemberPermission | — | **UNUSED** | S |
-| ☐ | DELETE | `W/file-assets/` (unused)<br>`/api/workspaces/file-assets/<workspace_id>/<str:asset_key>/` | `FileAssetEndpoint.delete` asset/base.py:48 | — (dict/values) | WorkspaceMemberPermission | — | web | S |
+| ☑ | DELETE | `W/file-assets/` (unused)<br>`/api/workspaces/file-assets/<workspace_id>/<str:asset_key>/` | `FileAssetEndpoint.delete` asset/base.py:48 | — (dict/values) | WorkspaceMemberPermission | — | web | S |
 | ☐ | GET | `/api/users/file-assets/`<br>`/api/users/file-assets/<str:asset_key>/` | `UserAssetsEndpoint.get` asset/base.py:70 | FileAssetSerializer | IsAuthenticated | — | **UNUSED** | S |
 | ☐ | POST | `/api/users/file-assets/`<br>`/api/users/file-assets/<str:asset_key>/` | `UserAssetsEndpoint.post` asset/base.py:81 | FileAssetSerializer | IsAuthenticated | — | **UNUSED** | S |
-| ☐ | DELETE | `/api/users/file-assets/` (unused)<br>`/api/users/file-assets/<str:asset_key>/` | `UserAssetsEndpoint.delete` asset/base.py:88 | — (dict/values) | IsAuthenticated | — | web | S |
-| ☐ | POST | `/api/workspaces/file-assets/<workspace_id>/<str:asset_key>/restore/` | `FileAssetViewSet.restore` asset/base.py:59 | — (dict/values) | WorkspaceMemberPermission | — | web | S |
-| ☐ | GET | `AW/` (unused)<br>`AW/<asset_id>/` | `WorkspaceFileAssetEndpoint.get` asset/v2.py:462 | — (dict/values) | AP[A,M,G]/WS | 302 to presigned GET URL | editor+live | M |
-| ☐ | POST | `AW/`<br>`AW/<asset_id>/` (unused) | `WorkspaceFileAssetEndpoint.post` asset/v2.py:341 | — (dict/values) | AP[A,M,G]/WS | FileAsset(is_uploaded=False) + presigned POST; entity_type switch (logo, cover, page/sticky description…) | web | M |
-| ☐ | PATCH | `AW/` (unused)<br>`AW/<asset_id>/` | `WorkspaceFileAssetEndpoint.patch` asset/v2.py:418 | — (dict/values) | AP[A,M,G]/WS | get_asset_object_metadata. marks uploaded + attributes; `get_asset_object_metadata` | web | M |
-| ☐ | DELETE | `AW/` (unused)<br>`AW/<asset_id>/` | `WorkspaceFileAssetEndpoint.delete` asset/v2.py:446 | — (dict/values) | AP[A,M,G]/WS | soft delete + unlink entity (e.g. workspace logo) | web | S |
-| ☐ | POST | `/api/assets/v2/user-assets/`<br>`/api/assets/v2/user-assets/<asset_id>/` (unused) | `UserAssetsV2Endpoint.post` asset/v2.py:111 | — (dict/values) | IsAuthenticated | avatar/cover upload; presigned POST | web | M |
-| ☐ | PATCH | `/api/assets/v2/user-assets/` (unused)<br>`/api/assets/v2/user-assets/<asset_id>/` | `UserAssetsV2Endpoint.patch` asset/v2.py:172 | — (dict/values) | IsAuthenticated | get_asset_object_metadata. sets User.avatar_asset/cover_image_asset | web | M |
-| ☐ | DELETE | `/api/assets/v2/user-assets/` (unused)<br>`/api/assets/v2/user-assets/<asset_id>/` | `UserAssetsV2Endpoint.delete` asset/v2.py:193 | — (dict/values) | IsAuthenticated | — | web | S |
-| ☐ | POST | `AW/restore/<asset_id>/` | `AssetRestoreEndpoint.post` asset/v2.py:540 | — (dict/values) | AP[A,M,G]/WS | — | web | S |
-| ☐ | GET | `/api/assets/v2/static/<asset_id>/` | `StaticFileAssetEndpoint.get` asset/v2.py:496 | — (dict/values) | AllowAny | AllowAny; 302 to presigned URL; only USER_AVATAR/USER_COVER/WORKSPACE_LOGO/PROJECT_COVER | web (indirect: `FileAsset.asset_url` → avatar_url/logo_url/cover_image_url in API payloads) | S |
-| ☐ | GET | `AP/` (unused)<br>`AP/<pk>/` | `ProjectAssetEndpoint.get` asset/v2.py:675 | — (dict/values) | AP[A,M,G]/PROJ | 302 to presigned URL | editor+live | M |
-| ☐ | POST | `AP/`<br>`AP/<pk>/` (unused) | `ProjectAssetEndpoint.post` asset/v2.py:581 | — (dict/values) | AP[A,M,G]/PROJ | FileAsset(is_uploaded=False) + presigned POST | web | M |
-| ☐ | PATCH | `AP/` (unused)<br>`AP/<pk>/` | `ProjectAssetEndpoint.patch` asset/v2.py:648 | — (dict/values) | AP[A,M,G]/PROJ | get_asset_object_metadata | web | M |
+| ☑ | DELETE | `/api/users/file-assets/` (unused)<br>`/api/users/file-assets/<str:asset_key>/` | `UserAssetsEndpoint.delete` asset/base.py:88 | — (dict/values) | IsAuthenticated | — | web | S |
+| ☑ | POST | `/api/workspaces/file-assets/<workspace_id>/<str:asset_key>/restore/` | `FileAssetViewSet.restore` asset/base.py:59 | — (dict/values) | WorkspaceMemberPermission | — | web | S |
+| ☑ | GET | `AW/` (unused)<br>`AW/<asset_id>/` | `WorkspaceFileAssetEndpoint.get` asset/v2.py:462 | — (dict/values) | AP[A,M,G]/WS | 302 to presigned GET URL | editor+live | M |
+| ☑ | POST | `AW/`<br>`AW/<asset_id>/` (unused) | `WorkspaceFileAssetEndpoint.post` asset/v2.py:341 | — (dict/values) | AP[A,M,G]/WS | FileAsset(is_uploaded=False) + presigned POST; entity_type switch (logo, cover, page/sticky description…) | web | M |
+| ☑ | PATCH | `AW/` (unused)<br>`AW/<asset_id>/` | `WorkspaceFileAssetEndpoint.patch` asset/v2.py:418 | — (dict/values) | AP[A,M,G]/WS | get_asset_object_metadata. marks uploaded + attributes; `get_asset_object_metadata` | web | M |
+| ☑ | DELETE | `AW/` (unused)<br>`AW/<asset_id>/` | `WorkspaceFileAssetEndpoint.delete` asset/v2.py:446 | — (dict/values) | AP[A,M,G]/WS | soft delete + unlink entity (e.g. workspace logo) | web | S |
+| ☑ | POST | `/api/assets/v2/user-assets/`<br>`/api/assets/v2/user-assets/<asset_id>/` (unused) | `UserAssetsV2Endpoint.post` asset/v2.py:111 | — (dict/values) | IsAuthenticated | avatar/cover upload; presigned POST | web | M |
+| ☑ | PATCH | `/api/assets/v2/user-assets/` (unused)<br>`/api/assets/v2/user-assets/<asset_id>/` | `UserAssetsV2Endpoint.patch` asset/v2.py:172 | — (dict/values) | IsAuthenticated | get_asset_object_metadata. sets User.avatar_asset/cover_image_asset | web | M |
+| ☑ | DELETE | `/api/assets/v2/user-assets/` (unused)<br>`/api/assets/v2/user-assets/<asset_id>/` | `UserAssetsV2Endpoint.delete` asset/v2.py:193 | — (dict/values) | IsAuthenticated | — | web | S |
+| ☑ | POST | `AW/restore/<asset_id>/` | `AssetRestoreEndpoint.post` asset/v2.py:540 | — (dict/values) | AP[A,M,G]/WS | — | web | S |
+| ☑ | GET | `/api/assets/v2/static/<asset_id>/` | `StaticFileAssetEndpoint.get` asset/v2.py:496 | — (dict/values) | AllowAny | AllowAny; 302 to presigned URL; only USER_AVATAR/USER_COVER/WORKSPACE_LOGO/PROJECT_COVER | web (indirect: `FileAsset.asset_url` → avatar_url/logo_url/cover_image_url in API payloads) | S |
+| ☑ | GET | `AP/` (unused)<br>`AP/<pk>/` | `ProjectAssetEndpoint.get` asset/v2.py:675 | — (dict/values) | AP[A,M,G]/PROJ | 302 to presigned URL | editor+live | M |
+| ☑ | POST | `AP/`<br>`AP/<pk>/` (unused) | `ProjectAssetEndpoint.post` asset/v2.py:581 | — (dict/values) | AP[A,M,G]/PROJ | FileAsset(is_uploaded=False) + presigned POST | web | M |
+| ☑ | PATCH | `AP/` (unused)<br>`AP/<pk>/` | `ProjectAssetEndpoint.patch` asset/v2.py:648 | — (dict/values) | AP[A,M,G]/PROJ | get_asset_object_metadata | web | M |
 | ☐ | DELETE | `AP/`<br>`AP/<pk>/` | `ProjectAssetEndpoint.delete` asset/v2.py:664 | — (dict/values) | AP[A,M,G]/PROJ | — | **UNUSED** | S |
-| ☐ | POST | `AP/<entity_id>/bulk/` | `ProjectBulkAssetEndpoint.post` asset/v2.py:705 | — (dict/values) | AP[A,M,G]/PROJ | attach uploaded asset ids to entity (issue/page/comment description) | web | M |
-| ☐ | GET | `AW/check/<asset_id>/` | `AssetCheckEndpoint.get` asset/v2.py:774 | — (dict/values) | AP[A,M,G]/WS | `{exists: bool}` | web | S |
-| ☐ | POST | `AW/duplicate-assets/<asset_id>/` | `DuplicateAssetEndpoint.post` asset/v2.py:816 | — (dict/values) | AP[A,M,G]/WS | S3 copy_object + new FileAsset | web | M |
-| ☐ | GET | `AW/download/<asset_id>/` | `WorkspaceAssetDownloadEndpoint.get` asset/v2.py:872 | — (dict/values) | AP[A,M,G]/WS | 302 to presigned URL with attachment disposition | editor | M |
-| ☐ | GET | `AP/download/<asset_id>/` | `ProjectAssetDownloadEndpoint.get` asset/v2.py:899 | — (dict/values) | AP[A,M,G]/PROJ | 302 to presigned URL with attachment disposition | editor | M |
+| ☑ | POST | `AP/<entity_id>/bulk/` | `ProjectBulkAssetEndpoint.post` asset/v2.py:705 | — (dict/values) | AP[A,M,G]/PROJ | attach uploaded asset ids to entity (issue/page/comment description) | web | M |
+| ☑ | GET | `AW/check/<asset_id>/` | `AssetCheckEndpoint.get` asset/v2.py:774 | — (dict/values) | AP[A,M,G]/WS | `{exists: bool}` | web | S |
+| ☑ | POST | `AW/duplicate-assets/<asset_id>/` | `DuplicateAssetEndpoint.post` asset/v2.py:816 | — (dict/values) | AP[A,M,G]/WS | S3 copy_object + new FileAsset | web | M |
+| ☑ | GET | `AW/download/<asset_id>/` | `WorkspaceAssetDownloadEndpoint.get` asset/v2.py:872 | — (dict/values) | AP[A,M,G]/WS | 302 to presigned URL with attachment disposition | editor | M |
+| ☑ | GET | `AP/download/<asset_id>/` | `ProjectAssetDownloadEndpoint.get` asset/v2.py:899 | — (dict/values) | AP[A,M,G]/PROJ | 302 to presigned URL with attachment disposition | editor | M |
 
 ### 18. Misc (timezones, user activity & profile pages)
 
@@ -660,6 +660,8 @@ The tasks are in `internal/api/issue_activity.go`.
 | `model_activity` → `webhook_activity` → `webhook_send_task` | `bgtasks/webhook_task.py:479/393/242` | Project / issue / cycle / module / comment writes | `webhook_logs` (CUT). **Drop** |
 
 ### Periodic (`plane/celery.py:44` beat schedule; `django_celery_beat.DatabaseScheduler`)
+
+> Ported (batches 19 and 21) as River periodic jobs. See `notes/scheduled.md`.
 
 | Job | Task | Schedule (UTC) | Still relevant? |
 |---|---|---|---|

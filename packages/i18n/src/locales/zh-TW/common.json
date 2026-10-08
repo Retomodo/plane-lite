@@ -277,6 +277,8 @@
   "updating": "更新中",
   "create_new_issue": "建立新工作事項",
   "editor_is_not_ready_to_discard_changes": "編輯器尚未準備好捨棄變更",
+  "discard_changes_title": "捨棄變更？",
+  "discard_changes_description": "您有尚未儲存的變更。如果現在關閉，這些變更將會遺失。",
   "failed_to_move_issue_to_project": "無法將工作事項移至專案",
   "create_more": "建立更多",
   "add_to_project": "新增至專案",

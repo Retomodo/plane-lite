@@ -58,7 +58,7 @@ export const NotificationItem = observer(function NotificationItem(props: TNotif
         }
       }
 
-      if (notification?.is_inbox_issue === false) {
+      if (!notification?.is_inbox_issue) {
         if (!getIsIssuePeeked(issueId)) {
           setPeekIssue({ workspaceSlug, projectId, issueId });
         }

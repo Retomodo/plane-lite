@@ -1,0 +1,4737 @@
+{
+  "steps": [
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/auth/get-csrf-token/",
+      "status": 200,
+      "content_type": "application/json",
+      "cookies": [
+        "csrftoken; value=<set>; Path=/; Max-Age=31449600; HttpOnly; SameSite=Lax"
+      ],
+      "body": {
+        "csrf_token": "<masked>"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/auth/sign-up/",
+      "request": {
+        "csrfmiddlewaretoken": "<masked>",
+        "email": "alice@example.com",
+        "password": "correct-Horse-battery-staple-91"
+      },
+      "status": 302,
+      "location": "http://localhost:3000",
+      "content_type": "text/html",
+      "cookies": [
+        "csrftoken; value=<set>; Path=/; Max-Age=31449600; HttpOnly; SameSite=Lax",
+        "session-id; value=<set>; Path=/; Max-Age=604800; HttpOnly; SameSite=Lax"
+      ]
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/",
+      "request": {
+        "name": "Acme",
+        "slug": "acme"
+      },
+      "status": 201,
+      "content_type": "application/json",
+      "body": {
+        "background_color": "<masked>",
+        "created_at": "<datetime Z>",
+        "created_by": "<uuid:1>",
+        "deleted_at": null,
+        "id": "<uuid:2>",
+        "logo": null,
+        "logo_asset": null,
+        "logo_url": null,
+        "name": "Acme",
+        "organization_size": null,
+        "owner": "<uuid:1>",
+        "role": 20,
+        "slug": "acme",
+        "timezone": "UTC",
+        "total_members": 1,
+        "updated_at": "<datetime Z>",
+        "updated_by": null
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "GET",
+      "path": "/auth/get-csrf-token/",
+      "status": 200,
+      "content_type": "application/json",
+      "cookies": [
+        "csrftoken; value=<set>; Path=/; Max-Age=31449600; HttpOnly; SameSite=Lax"
+      ],
+      "body": {
+        "csrf_token": "<masked>"
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "POST",
+      "path": "/auth/sign-up/",
+      "request": {
+        "csrfmiddlewaretoken": "<masked>",
+        "email": "bob@example.com",
+        "password": "correct-Horse-battery-staple-91"
+      },
+      "status": 302,
+      "location": "http://localhost:3000",
+      "content_type": "text/html",
+      "cookies": [
+        "csrftoken; value=<set>; Path=/; Max-Age=31449600; HttpOnly; SameSite=Lax",
+        "session-id; value=<set>; Path=/; Max-Age=604800; HttpOnly; SameSite=Lax"
+      ]
+    },
+    {
+      "actor": "carol",
+      "method": "GET",
+      "path": "/auth/get-csrf-token/",
+      "status": 200,
+      "content_type": "application/json",
+      "cookies": [
+        "csrftoken; value=<set>; Path=/; Max-Age=31449600; HttpOnly; SameSite=Lax"
+      ],
+      "body": {
+        "csrf_token": "<masked>"
+      }
+    },
+    {
+      "actor": "carol",
+      "method": "POST",
+      "path": "/auth/sign-up/",
+      "request": {
+        "csrfmiddlewaretoken": "<masked>",
+        "email": "carol@example.com",
+        "password": "correct-Horse-battery-staple-91"
+      },
+      "status": 302,
+      "location": "http://localhost:3000",
+      "content_type": "text/html",
+      "cookies": [
+        "csrftoken; value=<set>; Path=/; Max-Age=31449600; HttpOnly; SameSite=Lax",
+        "session-id; value=<set>; Path=/; Max-Age=604800; HttpOnly; SameSite=Lax"
+      ]
+    },
+    {
+      "actor": "dan",
+      "method": "GET",
+      "path": "/auth/get-csrf-token/",
+      "status": 200,
+      "content_type": "application/json",
+      "cookies": [
+        "csrftoken; value=<set>; Path=/; Max-Age=31449600; HttpOnly; SameSite=Lax"
+      ],
+      "body": {
+        "csrf_token": "<masked>"
+      }
+    },
+    {
+      "actor": "dan",
+      "method": "POST",
+      "path": "/auth/sign-up/",
+      "request": {
+        "csrfmiddlewaretoken": "<masked>",
+        "email": "dan@example.com",
+        "password": "correct-Horse-battery-staple-91"
+      },
+      "status": 302,
+      "location": "http://localhost:3000",
+      "content_type": "text/html",
+      "cookies": [
+        "csrftoken; value=<set>; Path=/; Max-Age=31449600; HttpOnly; SameSite=Lax",
+        "session-id; value=<set>; Path=/; Max-Age=604800; HttpOnly; SameSite=Lax"
+      ]
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/invitations/",
+      "request": {
+        "emails": [
+          {
+            "email": "bob@example.com",
+            "role": 15
+          },
+          {
+            "email": "carol@example.com",
+            "role": 5
+          },
+          {
+            "email": "dan@example.com",
+            "role": 15
+          }
+        ]
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "message": "Emails sent successfully"
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "GET",
+      "path": "/api/users/me/workspaces/invitations/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": [
+        {
+          "accepted": false,
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:1>",
+          "deleted_at": null,
+          "email": "bob@example.com",
+          "id": "<uuid:3>",
+          "invite_link": "/workspace-invitations/?invitation_id=<uuid:3>&slug=acme&token=<invite-token:bob@example.com>",
+          "message": "\n\nalice invited you to Acme on Plane\n\n      alice has invited you to join Acme on Plane.\n\n                    Join Acme on Plane\n\n                    alice has invited you to collaborate with them in\n                    Acme workspace on Plane.\n\n                          Accept invite\n\n                    If the button doesn’t work, copy and paste this link into\n                    your browser:\n\n                    http://localhost:3000/workspace-invitations/?invitation_id=<uuid:3>&slug=acme&token=<invite-token:bob@example.com>\n\n                    Note: This invitation was intended for\n                    bob@example.com. If you were not expecting this invitation, you can ignore\n                    this email.\n\n                    Plane Software, Inc.\n\n",
+          "responded_at": null,
+          "role": 15,
+          "token": "<invite-token:bob@example.com>",
+          "updated_at": "<datetime Z>",
+          "updated_by": "<uuid:1>",
+          "workspace": {
+            "id": "<uuid:2>",
+            "logo_url": null,
+            "name": "Acme",
+            "slug": "acme"
+          }
+        }
+      ]
+    },
+    {
+      "actor": "bob",
+      "method": "POST",
+      "path": "/api/users/me/workspaces/invitations/",
+      "request": {
+        "invitations": [
+          "<uuid:3>"
+        ]
+      },
+      "status": 204
+    },
+    {
+      "actor": "carol",
+      "method": "GET",
+      "path": "/api/users/me/workspaces/invitations/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": [
+        {
+          "accepted": false,
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:1>",
+          "deleted_at": null,
+          "email": "carol@example.com",
+          "id": "<uuid:4>",
+          "invite_link": "/workspace-invitations/?invitation_id=<uuid:4>&slug=acme&token=<invite-token:carol@example.com>",
+          "message": "\n\nalice invited you to Acme on Plane\n\n      alice has invited you to join Acme on Plane.\n\n                    Join Acme on Plane\n\n                    alice has invited you to collaborate with them in\n                    Acme workspace on Plane.\n\n                          Accept invite\n\n                    If the button doesn’t work, copy and paste this link into\n                    your browser:\n\n                    http://localhost:3000/workspace-invitations/?invitation_id=<uuid:4>&slug=acme&token=<invite-token:carol@example.com>\n\n                    Note: This invitation was intended for\n                    carol@example.com. If you were not expecting this invitation, you can ignore\n                    this email.\n\n                    Plane Software, Inc.\n\n",
+          "responded_at": null,
+          "role": 5,
+          "token": "<invite-token:carol@example.com>",
+          "updated_at": "<datetime Z>",
+          "updated_by": "<uuid:1>",
+          "workspace": {
+            "id": "<uuid:2>",
+            "logo_url": null,
+            "name": "Acme",
+            "slug": "acme"
+          }
+        }
+      ]
+    },
+    {
+      "actor": "carol",
+      "method": "POST",
+      "path": "/api/users/me/workspaces/invitations/",
+      "request": {
+        "invitations": [
+          "<uuid:4>"
+        ]
+      },
+      "status": 204
+    },
+    {
+      "actor": "dan",
+      "method": "GET",
+      "path": "/api/users/me/workspaces/invitations/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": [
+        {
+          "accepted": false,
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:1>",
+          "deleted_at": null,
+          "email": "dan@example.com",
+          "id": "<uuid:5>",
+          "invite_link": "/workspace-invitations/?invitation_id=<uuid:5>&slug=acme&token=<invite-token:dan@example.com>",
+          "message": "\n\nalice invited you to Acme on Plane\n\n      alice has invited you to join Acme on Plane.\n\n                    Join Acme on Plane\n\n                    alice has invited you to collaborate with them in\n                    Acme workspace on Plane.\n\n                          Accept invite\n\n                    If the button doesn’t work, copy and paste this link into\n                    your browser:\n\n                    http://localhost:3000/workspace-invitations/?invitation_id=<uuid:5>&slug=acme&token=<invite-token:dan@example.com>\n\n                    Note: This invitation was intended for\n                    dan@example.com. If you were not expecting this invitation, you can ignore\n                    this email.\n\n                    Plane Software, Inc.\n\n",
+          "responded_at": null,
+          "role": 15,
+          "token": "<invite-token:dan@example.com>",
+          "updated_at": "<datetime Z>",
+          "updated_by": "<uuid:1>",
+          "workspace": {
+            "id": "<uuid:2>",
+            "logo_url": null,
+            "name": "Acme",
+            "slug": "acme"
+          }
+        }
+      ]
+    },
+    {
+      "actor": "dan",
+      "method": "POST",
+      "path": "/api/users/me/workspaces/invitations/",
+      "request": {
+        "invitations": [
+          "<uuid:5>"
+        ]
+      },
+      "status": 204
+    },
+    {
+      "actor": "outsider",
+      "method": "GET",
+      "path": "/auth/get-csrf-token/",
+      "status": 200,
+      "content_type": "application/json",
+      "cookies": [
+        "csrftoken; value=<set>; Path=/; Max-Age=31449600; HttpOnly; SameSite=Lax"
+      ],
+      "body": {
+        "csrf_token": "<masked>"
+      }
+    },
+    {
+      "actor": "outsider",
+      "method": "POST",
+      "path": "/auth/sign-up/",
+      "request": {
+        "csrfmiddlewaretoken": "<masked>",
+        "email": "outsider@example.com",
+        "password": "correct-Horse-battery-staple-91"
+      },
+      "status": 302,
+      "location": "http://localhost:3000",
+      "content_type": "text/html",
+      "cookies": [
+        "csrftoken; value=<set>; Path=/; Max-Age=31449600; HttpOnly; SameSite=Lax",
+        "session-id; value=<set>; Path=/; Max-Age=604800; HttpOnly; SameSite=Lax"
+      ]
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/",
+      "request": {
+        "identifier": "PL",
+        "name": "Plane Lite"
+      },
+      "status": 201,
+      "content_type": "application/json",
+      "body": {
+        "anchor": null,
+        "archive_in": 0,
+        "archived_at": null,
+        "close_in": 0,
+        "cover_image": null,
+        "cover_image_asset": null,
+        "cover_image_url": null,
+        "created_at": "<datetime Z>",
+        "created_by": "<uuid:1>",
+        "cycle_view": false,
+        "default_assignee": null,
+        "default_state": null,
+        "deleted_at": null,
+        "description": "",
+        "description_html": null,
+        "description_text": null,
+        "emoji": null,
+        "estimate": null,
+        "external_id": null,
+        "external_source": null,
+        "guest_view_all_features": false,
+        "icon_prop": null,
+        "id": "<uuid:6>",
+        "identifier": "PL",
+        "inbox_view": false,
+        "intake_view": false,
+        "is_favorite": false,
+        "is_issue_type_enabled": false,
+        "is_time_tracking_enabled": false,
+        "issue_views_view": false,
+        "logo_props": {},
+        "member_role": 20,
+        "members": [
+          "<uuid:1>"
+        ],
+        "module_view": false,
+        "name": "Plane Lite",
+        "network": 2,
+        "next_work_item_sequence": 1,
+        "page_view": true,
+        "project_lead": null,
+        "sort_order": 65535,
+        "timezone": "UTC",
+        "updated_at": "<datetime Z>",
+        "updated_by": null,
+        "workspace": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "GET",
+      "path": "/api/users/me/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "avatar": "",
+        "avatar_url": null,
+        "cover_image": null,
+        "cover_image_url": null,
+        "date_joined": "<datetime Z>",
+        "display_name": "bob",
+        "email": "bob@example.com",
+        "first_name": "",
+        "id": "<uuid:7>",
+        "is_active": true,
+        "is_bot": false,
+        "is_email_verified": false,
+        "is_password_autoset": false,
+        "last_login_medium": "email",
+        "last_login_time": "<datetime Z>",
+        "last_name": "",
+        "user_timezone": "UTC",
+        "username": "<hex32>"
+      }
+    },
+    {
+      "actor": "carol",
+      "method": "GET",
+      "path": "/api/users/me/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "avatar": "",
+        "avatar_url": null,
+        "cover_image": null,
+        "cover_image_url": null,
+        "date_joined": "<datetime Z>",
+        "display_name": "carol",
+        "email": "carol@example.com",
+        "first_name": "",
+        "id": "<uuid:8>",
+        "is_active": true,
+        "is_bot": false,
+        "is_email_verified": false,
+        "is_password_autoset": false,
+        "last_login_medium": "email",
+        "last_login_time": "<datetime Z>",
+        "last_name": "",
+        "user_timezone": "UTC",
+        "username": "<hex32>"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/members/",
+      "request": {
+        "members": [
+          {
+            "member_id": "<uuid:7>",
+            "role": 15
+          },
+          {
+            "member_id": "<uuid:8>",
+            "role": 5
+          }
+        ]
+      },
+      "status": 201,
+      "content_type": "application/json",
+      "body": [
+        {
+          "created_at": "<datetime Z>",
+          "id": "<uuid:9>",
+          "member": "<uuid:8>",
+          "original_role": 5,
+          "project": "<uuid:6>",
+          "role": 5
+        },
+        {
+          "created_at": "<datetime Z>",
+          "id": "<uuid:10>",
+          "member": "<uuid:7>",
+          "original_role": 15,
+          "project": "<uuid:6>",
+          "role": 15
+        }
+      ]
+    },
+    {
+      "actor": "alice",
+      "method": "PATCH",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/",
+      "request": {
+        "timezone": "Asia/Kolkata"
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "anchor": null,
+        "archive_in": 0,
+        "archived_at": null,
+        "close_in": 0,
+        "cover_image": null,
+        "cover_image_asset": null,
+        "cover_image_url": null,
+        "created_at": "<datetime Z>",
+        "created_by": "<uuid:1>",
+        "cycle_view": false,
+        "default_assignee": null,
+        "default_state": null,
+        "deleted_at": null,
+        "description": "",
+        "description_html": null,
+        "description_text": null,
+        "emoji": null,
+        "estimate": null,
+        "external_id": null,
+        "external_source": null,
+        "guest_view_all_features": false,
+        "icon_prop": null,
+        "id": "<uuid:6>",
+        "identifier": "PL",
+        "inbox_view": false,
+        "intake_view": false,
+        "is_favorite": false,
+        "is_issue_type_enabled": false,
+        "is_time_tracking_enabled": false,
+        "issue_views_view": false,
+        "logo_props": {},
+        "member_role": 20,
+        "members": [
+          "<uuid:8>",
+          "<uuid:7>",
+          "<uuid:1>"
+        ],
+        "module_view": false,
+        "name": "Plane Lite",
+        "network": 2,
+        "next_work_item_sequence": 1,
+        "page_view": true,
+        "project_lead": null,
+        "sort_order": 65535,
+        "timezone": "Asia/Kolkata",
+        "updated_at": "<datetime Z>",
+        "updated_by": "<uuid:1>",
+        "workspace": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/users/me/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "avatar": "",
+        "avatar_url": null,
+        "cover_image": null,
+        "cover_image_url": null,
+        "date_joined": "<datetime Z>",
+        "display_name": "alice",
+        "email": "alice@example.com",
+        "first_name": "",
+        "id": "<uuid:1>",
+        "is_active": true,
+        "is_bot": false,
+        "is_email_verified": false,
+        "is_password_autoset": false,
+        "last_login_medium": "email",
+        "last_login_time": "<datetime Z>",
+        "last_name": "",
+        "user_timezone": "UTC",
+        "username": "<hex32>"
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "GET",
+      "path": "/api/users/me/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "avatar": "",
+        "avatar_url": null,
+        "cover_image": null,
+        "cover_image_url": null,
+        "date_joined": "<datetime Z>",
+        "display_name": "bob",
+        "email": "bob@example.com",
+        "first_name": "",
+        "id": "<uuid:7>",
+        "is_active": true,
+        "is_bot": false,
+        "is_email_verified": false,
+        "is_password_autoset": false,
+        "last_login_medium": "email",
+        "last_login_time": "<datetime Z>",
+        "last_name": "",
+        "user_timezone": "UTC",
+        "username": "<hex32>"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/states/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": [
+        {
+          "color": "#60646C",
+          "default": true,
+          "description": "",
+          "group": "backlog",
+          "id": "<uuid:11>",
+          "name": "Backlog",
+          "order": 1,
+          "project_id": "<uuid:6>",
+          "sequence": 15000,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "color": "#60646C",
+          "default": false,
+          "description": "",
+          "group": "unstarted",
+          "id": "<uuid:12>",
+          "name": "Todo",
+          "order": 1,
+          "project_id": "<uuid:6>",
+          "sequence": 25000,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "color": "#F59E0B",
+          "default": false,
+          "description": "",
+          "group": "started",
+          "id": "<uuid:13>",
+          "name": "In Progress",
+          "order": 1,
+          "project_id": "<uuid:6>",
+          "sequence": 35000,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "color": "#46A758",
+          "default": false,
+          "description": "",
+          "group": "completed",
+          "id": "<uuid:14>",
+          "name": "Done",
+          "order": 1,
+          "project_id": "<uuid:6>",
+          "sequence": 45000,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "color": "#9AA4BC",
+          "default": false,
+          "description": "",
+          "group": "cancelled",
+          "id": "<uuid:15>",
+          "name": "Cancelled",
+          "order": 1,
+          "project_id": "<uuid:6>",
+          "sequence": 55000,
+          "workspace_id": "<uuid:2>"
+        }
+      ]
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/issues/",
+      "request": {
+        "assignee_ids": [
+          "<uuid:7>",
+          "<uuid:1>"
+        ],
+        "name": "Alpha",
+        "state_id": "<uuid:12>"
+      },
+      "status": 201,
+      "content_type": "application/json",
+      "body": {
+        "archived_at": null,
+        "assignee_ids": [
+          "<uuid:1>",
+          "<uuid:7>"
+        ],
+        "attachment_count": null,
+        "completed_at": null,
+        "created_at": "<datetime Z>",
+        "created_by": "<uuid:1>",
+        "cycle_id": null,
+        "deleted_at": null,
+        "estimate_point": null,
+        "id": "<uuid:16>",
+        "is_draft": false,
+        "label_ids": [],
+        "link_count": null,
+        "module_ids": [],
+        "name": "Alpha",
+        "parent_id": null,
+        "priority": "none",
+        "project_id": "<uuid:6>",
+        "sequence_id": 1,
+        "sort_order": 65535,
+        "start_date": null,
+        "state_id": "<uuid:12>",
+        "sub_issues_count": null,
+        "target_date": null,
+        "updated_at": "<datetime Z>",
+        "updated_by": null
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/issues/",
+      "request": {
+        "assignee_ids": [
+          "<uuid:7>"
+        ],
+        "name": "Bravo",
+        "state_id": "<uuid:14>"
+      },
+      "status": 201,
+      "content_type": "application/json",
+      "body": {
+        "archived_at": null,
+        "assignee_ids": [
+          "<uuid:7>"
+        ],
+        "attachment_count": null,
+        "completed_at": "<datetime Z>",
+        "created_at": "<datetime Z>",
+        "created_by": "<uuid:1>",
+        "cycle_id": null,
+        "deleted_at": null,
+        "estimate_point": null,
+        "id": "<uuid:17>",
+        "is_draft": false,
+        "label_ids": [],
+        "link_count": null,
+        "module_ids": [],
+        "name": "Bravo",
+        "parent_id": null,
+        "priority": "none",
+        "project_id": "<uuid:6>",
+        "sequence_id": 2,
+        "sort_order": 65535,
+        "start_date": null,
+        "state_id": "<uuid:14>",
+        "sub_issues_count": null,
+        "target_date": null,
+        "updated_at": "<datetime Z>",
+        "updated_by": null
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/issues/",
+      "request": {
+        "name": "Charlie",
+        "state_id": "<uuid:15>"
+      },
+      "status": 201,
+      "content_type": "application/json",
+      "body": {
+        "archived_at": null,
+        "assignee_ids": [],
+        "attachment_count": null,
+        "completed_at": null,
+        "created_at": "<datetime Z>",
+        "created_by": "<uuid:1>",
+        "cycle_id": null,
+        "deleted_at": null,
+        "estimate_point": null,
+        "id": "<uuid:18>",
+        "is_draft": false,
+        "label_ids": [],
+        "link_count": null,
+        "module_ids": [],
+        "name": "Charlie",
+        "parent_id": null,
+        "priority": "none",
+        "project_id": "<uuid:6>",
+        "sequence_id": 3,
+        "sort_order": 65535,
+        "start_date": null,
+        "state_id": "<uuid:15>",
+        "sub_issues_count": null,
+        "target_date": null,
+        "updated_at": "<datetime Z>",
+        "updated_by": null
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/issues/",
+      "request": {
+        "name": "Delta",
+        "parent_id": "<uuid:16>"
+      },
+      "status": 201,
+      "content_type": "application/json",
+      "body": {
+        "archived_at": null,
+        "assignee_ids": [],
+        "attachment_count": null,
+        "completed_at": null,
+        "created_at": "<datetime Z>",
+        "created_by": "<uuid:1>",
+        "cycle_id": null,
+        "deleted_at": null,
+        "estimate_point": null,
+        "id": "<uuid:19>",
+        "is_draft": false,
+        "label_ids": [],
+        "link_count": null,
+        "module_ids": [],
+        "name": "Delta",
+        "parent_id": "<uuid:16>",
+        "priority": "none",
+        "project_id": "<uuid:6>",
+        "sequence_id": 4,
+        "sort_order": 65535,
+        "start_date": null,
+        "state_id": "<uuid:11>",
+        "sub_issues_count": null,
+        "target_date": null,
+        "updated_at": "<datetime Z>",
+        "updated_by": null
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/issues/",
+      "request": {
+        "name": "Echo"
+      },
+      "status": 201,
+      "content_type": "application/json",
+      "body": {
+        "archived_at": null,
+        "assignee_ids": [],
+        "attachment_count": null,
+        "completed_at": null,
+        "created_at": "<datetime Z>",
+        "created_by": "<uuid:1>",
+        "cycle_id": null,
+        "deleted_at": null,
+        "estimate_point": null,
+        "id": "<uuid:20>",
+        "is_draft": false,
+        "label_ids": [],
+        "link_count": null,
+        "module_ids": [],
+        "name": "Echo",
+        "parent_id": null,
+        "priority": "none",
+        "project_id": "<uuid:6>",
+        "sequence_id": 5,
+        "sort_order": 75535,
+        "start_date": null,
+        "state_id": "<uuid:11>",
+        "sub_issues_count": null,
+        "target_date": null,
+        "updated_at": "<datetime Z>",
+        "updated_by": null
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/cycles/",
+      "request": {
+        "end_date": "<today-10>",
+        "name": "Sprint Past",
+        "start_date": "<today-20>"
+      },
+      "status": 201,
+      "content_type": "application/json",
+      "body": {
+        "assignee_ids": [],
+        "completed_issues": 0,
+        "created_by": "<uuid:1>",
+        "description": "",
+        "end_date": "<datetime +05:30>",
+        "external_id": null,
+        "external_source": null,
+        "id": "<uuid:21>",
+        "is_favorite": false,
+        "logo_props": {},
+        "name": "Sprint Past",
+        "owned_by_id": "<uuid:1>",
+        "progress_snapshot": {},
+        "project_id": "<uuid:6>",
+        "sort_order": 65535,
+        "start_date": "<datetime +05:30>",
+        "status": "COMPLETED",
+        "total_issues": 0,
+        "version": 1,
+        "view_props": {},
+        "workspace_id": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/cycles/",
+      "request": {
+        "archived_at": "<datetime Z>",
+        "description": "the current one",
+        "end_date": "<today+5>",
+        "external_id": "J-1",
+        "external_source": "jira",
+        "logo_props": {
+          "in_use": "emoji"
+        },
+        "name": "Sprint Now",
+        "owned_by": "<uuid:7>",
+        "project": "<uuid:22>",
+        "sort_order": 5,
+        "start_date": "<today-2>",
+        "timezone": "Asia/Kolkata",
+        "version": 3,
+        "view_props": {
+          "x": 1
+        }
+      },
+      "status": 201,
+      "content_type": "application/json",
+      "body": {
+        "assignee_ids": [],
+        "completed_issues": 0,
+        "created_by": "<uuid:1>",
+        "description": "the current one",
+        "end_date": "<datetime +05:30>",
+        "external_id": "J-1",
+        "external_source": "jira",
+        "id": "<uuid:23>",
+        "is_favorite": false,
+        "logo_props": {
+          "in_use": "emoji"
+        },
+        "name": "Sprint Now",
+        "owned_by_id": "<uuid:1>",
+        "progress_snapshot": {},
+        "project_id": "<uuid:6>",
+        "sort_order": 55535,
+        "start_date": "<datetime +05:30>",
+        "status": "CURRENT",
+        "total_issues": 0,
+        "version": 3,
+        "view_props": {
+          "x": 1
+        },
+        "workspace_id": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/cycles/",
+      "request": {
+        "end_date": "<today+20>",
+        "name": "Sprint Next",
+        "start_date": "<today+10>"
+      },
+      "status": 201,
+      "content_type": "application/json",
+      "body": {
+        "assignee_ids": [],
+        "completed_issues": 0,
+        "created_by": "<uuid:7>",
+        "description": "",
+        "end_date": "<datetime +05:30>",
+        "external_id": null,
+        "external_source": null,
+        "id": "<uuid:24>",
+        "is_favorite": false,
+        "logo_props": {},
+        "name": "Sprint Next",
+        "owned_by_id": "<uuid:7>",
+        "progress_snapshot": {},
+        "project_id": "<uuid:6>",
+        "sort_order": 45535,
+        "start_date": "<datetime +05:30>",
+        "status": "UPCOMING",
+        "total_issues": 0,
+        "version": 1,
+        "view_props": {},
+        "workspace_id": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/cycles/",
+      "request": {
+        "end_date": null,
+        "name": "Backlog",
+        "start_date": null
+      },
+      "status": 201,
+      "content_type": "application/json",
+      "body": {
+        "assignee_ids": [],
+        "completed_issues": 0,
+        "created_by": "<uuid:1>",
+        "description": "",
+        "end_date": null,
+        "external_id": null,
+        "external_source": null,
+        "id": "<uuid:25>",
+        "is_favorite": false,
+        "logo_props": {},
+        "name": "Backlog",
+        "owned_by_id": "<uuid:1>",
+        "progress_snapshot": {},
+        "project_id": "<uuid:6>",
+        "sort_order": 35535,
+        "start_date": null,
+        "status": "DRAFT",
+        "total_issues": 0,
+        "version": 1,
+        "view_props": {},
+        "workspace_id": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/cycles/",
+      "request": {
+        "end_date": "<today+3>",
+        "name": "Today",
+        "start_date": "<today+0>"
+      },
+      "status": 201,
+      "content_type": "application/json",
+      "body": {
+        "assignee_ids": [],
+        "completed_issues": 0,
+        "created_by": "<uuid:7>",
+        "description": "",
+        "end_date": "<datetime +05:30>",
+        "external_id": null,
+        "external_source": null,
+        "id": "<uuid:26>",
+        "is_favorite": false,
+        "logo_props": {},
+        "name": "Today",
+        "owned_by_id": "<uuid:7>",
+        "progress_snapshot": {},
+        "project_id": "<uuid:6>",
+        "sort_order": 25535,
+        "start_date": "<datetime +05:30>",
+        "status": "CURRENT",
+        "total_issues": 0,
+        "version": 1,
+        "view_props": {},
+        "workspace_id": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/cycles/",
+      "request": {
+        "end_date": "<datetime +09:00>",
+        "name": "Offset",
+        "start_date": "<datetime -05:00>"
+      },
+      "status": 201,
+      "content_type": "application/json",
+      "body": {
+        "assignee_ids": [],
+        "completed_issues": 0,
+        "created_by": "<uuid:1>",
+        "description": "",
+        "end_date": "<datetime +05:30>",
+        "external_id": null,
+        "external_source": null,
+        "id": "<uuid:27>",
+        "is_favorite": false,
+        "logo_props": {},
+        "name": "Offset",
+        "owned_by_id": "<uuid:1>",
+        "progress_snapshot": {},
+        "project_id": "<uuid:6>",
+        "sort_order": 15535,
+        "start_date": "<datetime +05:30>",
+        "status": "UPCOMING",
+        "total_issues": 0,
+        "version": 1,
+        "view_props": {},
+        "workspace_id": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "carol",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/cycles/",
+      "request": {
+        "name": "Guest"
+      },
+      "status": 403,
+      "content_type": "application/json",
+      "body": {
+        "error": "You don't have the required permissions."
+      }
+    },
+    {
+      "actor": "dan",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/cycles/",
+      "request": {
+        "name": "Dan"
+      },
+      "status": 403,
+      "content_type": "application/json",
+      "body": {
+        "error": "You don't have the required permissions."
+      }
+    },
+    {
+      "actor": "outsider",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/cycles/",
+      "request": {
+        "name": "Outsider"
+      },
+      "status": 403,
+      "content_type": "application/json",
+      "body": {
+        "error": "You don't have the required permissions."
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/cycles/",
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "name": [
+          "This field is required."
+        ]
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/cycles/",
+      "request": [
+        "x"
+      ],
+      "status": 500,
+      "content_type": "application/json",
+      "body": {
+        "error": "Something went wrong please try again later"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/cycles/",
+      "request": {
+        "name": "Half",
+        "start_date": "<today+1>"
+      },
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "error": "Both start date and end date are either required or are to be null"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/cycles/",
+      "request": {
+        "end_date": "<today+1>",
+        "name": "Half",
+        "start_date": null
+      },
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "error": "Both start date and end date are either required or are to be null"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/cycles/",
+      "request": {
+        "end_date": "<today+8>",
+        "name": "Backwards",
+        "start_date": "<today+9>"
+      },
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "non_field_errors": [
+          "Start date cannot exceed end date"
+        ]
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/cycles/",
+      "request": {
+        "end_date": "soon",
+        "name": "Bad",
+        "start_date": "the 13th"
+      },
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "end_date": [
+          "Datetime has wrong format. Use one of these formats instead: YYYY-MM-DDThh:mm[:ss[.uuuuuu]][+HH:MM|-HH:MM|Z]."
+        ],
+        "start_date": [
+          "Datetime has wrong format. Use one of these formats instead: YYYY-MM-DDThh:mm[:ss[.uuuuuu]][+HH:MM|-HH:MM|Z]."
+        ]
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/cycles/",
+      "request": {
+        "description": null,
+        "external_id": "yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy",
+        "name": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "sort_order": "high",
+        "timezone": "Mars/Base",
+        "version": "v2",
+        "view_props": null
+      },
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "description": [
+          "This field may not be null."
+        ],
+        "external_id": [
+          "Ensure this field has no more than 255 characters."
+        ],
+        "name": [
+          "Ensure this field has no more than 255 characters."
+        ],
+        "sort_order": [
+          "A valid number is required."
+        ],
+        "timezone": [
+          "\"Mars/Base\" is not a valid choice."
+        ],
+        "version": [
+          "A valid integer is required."
+        ],
+        "view_props": [
+          "This field may not be null."
+        ]
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/cycles/",
+      "request": {
+        "end_date": "",
+        "name": "",
+        "start_date": ""
+      },
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "end_date": [
+          "Datetime has wrong format. Use one of these formats instead: YYYY-MM-DDThh:mm[:ss[.uuuuuu]][+HH:MM|-HH:MM|Z]."
+        ],
+        "name": [
+          "This field may not be blank."
+        ],
+        "start_date": [
+          "Datetime has wrong format. Use one of these formats instead: YYYY-MM-DDThh:mm[:ss[.uuuuuu]][+HH:MM|-HH:MM|Z]."
+        ]
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/cycles/",
+      "request": {
+        "end_date": "<today+2>",
+        "name": "Elsewhere",
+        "project_id": "<uuid:22>",
+        "start_date": "<today+1>"
+      },
+      "status": 404,
+      "content_type": "application/json",
+      "body": {
+        "error": "The required object does not exist."
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/cycles/<uuid:23>/cycle-issues/",
+      "request": {
+        "issues": [
+          "<uuid:16>",
+          "<uuid:17>",
+          "<uuid:18>",
+          "<uuid:19>"
+        ]
+      },
+      "status": 201,
+      "content_type": "application/json",
+      "body": {
+        "message": "success"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/cycles/<uuid:26>/cycle-issues/",
+      "request": {
+        "issues": [
+          "<uuid:20>"
+        ]
+      },
+      "status": 201,
+      "content_type": "application/json",
+      "body": {
+        "message": "success"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/users/me/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "avatar": "",
+        "avatar_url": null,
+        "cover_image": null,
+        "cover_image_url": null,
+        "date_joined": "<datetime Z>",
+        "display_name": "alice",
+        "email": "alice@example.com",
+        "first_name": "",
+        "id": "<uuid:1>",
+        "is_active": true,
+        "is_bot": false,
+        "is_email_verified": false,
+        "is_password_autoset": false,
+        "last_login_medium": "email",
+        "last_login_time": "<datetime Z>",
+        "last_name": "",
+        "user_timezone": "UTC",
+        "username": "<hex32>"
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "GET",
+      "path": "/api/users/me/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "avatar": "",
+        "avatar_url": null,
+        "cover_image": null,
+        "cover_image_url": null,
+        "date_joined": "<datetime Z>",
+        "display_name": "bob",
+        "email": "bob@example.com",
+        "first_name": "",
+        "id": "<uuid:7>",
+        "is_active": true,
+        "is_bot": false,
+        "is_email_verified": false,
+        "is_password_autoset": false,
+        "last_login_medium": "email",
+        "last_login_time": "<datetime Z>",
+        "last_name": "",
+        "user_timezone": "UTC",
+        "username": "<hex32>"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/cycles/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": [
+        {
+          "assignee_ids": [],
+          "cancelled_issues": 0,
+          "completed_issues": 0,
+          "created_by": "<uuid:7>",
+          "description": "",
+          "end_date": "<datetime +05:30>",
+          "external_id": null,
+          "external_source": null,
+          "id": "<uuid:24>",
+          "is_favorite": true,
+          "logo_props": {},
+          "name": "Sprint Next",
+          "owned_by_id": "<uuid:7>",
+          "progress_snapshot": {},
+          "project_id": "<uuid:6>",
+          "sort_order": 45535,
+          "start_date": "<datetime +05:30>",
+          "status": "UPCOMING",
+          "total_issues": 0,
+          "version": 1,
+          "view_props": {},
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "assignee_ids": [],
+          "cancelled_issues": 0,
+          "completed_issues": 0,
+          "created_by": "<uuid:1>",
+          "description": "",
+          "end_date": "<datetime +05:30>",
+          "external_id": null,
+          "external_source": null,
+          "id": "<uuid:27>",
+          "is_favorite": false,
+          "logo_props": {},
+          "name": "Offset",
+          "owned_by_id": "<uuid:1>",
+          "progress_snapshot": {},
+          "project_id": "<uuid:6>",
+          "sort_order": 15535,
+          "start_date": "<datetime +05:30>",
+          "status": "UPCOMING",
+          "total_issues": 0,
+          "version": 1,
+          "view_props": {},
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "assignee_ids": [],
+          "cancelled_issues": 0,
+          "completed_issues": 0,
+          "created_by": "<uuid:7>",
+          "description": "",
+          "end_date": "<datetime +05:30>",
+          "external_id": null,
+          "external_source": null,
+          "id": "<uuid:26>",
+          "is_favorite": false,
+          "logo_props": {},
+          "name": "Today",
+          "owned_by_id": "<uuid:7>",
+          "progress_snapshot": {},
+          "project_id": "<uuid:6>",
+          "sort_order": 25535,
+          "start_date": "<datetime +05:30>",
+          "status": "CURRENT",
+          "total_issues": 1,
+          "version": 1,
+          "view_props": {},
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "assignee_ids": [],
+          "cancelled_issues": 0,
+          "completed_issues": 0,
+          "created_by": "<uuid:1>",
+          "description": "",
+          "end_date": null,
+          "external_id": null,
+          "external_source": null,
+          "id": "<uuid:25>",
+          "is_favorite": false,
+          "logo_props": {},
+          "name": "Backlog",
+          "owned_by_id": "<uuid:1>",
+          "progress_snapshot": {},
+          "project_id": "<uuid:6>",
+          "sort_order": 35535,
+          "start_date": null,
+          "status": "DRAFT",
+          "total_issues": 0,
+          "version": 1,
+          "view_props": {},
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "assignee_ids": [
+            "<uuid:1>",
+            "<uuid:7>"
+          ],
+          "cancelled_issues": 1,
+          "completed_issues": 1,
+          "created_by": "<uuid:1>",
+          "description": "the current one",
+          "end_date": "<datetime +05:30>",
+          "external_id": "J-1",
+          "external_source": "jira",
+          "id": "<uuid:23>",
+          "is_favorite": false,
+          "logo_props": {
+            "in_use": "emoji"
+          },
+          "name": "Sprint Now",
+          "owned_by_id": "<uuid:1>",
+          "progress_snapshot": {},
+          "project_id": "<uuid:6>",
+          "sort_order": 55535,
+          "start_date": "<datetime +05:30>",
+          "status": "CURRENT",
+          "total_issues": 4,
+          "version": 3,
+          "view_props": {
+            "x": 1
+          },
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "assignee_ids": [],
+          "cancelled_issues": 0,
+          "completed_issues": 0,
+          "created_by": "<uuid:1>",
+          "description": "",
+          "end_date": "<datetime +05:30>",
+          "external_id": null,
+          "external_source": null,
+          "id": "<uuid:21>",
+          "is_favorite": false,
+          "logo_props": {},
+          "name": "Sprint Past",
+          "owned_by_id": "<uuid:1>",
+          "progress_snapshot": {},
+          "project_id": "<uuid:6>",
+          "sort_order": 65535,
+          "start_date": "<datetime +05:30>",
+          "status": "COMPLETED",
+          "total_issues": 0,
+          "version": 1,
+          "view_props": {},
+          "workspace_id": "<uuid:2>"
+        }
+      ]
+    },
+    {
+      "actor": "bob",
+      "method": "GET",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/cycles/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": [
+        {
+          "assignee_ids": [
+            "<uuid:1>",
+            "<uuid:7>"
+          ],
+          "cancelled_issues": 1,
+          "completed_issues": 1,
+          "created_by": "<uuid:1>",
+          "description": "the current one",
+          "end_date": "<datetime +05:30>",
+          "external_id": "J-1",
+          "external_source": "jira",
+          "id": "<uuid:23>",
+          "is_favorite": true,
+          "logo_props": {
+            "in_use": "emoji"
+          },
+          "name": "Sprint Now",
+          "owned_by_id": "<uuid:1>",
+          "progress_snapshot": {},
+          "project_id": "<uuid:6>",
+          "sort_order": 55535,
+          "start_date": "<datetime +05:30>",
+          "status": "CURRENT",
+          "total_issues": 4,
+          "version": 3,
+          "view_props": {
+            "x": 1
+          },
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "assignee_ids": [],
+          "cancelled_issues": 0,
+          "completed_issues": 0,
+          "created_by": "<uuid:1>",
+          "description": "",
+          "end_date": "<datetime +05:30>",
+          "external_id": null,
+          "external_source": null,
+          "id": "<uuid:27>",
+          "is_favorite": false,
+          "logo_props": {},
+          "name": "Offset",
+          "owned_by_id": "<uuid:1>",
+          "progress_snapshot": {},
+          "project_id": "<uuid:6>",
+          "sort_order": 15535,
+          "start_date": "<datetime +05:30>",
+          "status": "UPCOMING",
+          "total_issues": 0,
+          "version": 1,
+          "view_props": {},
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "assignee_ids": [],
+          "cancelled_issues": 0,
+          "completed_issues": 0,
+          "created_by": "<uuid:7>",
+          "description": "",
+          "end_date": "<datetime +05:30>",
+          "external_id": null,
+          "external_source": null,
+          "id": "<uuid:26>",
+          "is_favorite": false,
+          "logo_props": {},
+          "name": "Today",
+          "owned_by_id": "<uuid:7>",
+          "progress_snapshot": {},
+          "project_id": "<uuid:6>",
+          "sort_order": 25535,
+          "start_date": "<datetime +05:30>",
+          "status": "CURRENT",
+          "total_issues": 1,
+          "version": 1,
+          "view_props": {},
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "assignee_ids": [],
+          "cancelled_issues": 0,
+          "completed_issues": 0,
+          "created_by": "<uuid:1>",
+          "description": "",
+          "end_date": null,
+          "external_id": null,
+          "external_source": null,
+          "id": "<uuid:25>",
+          "is_favorite": false,
+          "logo_props": {},
+          "name": "Backlog",
+          "owned_by_id": "<uuid:1>",
+          "progress_snapshot": {},
+          "project_id": "<uuid:6>",
+          "sort_order": 35535,
+          "start_date": null,
+          "status": "DRAFT",
+          "total_issues": 0,
+          "version": 1,
+          "view_props": {},
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "assignee_ids": [],
+          "cancelled_issues": 0,
+          "completed_issues": 0,
+          "created_by": "<uuid:7>",
+          "description": "",
+          "end_date": "<datetime +05:30>",
+          "external_id": null,
+          "external_source": null,
+          "id": "<uuid:24>",
+          "is_favorite": false,
+          "logo_props": {},
+          "name": "Sprint Next",
+          "owned_by_id": "<uuid:7>",
+          "progress_snapshot": {},
+          "project_id": "<uuid:6>",
+          "sort_order": 45535,
+          "start_date": "<datetime +05:30>",
+          "status": "UPCOMING",
+          "total_issues": 0,
+          "version": 1,
+          "view_props": {},
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "assignee_ids": [],
+          "cancelled_issues": 0,
+          "completed_issues": 0,
+          "created_by": "<uuid:1>",
+          "description": "",
+          "end_date": "<datetime +05:30>",
+          "external_id": null,
+          "external_source": null,
+          "id": "<uuid:21>",
+          "is_favorite": false,
+          "logo_props": {},
+          "name": "Sprint Past",
+          "owned_by_id": "<uuid:1>",
+          "progress_snapshot": {},
+          "project_id": "<uuid:6>",
+          "sort_order": 65535,
+          "start_date": "<datetime +05:30>",
+          "status": "COMPLETED",
+          "total_issues": 0,
+          "version": 1,
+          "view_props": {},
+          "workspace_id": "<uuid:2>"
+        }
+      ]
+    },
+    {
+      "actor": "carol",
+      "method": "GET",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/cycles/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": [
+        {
+          "assignee_ids": [],
+          "cancelled_issues": 0,
+          "completed_issues": 0,
+          "created_by": "<uuid:1>",
+          "description": "",
+          "end_date": "<datetime +05:30>",
+          "external_id": null,
+          "external_source": null,
+          "id": "<uuid:27>",
+          "is_favorite": false,
+          "logo_props": {},
+          "name": "Offset",
+          "owned_by_id": "<uuid:1>",
+          "progress_snapshot": {},
+          "project_id": "<uuid:6>",
+          "sort_order": 15535,
+          "start_date": "<datetime +05:30>",
+          "status": "UPCOMING",
+          "total_issues": 0,
+          "version": 1,
+          "view_props": {},
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "assignee_ids": [],
+          "cancelled_issues": 0,
+          "completed_issues": 0,
+          "created_by": "<uuid:7>",
+          "description": "",
+          "end_date": "<datetime +05:30>",
+          "external_id": null,
+          "external_source": null,
+          "id": "<uuid:26>",
+          "is_favorite": false,
+          "logo_props": {},
+          "name": "Today",
+          "owned_by_id": "<uuid:7>",
+          "progress_snapshot": {},
+          "project_id": "<uuid:6>",
+          "sort_order": 25535,
+          "start_date": "<datetime +05:30>",
+          "status": "CURRENT",
+          "total_issues": 1,
+          "version": 1,
+          "view_props": {},
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "assignee_ids": [],
+          "cancelled_issues": 0,
+          "completed_issues": 0,
+          "created_by": "<uuid:1>",
+          "description": "",
+          "end_date": null,
+          "external_id": null,
+          "external_source": null,
+          "id": "<uuid:25>",
+          "is_favorite": false,
+          "logo_props": {},
+          "name": "Backlog",
+          "owned_by_id": "<uuid:1>",
+          "progress_snapshot": {},
+          "project_id": "<uuid:6>",
+          "sort_order": 35535,
+          "start_date": null,
+          "status": "DRAFT",
+          "total_issues": 0,
+          "version": 1,
+          "view_props": {},
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "assignee_ids": [],
+          "cancelled_issues": 0,
+          "completed_issues": 0,
+          "created_by": "<uuid:7>",
+          "description": "",
+          "end_date": "<datetime +05:30>",
+          "external_id": null,
+          "external_source": null,
+          "id": "<uuid:24>",
+          "is_favorite": false,
+          "logo_props": {},
+          "name": "Sprint Next",
+          "owned_by_id": "<uuid:7>",
+          "progress_snapshot": {},
+          "project_id": "<uuid:6>",
+          "sort_order": 45535,
+          "start_date": "<datetime +05:30>",
+          "status": "UPCOMING",
+          "total_issues": 0,
+          "version": 1,
+          "view_props": {},
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "assignee_ids": [
+            "<uuid:1>",
+            "<uuid:7>"
+          ],
+          "cancelled_issues": 1,
+          "completed_issues": 1,
+          "created_by": "<uuid:1>",
+          "description": "the current one",
+          "end_date": "<datetime +05:30>",
+          "external_id": "J-1",
+          "external_source": "jira",
+          "id": "<uuid:23>",
+          "is_favorite": false,
+          "logo_props": {
+            "in_use": "emoji"
+          },
+          "name": "Sprint Now",
+          "owned_by_id": "<uuid:1>",
+          "progress_snapshot": {},
+          "project_id": "<uuid:6>",
+          "sort_order": 55535,
+          "start_date": "<datetime +05:30>",
+          "status": "CURRENT",
+          "total_issues": 4,
+          "version": 3,
+          "view_props": {
+            "x": 1
+          },
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "assignee_ids": [],
+          "cancelled_issues": 0,
+          "completed_issues": 0,
+          "created_by": "<uuid:1>",
+          "description": "",
+          "end_date": "<datetime +05:30>",
+          "external_id": null,
+          "external_source": null,
+          "id": "<uuid:21>",
+          "is_favorite": false,
+          "logo_props": {},
+          "name": "Sprint Past",
+          "owned_by_id": "<uuid:1>",
+          "progress_snapshot": {},
+          "project_id": "<uuid:6>",
+          "sort_order": 65535,
+          "start_date": "<datetime +05:30>",
+          "status": "COMPLETED",
+          "total_issues": 0,
+          "version": 1,
+          "view_props": {},
+          "workspace_id": "<uuid:2>"
+        }
+      ]
+    },
+    {
+      "actor": "dan",
+      "method": "GET",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/cycles/",
+      "status": 403,
+      "content_type": "application/json",
+      "body": {
+        "error": "You don't have the required permissions."
+      }
+    },
+    {
+      "actor": "outsider",
+      "method": "GET",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/cycles/",
+      "status": 403,
+      "content_type": "application/json",
+      "body": {
+        "error": "You don't have the required permissions."
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/cycles/?cycle_view=current",
+      "status": 200,
+      "content_type": "application/json",
+      "body": [
+        {
+          "assignee_ids": [],
+          "cancelled_issues": 0,
+          "completed_issues": 0,
+          "created_by": "<uuid:7>",
+          "description": "",
+          "end_date": "<datetime +05:30>",
+          "external_id": null,
+          "external_source": null,
+          "id": "<uuid:26>",
+          "is_favorite": false,
+          "logo_props": {},
+          "name": "Today",
+          "owned_by_id": "<uuid:7>",
+          "progress_snapshot": {},
+          "project_id": "<uuid:6>",
+          "sort_order": 25535,
+          "start_date": "<datetime +05:30>",
+          "status": "CURRENT",
+          "total_issues": 1,
+          "version": 1,
+          "view_props": {},
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "assignee_ids": [
+            "<uuid:1>",
+            "<uuid:7>"
+          ],
+          "cancelled_issues": 1,
+          "completed_issues": 1,
+          "created_by": "<uuid:1>",
+          "description": "the current one",
+          "end_date": "<datetime +05:30>",
+          "external_id": "J-1",
+          "external_source": "jira",
+          "id": "<uuid:23>",
+          "is_favorite": false,
+          "logo_props": {
+            "in_use": "emoji"
+          },
+          "name": "Sprint Now",
+          "owned_by_id": "<uuid:1>",
+          "progress_snapshot": {},
+          "project_id": "<uuid:6>",
+          "sort_order": 55535,
+          "start_date": "<datetime +05:30>",
+          "status": "CURRENT",
+          "total_issues": 4,
+          "version": 3,
+          "view_props": {
+            "x": 1
+          },
+          "workspace_id": "<uuid:2>"
+        }
+      ]
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/cycles/?cycle_view=upcoming",
+      "status": 200,
+      "content_type": "application/json",
+      "body": [
+        {
+          "assignee_ids": [],
+          "cancelled_issues": 0,
+          "completed_issues": 0,
+          "created_by": "<uuid:7>",
+          "description": "",
+          "end_date": "<datetime +05:30>",
+          "external_id": null,
+          "external_source": null,
+          "id": "<uuid:24>",
+          "is_favorite": true,
+          "logo_props": {},
+          "name": "Sprint Next",
+          "owned_by_id": "<uuid:7>",
+          "progress_snapshot": {},
+          "project_id": "<uuid:6>",
+          "sort_order": 45535,
+          "start_date": "<datetime +05:30>",
+          "status": "UPCOMING",
+          "total_issues": 0,
+          "version": 1,
+          "view_props": {},
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "assignee_ids": [],
+          "cancelled_issues": 0,
+          "completed_issues": 0,
+          "created_by": "<uuid:1>",
+          "description": "",
+          "end_date": "<datetime +05:30>",
+          "external_id": null,
+          "external_source": null,
+          "id": "<uuid:27>",
+          "is_favorite": false,
+          "logo_props": {},
+          "name": "Offset",
+          "owned_by_id": "<uuid:1>",
+          "progress_snapshot": {},
+          "project_id": "<uuid:6>",
+          "sort_order": 15535,
+          "start_date": "<datetime +05:30>",
+          "status": "UPCOMING",
+          "total_issues": 0,
+          "version": 1,
+          "view_props": {},
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "assignee_ids": [],
+          "cancelled_issues": 0,
+          "completed_issues": 0,
+          "created_by": "<uuid:7>",
+          "description": "",
+          "end_date": "<datetime +05:30>",
+          "external_id": null,
+          "external_source": null,
+          "id": "<uuid:26>",
+          "is_favorite": false,
+          "logo_props": {},
+          "name": "Today",
+          "owned_by_id": "<uuid:7>",
+          "progress_snapshot": {},
+          "project_id": "<uuid:6>",
+          "sort_order": 25535,
+          "start_date": "<datetime +05:30>",
+          "status": "CURRENT",
+          "total_issues": 1,
+          "version": 1,
+          "view_props": {},
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "assignee_ids": [],
+          "cancelled_issues": 0,
+          "completed_issues": 0,
+          "created_by": "<uuid:1>",
+          "description": "",
+          "end_date": null,
+          "external_id": null,
+          "external_source": null,
+          "id": "<uuid:25>",
+          "is_favorite": false,
+          "logo_props": {},
+          "name": "Backlog",
+          "owned_by_id": "<uuid:1>",
+          "progress_snapshot": {},
+          "project_id": "<uuid:6>",
+          "sort_order": 35535,
+          "start_date": null,
+          "status": "DRAFT",
+          "total_issues": 0,
+          "version": 1,
+          "view_props": {},
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "assignee_ids": [
+            "<uuid:1>",
+            "<uuid:7>"
+          ],
+          "cancelled_issues": 1,
+          "completed_issues": 1,
+          "created_by": "<uuid:1>",
+          "description": "the current one",
+          "end_date": "<datetime +05:30>",
+          "external_id": "J-1",
+          "external_source": "jira",
+          "id": "<uuid:23>",
+          "is_favorite": false,
+          "logo_props": {
+            "in_use": "emoji"
+          },
+          "name": "Sprint Now",
+          "owned_by_id": "<uuid:1>",
+          "progress_snapshot": {},
+          "project_id": "<uuid:6>",
+          "sort_order": 55535,
+          "start_date": "<datetime +05:30>",
+          "status": "CURRENT",
+          "total_issues": 4,
+          "version": 3,
+          "view_props": {
+            "x": 1
+          },
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "assignee_ids": [],
+          "cancelled_issues": 0,
+          "completed_issues": 0,
+          "created_by": "<uuid:1>",
+          "description": "",
+          "end_date": "<datetime +05:30>",
+          "external_id": null,
+          "external_source": null,
+          "id": "<uuid:21>",
+          "is_favorite": false,
+          "logo_props": {},
+          "name": "Sprint Past",
+          "owned_by_id": "<uuid:1>",
+          "progress_snapshot": {},
+          "project_id": "<uuid:6>",
+          "sort_order": 65535,
+          "start_date": "<datetime +05:30>",
+          "status": "COMPLETED",
+          "total_issues": 0,
+          "version": 1,
+          "view_props": {},
+          "workspace_id": "<uuid:2>"
+        }
+      ]
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/cycles/<uuid:23>/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "assignee_ids": [
+          "<uuid:1>",
+          "<uuid:7>"
+        ],
+        "completed_issues": 1,
+        "created_by": "<uuid:1>",
+        "description": "the current one",
+        "end_date": "<datetime +05:30>",
+        "external_id": "J-1",
+        "external_source": "jira",
+        "id": "<uuid:23>",
+        "is_favorite": false,
+        "logo_props": {
+          "in_use": "emoji"
+        },
+        "name": "Sprint Now",
+        "owned_by_id": "<uuid:1>",
+        "progress_snapshot": {},
+        "project_id": "<uuid:6>",
+        "sort_order": 55535,
+        "start_date": "<datetime +05:30>",
+        "status": "CURRENT",
+        "sub_issues": 1,
+        "total_issues": 4,
+        "version": 3,
+        "view_props": {
+          "x": 1
+        },
+        "workspace_id": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "GET",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/cycles/<uuid:24>/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "assignee_ids": [],
+        "completed_issues": 0,
+        "created_by": "<uuid:7>",
+        "description": "",
+        "end_date": "<datetime +05:30>",
+        "external_id": null,
+        "external_source": null,
+        "id": "<uuid:24>",
+        "is_favorite": false,
+        "logo_props": {},
+        "name": "Sprint Next",
+        "owned_by_id": "<uuid:7>",
+        "progress_snapshot": {},
+        "project_id": "<uuid:6>",
+        "sort_order": 45535,
+        "start_date": "<datetime +05:30>",
+        "status": "UPCOMING",
+        "sub_issues": 0,
+        "total_issues": 0,
+        "version": 1,
+        "view_props": {},
+        "workspace_id": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/cycles/<uuid:25>/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "assignee_ids": [],
+        "completed_issues": 0,
+        "created_by": "<uuid:1>",
+        "description": "",
+        "end_date": null,
+        "external_id": null,
+        "external_source": null,
+        "id": "<uuid:25>",
+        "is_favorite": false,
+        "logo_props": {},
+        "name": "Backlog",
+        "owned_by_id": "<uuid:1>",
+        "progress_snapshot": {},
+        "project_id": "<uuid:6>",
+        "sort_order": 35535,
+        "start_date": null,
+        "status": "DRAFT",
+        "sub_issues": 0,
+        "total_issues": 0,
+        "version": 1,
+        "view_props": {},
+        "workspace_id": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "carol",
+      "method": "GET",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/cycles/<uuid:23>/",
+      "status": 403,
+      "content_type": "application/json",
+      "body": {
+        "error": "You don't have the required permissions."
+      }
+    },
+    {
+      "actor": "dan",
+      "method": "GET",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/cycles/<uuid:23>/",
+      "status": 403,
+      "content_type": "application/json",
+      "body": {
+        "error": "You don't have the required permissions."
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/cycles/<uuid:22>/",
+      "status": 404,
+      "content_type": "application/json",
+      "body": {
+        "error": "Cycle not found"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/cycles/nope/",
+      "status": 404,
+      "content_type": "application/json",
+      "body": {
+        "error": "Page not found."
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "PATCH",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/cycles/<uuid:23>/",
+      "request": {
+        "description": "renamed",
+        "logo_props": {
+          "in_use": "icon"
+        },
+        "name": "Sprint Now!"
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "assignee_ids": [
+          "<uuid:1>",
+          "<uuid:7>"
+        ],
+        "completed_issues": 1,
+        "created_by": "<uuid:1>",
+        "description": "renamed",
+        "end_date": "<datetime +05:30>",
+        "external_id": "J-1",
+        "external_source": "jira",
+        "id": "<uuid:23>",
+        "is_favorite": false,
+        "logo_props": {
+          "in_use": "icon"
+        },
+        "name": "Sprint Now!",
+        "owned_by_id": "<uuid:1>",
+        "progress_snapshot": {},
+        "project_id": "<uuid:6>",
+        "sort_order": 55535,
+        "start_date": "<datetime +05:30>",
+        "status": "CURRENT",
+        "total_issues": 4,
+        "version": 3,
+        "view_props": {
+          "x": 1
+        },
+        "workspace_id": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "PATCH",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/cycles/<uuid:24>/",
+      "request": {
+        "end_date": "<today+21>",
+        "start_date": "<today+11>"
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "assignee_ids": [],
+        "completed_issues": 0,
+        "created_by": "<uuid:7>",
+        "description": "",
+        "end_date": "<datetime +05:30>",
+        "external_id": null,
+        "external_source": null,
+        "id": "<uuid:24>",
+        "is_favorite": false,
+        "logo_props": {},
+        "name": "Sprint Next",
+        "owned_by_id": "<uuid:7>",
+        "progress_snapshot": {},
+        "project_id": "<uuid:6>",
+        "sort_order": 45535,
+        "start_date": "<datetime +05:30>",
+        "status": "UPCOMING",
+        "total_issues": 0,
+        "version": 1,
+        "view_props": {},
+        "workspace_id": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "PATCH",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/cycles/<uuid:25>/",
+      "request": {
+        "start_date": "<today+25>"
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "assignee_ids": [],
+        "completed_issues": 0,
+        "created_by": "<uuid:1>",
+        "description": "",
+        "end_date": null,
+        "external_id": null,
+        "external_source": null,
+        "id": "<uuid:25>",
+        "is_favorite": false,
+        "logo_props": {},
+        "name": "Backlog",
+        "owned_by_id": "<uuid:1>",
+        "progress_snapshot": {},
+        "project_id": "<uuid:6>",
+        "sort_order": 35535,
+        "start_date": "<datetime +05:30>",
+        "status": "UPCOMING",
+        "total_issues": 0,
+        "version": 1,
+        "view_props": {},
+        "workspace_id": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "PATCH",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/cycles/<uuid:25>/",
+      "request": {
+        "end_date": "<today+26>"
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "assignee_ids": [],
+        "completed_issues": 0,
+        "created_by": "<uuid:1>",
+        "description": "",
+        "end_date": "<datetime +05:30>",
+        "external_id": null,
+        "external_source": null,
+        "id": "<uuid:25>",
+        "is_favorite": false,
+        "logo_props": {},
+        "name": "Backlog",
+        "owned_by_id": "<uuid:1>",
+        "progress_snapshot": {},
+        "project_id": "<uuid:6>",
+        "sort_order": 35535,
+        "start_date": "<datetime +05:30>",
+        "status": "UPCOMING",
+        "total_issues": 0,
+        "version": 1,
+        "view_props": {},
+        "workspace_id": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "PATCH",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/cycles/<uuid:24>/",
+      "request": {
+        "end_date": "<today+11>",
+        "start_date": "<today+21>"
+      },
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "non_field_errors": [
+          "Start date cannot exceed end date"
+        ]
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "PATCH",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/cycles/<uuid:24>/",
+      "request": {
+        "name": ""
+      },
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "name": [
+          "This field may not be blank."
+        ]
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "PATCH",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/cycles/<uuid:24>/",
+      "request": [
+        "x"
+      ],
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "non_field_errors": [
+          "Invalid data. Expected a dictionary, but got list."
+        ]
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "PATCH",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/cycles/<uuid:21>/",
+      "request": {
+        "name": "Renamed past"
+      },
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "error": "The Cycle has already been completed so it cannot be edited"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "PATCH",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/cycles/<uuid:21>/",
+      "request": {
+        "name": "Sprint Past (done)",
+        "sort_order": 1
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "assignee_ids": [],
+        "completed_issues": 0,
+        "created_by": "<uuid:1>",
+        "description": "",
+        "end_date": "<datetime +05:30>",
+        "external_id": null,
+        "external_source": null,
+        "id": "<uuid:21>",
+        "is_favorite": false,
+        "logo_props": {},
+        "name": "Sprint Past (done)",
+        "owned_by_id": "<uuid:1>",
+        "progress_snapshot": {},
+        "project_id": "<uuid:6>",
+        "sort_order": 1,
+        "start_date": "<datetime +05:30>",
+        "status": "COMPLETED",
+        "total_issues": 0,
+        "version": 1,
+        "view_props": {},
+        "workspace_id": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "carol",
+      "method": "PATCH",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/cycles/<uuid:23>/",
+      "request": {
+        "name": "Guest"
+      },
+      "status": 403,
+      "content_type": "application/json",
+      "body": {
+        "error": "You don't have the required permissions."
+      }
+    },
+    {
+      "actor": "dan",
+      "method": "PATCH",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/cycles/<uuid:23>/",
+      "request": {
+        "name": "Dan"
+      },
+      "status": 403,
+      "content_type": "application/json",
+      "body": {
+        "error": "You don't have the required permissions."
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "PATCH",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/cycles/<uuid:22>/",
+      "request": {
+        "name": "Dead"
+      },
+      "status": 500,
+      "content_type": "application/json",
+      "body": {
+        "error": "Something went wrong please try again later"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/cycles/date-check/",
+      "request": {
+        "end_date": "<today+4>",
+        "start_date": "<today+3>"
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "error": "You have a cycle already on the given dates, if you want to create a draft cycle you can do that by removing dates",
+        "status": false
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/cycles/date-check/",
+      "request": {
+        "end_date": "<today-25>",
+        "start_date": "<today-30>"
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "status": true
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/cycles/date-check/",
+      "request": {
+        "end_date": "<today+30>",
+        "start_date": "<today-30>"
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "error": "You have a cycle already on the given dates, if you want to create a draft cycle you can do that by removing dates",
+        "status": false
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/cycles/date-check/",
+      "request": {
+        "cycle_id": "<uuid:24>",
+        "end_date": "<today+13>",
+        "start_date": "<today+12>"
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "status": true
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/cycles/date-check/",
+      "request": {
+        "cycle_id": "nope",
+        "end_date": "<today+13>",
+        "start_date": "<today+12>"
+      },
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "error": "Please provide valid detail"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/cycles/date-check/",
+      "request": {
+        "start_date": "<today+12>"
+      },
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "error": "Start date and end date both are required"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/cycles/date-check/",
+      "request": {
+        "end_date": "<today+13>",
+        "start_date": ""
+      },
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "error": "Start date and end date both are required"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/cycles/date-check/",
+      "request": {
+        "end_date": "<today+13>",
+        "start_date": "13/10/2026"
+      },
+      "status": 500,
+      "content_type": "application/json",
+      "body": {
+        "error": "Something went wrong please try again later"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/cycles/date-check/",
+      "request": [
+        "x"
+      ],
+      "status": 500,
+      "content_type": "application/json",
+      "body": {
+        "error": "Something went wrong please try again later"
+      }
+    },
+    {
+      "actor": "carol",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/cycles/date-check/",
+      "request": {
+        "end_date": "<today+4>",
+        "start_date": "<today+3>"
+      },
+      "status": 403,
+      "content_type": "application/json",
+      "body": {
+        "error": "You don't have the required permissions."
+      }
+    },
+    {
+      "actor": "dan",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/cycles/date-check/",
+      "request": {
+        "end_date": "<today+4>",
+        "start_date": "<today+3>"
+      },
+      "status": 403,
+      "content_type": "application/json",
+      "body": {
+        "error": "You don't have the required permissions."
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "PATCH",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/cycles/<uuid:23>/user-properties/",
+      "request": {
+        "filters": {
+          "priority": [
+            "high"
+          ]
+        }
+      },
+      "status": 404,
+      "content_type": "application/json",
+      "body": {
+        "error": "The required object does not exist."
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/cycles/<uuid:23>/user-properties/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "created_at": "<datetime Z>",
+        "created_by": "<uuid:1>",
+        "cycle": "<uuid:23>",
+        "deleted_at": null,
+        "display_filters": {
+          "calendar_date_range": "",
+          "group_by": null,
+          "layout": "list",
+          "order_by": "-created_at",
+          "show_empty_groups": true,
+          "sub_issue": true,
+          "type": null
+        },
+        "display_properties": {
+          "assignee": true,
+          "attachment_count": true,
+          "created_on": true,
+          "due_date": true,
+          "estimate": true,
+          "key": true,
+          "labels": true,
+          "link": true,
+          "priority": true,
+          "start_date": true,
+          "state": true,
+          "sub_issue_count": true,
+          "updated_on": true
+        },
+        "filters": {
+          "assignees": null,
+          "created_by": null,
+          "labels": null,
+          "priority": null,
+          "start_date": null,
+          "state": null,
+          "state_group": null,
+          "subscriber": null,
+          "target_date": null
+        },
+        "id": "<uuid:28>",
+        "project": "<uuid:6>",
+        "rich_filters": {},
+        "updated_at": "<datetime Z>",
+        "updated_by": null,
+        "user": "<uuid:1>",
+        "workspace": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/cycles/<uuid:23>/user-properties/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "created_at": "<datetime Z>",
+        "created_by": "<uuid:1>",
+        "cycle": "<uuid:23>",
+        "deleted_at": null,
+        "display_filters": {
+          "calendar_date_range": "",
+          "group_by": null,
+          "layout": "list",
+          "order_by": "-created_at",
+          "show_empty_groups": true,
+          "sub_issue": true,
+          "type": null
+        },
+        "display_properties": {
+          "assignee": true,
+          "attachment_count": true,
+          "created_on": true,
+          "due_date": true,
+          "estimate": true,
+          "key": true,
+          "labels": true,
+          "link": true,
+          "priority": true,
+          "start_date": true,
+          "state": true,
+          "sub_issue_count": true,
+          "updated_on": true
+        },
+        "filters": {
+          "assignees": null,
+          "created_by": null,
+          "labels": null,
+          "priority": null,
+          "start_date": null,
+          "state": null,
+          "state_group": null,
+          "subscriber": null,
+          "target_date": null
+        },
+        "id": "<uuid:28>",
+        "project": "<uuid:6>",
+        "rich_filters": {},
+        "updated_at": "<datetime Z>",
+        "updated_by": null,
+        "user": "<uuid:1>",
+        "workspace": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "carol",
+      "method": "GET",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/cycles/<uuid:23>/user-properties/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "created_at": "<datetime Z>",
+        "created_by": "<uuid:8>",
+        "cycle": "<uuid:23>",
+        "deleted_at": null,
+        "display_filters": {
+          "calendar_date_range": "",
+          "group_by": null,
+          "layout": "list",
+          "order_by": "-created_at",
+          "show_empty_groups": true,
+          "sub_issue": true,
+          "type": null
+        },
+        "display_properties": {
+          "assignee": true,
+          "attachment_count": true,
+          "created_on": true,
+          "due_date": true,
+          "estimate": true,
+          "key": true,
+          "labels": true,
+          "link": true,
+          "priority": true,
+          "start_date": true,
+          "state": true,
+          "sub_issue_count": true,
+          "updated_on": true
+        },
+        "filters": {
+          "assignees": null,
+          "created_by": null,
+          "labels": null,
+          "priority": null,
+          "start_date": null,
+          "state": null,
+          "state_group": null,
+          "subscriber": null,
+          "target_date": null
+        },
+        "id": "<uuid:29>",
+        "project": "<uuid:6>",
+        "rich_filters": {},
+        "updated_at": "<datetime Z>",
+        "updated_by": null,
+        "user": "<uuid:8>",
+        "workspace": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "dan",
+      "method": "GET",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/cycles/<uuid:23>/user-properties/",
+      "status": 403,
+      "content_type": "application/json",
+      "body": {
+        "error": "You don't have the required permissions."
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "PATCH",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/cycles/<uuid:23>/user-properties/",
+      "request": {
+        "display_filters": {
+          "layout": "kanban"
+        },
+        "filters": {
+          "priority": [
+            "high"
+          ]
+        },
+        "ignored": 1,
+        "rich_filters": {
+          "and": []
+        }
+      },
+      "status": 201,
+      "content_type": "application/json",
+      "body": {
+        "created_at": "<datetime Z>",
+        "created_by": "<uuid:1>",
+        "cycle": "<uuid:23>",
+        "deleted_at": null,
+        "display_filters": {
+          "layout": "kanban"
+        },
+        "display_properties": {
+          "assignee": true,
+          "attachment_count": true,
+          "created_on": true,
+          "due_date": true,
+          "estimate": true,
+          "key": true,
+          "labels": true,
+          "link": true,
+          "priority": true,
+          "start_date": true,
+          "state": true,
+          "sub_issue_count": true,
+          "updated_on": true
+        },
+        "filters": {
+          "priority": [
+            "high"
+          ]
+        },
+        "id": "<uuid:28>",
+        "project": "<uuid:6>",
+        "rich_filters": {
+          "and": []
+        },
+        "updated_at": "<datetime Z>",
+        "updated_by": "<uuid:1>",
+        "user": "<uuid:1>",
+        "workspace": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "PATCH",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/cycles/<uuid:23>/user-properties/",
+      "request": {
+        "display_properties": "flat"
+      },
+      "status": 201,
+      "content_type": "application/json",
+      "body": {
+        "created_at": "<datetime Z>",
+        "created_by": "<uuid:1>",
+        "cycle": "<uuid:23>",
+        "deleted_at": null,
+        "display_filters": {
+          "layout": "kanban"
+        },
+        "display_properties": "flat",
+        "filters": {
+          "priority": [
+            "high"
+          ]
+        },
+        "id": "<uuid:28>",
+        "project": "<uuid:6>",
+        "rich_filters": {
+          "and": []
+        },
+        "updated_at": "<datetime Z>",
+        "updated_by": "<uuid:1>",
+        "user": "<uuid:1>",
+        "workspace": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "carol",
+      "method": "PATCH",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/cycles/<uuid:23>/user-properties/",
+      "request": {
+        "filters": null
+      },
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "error": "The payload is not valid"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "PATCH",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/cycles/<uuid:23>/user-properties/",
+      "request": [
+        "x"
+      ],
+      "status": 500,
+      "content_type": "application/json",
+      "body": {
+        "error": "Something went wrong please try again later"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/cycles/<uuid:22>/user-properties/",
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "error": "The payload is not valid"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/cycles/<uuid:23>/archive/",
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "error": "Only completed cycles can be archived"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/cycles/<uuid:25>/archive/",
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "error": "Only completed cycles can be archived"
+      }
+    },
+    {
+      "actor": "carol",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/cycles/<uuid:21>/archive/",
+      "status": 403,
+      "content_type": "application/json",
+      "body": {
+        "error": "You don't have the required permissions."
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/cycles/<uuid:22>/archive/",
+      "status": 404,
+      "content_type": "application/json",
+      "body": {
+        "error": "The required object does not exist."
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/cycles/<uuid:21>/archive/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "archived_at": "<masked>"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/archived-cycles/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": [
+        {
+          "archived_at": "<datetime Z>",
+          "assignee_ids": [],
+          "backlog_issues": 0,
+          "cancelled_issues": 0,
+          "completed_issues": 0,
+          "description": "",
+          "end_date": "<datetime Z>",
+          "external_id": null,
+          "external_source": null,
+          "id": "<uuid:21>",
+          "is_favorite": false,
+          "name": "Sprint Past (done)",
+          "owned_by_id": "<uuid:1>",
+          "progress_snapshot": {},
+          "project_id": "<uuid:6>",
+          "sort_order": 1,
+          "start_date": "<datetime Z>",
+          "started_issues": 0,
+          "status": "COMPLETED",
+          "total_issues": 0,
+          "unstarted_issues": 0,
+          "view_props": {},
+          "workspace_id": "<uuid:2>"
+        }
+      ]
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/archived-cycles/<uuid:21>/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "archived_at": "<datetime Z>",
+        "assignee_ids": [],
+        "backlog_issues": 0,
+        "cancelled_issues": 0,
+        "completed_estimate_points": 0,
+        "completed_issues": 0,
+        "created_by": "<uuid:1>",
+        "description": "",
+        "distribution": {
+          "assignees": [],
+          "completion_chart": {
+            "<today-10>": 0,
+            "<today-11>": 0,
+            "<today-12>": 0,
+            "<today-13>": 0,
+            "<today-14>": 0,
+            "<today-15>": 0,
+            "<today-16>": 0,
+            "<today-17>": 0,
+            "<today-18>": 0,
+            "<today-19>": 0,
+            "<today-20>": 0,
+            "<today-21>": 0
+          },
+          "labels": []
+        },
+        "end_date": "<datetime Z>",
+        "estimate_distribution": {},
+        "external_id": null,
+        "external_source": null,
+        "id": "<uuid:21>",
+        "is_favorite": false,
+        "logo_props": {},
+        "name": "Sprint Past (done)",
+        "owned_by_id": "<uuid:1>",
+        "progress_snapshot": {},
+        "project_id": "<uuid:6>",
+        "sort_order": 1,
+        "start_date": "<datetime Z>",
+        "started_issues": 0,
+        "status": "COMPLETED",
+        "sub_issues": 0,
+        "total_estimate_points": 0,
+        "total_issues": 0,
+        "unstarted_issues": 0,
+        "view_props": {},
+        "workspace_id": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "carol",
+      "method": "GET",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/archived-cycles/",
+      "status": 403,
+      "content_type": "application/json",
+      "body": {
+        "error": "You don't have the required permissions."
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/archived-cycles/<uuid:23>/",
+      "status": 500,
+      "content_type": "application/json",
+      "body": {
+        "error": "Something went wrong please try again later"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/cycles/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": [
+        {
+          "assignee_ids": [],
+          "cancelled_issues": 0,
+          "completed_issues": 0,
+          "created_by": "<uuid:7>",
+          "description": "",
+          "end_date": "<datetime +05:30>",
+          "external_id": null,
+          "external_source": null,
+          "id": "<uuid:24>",
+          "is_favorite": true,
+          "logo_props": {},
+          "name": "Sprint Next",
+          "owned_by_id": "<uuid:7>",
+          "progress_snapshot": {},
+          "project_id": "<uuid:6>",
+          "sort_order": 45535,
+          "start_date": "<datetime +05:30>",
+          "status": "UPCOMING",
+          "total_issues": 0,
+          "version": 1,
+          "view_props": {},
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "assignee_ids": [],
+          "cancelled_issues": 0,
+          "completed_issues": 0,
+          "created_by": "<uuid:1>",
+          "description": "",
+          "end_date": "<datetime +05:30>",
+          "external_id": null,
+          "external_source": null,
+          "id": "<uuid:27>",
+          "is_favorite": false,
+          "logo_props": {},
+          "name": "Offset",
+          "owned_by_id": "<uuid:1>",
+          "progress_snapshot": {},
+          "project_id": "<uuid:6>",
+          "sort_order": 15535,
+          "start_date": "<datetime +05:30>",
+          "status": "UPCOMING",
+          "total_issues": 0,
+          "version": 1,
+          "view_props": {},
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "assignee_ids": [],
+          "cancelled_issues": 0,
+          "completed_issues": 0,
+          "created_by": "<uuid:7>",
+          "description": "",
+          "end_date": "<datetime +05:30>",
+          "external_id": null,
+          "external_source": null,
+          "id": "<uuid:26>",
+          "is_favorite": false,
+          "logo_props": {},
+          "name": "Today",
+          "owned_by_id": "<uuid:7>",
+          "progress_snapshot": {},
+          "project_id": "<uuid:6>",
+          "sort_order": 25535,
+          "start_date": "<datetime +05:30>",
+          "status": "CURRENT",
+          "total_issues": 1,
+          "version": 1,
+          "view_props": {},
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "assignee_ids": [],
+          "cancelled_issues": 0,
+          "completed_issues": 0,
+          "created_by": "<uuid:1>",
+          "description": "",
+          "end_date": "<datetime +05:30>",
+          "external_id": null,
+          "external_source": null,
+          "id": "<uuid:25>",
+          "is_favorite": false,
+          "logo_props": {},
+          "name": "Backlog",
+          "owned_by_id": "<uuid:1>",
+          "progress_snapshot": {},
+          "project_id": "<uuid:6>",
+          "sort_order": 35535,
+          "start_date": "<datetime +05:30>",
+          "status": "UPCOMING",
+          "total_issues": 0,
+          "version": 1,
+          "view_props": {},
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "assignee_ids": [
+            "<uuid:1>",
+            "<uuid:7>"
+          ],
+          "cancelled_issues": 1,
+          "completed_issues": 1,
+          "created_by": "<uuid:1>",
+          "description": "renamed",
+          "end_date": "<datetime +05:30>",
+          "external_id": "J-1",
+          "external_source": "jira",
+          "id": "<uuid:23>",
+          "is_favorite": false,
+          "logo_props": {
+            "in_use": "icon"
+          },
+          "name": "Sprint Now!",
+          "owned_by_id": "<uuid:1>",
+          "progress_snapshot": {},
+          "project_id": "<uuid:6>",
+          "sort_order": 55535,
+          "start_date": "<datetime +05:30>",
+          "status": "CURRENT",
+          "total_issues": 4,
+          "version": 3,
+          "view_props": {
+            "x": 1
+          },
+          "workspace_id": "<uuid:2>"
+        }
+      ]
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/cycles/<uuid:21>/",
+      "status": 404,
+      "content_type": "application/json",
+      "body": {
+        "error": "Cycle not found"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "PATCH",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/cycles/<uuid:21>/",
+      "request": {
+        "sort_order": 2
+      },
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "error": "Archived cycle cannot be updated"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "DELETE",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/cycles/<uuid:21>/archive/",
+      "status": 204
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/archived-cycles/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": []
+    },
+    {
+      "actor": "alice",
+      "method": "DELETE",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/cycles/<uuid:23>/archive/",
+      "status": 204
+    },
+    {
+      "actor": "alice",
+      "method": "DELETE",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/cycles/<uuid:22>/archive/",
+      "status": 404,
+      "content_type": "application/json",
+      "body": {
+        "error": "The required object does not exist."
+      }
+    },
+    {
+      "actor": "carol",
+      "method": "DELETE",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/cycles/<uuid:21>/archive/",
+      "status": 403,
+      "content_type": "application/json",
+      "body": {
+        "error": "You don't have the required permissions."
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/cycles/<uuid:21>/archive/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "archived_at": "<masked>"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/workspaces/acme/cycles/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": [
+        {
+          "backlog_issues": 0,
+          "cancelled_issues": 0,
+          "completed_issues": 0,
+          "description": "",
+          "end_date": "<datetime Z>",
+          "external_id": null,
+          "external_source": null,
+          "id": "<uuid:27>",
+          "logo_props": {},
+          "name": "Offset",
+          "owned_by_id": "<uuid:1>",
+          "progress_snapshot": {},
+          "project_id": "<uuid:6>",
+          "sort_order": 15535,
+          "start_date": "<datetime Z>",
+          "started_issues": 0,
+          "total_issues": 0,
+          "unstarted_issues": 0,
+          "view_props": {},
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "backlog_issues": 1,
+          "cancelled_issues": 0,
+          "completed_issues": 0,
+          "description": "",
+          "end_date": "<datetime Z>",
+          "external_id": null,
+          "external_source": null,
+          "id": "<uuid:26>",
+          "logo_props": {},
+          "name": "Today",
+          "owned_by_id": "<uuid:7>",
+          "progress_snapshot": {},
+          "project_id": "<uuid:6>",
+          "sort_order": 25535,
+          "start_date": "<datetime Z>",
+          "started_issues": 0,
+          "total_issues": 1,
+          "unstarted_issues": 0,
+          "view_props": {},
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "backlog_issues": 0,
+          "cancelled_issues": 0,
+          "completed_issues": 0,
+          "description": "",
+          "end_date": "<datetime Z>",
+          "external_id": null,
+          "external_source": null,
+          "id": "<uuid:25>",
+          "logo_props": {},
+          "name": "Backlog",
+          "owned_by_id": "<uuid:1>",
+          "progress_snapshot": {},
+          "project_id": "<uuid:6>",
+          "sort_order": 35535,
+          "start_date": "<datetime Z>",
+          "started_issues": 0,
+          "total_issues": 0,
+          "unstarted_issues": 0,
+          "view_props": {},
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "backlog_issues": 0,
+          "cancelled_issues": 0,
+          "completed_issues": 0,
+          "description": "",
+          "end_date": "<datetime Z>",
+          "external_id": null,
+          "external_source": null,
+          "id": "<uuid:24>",
+          "logo_props": {},
+          "name": "Sprint Next",
+          "owned_by_id": "<uuid:7>",
+          "progress_snapshot": {},
+          "project_id": "<uuid:6>",
+          "sort_order": 45535,
+          "start_date": "<datetime Z>",
+          "started_issues": 0,
+          "total_issues": 0,
+          "unstarted_issues": 0,
+          "view_props": {},
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "backlog_issues": 1,
+          "cancelled_issues": 1,
+          "completed_issues": 1,
+          "description": "renamed",
+          "end_date": "<datetime Z>",
+          "external_id": "J-1",
+          "external_source": "jira",
+          "id": "<uuid:23>",
+          "logo_props": {
+            "in_use": "icon"
+          },
+          "name": "Sprint Now!",
+          "owned_by_id": "<uuid:1>",
+          "progress_snapshot": {},
+          "project_id": "<uuid:6>",
+          "sort_order": 55535,
+          "start_date": "<datetime Z>",
+          "started_issues": 0,
+          "total_issues": 4,
+          "unstarted_issues": 1,
+          "view_props": {
+            "x": 1
+          },
+          "workspace_id": "<uuid:2>"
+        }
+      ]
+    },
+    {
+      "actor": "carol",
+      "method": "GET",
+      "path": "/api/workspaces/acme/cycles/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": [
+        {
+          "backlog_issues": 0,
+          "cancelled_issues": 0,
+          "completed_issues": 0,
+          "description": "",
+          "end_date": "<datetime Z>",
+          "external_id": null,
+          "external_source": null,
+          "id": "<uuid:27>",
+          "logo_props": {},
+          "name": "Offset",
+          "owned_by_id": "<uuid:1>",
+          "progress_snapshot": {},
+          "project_id": "<uuid:6>",
+          "sort_order": 15535,
+          "start_date": "<datetime Z>",
+          "started_issues": 0,
+          "total_issues": 0,
+          "unstarted_issues": 0,
+          "view_props": {},
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "backlog_issues": 1,
+          "cancelled_issues": 0,
+          "completed_issues": 0,
+          "description": "",
+          "end_date": "<datetime Z>",
+          "external_id": null,
+          "external_source": null,
+          "id": "<uuid:26>",
+          "logo_props": {},
+          "name": "Today",
+          "owned_by_id": "<uuid:7>",
+          "progress_snapshot": {},
+          "project_id": "<uuid:6>",
+          "sort_order": 25535,
+          "start_date": "<datetime Z>",
+          "started_issues": 0,
+          "total_issues": 1,
+          "unstarted_issues": 0,
+          "view_props": {},
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "backlog_issues": 0,
+          "cancelled_issues": 0,
+          "completed_issues": 0,
+          "description": "",
+          "end_date": "<datetime Z>",
+          "external_id": null,
+          "external_source": null,
+          "id": "<uuid:25>",
+          "logo_props": {},
+          "name": "Backlog",
+          "owned_by_id": "<uuid:1>",
+          "progress_snapshot": {},
+          "project_id": "<uuid:6>",
+          "sort_order": 35535,
+          "start_date": "<datetime Z>",
+          "started_issues": 0,
+          "total_issues": 0,
+          "unstarted_issues": 0,
+          "view_props": {},
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "backlog_issues": 0,
+          "cancelled_issues": 0,
+          "completed_issues": 0,
+          "description": "",
+          "end_date": "<datetime Z>",
+          "external_id": null,
+          "external_source": null,
+          "id": "<uuid:24>",
+          "logo_props": {},
+          "name": "Sprint Next",
+          "owned_by_id": "<uuid:7>",
+          "progress_snapshot": {},
+          "project_id": "<uuid:6>",
+          "sort_order": 45535,
+          "start_date": "<datetime Z>",
+          "started_issues": 0,
+          "total_issues": 0,
+          "unstarted_issues": 0,
+          "view_props": {},
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "backlog_issues": 1,
+          "cancelled_issues": 1,
+          "completed_issues": 1,
+          "description": "renamed",
+          "end_date": "<datetime Z>",
+          "external_id": "J-1",
+          "external_source": "jira",
+          "id": "<uuid:23>",
+          "logo_props": {
+            "in_use": "icon"
+          },
+          "name": "Sprint Now!",
+          "owned_by_id": "<uuid:1>",
+          "progress_snapshot": {},
+          "project_id": "<uuid:6>",
+          "sort_order": 55535,
+          "start_date": "<datetime Z>",
+          "started_issues": 0,
+          "total_issues": 4,
+          "unstarted_issues": 1,
+          "view_props": {
+            "x": 1
+          },
+          "workspace_id": "<uuid:2>"
+        }
+      ]
+    },
+    {
+      "actor": "dan",
+      "method": "GET",
+      "path": "/api/workspaces/acme/cycles/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": []
+    },
+    {
+      "actor": "outsider",
+      "method": "GET",
+      "path": "/api/workspaces/acme/cycles/",
+      "status": 403,
+      "content_type": "application/json",
+      "body": {
+        "detail": "You do not have permission to perform this action."
+      }
+    },
+    {
+      "actor": "db",
+      "method": "QUERY",
+      "path": "cycles",
+      "status": 0,
+      "body": [
+        {
+          "archived": false,
+          "created_by": "alice@example.com",
+          "description": "",
+          "external_id": null,
+          "external_source": null,
+          "identifier": "PL",
+          "live": true,
+          "local_end": "<today+26> 05:30:00",
+          "local_start": "<today+25> 05:30:00",
+          "logo_props": {},
+          "name": "Backlog",
+          "owned_by": "alice@example.com",
+          "progress_snapshot": {},
+          "sort_order": 35535,
+          "timezone": "UTC",
+          "updated_by": "alice@example.com",
+          "version": 1,
+          "view_props": {}
+        },
+        {
+          "archived": false,
+          "created_by": "alice@example.com",
+          "description": "",
+          "external_id": null,
+          "external_source": null,
+          "identifier": "PL",
+          "live": true,
+          "local_end": "<today+31> 23:59:00",
+          "local_start": "<today+31> 00:00:01",
+          "logo_props": {},
+          "name": "Offset",
+          "owned_by": "alice@example.com",
+          "progress_snapshot": {},
+          "sort_order": 15535,
+          "timezone": "UTC",
+          "updated_by": null,
+          "version": 1,
+          "view_props": {}
+        },
+        {
+          "archived": false,
+          "created_by": "bob@example.com",
+          "description": "",
+          "external_id": null,
+          "external_source": null,
+          "identifier": "PL",
+          "live": true,
+          "local_end": "<today+21> 23:59:00",
+          "local_start": "<today+11> 00:00:01",
+          "logo_props": {},
+          "name": "Sprint Next",
+          "owned_by": "bob@example.com",
+          "progress_snapshot": {},
+          "sort_order": 45535,
+          "timezone": "UTC",
+          "updated_by": "bob@example.com",
+          "version": 1,
+          "view_props": {}
+        },
+        {
+          "archived": false,
+          "created_by": "alice@example.com",
+          "description": "renamed",
+          "external_id": "J-1",
+          "external_source": "jira",
+          "identifier": "PL",
+          "live": true,
+          "local_end": "<today+5> 23:59:00",
+          "local_start": "<today-2> 00:00:01",
+          "logo_props": {
+            "in_use": "icon"
+          },
+          "name": "Sprint Now!",
+          "owned_by": "alice@example.com",
+          "progress_snapshot": {},
+          "sort_order": 55535,
+          "timezone": "Asia/Kolkata",
+          "updated_by": "alice@example.com",
+          "version": 3,
+          "view_props": {
+            "x": 1
+          }
+        },
+        {
+          "archived": true,
+          "created_by": "alice@example.com",
+          "description": "",
+          "external_id": null,
+          "external_source": null,
+          "identifier": "PL",
+          "live": true,
+          "local_end": "<today-10> 23:59:00",
+          "local_start": "<today-20> 00:00:01",
+          "logo_props": {},
+          "name": "Sprint Past (done)",
+          "owned_by": "alice@example.com",
+          "progress_snapshot": {},
+          "sort_order": 1,
+          "timezone": "UTC",
+          "updated_by": "alice@example.com",
+          "version": 1,
+          "view_props": {}
+        },
+        {
+          "archived": false,
+          "created_by": "bob@example.com",
+          "description": "",
+          "external_id": null,
+          "external_source": null,
+          "identifier": "PL",
+          "live": true,
+          "local_end": "<today+3> 23:59:00",
+          "local_start": "now",
+          "logo_props": {},
+          "name": "Today",
+          "owned_by": "bob@example.com",
+          "progress_snapshot": {},
+          "sort_order": 25535,
+          "timezone": "UTC",
+          "updated_by": null,
+          "version": 1,
+          "view_props": {}
+        }
+      ]
+    },
+    {
+      "actor": "db",
+      "method": "QUERY",
+      "path": "cycle_issues",
+      "status": 0,
+      "body": [
+        {
+          "created_by": "alice@example.com",
+          "cycle": "Sprint Now!",
+          "issue": "Alpha",
+          "issue_touched": true,
+          "live": true,
+          "updated_by": "alice@example.com"
+        },
+        {
+          "created_by": "alice@example.com",
+          "cycle": "Sprint Now!",
+          "issue": "Bravo",
+          "issue_touched": true,
+          "live": true,
+          "updated_by": "alice@example.com"
+        },
+        {
+          "created_by": "alice@example.com",
+          "cycle": "Sprint Now!",
+          "issue": "Charlie",
+          "issue_touched": true,
+          "live": true,
+          "updated_by": "alice@example.com"
+        },
+        {
+          "created_by": "alice@example.com",
+          "cycle": "Sprint Now!",
+          "issue": "Delta",
+          "issue_touched": true,
+          "live": true,
+          "updated_by": "alice@example.com"
+        },
+        {
+          "created_by": "alice@example.com",
+          "cycle": "Today",
+          "issue": "Echo",
+          "issue_touched": true,
+          "live": true,
+          "updated_by": "alice@example.com"
+        }
+      ]
+    },
+    {
+      "actor": "db",
+      "method": "QUERY",
+      "path": "cycle_user_properties",
+      "status": 0,
+      "body": [
+        {
+          "created_by": "alice@example.com",
+          "cycle": "Sprint Now!",
+          "display_filters": {
+            "layout": "kanban"
+          },
+          "display_properties": "flat",
+          "email": "alice@example.com",
+          "filters": {
+            "priority": [
+              "high"
+            ]
+          },
+          "live": true,
+          "rich_filters": {
+            "and": []
+          },
+          "updated_by": "alice@example.com"
+        },
+        {
+          "created_by": "carol@example.com",
+          "cycle": "Sprint Now!",
+          "display_filters": {
+            "calendar_date_range": "",
+            "group_by": null,
+            "layout": "list",
+            "order_by": "-created_at",
+            "show_empty_groups": true,
+            "sub_issue": true,
+            "type": null
+          },
+          "display_properties": {
+            "assignee": true,
+            "attachment_count": true,
+            "created_on": true,
+            "due_date": true,
+            "estimate": true,
+            "key": true,
+            "labels": true,
+            "link": true,
+            "priority": true,
+            "start_date": true,
+            "state": true,
+            "sub_issue_count": true,
+            "updated_on": true
+          },
+          "email": "carol@example.com",
+          "filters": {
+            "assignees": null,
+            "created_by": null,
+            "labels": null,
+            "priority": null,
+            "start_date": null,
+            "state": null,
+            "state_group": null,
+            "subscriber": null,
+            "target_date": null
+          },
+          "live": true,
+          "rich_filters": {},
+          "updated_by": null
+        }
+      ]
+    },
+    {
+      "actor": "db",
+      "method": "QUERY",
+      "path": "user_favorites",
+      "status": 0,
+      "body": [
+        {
+          "cycle": "Sprint Next",
+          "email": "alice@example.com",
+          "entity_type": "cycle",
+          "live": true
+        },
+        {
+          "cycle": "Sprint Now!",
+          "email": "bob@example.com",
+          "entity_type": "cycle",
+          "live": true
+        }
+      ]
+    },
+    {
+      "actor": "db",
+      "method": "QUERY",
+      "path": "recent_visits",
+      "status": 0,
+      "body": [
+        {
+          "cycle": "Backlog",
+          "email": "alice@example.com",
+          "entity_name": "cycle",
+          "live": true
+        },
+        {
+          "cycle": "Sprint Now!",
+          "email": "alice@example.com",
+          "entity_name": "cycle",
+          "live": true
+        },
+        {
+          "cycle": "Sprint Next",
+          "email": "bob@example.com",
+          "entity_name": "cycle",
+          "live": true
+        }
+      ]
+    },
+    {
+      "actor": "db",
+      "method": "QUERY",
+      "path": "cycle_activities",
+      "status": 0,
+      "body": [
+        {
+          "actor": "alice@example.com",
+          "comment": "added cycle Sprint Now",
+          "created_by": null,
+          "field": "cycles",
+          "has_epoch": true,
+          "issue": "Alpha",
+          "live": true,
+          "new_cycle": "Sprint Now!",
+          "new_value": "Sprint Now",
+          "old_cycle": null,
+          "old_value": "",
+          "verb": "created"
+        },
+        {
+          "actor": "alice@example.com",
+          "comment": "added cycle Sprint Now",
+          "created_by": null,
+          "field": "cycles",
+          "has_epoch": true,
+          "issue": "Bravo",
+          "live": true,
+          "new_cycle": "Sprint Now!",
+          "new_value": "Sprint Now",
+          "old_cycle": null,
+          "old_value": "",
+          "verb": "created"
+        },
+        {
+          "actor": "alice@example.com",
+          "comment": "added cycle Sprint Now",
+          "created_by": null,
+          "field": "cycles",
+          "has_epoch": true,
+          "issue": "Charlie",
+          "live": true,
+          "new_cycle": "Sprint Now!",
+          "new_value": "Sprint Now",
+          "old_cycle": null,
+          "old_value": "",
+          "verb": "created"
+        },
+        {
+          "actor": "alice@example.com",
+          "comment": "added cycle Sprint Now",
+          "created_by": null,
+          "field": "cycles",
+          "has_epoch": true,
+          "issue": "Delta",
+          "live": true,
+          "new_cycle": "Sprint Now!",
+          "new_value": "Sprint Now",
+          "old_cycle": null,
+          "old_value": "",
+          "verb": "created"
+        },
+        {
+          "actor": "alice@example.com",
+          "comment": "added cycle Today",
+          "created_by": null,
+          "field": "cycles",
+          "has_epoch": true,
+          "issue": "Echo",
+          "live": true,
+          "new_cycle": "Today",
+          "new_value": "Today",
+          "old_cycle": null,
+          "old_value": "",
+          "verb": "created"
+        }
+      ]
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/cycles/<uuid:24>/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "assignee_ids": [],
+        "completed_issues": 0,
+        "created_by": "<uuid:7>",
+        "description": "",
+        "end_date": "<datetime +05:30>",
+        "external_id": null,
+        "external_source": null,
+        "id": "<uuid:24>",
+        "is_favorite": true,
+        "logo_props": {},
+        "name": "Sprint Next",
+        "owned_by_id": "<uuid:7>",
+        "progress_snapshot": {},
+        "project_id": "<uuid:6>",
+        "sort_order": 45535,
+        "start_date": "<datetime +05:30>",
+        "status": "UPCOMING",
+        "sub_issues": 0,
+        "total_issues": 0,
+        "version": 1,
+        "view_props": {},
+        "workspace_id": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "GET",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/cycles/<uuid:24>/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "assignee_ids": [],
+        "completed_issues": 0,
+        "created_by": "<uuid:7>",
+        "description": "",
+        "end_date": "<datetime +05:30>",
+        "external_id": null,
+        "external_source": null,
+        "id": "<uuid:24>",
+        "is_favorite": false,
+        "logo_props": {},
+        "name": "Sprint Next",
+        "owned_by_id": "<uuid:7>",
+        "progress_snapshot": {},
+        "project_id": "<uuid:6>",
+        "sort_order": 45535,
+        "start_date": "<datetime +05:30>",
+        "status": "UPCOMING",
+        "sub_issues": 0,
+        "total_issues": 0,
+        "version": 1,
+        "view_props": {},
+        "workspace_id": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "DELETE",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/cycles/<uuid:23>/",
+      "status": 403,
+      "content_type": "application/json",
+      "body": {
+        "error": "You don't have the required permissions."
+      }
+    },
+    {
+      "actor": "carol",
+      "method": "DELETE",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/cycles/<uuid:23>/",
+      "status": 403,
+      "content_type": "application/json",
+      "body": {
+        "error": "You don't have the required permissions."
+      }
+    },
+    {
+      "actor": "dan",
+      "method": "DELETE",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/cycles/<uuid:24>/",
+      "status": 403,
+      "content_type": "application/json",
+      "body": {
+        "error": "You don't have the required permissions."
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "DELETE",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/cycles/<uuid:24>/",
+      "status": 204
+    },
+    {
+      "actor": "alice",
+      "method": "DELETE",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/cycles/<uuid:26>/",
+      "status": 204
+    },
+    {
+      "actor": "alice",
+      "method": "DELETE",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/cycles/<uuid:22>/",
+      "status": 404,
+      "content_type": "application/json",
+      "body": {
+        "error": "The required object does not exist."
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "DELETE",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/cycles/<uuid:26>/",
+      "status": 404,
+      "content_type": "application/json",
+      "body": {
+        "error": "The required object does not exist."
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/cycles/<uuid:26>/",
+      "status": 404,
+      "content_type": "application/json",
+      "body": {
+        "error": "Cycle not found"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/cycles/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": [
+        {
+          "assignee_ids": [],
+          "cancelled_issues": 0,
+          "completed_issues": 0,
+          "created_by": "<uuid:1>",
+          "description": "",
+          "end_date": "<datetime +05:30>",
+          "external_id": null,
+          "external_source": null,
+          "id": "<uuid:27>",
+          "is_favorite": false,
+          "logo_props": {},
+          "name": "Offset",
+          "owned_by_id": "<uuid:1>",
+          "progress_snapshot": {},
+          "project_id": "<uuid:6>",
+          "sort_order": 15535,
+          "start_date": "<datetime +05:30>",
+          "status": "UPCOMING",
+          "total_issues": 0,
+          "version": 1,
+          "view_props": {},
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "assignee_ids": [],
+          "cancelled_issues": 0,
+          "completed_issues": 0,
+          "created_by": "<uuid:1>",
+          "description": "",
+          "end_date": "<datetime +05:30>",
+          "external_id": null,
+          "external_source": null,
+          "id": "<uuid:25>",
+          "is_favorite": false,
+          "logo_props": {},
+          "name": "Backlog",
+          "owned_by_id": "<uuid:1>",
+          "progress_snapshot": {},
+          "project_id": "<uuid:6>",
+          "sort_order": 35535,
+          "start_date": "<datetime +05:30>",
+          "status": "UPCOMING",
+          "total_issues": 0,
+          "version": 1,
+          "view_props": {},
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "assignee_ids": [
+            "<uuid:1>",
+            "<uuid:7>"
+          ],
+          "cancelled_issues": 1,
+          "completed_issues": 1,
+          "created_by": "<uuid:1>",
+          "description": "renamed",
+          "end_date": "<datetime +05:30>",
+          "external_id": "J-1",
+          "external_source": "jira",
+          "id": "<uuid:23>",
+          "is_favorite": false,
+          "logo_props": {
+            "in_use": "icon"
+          },
+          "name": "Sprint Now!",
+          "owned_by_id": "<uuid:1>",
+          "progress_snapshot": {},
+          "project_id": "<uuid:6>",
+          "sort_order": 55535,
+          "start_date": "<datetime +05:30>",
+          "status": "CURRENT",
+          "total_issues": 4,
+          "version": 3,
+          "view_props": {
+            "x": 1
+          },
+          "workspace_id": "<uuid:2>"
+        }
+      ]
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/cycles/<uuid:26>/user-properties/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "created_at": "<datetime Z>",
+        "created_by": "<uuid:1>",
+        "cycle": "<uuid:26>",
+        "deleted_at": null,
+        "display_filters": {
+          "calendar_date_range": "",
+          "group_by": null,
+          "layout": "list",
+          "order_by": "-created_at",
+          "show_empty_groups": true,
+          "sub_issue": true,
+          "type": null
+        },
+        "display_properties": {
+          "assignee": true,
+          "attachment_count": true,
+          "created_on": true,
+          "due_date": true,
+          "estimate": true,
+          "key": true,
+          "labels": true,
+          "link": true,
+          "priority": true,
+          "start_date": true,
+          "state": true,
+          "sub_issue_count": true,
+          "updated_on": true
+        },
+        "filters": {
+          "assignees": null,
+          "created_by": null,
+          "labels": null,
+          "priority": null,
+          "start_date": null,
+          "state": null,
+          "state_group": null,
+          "subscriber": null,
+          "target_date": null
+        },
+        "id": "<uuid:30>",
+        "project": "<uuid:6>",
+        "rich_filters": {},
+        "updated_at": "<datetime Z>",
+        "updated_by": null,
+        "user": "<uuid:1>",
+        "workspace": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/cycles/date-check/",
+      "request": {
+        "end_date": "<today+2>",
+        "start_date": "<today+1>"
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "error": "You have a cycle already on the given dates, if you want to create a draft cycle you can do that by removing dates",
+        "status": false
+      }
+    },
+    {
+      "actor": "db",
+      "method": "QUERY",
+      "path": "cycles",
+      "status": 0,
+      "body": [
+        {
+          "archived": false,
+          "created_by": "alice@example.com",
+          "description": "",
+          "external_id": null,
+          "external_source": null,
+          "identifier": "PL",
+          "live": true,
+          "local_end": "<today+26> 05:30:00",
+          "local_start": "<today+25> 05:30:00",
+          "logo_props": {},
+          "name": "Backlog",
+          "owned_by": "alice@example.com",
+          "progress_snapshot": {},
+          "sort_order": 35535,
+          "timezone": "UTC",
+          "updated_by": "alice@example.com",
+          "version": 1,
+          "view_props": {}
+        },
+        {
+          "archived": false,
+          "created_by": "alice@example.com",
+          "description": "",
+          "external_id": null,
+          "external_source": null,
+          "identifier": "PL",
+          "live": true,
+          "local_end": "<today+31> 23:59:00",
+          "local_start": "<today+31> 00:00:01",
+          "logo_props": {},
+          "name": "Offset",
+          "owned_by": "alice@example.com",
+          "progress_snapshot": {},
+          "sort_order": 15535,
+          "timezone": "UTC",
+          "updated_by": null,
+          "version": 1,
+          "view_props": {}
+        },
+        {
+          "archived": false,
+          "created_by": "bob@example.com",
+          "description": "",
+          "external_id": null,
+          "external_source": null,
+          "identifier": "PL",
+          "live": false,
+          "local_end": "<today+21> 23:59:00",
+          "local_start": "<today+11> 00:00:01",
+          "logo_props": {},
+          "name": "Sprint Next",
+          "owned_by": "bob@example.com",
+          "progress_snapshot": {},
+          "sort_order": 45535,
+          "timezone": "UTC",
+          "updated_by": "bob@example.com",
+          "version": 1,
+          "view_props": {}
+        },
+        {
+          "archived": false,
+          "created_by": "alice@example.com",
+          "description": "renamed",
+          "external_id": "J-1",
+          "external_source": "jira",
+          "identifier": "PL",
+          "live": true,
+          "local_end": "<today+5> 23:59:00",
+          "local_start": "<today-2> 00:00:01",
+          "logo_props": {
+            "in_use": "icon"
+          },
+          "name": "Sprint Now!",
+          "owned_by": "alice@example.com",
+          "progress_snapshot": {},
+          "sort_order": 55535,
+          "timezone": "Asia/Kolkata",
+          "updated_by": "alice@example.com",
+          "version": 3,
+          "view_props": {
+            "x": 1
+          }
+        },
+        {
+          "archived": true,
+          "created_by": "alice@example.com",
+          "description": "",
+          "external_id": null,
+          "external_source": null,
+          "identifier": "PL",
+          "live": true,
+          "local_end": "<today-10> 23:59:00",
+          "local_start": "<today-20> 00:00:01",
+          "logo_props": {},
+          "name": "Sprint Past (done)",
+          "owned_by": "alice@example.com",
+          "progress_snapshot": {},
+          "sort_order": 1,
+          "timezone": "UTC",
+          "updated_by": "alice@example.com",
+          "version": 1,
+          "view_props": {}
+        },
+        {
+          "archived": false,
+          "created_by": "bob@example.com",
+          "description": "",
+          "external_id": null,
+          "external_source": null,
+          "identifier": "PL",
+          "live": false,
+          "local_end": "<today+3> 23:59:00",
+          "local_start": "now",
+          "logo_props": {},
+          "name": "Today",
+          "owned_by": "bob@example.com",
+          "progress_snapshot": {},
+          "sort_order": 25535,
+          "timezone": "UTC",
+          "updated_by": "alice@example.com",
+          "version": 1,
+          "view_props": {}
+        }
+      ]
+    },
+    {
+      "actor": "db",
+      "method": "QUERY",
+      "path": "cycle_issues",
+      "status": 0,
+      "body": [
+        {
+          "created_by": "alice@example.com",
+          "cycle": "Sprint Now!",
+          "issue": "Alpha",
+          "issue_touched": true,
+          "live": true,
+          "updated_by": "alice@example.com"
+        },
+        {
+          "created_by": "alice@example.com",
+          "cycle": "Sprint Now!",
+          "issue": "Bravo",
+          "issue_touched": true,
+          "live": true,
+          "updated_by": "alice@example.com"
+        },
+        {
+          "created_by": "alice@example.com",
+          "cycle": "Sprint Now!",
+          "issue": "Charlie",
+          "issue_touched": true,
+          "live": true,
+          "updated_by": "alice@example.com"
+        },
+        {
+          "created_by": "alice@example.com",
+          "cycle": "Sprint Now!",
+          "issue": "Delta",
+          "issue_touched": true,
+          "live": true,
+          "updated_by": "alice@example.com"
+        },
+        {
+          "created_by": "alice@example.com",
+          "cycle": "Today",
+          "issue": "Echo",
+          "issue_touched": true,
+          "live": false,
+          "updated_by": "alice@example.com"
+        }
+      ]
+    },
+    {
+      "actor": "db",
+      "method": "QUERY",
+      "path": "cycle_user_properties",
+      "status": 0,
+      "body": [
+        {
+          "created_by": "alice@example.com",
+          "cycle": "Sprint Now!",
+          "display_filters": {
+            "layout": "kanban"
+          },
+          "display_properties": "flat",
+          "email": "alice@example.com",
+          "filters": {
+            "priority": [
+              "high"
+            ]
+          },
+          "live": true,
+          "rich_filters": {
+            "and": []
+          },
+          "updated_by": "alice@example.com"
+        },
+        {
+          "created_by": "carol@example.com",
+          "cycle": "Sprint Now!",
+          "display_filters": {
+            "calendar_date_range": "",
+            "group_by": null,
+            "layout": "list",
+            "order_by": "-created_at",
+            "show_empty_groups": true,
+            "sub_issue": true,
+            "type": null
+          },
+          "display_properties": {
+            "assignee": true,
+            "attachment_count": true,
+            "created_on": true,
+            "due_date": true,
+            "estimate": true,
+            "key": true,
+            "labels": true,
+            "link": true,
+            "priority": true,
+            "start_date": true,
+            "state": true,
+            "sub_issue_count": true,
+            "updated_on": true
+          },
+          "email": "carol@example.com",
+          "filters": {
+            "assignees": null,
+            "created_by": null,
+            "labels": null,
+            "priority": null,
+            "start_date": null,
+            "state": null,
+            "state_group": null,
+            "subscriber": null,
+            "target_date": null
+          },
+          "live": true,
+          "rich_filters": {},
+          "updated_by": null
+        },
+        {
+          "created_by": "alice@example.com",
+          "cycle": "Today",
+          "display_filters": {
+            "calendar_date_range": "",
+            "group_by": null,
+            "layout": "list",
+            "order_by": "-created_at",
+            "show_empty_groups": true,
+            "sub_issue": true,
+            "type": null
+          },
+          "display_properties": {
+            "assignee": true,
+            "attachment_count": true,
+            "created_on": true,
+            "due_date": true,
+            "estimate": true,
+            "key": true,
+            "labels": true,
+            "link": true,
+            "priority": true,
+            "start_date": true,
+            "state": true,
+            "sub_issue_count": true,
+            "updated_on": true
+          },
+          "email": "alice@example.com",
+          "filters": {
+            "assignees": null,
+            "created_by": null,
+            "labels": null,
+            "priority": null,
+            "start_date": null,
+            "state": null,
+            "state_group": null,
+            "subscriber": null,
+            "target_date": null
+          },
+          "live": true,
+          "rich_filters": {},
+          "updated_by": null
+        }
+      ]
+    },
+    {
+      "actor": "db",
+      "method": "QUERY",
+      "path": "user_favorites",
+      "status": 0,
+      "body": [
+        {
+          "cycle": "Sprint Next",
+          "email": "alice@example.com",
+          "entity_type": "cycle",
+          "live": true
+        },
+        {
+          "cycle": "Sprint Now!",
+          "email": "bob@example.com",
+          "entity_type": "cycle",
+          "live": true
+        }
+      ]
+    },
+    {
+      "actor": "db",
+      "method": "QUERY",
+      "path": "recent_visits",
+      "status": 0,
+      "body": [
+        {
+          "cycle": "Backlog",
+          "email": "alice@example.com",
+          "entity_name": "cycle",
+          "live": true
+        },
+        {
+          "cycle": "Sprint Now!",
+          "email": "alice@example.com",
+          "entity_name": "cycle",
+          "live": true
+        }
+      ]
+    },
+    {
+      "actor": "db",
+      "method": "QUERY",
+      "path": "cycle_activities",
+      "status": 0,
+      "body": [
+        {
+          "actor": "alice@example.com",
+          "comment": "added cycle Sprint Now",
+          "created_by": null,
+          "field": "cycles",
+          "has_epoch": true,
+          "issue": "Alpha",
+          "live": true,
+          "new_cycle": "Sprint Now!",
+          "new_value": "Sprint Now",
+          "old_cycle": null,
+          "old_value": "",
+          "verb": "created"
+        },
+        {
+          "actor": "alice@example.com",
+          "comment": "added cycle Sprint Now",
+          "created_by": null,
+          "field": "cycles",
+          "has_epoch": true,
+          "issue": "Bravo",
+          "live": true,
+          "new_cycle": "Sprint Now!",
+          "new_value": "Sprint Now",
+          "old_cycle": null,
+          "old_value": "",
+          "verb": "created"
+        },
+        {
+          "actor": "alice@example.com",
+          "comment": "added cycle Sprint Now",
+          "created_by": null,
+          "field": "cycles",
+          "has_epoch": true,
+          "issue": "Charlie",
+          "live": true,
+          "new_cycle": "Sprint Now!",
+          "new_value": "Sprint Now",
+          "old_cycle": null,
+          "old_value": "",
+          "verb": "created"
+        },
+        {
+          "actor": "alice@example.com",
+          "comment": "added cycle Sprint Now",
+          "created_by": null,
+          "field": "cycles",
+          "has_epoch": true,
+          "issue": "Delta",
+          "live": true,
+          "new_cycle": "Sprint Now!",
+          "new_value": "Sprint Now",
+          "old_cycle": null,
+          "old_value": "",
+          "verb": "created"
+        },
+        {
+          "actor": "alice@example.com",
+          "comment": "added cycle Today",
+          "created_by": null,
+          "field": "cycles",
+          "has_epoch": true,
+          "issue": "Echo",
+          "live": true,
+          "new_cycle": "Today",
+          "new_value": "Today",
+          "old_cycle": null,
+          "old_value": "",
+          "verb": "created"
+        },
+        {
+          "actor": "alice@example.com",
+          "comment": "removed this issue from Today",
+          "created_by": null,
+          "field": "cycles",
+          "has_epoch": true,
+          "issue": "Echo",
+          "live": true,
+          "new_cycle": null,
+          "new_value": "",
+          "old_cycle": "Today",
+          "old_value": "Today",
+          "verb": "deleted"
+        }
+      ]
+    }
+  ]
+}

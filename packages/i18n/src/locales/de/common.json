@@ -277,6 +277,8 @@
   "updating": "Wird aktualisiert",
   "create_new_issue": "Neues Arbeitselement erstellen",
   "editor_is_not_ready_to_discard_changes": "Der Editor ist nicht bereit, Änderungen zu verwerfen",
+  "discard_changes_title": "Änderungen verwerfen?",
+  "discard_changes_description": "Es gibt nicht gespeicherte Änderungen. Wenn Sie jetzt schließen, gehen sie verloren.",
   "failed_to_move_issue_to_project": "Verschieben des Arbeitselements in das Projekt fehlgeschlagen",
   "create_more": "Mehr erstellen",
   "add_to_project": "Zum Projekt hinzufügen",

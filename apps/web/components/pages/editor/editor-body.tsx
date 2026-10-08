@@ -4,7 +4,7 @@
  * See the LICENSE file for details.
  */
 
-import { useCallback, useEffect, useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { observer } from "mobx-react";
 // plane imports
 import { LIVE_BASE_PATH, LIVE_BASE_URL } from "@plane/constants";
@@ -13,7 +13,6 @@ import type {
   CollaborationState,
   EditorRefApi,
   EditorTitleRefApi,
-  TAIMenuProps,
   TDisplayConfig,
   TFileHandler,
   TRealtimeConfig,
@@ -28,7 +27,6 @@ import { EditorMentionsRoot } from "@/components/editor/embeds/mentions";
 // hooks
 import { useEditorMention } from "@/hooks/editor";
 import { useMember } from "@/hooks/store/use-member";
-import { useWorkspace } from "@/hooks/store/use-workspace";
 import { useUser } from "@/hooks/store/user";
 import { usePageFilters } from "@/hooks/use-page-filters";
 import { useParseEditorContent } from "@/hooks/use-parse-editor-content";
@@ -44,7 +42,6 @@ import type { TPageInstance } from "@/store/pages/base-page";
 import { PageContentLoader } from "../loaders/page-content-loader";
 import { PageEditorHeaderRoot } from "./header";
 import { PageContentBrowser } from "./summary";
-import { EditorAIMenu } from "./ai/menu";
 
 export type TEditorBodyConfig = {
   fileHandler: TFileHandler;
@@ -126,7 +123,6 @@ export const PageEditorBody = observer(function PageEditorBody(props: Props) {
   const titleEditorRef = useRef<EditorTitleRefApi>(null);
   // store hooks
   const { data: currentUser } = useUser();
-  const { getWorkspaceBySlug } = useWorkspace();
   const { getUserDetails } = useMember();
   // derived values
   const {
@@ -135,7 +131,6 @@ export const PageEditorBody = observer(function PageEditorBody(props: Props) {
     editor: { editorRef, updateAssetsList },
     setSyncingStatus,
   } = page;
-  const workspaceId = getWorkspaceBySlug(workspaceSlug)?.id ?? "";
   // use editor mention
   const { fetchMentions } = useEditorMention({
     enableAdvancedMentions: true,
@@ -183,19 +178,6 @@ export const PageEditorBody = observer(function PageEditorBody(props: Props) {
       isServerDisconnected: false,
     });
   }, [pageId, setSyncingStatus, onCollaborationStateChange]);
-
-  const getAIMenu = useCallback(
-    ({ isOpen, onClose }: TAIMenuProps) => (
-      <EditorAIMenu
-        editorRef={editorRef}
-        isOpen={isOpen}
-        onClose={onClose}
-        workspaceId={workspaceId}
-        workspaceSlug={workspaceSlug}
-      />
-    ),
-    [editorRef, workspaceId, workspaceSlug]
-  );
 
   const serverHandler: TServerHandler = useMemo(
     () => ({
@@ -300,9 +282,6 @@ export const PageEditorBody = observer(function PageEditorBody(props: Props) {
             user={userConfig}
             disabledExtensions={documentEditorExtensions.disabled}
             flaggedExtensions={documentEditorExtensions.flagged}
-            aiHandler={{
-              menu: getAIMenu,
-            }}
             onAssetChange={updateAssetsList}
             extendedEditorProps={extendedEditorProps}
             isFetchingFallbackBinary={isFetchingFallbackBinary}

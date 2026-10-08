@@ -277,6 +277,8 @@
   "updating": "Updating",
   "create_new_issue": "Create new work item",
   "editor_is_not_ready_to_discard_changes": "Editor is not ready to discard changes",
+  "discard_changes_title": "Discard changes?",
+  "discard_changes_description": "You have unsaved changes. If you close now, they will be lost.",
   "failed_to_move_issue_to_project": "Failed to move work item to project",
   "create_more": "Create more",
   "add_to_project": "Add to project",

@@ -46,7 +46,6 @@ type TIssueDefaultPropertiesProps = {
   startDate: string | null;
   targetDate: string | null;
   parentId: string | null;
-  isDraft: boolean;
   handleFormChange: () => void;
   setSelectedParentIssue: (issue: ISearchIssueResponse) => void;
 };
@@ -61,7 +60,6 @@ export const IssueDefaultProperties = observer(function IssueDefaultProperties(p
     startDate,
     targetDate,
     parentId,
-    isDraft,
     handleFormChange,
     setSelectedParentIssue,
   } = props;
@@ -317,7 +315,7 @@ export const IssueDefaultProperties = observer(function IssueDefaultProperties(p
               setSelectedParentIssue(issue);
             }}
             projectId={projectId ?? undefined}
-            issueId={isDraft ? undefined : id}
+            issueId={id}
           />
         )}
       />

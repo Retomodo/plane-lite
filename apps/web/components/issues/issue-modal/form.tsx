@@ -7,7 +7,7 @@
  * See the LICENSE file for details.
  */
 
-import React, { useState, useRef, useEffect } from "react";
+import React, { useRef, useEffect } from "react";
 import { observer } from "mobx-react";
 import { useParams } from "next/navigation";
 import { FormProvider, useForm } from "react-hook-form";
@@ -26,7 +26,7 @@ import {
   DialogTitle,
 } from "@makeplane/propel/components/dialog";
 import { setToast } from "@plane/blocks/toast";
-import type { TIssue, TWorkspaceDraftIssue } from "@plane/types";
+import type { TIssue } from "@plane/types";
 // hooks
 import { Switch } from "@makeplane/propel/components/switch";
 import {
@@ -49,7 +49,6 @@ import { useIssueModal } from "@/hooks/context/use-issue-modal";
 import { useIssueDetail } from "@/hooks/store/use-issue-detail";
 import { useProject } from "@/hooks/store/use-project";
 import { useProjectState } from "@/hooks/store/use-project-state";
-import { useWorkspaceDraftIssues } from "@/hooks/store/workspace-draft";
 import { usePlatformOS } from "@/hooks/use-platform-os";
 import { useProjectIssueProperties } from "@/hooks/use-project-issue-properties";
 
@@ -61,10 +60,8 @@ export interface IssueFormProps {
   onCreateMoreToggleChange: (value: boolean) => void;
   onChange?: (formData: Partial<TIssue> | null) => void;
   onClose: () => void;
-  onSubmit: (values: Partial<TIssue>, is_draft_issue?: boolean) => Promise<void>;
+  onSubmit: (values: Partial<TIssue>) => Promise<void>;
   projectId: string;
-  isDraft: boolean;
-  moveToIssue?: boolean;
   modalTitle?: string;
   primaryButtonText?: {
     default: string;
@@ -72,7 +69,6 @@ export interface IssueFormProps {
   };
   isDuplicateModalOpen: boolean;
   handleDuplicateIssueModal: (isOpen: boolean) => void;
-  handleDraftAndClose?: () => void;
   isProjectSelectionDisabled?: boolean;
   showActionButtons?: boolean;
   dataResetProperties?: any[];
@@ -90,21 +86,15 @@ export const IssueFormRoot = observer(function IssueFormRoot(props: IssueFormPro
     projectId: defaultProjectId,
     isCreateMoreToggleEnabled,
     onCreateMoreToggleChange,
-    isDraft,
-    moveToIssue = false,
-    modalTitle = `${data?.id ? t("update") : isDraft ? t("create_a_draft") : t("create_new_issue")}`,
+    modalTitle = `${data?.id ? t("update") : t("create_new_issue")}`,
     primaryButtonText = {
-      default: `${data?.id ? t("update") : isDraft ? t("save_to_drafts") : t("save")}`,
+      default: `${data?.id ? t("update") : t("save")}`,
       loading: `${data?.id ? t("updating") : t("saving")}`,
     },
     isProjectSelectionDisabled = false,
     showActionButtons = true,
     dataResetProperties = [],
   } = props;
-
-  // states
-  const [gptAssistantModal, setGptAssistantModal] = useState(false);
-  const [isMoving, setIsMoving] = useState<boolean>(false);
 
   // refs
   const editorRef = useRef<EditorRefApi>(null);
@@ -125,11 +115,9 @@ export const IssueFormRoot = observer(function IssueFormRoot(props: IssueFormPro
     setSelectedParentIssue,
     getIssueTypeIdOnProjectChange,
     handlePropertyValuesValidation,
-    handleCreateUpdatePropertyValues,
     handleTemplateChange,
   } = useIssueModal();
   const { isMobile } = usePlatformOS();
-  const { moveIssue } = useWorkspaceDraftIssues();
 
   const {
     issue: { getIssueById },
@@ -209,7 +197,7 @@ export const IssueFormRoot = observer(function IssueFormRoot(props: IssueFormPro
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [workItemTemplateId]);
 
-  const handleFormSubmit = async (formData: Partial<TIssue>, is_draft_issue = false) => {
+  const handleFormSubmit = async (formData: Partial<TIssue>) => {
     // Check if the editor is ready to discard
     if (!editorRef.current?.isEditorReadyToDiscard()) {
       setToast({
@@ -243,9 +231,8 @@ export const IssueFormRoot = observer(function IssueFormRoot(props: IssueFormPro
     // this condition helps to move the issues from draft to project issues
     if (formData.hasOwnProperty("is_draft")) submitData.is_draft = formData.is_draft;
 
-    await onSubmit(submitData, is_draft_issue)
+    await onSubmit(submitData)
       .then(() => {
-        setGptAssistantModal(false);
         if (isCreateMoreToggleEnabled && workItemTemplateId) {
           handleTemplateChange({
             workspaceSlug: workspaceSlug?.toString(),
@@ -266,33 +253,6 @@ export const IssueFormRoot = observer(function IssueFormRoot(props: IssueFormPro
       .catch((error) => {
         console.error(error);
       });
-  };
-
-  const handleMoveToProjects = async () => {
-    if (!data?.id || !data?.project_id || !data) return;
-    setIsMoving(true);
-    try {
-      await handleCreateUpdatePropertyValues({
-        issueId: data.id,
-        issueTypeId: data.type_id,
-        projectId: data.project_id,
-        workspaceSlug: workspaceSlug?.toString(),
-        isDraft: true,
-      });
-
-      await moveIssue(workspaceSlug.toString(), data.id, {
-        ...data,
-        ...getValues(),
-      } as TWorkspaceDraftIssue);
-    } catch {
-      setToast({
-        type: "error",
-        title: "Error!",
-        message: "Failed to move work item to project. Please try again.",
-      });
-    } finally {
-      setIsMoving(false);
-    }
   };
 
   const condition =
@@ -393,21 +353,16 @@ export const IssueFormRoot = observer(function IssueFormRoot(props: IssueFormPro
             <DialogBody tabIndex={0} render={<div className="vertical-scrollbar scrollbar-sm" />}>
               <IssueDescriptionEditor
                 control={control}
-                isDraft={isDraft}
-                issueName={watch("name")}
                 issueId={data?.id}
                 descriptionHtmlData={data?.description_html}
                 editorRef={editorRef}
                 submitBtnRef={submitBtnRef}
-                gptAssistantModal={gptAssistantModal}
                 workspaceSlug={workspaceSlug?.toString()}
                 projectId={projectId}
                 handleFormChange={handleFormChange}
                 handleDescriptionHTMLDataChange={(description_html) =>
                   setValue<"description_html">("description_html", description_html)
                 }
-                setGptAssistantModal={setGptAssistantModal}
-                handleGptAssistantClose={() => reset(getValues())}
                 onAssetUpload={onAssetUpload}
                 onClose={onClose}
               />
@@ -422,7 +377,6 @@ export const IssueFormRoot = observer(function IssueFormRoot(props: IssueFormPro
                 startDate={watch("start_date")}
                 targetDate={watch("target_date")}
                 parentId={watch("parent_id")}
-                isDraft={isDraft}
                 handleFormChange={handleFormChange}
                 setSelectedParentIssue={setSelectedParentIssue}
               />
@@ -460,9 +414,9 @@ export const IssueFormRoot = observer(function IssueFormRoot(props: IssueFormPro
                   label={t("discard")}
                 />
               </div>
-              <div tabIndex={isDraft ? getIndex("submit_button") : getIndex("draft_button")}>
+              <div tabIndex={getIndex("draft_button")}>
                 <Button
-                  variant={moveToIssue ? "secondary" : "primary"}
+                  variant="primary"
                   size="md"
                   stretch="auto"
                   type="submit"
@@ -472,18 +426,6 @@ export const IssueFormRoot = observer(function IssueFormRoot(props: IssueFormPro
                   label={isSubmitting ? primaryButtonText.loading : primaryButtonText.default}
                 />
               </div>
-              {moveToIssue && (
-                <Button
-                  variant="primary"
-                  type="button"
-                  loading={isMoving}
-                  onClick={handleMoveToProjects}
-                  disabled={isMoving}
-                  size="md"
-                  stretch="auto"
-                  label={t("add_to_project")}
-                />
-              )}
             </DialogActions>
           )}
         </form>

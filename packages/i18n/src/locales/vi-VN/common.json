@@ -277,6 +277,8 @@
   "updating": "Đang cập nhật",
   "create_new_issue": "Tạo mục công việc mới",
   "editor_is_not_ready_to_discard_changes": "Trình soạn thảo chưa sẵn sàng để hủy bỏ thay đổi",
+  "discard_changes_title": "Hủy các thay đổi?",
+  "discard_changes_description": "Bạn có các thay đổi chưa được lưu. Nếu đóng bây giờ, các thay đổi này sẽ bị mất.",
   "failed_to_move_issue_to_project": "Không thể di chuyển mục công việc đến dự án",
   "create_more": "Tạo thêm",
   "add_to_project": "Thêm vào dự án",

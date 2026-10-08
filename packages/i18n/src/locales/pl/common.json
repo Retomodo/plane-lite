@@ -277,6 +277,8 @@
   "updating": "Aktualizowanie",
   "create_new_issue": "Utwórz nowy element pracy",
   "editor_is_not_ready_to_discard_changes": "Edytor nie jest gotowy do odrzucenia zmian",
+  "discard_changes_title": "Odrzucić zmiany?",
+  "discard_changes_description": "Istnieją niezapisane zmiany. Zamknięcie teraz spowoduje ich utratę.",
   "failed_to_move_issue_to_project": "Nie udało się przenieść elementu pracy do projektu",
   "create_more": "Utwórz więcej",
   "add_to_project": "Dodaj do projektu",

@@ -15,7 +15,6 @@ import { Tooltip } from "@makeplane/propel/components/tooltip";
 import type { IProjectView } from "@plane/types";
 import { EViewAccess } from "@plane/types";
 import { FavoriteStar } from "@plane/blocks/common";
-import { getPublishViewLink } from "@plane/utils";
 // hooks
 import { useMember } from "@/hooks/store/use-member";
 import { useProjectView } from "@/hooks/store/use-project-view";
@@ -36,7 +35,6 @@ export const ViewListItemAction = observer(function ViewListItemAction(props: Pr
   // states
   const [createUpdateViewModal, setCreateUpdateViewModal] = useState(false);
   const [deleteViewModal, setDeleteViewModal] = useState(false);
-  const [_, setPublishModalOpen] = useState<boolean>(false);
   // router
   const { workspaceSlug, projectId } = useParams();
   // store
@@ -58,8 +56,6 @@ export const ViewListItemAction = observer(function ViewListItemAction(props: Pr
   );
 
   const access = view.access;
-
-  const publishLink = getPublishViewLink(view?.anchor);
 
   // handlers
   const handleAddToFavorites = async () => {
@@ -94,19 +90,6 @@ export const ViewListItemAction = observer(function ViewListItemAction(props: Pr
           {access === EViewAccess.PUBLIC ? <GlobeOutline className="h-4 w-4" /> : <LockOutline className="h-4 w-4" />}
         </Tooltip>
       </div>
-
-      {view?.anchor && publishLink ? (
-        // oxlint-disable-next-line jsx_a11y/click-events-have-key-events oxlint-disable-next-line jsx_a11y/no-static-element-interactions
-        <div
-          className="flex cursor-pointer items-center gap-1.5 rounded-sm bg-success-subtle px-3 py-1.5 text-11 font-medium text-success-primary"
-          onClick={() => setPublishModalOpen(true)}
-        >
-          <span className="size-1.5 flex-shrink-0 rounded-full bg-success-primary" />
-          Live
-        </div>
-      ) : (
-        <></>
-      )}
 
       {/* created by */}
       {<ButtonAvatars showTooltip={false} userIds={ownedByDetails?.id ?? []} />}

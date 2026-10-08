@@ -132,7 +132,11 @@ func (a *API) listMembers(c *httpx.Ctx) error {
 	where := "w.slug = $1 AND wm.deleted_at IS NULL"
 	args := []any{c.Param("slug")}
 	// SearchFilter over member__display_name and member__first_name.
-	for _, term := range drf.SearchTerms(c.Query("search")) {
+	terms, err := drf.SearchTerms(c.Query("search"))
+	if err != nil {
+		return err
+	}
+	for _, term := range terms {
 		args = append(args, "%"+likeEscape(term)+"%")
 		n := len(args)
 		where += " AND (u.display_name ILIKE $" + itoa(n) + " OR u.first_name ILIKE $" + itoa(n) + ")"

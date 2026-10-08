@@ -67,6 +67,10 @@ func New(ctx context.Context, cfg *config.Config, opts Options) (*Server, error)
 	h = httpx.SecurityHeaders(h)
 	h = httpx.CORS(cfg.CORSAllowedOrigins, h)
 	h = httpx.Recover(log, h)
+	h, err = withFrontend(h, cfg.StaticDir, cfg.LiveUpstream)
+	if err != nil {
+		return nil, err
+	}
 	return &Server{handler: h, Pool: pool, Redis: rdb, Jobs: runner}, nil
 }
 

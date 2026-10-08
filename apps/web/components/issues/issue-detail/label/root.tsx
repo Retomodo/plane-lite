@@ -14,7 +14,6 @@ import { EIssueServiceType } from "@plane/types";
 import { LabelSelect } from "@/components/dropdowns/label/label-select";
 // hooks
 import { useIssueDetail } from "@/hooks/store/use-issue-detail";
-import { useProjectInbox } from "@/hooks/store/use-project-inbox";
 
 // stable fallback so children aren't re-rendered by a fresh [] identity each render
 const EMPTY_LABEL_IDS: string[] = [];
@@ -24,7 +23,6 @@ export type TIssueLabel = {
   projectId: string;
   issueId: string;
   disabled: boolean;
-  isInboxIssue?: boolean;
   onLabelUpdate?: (labelIds: string[]) => void;
   issueServiceType?: TIssueServiceType;
 };
@@ -39,7 +37,6 @@ export const IssueLabel = observer(function IssueLabel(props: TIssueLabel) {
     projectId,
     issueId,
     disabled = false,
-    isInboxIssue = false,
     onLabelUpdate,
     issueServiceType = EIssueServiceType.ISSUES,
   } = props;
@@ -49,9 +46,7 @@ export const IssueLabel = observer(function IssueLabel(props: TIssueLabel) {
     updateIssue,
     issue: { getIssueById },
   } = useIssueDetail(issueServiceType);
-  const { getIssueInboxByIssueId } = useProjectInbox();
-
-  const issue = isInboxIssue ? getIssueInboxByIssueId(issueId)?.issue : getIssueById(issueId);
+  const issue = getIssueById(issueId);
 
   const labelOperations: TLabelOperations = useMemo(
     () => ({

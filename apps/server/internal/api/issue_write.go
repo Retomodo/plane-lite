@@ -186,8 +186,10 @@ func (a *API) validateIssue(ctx context.Context, data *drf.Data, loc *time.Locat
 		in.assigneeIDs = &ids
 	}
 	if in.labelIDs != nil && len(*in.labelIDs) > 0 {
-		rows, err := a.db.Query(ctx, `SELECT id FROM labels WHERE project_id = $1 AND id = ANY($2) AND deleted_at IS NULL`,
-			projectID, *in.labelIDs)
+		// Label's Meta ordering (-created_at) orders the validated ids, and
+		// so the rows bulk_create inserts.
+		rows, err := a.db.Query(ctx, `SELECT id FROM labels WHERE project_id = $1 AND id = ANY($2) AND deleted_at IS NULL
+			ORDER BY created_at DESC`, projectID, *in.labelIDs)
 		if err != nil {
 			return nil, nil, err
 		}

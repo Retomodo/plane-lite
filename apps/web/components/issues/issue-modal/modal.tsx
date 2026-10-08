@@ -19,11 +19,8 @@ export interface IssuesModalProps {
   onClose: () => void;
   beforeFormSubmit?: () => Promise<void>;
   onSubmit?: (res: TIssue) => Promise<void>;
-  withDraftIssueWrapper?: boolean;
   storeType?: EIssuesStoreType;
-  isDraft?: boolean;
   fetchIssueDetails?: boolean;
-  moveToIssue?: boolean;
   modalTitle?: string;
   primaryButtonText?: {
     default: string;

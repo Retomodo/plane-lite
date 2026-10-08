@@ -40,7 +40,7 @@ export const usePersonalNavigationPreferences = () => {
       return DEFAULT_PERSONAL_PREFERENCES;
     }
 
-    // Extract personal items from the store (stickies, your_work, drafts)
+    // Extract personal items from the store (stickies, your_work)
     const personalItems: Record<TPersonalNavigationItemKey, { enabled: boolean; sort_order: number }> = {
       stickies: {
         enabled: storePreferences.stickies?.is_pinned ?? DEFAULT_PERSONAL_PREFERENCES.items.stickies.enabled,
@@ -49,10 +49,6 @@ export const usePersonalNavigationPreferences = () => {
       your_work: {
         enabled: storePreferences.your_work?.is_pinned ?? DEFAULT_PERSONAL_PREFERENCES.items.your_work.enabled,
         sort_order: storePreferences.your_work?.sort_order ?? DEFAULT_PERSONAL_PREFERENCES.items.your_work.sort_order,
-      },
-      drafts: {
-        enabled: storePreferences.drafts?.is_pinned ?? DEFAULT_PERSONAL_PREFERENCES.items.drafts.enabled,
-        sort_order: storePreferences.drafts?.sort_order ?? DEFAULT_PERSONAL_PREFERENCES.items.drafts.sort_order,
       },
     };
 

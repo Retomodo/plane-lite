@@ -17,7 +17,6 @@ import { useProject } from "@/hooks/store/use-project";
 import { useUserPermissions } from "@/hooks/store/user";
 // local imports
 import { LeaveProjectModal } from "../project/leave-project-modal";
-import { PublishProjectModal } from "../project/publish-project/modal";
 import { ProjectActionsMenu } from "./project-actions-menu";
 import { ProjectHeader } from "./project-header";
 import { TabNavigationOverflowMenu } from "./tab-navigation-overflow-menu";
@@ -93,14 +92,7 @@ export const TabNavigationRoot = observer(function TabNavigationRoot(props: TTab
   });
 
   // Project actions hook
-  const {
-    publishModalOpen,
-    leaveProjectModalOpen,
-    handleLeaveProject,
-    handleCopyText,
-    handlePublishModal,
-    handleLeaveProjectModal,
-  } = useProjectActions({
+  const { leaveProjectModalOpen, handleLeaveProject, handleCopyText, handleLeaveProjectModal } = useProjectActions({
     workspaceSlug,
     projectId,
     activeItem,
@@ -152,13 +144,6 @@ export const TabNavigationRoot = observer(function TabNavigationRoot(props: TTab
   if (!project) return null;
 
   // Permission checks
-  const isAdmin = allowPermissions(
-    [EUserPermissions.ADMIN],
-    EUserPermissionsLevel.PROJECT,
-    workspaceSlug.toString(),
-    project?.id
-  );
-
   const isAuthorized = allowPermissions(
     [EUserPermissions.ADMIN, EUserPermissions.MEMBER],
     EUserPermissionsLevel.PROJECT,
@@ -168,7 +153,6 @@ export const TabNavigationRoot = observer(function TabNavigationRoot(props: TTab
 
   return (
     <>
-      <PublishProjectModal isOpen={publishModalOpen} projectId={projectId} onClose={() => handlePublishModal(false)} />
       <LeaveProjectModal
         project={project}
         isOpen={leaveProjectModalOpen}
@@ -183,11 +167,9 @@ export const TabNavigationRoot = observer(function TabNavigationRoot(props: TTab
             <ProjectActionsMenu
               workspaceSlug={workspaceSlug}
               project={project}
-              isAdmin={isAdmin}
               isAuthorized={isAuthorized}
               onCopyText={handleCopyText}
               onLeaveProject={handleLeaveProject}
-              onPublishModal={() => handlePublishModal(true)}
             />
           </div>
         </div>

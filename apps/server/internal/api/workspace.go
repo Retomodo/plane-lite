@@ -94,7 +94,11 @@ func (a *API) parseWorkspaceFilter(c *httpx.Ctx, args ...any) (*workspaceFilter,
 		f.args = append(f.args, id)
 		f.where = append(f.where, fmt.Sprintf("w.owner_id = $%d", len(f.args)))
 	}
-	for _, term := range drf.SearchTerms(q.Get("search")) {
+	terms, err := drf.SearchTerms(q.Get("search"))
+	if err != nil {
+		return nil, err
+	}
+	for _, term := range terms {
 		f.args = append(f.args, "%"+likeEscape(term)+"%")
 		f.where = append(f.where, fmt.Sprintf("w.name ILIKE $%d", len(f.args)))
 	}

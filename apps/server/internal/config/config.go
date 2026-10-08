@@ -51,9 +51,41 @@ type Config struct {
 
 	Email Email
 
+	// StaticDir and LiveUpstream make the server the single container's
+	// front door: the web app's static build is served from StaticDir and
+	// /live/ is proxied to apps/live. Both are optional.
+	StaticDir    string
+	LiveUpstream string
+
 	FileSizeLimit        int64
 	AppVersion           string
 	InstanceChangelogURL string
+
+	// HardDeleteAfterDays is how long soft-deleted rows are kept before the
+	// nightly hard delete removes them.
+	HardDeleteAfterDays int
+	// EmailLogRetentionDays is how long sent notification-email logs are
+	// kept.
+	EmailLogRetentionDays int
+
+	// Storage is the S3-compatible bucket for file assets (Cloudflare R2 in
+	// production). Without it the server runs, but uploads and downloads
+	// fail.
+	Storage Storage
+	// UnuploadedAssetDeleteDays is the age after which assets whose upload
+	// never completed are deleted.
+	UnuploadedAssetDeleteDays int
+}
+
+// Storage holds the AWS_* settings, named as Django names them.
+type Storage struct {
+	Endpoint        string // AWS_S3_ENDPOINT_URL
+	AccessKeyID     string // AWS_ACCESS_KEY_ID
+	SecretAccessKey string // AWS_SECRET_ACCESS_KEY
+	Bucket          string // AWS_S3_BUCKET_NAME
+	Region          string // AWS_REGION
+	// SignedURLExpiration is the lifetime of presigned URLs, in seconds.
+	SignedURLExpiration int
 }
 
 type Email struct {
@@ -125,9 +157,25 @@ func Load() (*Config, error) {
 			From:     get("EMAIL_FROM", "Team Plane <team@mailer.plane.so>"),
 		},
 
+		StaticDir:    os.Getenv("STATIC_DIR"),
+		LiveUpstream: os.Getenv("LIVE_UPSTREAM"),
+
 		FileSizeLimit:        int64(getInt("FILE_SIZE_LIMIT", 5242880)),
 		AppVersion:           get("APP_VERSION", "v1.4.2"),
 		InstanceChangelogURL: get("INSTANCE_CHANGELOG_URL", "https://sites.plane.so/pages/691ef037bcfe416a902e48cb55f59891/"),
+
+		HardDeleteAfterDays:   getInt("HARD_DELETE_AFTER_DAYS", 60),
+		EmailLogRetentionDays: retentionDays("EMAIL_LOG_RETENTION_DAYS", 7),
+
+		Storage: Storage{
+			Endpoint:            os.Getenv("AWS_S3_ENDPOINT_URL"),
+			AccessKeyID:         os.Getenv("AWS_ACCESS_KEY_ID"),
+			SecretAccessKey:     os.Getenv("AWS_SECRET_ACCESS_KEY"),
+			Bucket:              get("AWS_S3_BUCKET_NAME", "uploads"),
+			Region:              get("AWS_REGION", "auto"),
+			SignedURLExpiration: getInt("SIGNED_URL_EXPIRATION", 3600),
+		},
+		UnuploadedAssetDeleteDays: getInt("UNUPLOADED_ASSET_DELETE_DAYS", 7),
 	}
 
 	var errs []error
@@ -177,6 +225,15 @@ func getInt(key string, def int) int {
 		return def
 	}
 	return n
+}
+
+// retentionDays ports settings._retention_days: a negative window would
+// select rows with a future cutoff, so it falls back to the default.
+func retentionDays(key string, def int) int {
+	if n := getInt(key, def); n >= 0 {
+		return n
+	}
+	return def
 }
 
 func splitList(s string) []string {

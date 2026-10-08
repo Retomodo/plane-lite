@@ -20,6 +20,7 @@ import (
 
 	"plane-lite/server/internal/config"
 	"plane-lite/server/internal/db"
+	"plane-lite/server/internal/jobs"
 	"plane-lite/server/internal/server"
 )
 
@@ -29,6 +30,7 @@ type target struct {
 	baseURL string
 	pool    *pgxpool.Pool
 	rdb     *redis.Client
+	jobs    *jobs.Runner // the Go server's, when verifying
 }
 
 var (
@@ -88,16 +90,19 @@ func setup(ctx context.Context) (*target, error) {
 		return nil, err
 	}
 	cfg := &config.Config{
-		SecretKey:            SecretKey,
-		DatabaseURL:          e.databaseURL,
-		DatabaseMaxConns:     8,
-		RedisURL:             e.redisURL,
-		RedisKeyPrefix:       "plane:",
-		WebURL:               WebURL,
-		AppBaseURL:           AppBaseURL,
-		AdminBaseURL:         AdminBaseURL,
-		SpaceBaseURL:         SpaceBaseURL,
-		LiveBaseURL:          LiveBaseURL,
+		SecretKey:        SecretKey,
+		DatabaseURL:      e.databaseURL,
+		DatabaseMaxConns: 8,
+		RedisURL:         e.redisURL,
+		RedisKeyPrefix:   "plane:",
+		WebURL:           WebURL,
+		AppBaseURL:       AppBaseURL,
+		AdminBaseURL:     AdminBaseURL,
+		SpaceBaseURL:     SpaceBaseURL,
+		// Only page duplication calls apps/live. Inside its container the
+		// reference's localhost:3100 refuses connections; a port that always
+		// refuses keeps Go the same even when a dev live server runs here.
+		LiveBaseURL:          "http://127.0.0.1:1",
 		CORSAllowedOrigins:   []string{AppBaseURL},
 		SessionCookieName:    "session-id",
 		SessionCookieAge:     604800,
@@ -113,12 +118,24 @@ func setup(ctx context.Context) (*target, error) {
 		AppVersion:              AppVersion,
 		InstanceChangelogURL:    "https://sites.plane.so/pages/691ef037bcfe416a902e48cb55f59891/",
 		AuthenticationRateLimit: "10/minute",
+		HardDeleteAfterDays:     60, // the reference's defaults
+		EmailLogRetentionDays:   7,
+		Storage: config.Storage{
+			Endpoint:            e.s3.endpoint,
+			AccessKeyID:         e.s3.accessKey,
+			SecretAccessKey:     e.s3.secretKey,
+			Bucket:              e.s3.bucket,
+			Region:              e.s3.region,
+			SignedURLExpiration: 3600,
+		},
+		UnuploadedAssetDeleteDays: 7,
 	}
 	srv, err := server.New(ctx, cfg, server.Options{InlineJobs: true})
 	if err != nil {
 		return nil, err
 	}
 	t.baseURL = httptest.NewServer(srv).URL
+	t.jobs = srv.Jobs
 	return t, nil
 }
 

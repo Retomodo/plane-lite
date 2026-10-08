@@ -45,6 +45,32 @@ services:
       - "127.0.0.1:${PLANE_DEV_SMTP_PORT:-51025}:1025"
       - "127.0.0.1:${PLANE_DEV_MAILPIT_PORT:-58025}:8025"
 
+  # Optional local S3 stand-in, only for recording and testing the file
+  # asset scenarios (production stores assets in Cloudflare R2, configured
+  # through AWS_*). Off by default: start it with --profile s3
+  # (PLANE_DEV_S3=1 scripts/devstack.sh N up). The bucket is created at
+  # startup (MINIO_DEFAULT_BUCKETS). Upstream MinIO no longer publishes
+  # images; Bitnami's frozen legacy build is upstream MinIO with that
+  # bucket bootstrap.
+  minio:
+    profiles: ["s3"]
+    image: bitnamilegacy/minio:2025.7.23-debian-12-r5
+    environment:
+      MINIO_ROOT_USER: plane-minio
+      MINIO_ROOT_PASSWORD: plane-minio-secret
+      MINIO_DEFAULT_BUCKETS: uploads
+    tmpfs:
+      - /bitnami/minio/data:mode=1777
+    ports:
+      - "127.0.0.1:${PLANE_DEV_MINIO_PORT:-59000}:9000"
+    # Healthy once startup has created the bucket (anonymous requests get
+    # 403 whether or not it exists, so the check signs in).
+    healthcheck:
+      test: ["CMD-SHELL", "mc alias set health http://localhost:9000 \"$$MINIO_ROOT_USER\" \"$$MINIO_ROOT_PASSWORD\" >/dev/null && mc stat health/uploads >/dev/null"]
+      interval: 2s
+      timeout: 3s
+      retries: 30
+
   # Django reference implementation, used only to record contract goldens.
   reference:
     profiles: ["reference"]
@@ -77,7 +103,16 @@ services:
       LIVE_BASE_URL: http://localhost:3100
       CORS_ALLOWED_ORIGINS: http://localhost:3000
       APP_VERSION: v1.4.2
+      # Storage on the optional minio service (profile s3), used only when
+      # recording the asset scenarios. USE_MINIO stays off: with it on, Django
+      # signs URLs for the request's own host (a proxy in front of MinIO),
+      # which the container can't reach for copy_object.
       USE_MINIO: "0"
+      AWS_S3_ENDPOINT_URL: http://minio:9000
+      AWS_ACCESS_KEY_ID: plane-minio
+      AWS_SECRET_ACCESS_KEY: plane-minio-secret
+      AWS_S3_BUCKET_NAME: uploads
+      AWS_REGION: us-east-1
       FILE_SIZE_LIMIT: "5242880"
     command: >
       sh -c "python manage.py migrate --noinput &&

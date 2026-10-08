@@ -4,7 +4,7 @@
  * See the LICENSE file for details.
  */
 
-import { useCallback, useState } from "react";
+import { useCallback } from "react";
 import { observer } from "mobx-react";
 import { useParams } from "next/navigation";
 // plane imports
@@ -16,11 +16,9 @@ import { EIssuesStoreType } from "@plane/types";
 import { Icon } from "@makeplane/propel/components/icon";
 import { Menu, MenuContent, MenuItem, MenuTrigger } from "@makeplane/propel/components/menu";
 // components
-import { WorkItemsModal } from "@/components/analytics/work-items/modal";
 import { DisplayFiltersSelection, FiltersDropdown } from "@/components/issues/issue-layouts/filters";
 import { IssueLayoutIcon } from "@/components/issues/issue-layouts/layout-icon";
 // hooks
-import { useCycle } from "@/hooks/store/use-cycle";
 import { useIssues } from "@/hooks/store/use-issues";
 import { useProject } from "@/hooks/store/use-project";
 
@@ -33,19 +31,15 @@ const SUPPORTED_LAYOUTS = [
 export const CycleIssuesMobileHeader = observer(function CycleIssuesMobileHeader() {
   // router
   const { workspaceSlug, projectId, cycleId } = useParams();
-  // states
-  const [analyticsModal, setAnalyticsModal] = useState(false);
   // plane hooks
   const { t } = useTranslation();
   // store hooks
   const { currentProjectDetails } = useProject();
-  const { getCycleById } = useCycle();
   const {
     issuesFilter: { issueFilters, updateFilters },
   } = useIssues(EIssuesStoreType.CYCLE);
   // derived values
   const activeLayout = issueFilters?.displayFilters?.layout;
-  const cycleDetails = cycleId ? getCycleById(cycleId.toString()) : undefined;
 
   const handleLayoutChange = useCallback(
     (layout: EIssueLayoutTypes) => {
@@ -91,12 +85,6 @@ export const CycleIssuesMobileHeader = observer(function CycleIssuesMobileHeader
 
   return (
     <>
-      <WorkItemsModal
-        projectDetails={currentProjectDetails}
-        isOpen={analyticsModal}
-        onClose={() => setAnalyticsModal(false)}
-        cycleDetails={cycleDetails ?? undefined}
-      />
       <div className="flex justify-evenly border-b border-subtle bg-surface-1 py-2 md:hidden">
         <Menu>
           <MenuTrigger
@@ -142,14 +130,6 @@ export const CycleIssuesMobileHeader = observer(function CycleIssuesMobileHeader
             />
           </FiltersDropdown>
         </div>
-
-        <button
-          type="button"
-          onClick={() => setAnalyticsModal(true)}
-          className="flex flex-grow justify-center border-l border-subtle text-13 text-secondary"
-        >
-          {t("common.analytics")}
-        </button>
       </div>
     </>
   );

@@ -9,8 +9,6 @@ import type {
   GithubRepositoriesResponse,
   IProjectUserPropertiesResponse,
   ISearchIssueResponse,
-  TProjectAnalyticsCount,
-  TProjectAnalyticsCountParams,
   TProjectIssuesSearchParams,
 } from "@plane/types";
 // helpers
@@ -65,19 +63,6 @@ export class ProjectService extends APIService {
       .then((response) => response?.data)
       .catch((error) => {
         throw error?.response;
-      });
-  }
-
-  async getProjectAnalyticsCount(
-    workspaceSlug: string,
-    params?: TProjectAnalyticsCountParams
-  ): Promise<TProjectAnalyticsCount[]> {
-    return this.get(`/api/workspaces/${workspaceSlug}/project-stats/`, {
-      params,
-    })
-      .then((response) => response?.data)
-      .catch((error) => {
-        throw error?.response?.data;
       });
   }
 

@@ -4,13 +4,11 @@
  * See the LICENSE file for details.
  */
 
-import { GOD_MODE_URL } from "@plane/constants";
 // assets
 import GradientLogo from "@/app/assets/auth/gradient-logo.webp?url";
 import GradientBgLogo from "@/app/assets/auth/gradient-bg-logo.webp?url";
 import DefaultLayout from "@/layouts/default-layout";
 import { PlaneLockup } from "@plane/blocks/icons";
-import { Button } from "@makeplane/propel/components/button";
 
 export function InstanceNotReady() {
   return (
@@ -40,19 +38,10 @@ export function InstanceNotReady() {
               <div className="flex max-w-124 flex-col items-center gap-3">
                 <h1 className="text-h2-semibold text-primary">Welcome to Plane</h1>
                 <p className="text-center text-body-md-regular text-secondary">
-                  Set up your instance and create your first workspace to begin managing projects and work.
+                  This instance has not finished setting up yet. It is configured through the server environment; check
+                  the server configuration and reload this page.
                 </p>
               </div>
-            </div>
-            <div className="w-72">
-              <Button
-                variant="primary"
-                size="lg"
-                stretch="full"
-                nativeButton={false}
-                render={<a href={GOD_MODE_URL}>Get started</a>}
-                label="Get started"
-              />
             </div>
           </div>
         </div>

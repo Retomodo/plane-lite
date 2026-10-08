@@ -277,6 +277,8 @@
   "updating": "Bijwerken",
   "create_new_issue": "Nieuw werkitem aanmaken",
   "editor_is_not_ready_to_discard_changes": "Editor is niet klaar om wijzigingen te verwerpen",
+  "discard_changes_title": "Wijzigingen negeren?",
+  "discard_changes_description": "U hebt niet-opgeslagen wijzigingen. Als u nu sluit, gaan ze verloren.",
   "failed_to_move_issue_to_project": "Verplaatsen van werkitem naar project is mislukt",
   "create_more": "Meer aanmaken",
   "add_to_project": "Toevoegen aan project",

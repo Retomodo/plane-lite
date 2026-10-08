@@ -277,6 +277,8 @@
   "updating": "Оновлення",
   "create_new_issue": "Створити нову робочу одиницю",
   "editor_is_not_ready_to_discard_changes": "Редактор ще не готовий скасувати зміни",
+  "discard_changes_title": "Скасувати зміни?",
+  "discard_changes_description": "У вас є незбережені зміни. Якщо закрити зараз, їх буде втрачено.",
   "failed_to_move_issue_to_project": "Не вдалося перемістити робочу одиницю до проєкту",
   "create_more": "Створити ще",
   "add_to_project": "Додати до проєкту",

@@ -155,6 +155,9 @@ type issueList struct {
 	// workspace marks a workspace-level list (the profile issues page),
 	// whose issue_group_values gets no project_id.
 	workspace bool
+	// idArraySQL replaces the assignee_ids/label_ids/module_ids expressions
+	// (a view that prefetches the relations instead of aggregating them).
+	idArraySQL map[string]string
 }
 
 const issueFrom = ` FROM issues i LEFT JOIN states s ON s.id = i.state_id JOIN projects p ON p.id = i.project_id
@@ -247,6 +250,9 @@ func (l *issueList) values() []valueCol {
 		{"created_by", "i.created_by_id"}, {"updated_by", "i.updated_by_id"}, {"attachment_count", attachments},
 		{"link_count", links}, {"is_draft", "i.is_draft"}, {"archived_at", "i.archived_at"}, {"state__group", `s."group"`}}
 	arrays := map[string]string{"assignee_ids": issueAssigneeIDsSQL, "label_ids": issueLabelIDsSQL, "module_ids": issueModuleIDsSQL}
+	if l.idArraySQL != nil {
+		arrays = l.idArraySQL
+	}
 	var grouped []valueCol
 	for _, name := range []string{"assignee_ids", "label_ids", "module_ids"} {
 		replaced := ""

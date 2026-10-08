@@ -10,7 +10,7 @@ import { computedFn } from "mobx-utils";
 import type { TIssue, TIssueServiceType } from "@plane/types";
 import { EIssueServiceType } from "@plane/types";
 // services
-import { IssueArchiveService, WorkspaceDraftService, IssueService } from "@/services/issue";
+import { IssueArchiveService, IssueService } from "@/services/issue";
 // types
 import type { IIssueDetail } from "./root.store";
 
@@ -50,7 +50,6 @@ export class IssueStore implements IIssueStore {
   issueService;
   epicService;
   issueArchiveService;
-  draftWorkItemService;
 
   constructor(rootStore: IIssueDetail, serviceType: TIssueServiceType) {
     makeObservable(this, {
@@ -63,7 +62,6 @@ export class IssueStore implements IIssueStore {
     this.issueService = new IssueService(serviceType);
     this.epicService = new IssueService(EIssueServiceType.EPICS);
     this.issueArchiveService = new IssueArchiveService(serviceType);
-    this.draftWorkItemService = new WorkspaceDraftService();
   }
 
   getIsFetchingIssueDetails = computedFn((issueId: string | undefined) => {

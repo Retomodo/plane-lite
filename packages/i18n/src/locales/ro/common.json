@@ -277,6 +277,8 @@
   "updating": "Se actualizează",
   "create_new_issue": "Creează activate nouă",
   "editor_is_not_ready_to_discard_changes": "Editorul nu este pregătit să renunțe la modificări",
+  "discard_changes_title": "Renunțați la modificări?",
+  "discard_changes_description": "Aveți modificări nesalvate. Dacă închideți acum, acestea se vor pierde.",
   "failed_to_move_issue_to_project": "Nu s-a putut muta activitatea în proiect",
   "create_more": "Creează mai multe",
   "add_to_project": "Adaugă la proiect",

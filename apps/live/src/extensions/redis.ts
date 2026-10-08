@@ -9,6 +9,7 @@ import { OutgoingMessage } from "@hocuspocus/server";
 import type { onConfigurePayload } from "@hocuspocus/server";
 import { logger } from "@plane/logger";
 import { AppError } from "@/lib/errors";
+import { env } from "@/env";
 import { redisManager } from "@/redis";
 import { AdminCommand } from "@/types/admin-commands";
 import type { AdminCommandData, AdminCommandHandler } from "@/types/admin-commands";
@@ -23,10 +24,10 @@ const getRedisClient = () => {
 
 export class Redis extends HocuspocusRedis {
   private adminHandlers = new Map<AdminCommand, AdminCommandHandler>();
-  private readonly ADMIN_CHANNEL = "hocuspocus:admin";
+  private readonly ADMIN_CHANNEL = `${env.REDIS_KEY_PREFIX}hocuspocus:admin`;
 
   constructor() {
-    super({ redis: getRedisClient() });
+    super({ redis: getRedisClient(), prefix: `${env.REDIS_KEY_PREFIX}hocuspocus` });
   }
 
   async onConfigure(payload: onConfigurePayload) {

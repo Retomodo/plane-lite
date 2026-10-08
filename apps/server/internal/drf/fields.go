@@ -547,6 +547,11 @@ func (v *Validator) PK(name string, allowNull bool, exists func(uuid.UUID) (bool
 	if !ok {
 		return nil, false, nil
 	}
+	// RelatedField.run_validation forces empty strings to None first (the
+	// web sends state_id "" when no state is picked).
+	if val.IsString() && val.Str() == "" {
+		val = Value{raw: jsontext.Value("null")}
+	}
 	if val.IsNull() {
 		if !allowNull {
 			v.Add(name, msgNull)
@@ -578,13 +583,6 @@ func (v *Validator) PK(name string, allowNull bool, exists func(uuid.UUID) (bool
 
 // Decode unmarshals a validated JSON value.
 func Decode(raw jsontext.Value, out any) error { return json.Unmarshal(raw, out) }
-
-// SearchTerms splits ?search= the way DRF's SearchFilter does: NUL bytes
-// dropped, commas and whitespace separate terms.
-func SearchTerms(q string) []string {
-	q = strings.ReplaceAll(strings.ReplaceAll(q, "\x00", ""), ",", " ")
-	return strings.FieldsFunc(q, pyIsSpace)
-}
 
 // Float validates a non-nullable FloatField: float(data), with strings over
 // 1000 characters refused first.

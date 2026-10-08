@@ -4,11 +4,11 @@
  * See the LICENSE file for details.
  */
 
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useRef } from "react";
 import { observer } from "mobx-react";
 import { useParams } from "next/navigation";
 // icons
-import { BarOutline, CyclesOutline, PreferencesOutline, RightSidePaneOutline } from "@makeplane/propel/icons";
+import { CyclesOutline, PreferencesOutline, RightSidePaneOutline } from "@makeplane/propel/icons";
 // plane imports
 import {
   CYCLE_STATUS,
@@ -28,7 +28,6 @@ import { EIssuesStoreType, EIssueLayoutTypes } from "@plane/types";
 import { Breadcrumbs } from "@plane/blocks/breadcrumb";
 import { Header } from "@plane/blocks/layout";
 // components
-import { WorkItemsModal } from "@/components/analytics/work-items/modal";
 import { BreadcrumbLink } from "@/components/common/breadcrumb-link";
 import { CycleQuickActions } from "@/components/cycles/quick-actions";
 import { CycleSelect } from "@/components/dropdowns/cycle/cycle-select";
@@ -57,8 +56,6 @@ const ALL_CYCLE_STATUSES: TCycleGroups[] = CYCLE_STATUS.map((status) => status.v
 export const CycleIssuesHeader = observer(function CycleIssuesHeader() {
   // refs
   const parentRef = useRef<HTMLDivElement>(null);
-  // states
-  const [analyticsModal, setAnalyticsModal] = useState(false);
   // router
   const router = useAppRouter();
   const { workspaceSlug, projectId, cycleId } = useParams();
@@ -121,12 +118,6 @@ export const CycleIssuesHeader = observer(function CycleIssuesHeader() {
 
   return (
     <>
-      <WorkItemsModal
-        projectDetails={currentProjectDetails}
-        isOpen={analyticsModal}
-        onClose={() => setAnalyticsModal(false)}
-        cycleDetails={cycleDetails ?? undefined}
-      />
       <Header>
         <Header.LeftItem>
           <div className="flex items-center gap-2">
@@ -226,24 +217,6 @@ export const CycleIssuesHeader = observer(function CycleIssuesHeader() {
 
             {canUserCreateIssue && (
               <>
-                <span className="hidden @4xl:flex">
-                  <Button
-                    variant="secondary"
-                    size="md"
-                    stretch="auto"
-                    label="Analytics"
-                    onClick={() => setAnalyticsModal(true)}
-                  />
-                </span>
-                <span className="@4xl:hidden">
-                  <IconButton
-                    variant="secondary"
-                    size="md"
-                    icon={<Icon icon={BarOutline} />}
-                    aria-label="Analytics"
-                    onClick={() => setAnalyticsModal(true)}
-                  />
-                </span>
                 {!isCompletedCycle && (
                   <Button
                     variant="primary"

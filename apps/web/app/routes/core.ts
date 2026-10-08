@@ -67,19 +67,9 @@ export const coreRoutes: RouteConfigEntry[] = [
           route(":workspaceSlug/active-cycles", "./(all)/[workspaceSlug]/(projects)/active-cycles/page.tsx"),
         ]),
 
-        // Analytics
-        layout("./(all)/[workspaceSlug]/(projects)/analytics/[tabId]/layout.tsx", [
-          route(":workspaceSlug/analytics/:tabId", "./(all)/[workspaceSlug]/(projects)/analytics/[tabId]/page.tsx"),
-        ]),
-
         // Browse
         layout("./(all)/[workspaceSlug]/(projects)/browse/[workItem]/layout.tsx", [
           route(":workspaceSlug/browse/:workItem", "./(all)/[workspaceSlug]/(projects)/browse/[workItem]/page.tsx"),
-        ]),
-
-        // Drafts
-        layout("./(all)/[workspaceSlug]/(projects)/drafts/layout.tsx", [
-          route(":workspaceSlug/drafts", "./(all)/[workspaceSlug]/(projects)/drafts/page.tsx"),
         ]),
 
         // Notifications
@@ -209,13 +199,6 @@ export const coreRoutes: RouteConfigEntry[] = [
               "./(all)/[workspaceSlug]/(projects)/projects/(detail)/[projectId]/pages/(list)/page.tsx"
             ),
           ]),
-          // Intake list
-          layout("./(all)/[workspaceSlug]/(projects)/projects/(detail)/[projectId]/intake/layout.tsx", [
-            route(
-              ":workspaceSlug/projects/:projectId/intake",
-              "./(all)/[workspaceSlug]/(projects)/projects/(detail)/[projectId]/intake/page.tsx"
-            ),
-          ]),
         ]),
 
         // Project Archives - Issues, Cycles, Modules
@@ -270,18 +253,6 @@ export const coreRoutes: RouteConfigEntry[] = [
             ":workspaceSlug/settings/billing",
             "./(all)/[workspaceSlug]/(settings)/settings/(workspace)/billing/page.tsx"
           ),
-          route(
-            ":workspaceSlug/settings/exports",
-            "./(all)/[workspaceSlug]/(settings)/settings/(workspace)/exports/page.tsx"
-          ),
-          route(
-            ":workspaceSlug/settings/webhooks",
-            "./(all)/[workspaceSlug]/(settings)/settings/(workspace)/webhooks/page.tsx"
-          ),
-          route(
-            ":workspaceSlug/settings/webhooks/:webhookId",
-            "./(all)/[workspaceSlug]/(settings)/settings/(workspace)/webhooks/[webhookId]/page.tsx"
-          ),
         ]),
 
         // --------------------------------------------------------------------
@@ -318,10 +289,6 @@ export const coreRoutes: RouteConfigEntry[] = [
             route(
               ":workspaceSlug/settings/projects/:projectId/features/pages",
               "./(all)/[workspaceSlug]/(settings)/settings/projects/[projectId]/features/pages/page.tsx"
-            ),
-            route(
-              ":workspaceSlug/settings/projects/:projectId/features/intake",
-              "./(all)/[workspaceSlug]/(settings)/settings/projects/[projectId]/features/intake/page.tsx"
             ),
             // Project States
             route(
@@ -374,17 +341,6 @@ export const coreRoutes: RouteConfigEntry[] = [
   // Project settings redirect: /:workspaceSlug/projects/:projectId/settings/:path*
   // → /:workspaceSlug/settings/projects/:projectId/:path*
   route(":workspaceSlug/projects/:projectId/settings/*", "routes/redirects/core/project-settings.tsx"),
-
-  // Analytics redirect: /:workspaceSlug/analytics → /:workspaceSlug/analytics/overview
-  route(":workspaceSlug/analytics", "routes/redirects/core/analytics.tsx"),
-
-  // API tokens redirect: /:workspaceSlug/settings/api-tokens
-  // → /settings/profile/api-tokens
-  route(":workspaceSlug/settings/api-tokens", "routes/redirects/core/api-tokens.tsx"),
-
-  // Inbox redirect: /:workspaceSlug/projects/:projectId/inbox
-  // → /:workspaceSlug/projects/:projectId/intake
-  route(":workspaceSlug/projects/:projectId/inbox", "routes/redirects/core/inbox.tsx"),
 
   // Sign-up redirects
   route("accounts/sign-up", "routes/redirects/core/accounts-signup.tsx"),

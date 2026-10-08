@@ -214,8 +214,8 @@ type issueLinkLite struct {
 }
 
 // issueAttachmentLite is IssueAttachmentLiteSerializer. asset is the
-// FileField's storage URL; until the asset batch ports storage URLs it is
-// the stored object key (see PORTING.md).
+// FileField's storage URL, which S3Storage.url returns as the stored object
+// key (asset_attachments golden).
 type issueAttachmentLite struct {
 	ID         uuid.UUID      `json:"id"`
 	Asset      string         `json:"asset"`

@@ -7,12 +7,11 @@
 import { observer } from "mobx-react";
 import { useParams } from "next/navigation";
 // icons
-import { Circle } from "lucide-react";
 // plane imports
-import { EUserPermissions, EUserPermissionsLevel, SPACE_BASE_PATH, SPACE_BASE_URL } from "@plane/constants";
+import { EUserPermissions, EUserPermissionsLevel } from "@plane/constants";
 import { useTranslation } from "@plane/i18n";
 import { Button } from "@makeplane/propel/elements/button";
-import { NewTabOutline, WorkItemsOutline } from "@makeplane/propel/icons";
+import { WorkItemsOutline } from "@makeplane/propel/icons";
 import { Tooltip } from "@makeplane/propel/components/tooltip";
 import { EIssuesStoreType } from "@plane/types";
 import { Breadcrumbs } from "@plane/blocks/breadcrumb";
@@ -49,11 +48,6 @@ export const IssuesHeader = observer(function IssuesHeader() {
   const { toggleCreateIssueModal } = useCommandPalette();
   const { allowPermissions } = useUserPermissions();
   const { isMobile } = usePlatformOS();
-
-  const SPACE_APP_URL =
-    (SPACE_BASE_URL.trim() === "" && typeof window !== "undefined" ? window.location.origin : SPACE_BASE_URL) +
-    SPACE_BASE_PATH;
-  const publishedURL = `${SPACE_APP_URL}/issues/${currentProjectDetails?.anchor}`;
 
   const issuesCount = getGroupIssueCount(undefined, undefined, false);
   const canUserCreateIssue = allowPermissions(
@@ -94,20 +88,6 @@ export const IssuesHeader = observer(function IssuesHeader() {
             </Tooltip>
           ) : null}
         </div>
-        {currentProjectDetails?.anchor ? (
-          <a
-            href={publishedURL}
-            className="group flex items-center gap-1.5 rounded-sm bg-accent-primary/10 px-2.5 py-1 text-11 font-medium text-accent-primary"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Circle className="h-1.5 w-1.5 fill-accent-primary" strokeWidth={2} />
-            {t("workspace_projects.network.public.title")}
-            <NewTabOutline className="hidden h-3 w-3 group-hover:block" />
-          </a>
-        ) : (
-          <></>
-        )}
       </Header.LeftItem>
       <Header.RightItem>
         <div className="hidden gap-2 md:flex">
@@ -115,7 +95,6 @@ export const IssuesHeader = observer(function IssuesHeader() {
             projectId={projectId}
             currentProjectDetails={currentProjectDetails}
             workspaceSlug={workspaceSlug}
-            canUserCreateIssue={canUserCreateIssue}
           />
         </div>
         {canUserCreateIssue && (

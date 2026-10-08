@@ -7,13 +7,10 @@
 import {
   ActivityOutline,
   ArchiveOutline,
-  BarOutline,
   CyclesOutline,
   DocumentationOutline,
-  EditOutline,
   HomeOutline,
   InboxOutline,
-  IntakeOutline,
   ModuleOutline,
   ProjectsOutline,
   SettingsOutline,
@@ -42,8 +39,6 @@ export type TPowerKNavigationCommandKeys =
   | "nav_assigned_workspace_work_items"
   | "nav_created_workspace_work_items"
   | "nav_subscribed_workspace_work_items"
-  | "nav_workspace_analytics"
-  | "nav_workspace_drafts"
   | "nav_workspace_archives"
   | "open_workspace_setting"
   | "nav_workspace_settings"
@@ -55,7 +50,6 @@ export type TPowerKNavigationCommandKeys =
   | "open_project_view"
   | "nav_project_views"
   | "nav_project_pages"
-  | "nav_project_intake"
   | "nav_project_archives"
   | "open_project_setting"
   | "nav_project_settings";
@@ -225,30 +219,6 @@ export const usePowerKNavigationCommandsRecord = (): Record<TPowerKNavigationCom
         handlePowerKNavigate(ctx, [ctx.params.workspaceSlug?.toString(), "workspace-views", "subscribed"]),
       isEnabled: (ctx) => baseWorkspaceConditions(ctx),
       isVisible: (ctx) => baseWorkspaceConditions(ctx),
-      closeOnSelect: true,
-    },
-    nav_workspace_analytics: {
-      id: "nav_workspace_analytics",
-      type: "action",
-      group: "navigation",
-      i18n_title: "power_k.navigation_actions.nav_workspace_analytics",
-      icon: BarOutline,
-      keySequence: "ga",
-      action: (ctx) => handlePowerKNavigate(ctx, [ctx.params.workspaceSlug?.toString(), "analytics", "overview"]),
-      isEnabled: (ctx) => baseWorkspaceConditions(ctx) && hasWorkspaceMemberLevelPermissions(ctx),
-      isVisible: (ctx) => baseWorkspaceConditions(ctx) && hasWorkspaceMemberLevelPermissions(ctx),
-      closeOnSelect: true,
-    },
-    nav_workspace_drafts: {
-      id: "nav_workspace_drafts",
-      type: "action",
-      group: "navigation",
-      i18n_title: "power_k.navigation_actions.nav_workspace_drafts",
-      icon: EditOutline,
-      keySequence: "gj",
-      action: (ctx) => handlePowerKNavigate(ctx, [ctx.params.workspaceSlug?.toString(), "drafts"]),
-      isEnabled: (ctx) => baseWorkspaceConditions(ctx) && hasWorkspaceMemberLevelPermissions(ctx),
-      isVisible: (ctx) => baseWorkspaceConditions(ctx) && hasWorkspaceMemberLevelPermissions(ctx),
       closeOnSelect: true,
     },
     nav_workspace_archives: {
@@ -455,24 +425,6 @@ export const usePowerKNavigationCommandsRecord = (): Record<TPowerKNavigationCom
         ]),
       isEnabled: (ctx) => baseProjectConditions(ctx) && !!getContextProject(ctx)?.page_view,
       isVisible: (ctx) => baseProjectConditions(ctx) && !!getContextProject(ctx)?.page_view,
-      closeOnSelect: true,
-    },
-    nav_project_intake: {
-      id: "nav_project_intake",
-      type: "action",
-      group: "navigation",
-      i18n_title: "power_k.navigation_actions.nav_project_intake",
-      icon: IntakeOutline,
-      keySequence: "gk",
-      action: (ctx) =>
-        handlePowerKNavigate(ctx, [
-          ctx.params.workspaceSlug?.toString(),
-          "projects",
-          ctx.params.projectId?.toString(),
-          "intake",
-        ]),
-      isEnabled: (ctx) => baseProjectConditions(ctx) && !!getContextProject(ctx)?.inbox_view,
-      isVisible: (ctx) => baseProjectConditions(ctx) && !!getContextProject(ctx)?.inbox_view,
       closeOnSelect: true,
     },
     nav_project_archives: {

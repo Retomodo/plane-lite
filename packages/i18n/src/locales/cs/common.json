@@ -277,6 +277,8 @@
   "updating": "Aktualizace",
   "create_new_issue": "Vytvořit novou pracovní položku",
   "editor_is_not_ready_to_discard_changes": "Editor není připraven zahodit změny",
+  "discard_changes_title": "Zahodit změny?",
+  "discard_changes_description": "Máte neuložené změny. Pokud nyní zavřete, budou ztraceny.",
   "failed_to_move_issue_to_project": "Přesunutí pracovní položky do projektu se nezdařilo",
   "create_more": "Vytvořit více",
   "add_to_project": "Přidat do projektu",

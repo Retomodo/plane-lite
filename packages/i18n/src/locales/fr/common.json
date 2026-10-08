@@ -277,6 +277,8 @@
   "updating": "Mise à jour",
   "create_new_issue": "Créer un nouvel élément de travail",
   "editor_is_not_ready_to_discard_changes": "L’éditeur n’est pas prêt à annuler les modifications",
+  "discard_changes_title": "Abandonner les modifications ?",
+  "discard_changes_description": "Vous avez des modifications non enregistrées. Si vous fermez maintenant, elles seront perdues.",
   "failed_to_move_issue_to_project": "Échec du déplacement de l’élément de travail vers le projet",
   "create_more": "Créer plus",
   "add_to_project": "Ajouter au projet",

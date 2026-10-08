@@ -277,6 +277,8 @@
   "updating": "Aggiornamento in corso",
   "create_new_issue": "Crea un nuovo elemento di lavoro",
   "editor_is_not_ready_to_discard_changes": "L'editor non è pronto per scartare le modifiche",
+  "discard_changes_title": "Annullare le modifiche?",
+  "discard_changes_description": "Ci sono modifiche non salvate. Se chiude ora, andranno perse.",
   "failed_to_move_issue_to_project": "Impossibile spostare l'elemento di lavoro nel progetto",
   "create_more": "Crea altri",
   "add_to_project": "Aggiungi al progetto",

@@ -92,6 +92,15 @@ Conventions:
 
 - Each handler's comment names the Django view it ports (`// listCycles ports CycleViewSet.list.`).
   Comment density, naming and idiom follow the existing files.
+- Other agents write code in the same Go package at the same time. Before defining a type or helper,
+  grep for an existing one (serializer ports like `userLite`, `issueFlat`, `issueActivityOut` and
+  `detailLoader` are shared), and give new package-level names an area prefix (`cycleX`, `errCycleX`)
+  so parallel ports can't clash.
+- Don't port Redis response caches (`cache_response`, `cache_page`): Go computes per request (see
+  DEVIATIONS.md). Give the scenario's reads fresh query strings so Django serves them uncached too.
+- When a scenario needs rows whose endpoints aren't ported yet (favorites, cycles), write them with SQL
+  through `s.DBStrings` (an INSERT ... RETURNING); it writes identically in both modes. Say so in a
+  comment.
 - URL prefixes: `wsPrefix` (`W/`) and `projectPrefix` (`P/`); see the existing routes in `api.go`.
 
 Reusable pieces:

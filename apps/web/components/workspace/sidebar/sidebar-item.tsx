@@ -47,15 +47,7 @@ export const SidebarItemBase = observer(function SidebarItemBase({
     if (isExtendedSidebarOpened) toggleExtendedSidebar(false);
   };
 
-  const staticItems = [
-    "home",
-    "pi_chat",
-    "projects",
-    "your_work",
-    "stickies",
-    "drafts",
-    ...(additionalStaticItems || []),
-  ];
+  const staticItems = ["home", "pi_chat", "projects", "your_work", "stickies", ...(additionalStaticItems || [])];
   const slug = workspaceSlug?.toString() || "";
 
   if (!allowPermissions(item.access, EUserPermissionsLevel.WORKSPACE, slug)) return null;

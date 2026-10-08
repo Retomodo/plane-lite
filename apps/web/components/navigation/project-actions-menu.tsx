@@ -12,7 +12,6 @@ import {
   LogOutOutline,
   MoreHorizontalOutline,
   SettingsOutline,
-  ShareAltOutline,
 } from "@makeplane/propel/icons";
 // plane imports
 import { useTranslation } from "@plane/i18n";
@@ -24,22 +23,12 @@ type Props = {
   project: {
     id: string;
   };
-  isAdmin: boolean;
   isAuthorized: boolean;
   onCopyText: () => void;
   onLeaveProject: () => void;
-  onPublishModal: () => void;
 };
 
-export function ProjectActionsMenu({
-  workspaceSlug,
-  project,
-  isAdmin,
-  isAuthorized,
-  onCopyText,
-  onLeaveProject,
-  onPublishModal,
-}: Props) {
+export function ProjectActionsMenu({ workspaceSlug, project, isAuthorized, onCopyText, onLeaveProject }: Props) {
   // states
   const [isMenuActive, setIsMenuActive] = useState(false);
   // translation
@@ -65,10 +54,6 @@ export function ProjectActionsMenu({
           }
         />
         <MenuContent side="bottom" align="start">
-          {/* Publish project settings */}
-          {isAdmin && (
-            <MenuItem icon={<Icon icon={ShareAltOutline} />} label={t("publish_project")} onClick={onPublishModal} />
-          )}
           <MenuItem icon={<Icon icon={LinkOutline} />} label={t("copy_link")} onClick={onCopyText} />
           {isAuthorized && (
             <MenuItem

@@ -1,0 +1,2612 @@
+{
+  "steps": [
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/auth/get-csrf-token/",
+      "status": 200,
+      "content_type": "application/json",
+      "cookies": [
+        "csrftoken; value=<set>; Path=/; Max-Age=31449600; HttpOnly; SameSite=Lax"
+      ],
+      "body": {
+        "csrf_token": "<masked>"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/auth/sign-up/",
+      "request": {
+        "csrfmiddlewaretoken": "<masked>",
+        "email": "alice@example.com",
+        "password": "correct-Horse-battery-staple-91"
+      },
+      "status": 302,
+      "location": "http://localhost:3000",
+      "content_type": "text/html",
+      "cookies": [
+        "csrftoken; value=<set>; Path=/; Max-Age=31449600; HttpOnly; SameSite=Lax",
+        "session-id; value=<set>; Path=/; Max-Age=604800; HttpOnly; SameSite=Lax"
+      ]
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/",
+      "request": {
+        "name": "Acme",
+        "slug": "acme"
+      },
+      "status": 201,
+      "content_type": "application/json",
+      "body": {
+        "background_color": "<masked>",
+        "created_at": "<datetime Z>",
+        "created_by": "<uuid:1>",
+        "deleted_at": null,
+        "id": "<uuid:2>",
+        "logo": null,
+        "logo_asset": null,
+        "logo_url": null,
+        "name": "Acme",
+        "organization_size": null,
+        "owner": "<uuid:1>",
+        "role": 20,
+        "slug": "acme",
+        "timezone": "UTC",
+        "total_members": 1,
+        "updated_at": "<datetime Z>",
+        "updated_by": null
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "GET",
+      "path": "/auth/get-csrf-token/",
+      "status": 200,
+      "content_type": "application/json",
+      "cookies": [
+        "csrftoken; value=<set>; Path=/; Max-Age=31449600; HttpOnly; SameSite=Lax"
+      ],
+      "body": {
+        "csrf_token": "<masked>"
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "POST",
+      "path": "/auth/sign-up/",
+      "request": {
+        "csrfmiddlewaretoken": "<masked>",
+        "email": "bob@example.com",
+        "password": "correct-Horse-battery-staple-91"
+      },
+      "status": 302,
+      "location": "http://localhost:3000",
+      "content_type": "text/html",
+      "cookies": [
+        "csrftoken; value=<set>; Path=/; Max-Age=31449600; HttpOnly; SameSite=Lax",
+        "session-id; value=<set>; Path=/; Max-Age=604800; HttpOnly; SameSite=Lax"
+      ]
+    },
+    {
+      "actor": "carol",
+      "method": "GET",
+      "path": "/auth/get-csrf-token/",
+      "status": 200,
+      "content_type": "application/json",
+      "cookies": [
+        "csrftoken; value=<set>; Path=/; Max-Age=31449600; HttpOnly; SameSite=Lax"
+      ],
+      "body": {
+        "csrf_token": "<masked>"
+      }
+    },
+    {
+      "actor": "carol",
+      "method": "POST",
+      "path": "/auth/sign-up/",
+      "request": {
+        "csrfmiddlewaretoken": "<masked>",
+        "email": "carol@example.com",
+        "password": "correct-Horse-battery-staple-91"
+      },
+      "status": 302,
+      "location": "http://localhost:3000",
+      "content_type": "text/html",
+      "cookies": [
+        "csrftoken; value=<set>; Path=/; Max-Age=31449600; HttpOnly; SameSite=Lax",
+        "session-id; value=<set>; Path=/; Max-Age=604800; HttpOnly; SameSite=Lax"
+      ]
+    },
+    {
+      "actor": "dan",
+      "method": "GET",
+      "path": "/auth/get-csrf-token/",
+      "status": 200,
+      "content_type": "application/json",
+      "cookies": [
+        "csrftoken; value=<set>; Path=/; Max-Age=31449600; HttpOnly; SameSite=Lax"
+      ],
+      "body": {
+        "csrf_token": "<masked>"
+      }
+    },
+    {
+      "actor": "dan",
+      "method": "POST",
+      "path": "/auth/sign-up/",
+      "request": {
+        "csrfmiddlewaretoken": "<masked>",
+        "email": "dan@example.com",
+        "password": "correct-Horse-battery-staple-91"
+      },
+      "status": 302,
+      "location": "http://localhost:3000",
+      "content_type": "text/html",
+      "cookies": [
+        "csrftoken; value=<set>; Path=/; Max-Age=31449600; HttpOnly; SameSite=Lax",
+        "session-id; value=<set>; Path=/; Max-Age=604800; HttpOnly; SameSite=Lax"
+      ]
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/invitations/",
+      "request": {
+        "emails": [
+          {
+            "email": "bob@example.com",
+            "role": 15
+          },
+          {
+            "email": "carol@example.com",
+            "role": 5
+          },
+          {
+            "email": "dan@example.com",
+            "role": 15
+          }
+        ]
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "message": "Emails sent successfully"
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "GET",
+      "path": "/api/users/me/workspaces/invitations/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": [
+        {
+          "accepted": false,
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:1>",
+          "deleted_at": null,
+          "email": "bob@example.com",
+          "id": "<uuid:3>",
+          "invite_link": "/workspace-invitations/?invitation_id=<uuid:3>&slug=acme&token=<invite-token:bob@example.com>",
+          "message": "\n\nalice invited you to Acme on Plane\n\n      alice has invited you to join Acme on Plane.\n\n                    Join Acme on Plane\n\n                    alice has invited you to collaborate with them in\n                    Acme workspace on Plane.\n\n                          Accept invite\n\n                    If the button doesn’t work, copy and paste this link into\n                    your browser:\n\n                    http://localhost:3000/workspace-invitations/?invitation_id=<uuid:3>&slug=acme&token=<invite-token:bob@example.com>\n\n                    Note: This invitation was intended for\n                    bob@example.com. If you were not expecting this invitation, you can ignore\n                    this email.\n\n                    Plane Software, Inc.\n\n",
+          "responded_at": null,
+          "role": 15,
+          "token": "<invite-token:bob@example.com>",
+          "updated_at": "<datetime Z>",
+          "updated_by": "<uuid:1>",
+          "workspace": {
+            "id": "<uuid:2>",
+            "logo_url": null,
+            "name": "Acme",
+            "slug": "acme"
+          }
+        }
+      ]
+    },
+    {
+      "actor": "bob",
+      "method": "POST",
+      "path": "/api/users/me/workspaces/invitations/",
+      "request": {
+        "invitations": [
+          "<uuid:3>"
+        ]
+      },
+      "status": 204
+    },
+    {
+      "actor": "carol",
+      "method": "GET",
+      "path": "/api/users/me/workspaces/invitations/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": [
+        {
+          "accepted": false,
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:1>",
+          "deleted_at": null,
+          "email": "carol@example.com",
+          "id": "<uuid:4>",
+          "invite_link": "/workspace-invitations/?invitation_id=<uuid:4>&slug=acme&token=<invite-token:carol@example.com>",
+          "message": "\n\nalice invited you to Acme on Plane\n\n      alice has invited you to join Acme on Plane.\n\n                    Join Acme on Plane\n\n                    alice has invited you to collaborate with them in\n                    Acme workspace on Plane.\n\n                          Accept invite\n\n                    If the button doesn’t work, copy and paste this link into\n                    your browser:\n\n                    http://localhost:3000/workspace-invitations/?invitation_id=<uuid:4>&slug=acme&token=<invite-token:carol@example.com>\n\n                    Note: This invitation was intended for\n                    carol@example.com. If you were not expecting this invitation, you can ignore\n                    this email.\n\n                    Plane Software, Inc.\n\n",
+          "responded_at": null,
+          "role": 5,
+          "token": "<invite-token:carol@example.com>",
+          "updated_at": "<datetime Z>",
+          "updated_by": "<uuid:1>",
+          "workspace": {
+            "id": "<uuid:2>",
+            "logo_url": null,
+            "name": "Acme",
+            "slug": "acme"
+          }
+        }
+      ]
+    },
+    {
+      "actor": "carol",
+      "method": "POST",
+      "path": "/api/users/me/workspaces/invitations/",
+      "request": {
+        "invitations": [
+          "<uuid:4>"
+        ]
+      },
+      "status": 204
+    },
+    {
+      "actor": "dan",
+      "method": "GET",
+      "path": "/api/users/me/workspaces/invitations/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": [
+        {
+          "accepted": false,
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:1>",
+          "deleted_at": null,
+          "email": "dan@example.com",
+          "id": "<uuid:5>",
+          "invite_link": "/workspace-invitations/?invitation_id=<uuid:5>&slug=acme&token=<invite-token:dan@example.com>",
+          "message": "\n\nalice invited you to Acme on Plane\n\n      alice has invited you to join Acme on Plane.\n\n                    Join Acme on Plane\n\n                    alice has invited you to collaborate with them in\n                    Acme workspace on Plane.\n\n                          Accept invite\n\n                    If the button doesn’t work, copy and paste this link into\n                    your browser:\n\n                    http://localhost:3000/workspace-invitations/?invitation_id=<uuid:5>&slug=acme&token=<invite-token:dan@example.com>\n\n                    Note: This invitation was intended for\n                    dan@example.com. If you were not expecting this invitation, you can ignore\n                    this email.\n\n                    Plane Software, Inc.\n\n",
+          "responded_at": null,
+          "role": 15,
+          "token": "<invite-token:dan@example.com>",
+          "updated_at": "<datetime Z>",
+          "updated_by": "<uuid:1>",
+          "workspace": {
+            "id": "<uuid:2>",
+            "logo_url": null,
+            "name": "Acme",
+            "slug": "acme"
+          }
+        }
+      ]
+    },
+    {
+      "actor": "dan",
+      "method": "POST",
+      "path": "/api/users/me/workspaces/invitations/",
+      "request": {
+        "invitations": [
+          "<uuid:5>"
+        ]
+      },
+      "status": 204
+    },
+    {
+      "actor": "outsider",
+      "method": "GET",
+      "path": "/auth/get-csrf-token/",
+      "status": 200,
+      "content_type": "application/json",
+      "cookies": [
+        "csrftoken; value=<set>; Path=/; Max-Age=31449600; HttpOnly; SameSite=Lax"
+      ],
+      "body": {
+        "csrf_token": "<masked>"
+      }
+    },
+    {
+      "actor": "outsider",
+      "method": "POST",
+      "path": "/auth/sign-up/",
+      "request": {
+        "csrfmiddlewaretoken": "<masked>",
+        "email": "outsider@example.com",
+        "password": "correct-Horse-battery-staple-91"
+      },
+      "status": 302,
+      "location": "http://localhost:3000",
+      "content_type": "text/html",
+      "cookies": [
+        "csrftoken; value=<set>; Path=/; Max-Age=31449600; HttpOnly; SameSite=Lax",
+        "session-id; value=<set>; Path=/; Max-Age=604800; HttpOnly; SameSite=Lax"
+      ]
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/",
+      "request": {
+        "identifier": "PL",
+        "name": "Plane Lite"
+      },
+      "status": 201,
+      "content_type": "application/json",
+      "body": {
+        "anchor": null,
+        "archive_in": 0,
+        "archived_at": null,
+        "close_in": 0,
+        "cover_image": null,
+        "cover_image_asset": null,
+        "cover_image_url": null,
+        "created_at": "<datetime Z>",
+        "created_by": "<uuid:1>",
+        "cycle_view": false,
+        "default_assignee": null,
+        "default_state": null,
+        "deleted_at": null,
+        "description": "",
+        "description_html": null,
+        "description_text": null,
+        "emoji": null,
+        "estimate": null,
+        "external_id": null,
+        "external_source": null,
+        "guest_view_all_features": false,
+        "icon_prop": null,
+        "id": "<uuid:6>",
+        "identifier": "PL",
+        "inbox_view": false,
+        "intake_view": false,
+        "is_favorite": false,
+        "is_issue_type_enabled": false,
+        "is_time_tracking_enabled": false,
+        "issue_views_view": false,
+        "logo_props": {},
+        "member_role": 20,
+        "members": [
+          "<uuid:1>"
+        ],
+        "module_view": false,
+        "name": "Plane Lite",
+        "network": 2,
+        "next_work_item_sequence": 1,
+        "page_view": true,
+        "project_lead": null,
+        "sort_order": 65535,
+        "timezone": "UTC",
+        "updated_at": "<datetime Z>",
+        "updated_by": null,
+        "workspace": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "GET",
+      "path": "/api/users/me/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "avatar": "",
+        "avatar_url": null,
+        "cover_image": null,
+        "cover_image_url": null,
+        "date_joined": "<datetime Z>",
+        "display_name": "bob",
+        "email": "bob@example.com",
+        "first_name": "",
+        "id": "<uuid:7>",
+        "is_active": true,
+        "is_bot": false,
+        "is_email_verified": false,
+        "is_password_autoset": false,
+        "last_login_medium": "email",
+        "last_login_time": "<datetime Z>",
+        "last_name": "",
+        "user_timezone": "UTC",
+        "username": "<hex32>"
+      }
+    },
+    {
+      "actor": "carol",
+      "method": "GET",
+      "path": "/api/users/me/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "avatar": "",
+        "avatar_url": null,
+        "cover_image": null,
+        "cover_image_url": null,
+        "date_joined": "<datetime Z>",
+        "display_name": "carol",
+        "email": "carol@example.com",
+        "first_name": "",
+        "id": "<uuid:8>",
+        "is_active": true,
+        "is_bot": false,
+        "is_email_verified": false,
+        "is_password_autoset": false,
+        "last_login_medium": "email",
+        "last_login_time": "<datetime Z>",
+        "last_name": "",
+        "user_timezone": "UTC",
+        "username": "<hex32>"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/members/",
+      "request": {
+        "members": [
+          {
+            "member_id": "<uuid:7>",
+            "role": 15
+          },
+          {
+            "member_id": "<uuid:8>",
+            "role": 5
+          }
+        ]
+      },
+      "status": 201,
+      "content_type": "application/json",
+      "body": [
+        {
+          "created_at": "<datetime Z>",
+          "id": "<uuid:9>",
+          "member": "<uuid:8>",
+          "original_role": 5,
+          "project": "<uuid:6>",
+          "role": 5
+        },
+        {
+          "created_at": "<datetime Z>",
+          "id": "<uuid:10>",
+          "member": "<uuid:7>",
+          "original_role": 15,
+          "project": "<uuid:6>",
+          "role": 15
+        }
+      ]
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/issues/",
+      "request": {
+        "name": "Bug"
+      },
+      "status": 201,
+      "content_type": "application/json",
+      "body": {
+        "archived_at": null,
+        "assignee_ids": [],
+        "attachment_count": null,
+        "completed_at": null,
+        "created_at": "<datetime Z>",
+        "created_by": "<uuid:1>",
+        "cycle_id": null,
+        "deleted_at": null,
+        "estimate_point": null,
+        "id": "<uuid:11>",
+        "is_draft": false,
+        "label_ids": [],
+        "link_count": null,
+        "module_ids": [],
+        "name": "Bug",
+        "parent_id": null,
+        "priority": "none",
+        "project_id": "<uuid:6>",
+        "sequence_id": 1,
+        "sort_order": 65535,
+        "start_date": null,
+        "state_id": "<uuid:12>",
+        "sub_issues_count": null,
+        "target_date": null,
+        "updated_at": "<datetime Z>",
+        "updated_by": null
+      }
+    },
+    {
+      "actor": "anon",
+      "method": "POST",
+      "path": "/api/assets/v2/workspaces/acme/",
+      "request": {
+        "entity_type": "WORKSPACE_LOGO"
+      },
+      "status": 401,
+      "content_type": "application/json",
+      "body": {
+        "detail": "Authentication credentials were not provided."
+      }
+    },
+    {
+      "actor": "outsider",
+      "method": "POST",
+      "path": "/api/assets/v2/workspaces/acme/",
+      "request": {
+        "entity_type": "WORKSPACE_LOGO"
+      },
+      "status": 403,
+      "content_type": "application/json",
+      "body": {
+        "error": "You don't have the required permissions."
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/assets/v2/workspaces/nowhere/",
+      "request": {
+        "entity_type": "WORKSPACE_LOGO"
+      },
+      "status": 403,
+      "content_type": "application/json",
+      "body": {
+        "error": "You don't have the required permissions."
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/assets/v2/workspaces/acme/",
+      "request": {
+        "type": "image/png"
+      },
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "error": "Invalid entity type.",
+        "status": false
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/assets/v2/workspaces/acme/",
+      "request": {
+        "entity_type": "LOGO"
+      },
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "error": "Invalid entity type.",
+        "status": false
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/assets/v2/workspaces/acme/",
+      "request": {
+        "entity_type": "LOGO",
+        "size": "x"
+      },
+      "status": 500,
+      "content_type": "application/json",
+      "body": {
+        "error": "Something went wrong please try again later"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/assets/v2/workspaces/acme/",
+      "status": 500,
+      "content_type": "application/json",
+      "body": {
+        "error": "Something went wrong please try again later"
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "POST",
+      "path": "/api/assets/v2/workspaces/acme/",
+      "request": {
+        "entity_identifier": "<uuid:2>",
+        "entity_type": "WORKSPACE_LOGO"
+      },
+      "status": 403,
+      "content_type": "application/json",
+      "body": {
+        "error": "Only workspace admins can upload a workspace logo."
+      }
+    },
+    {
+      "actor": "carol",
+      "method": "POST",
+      "path": "/api/assets/v2/workspaces/acme/",
+      "request": {
+        "entity_identifier": "<uuid:2>",
+        "entity_type": "WORKSPACE_LOGO"
+      },
+      "status": 403,
+      "content_type": "application/json",
+      "body": {
+        "error": "Only workspace admins can upload a workspace logo."
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/assets/v2/workspaces/acme/",
+      "request": {
+        "entity_identifier": "<uuid:2>",
+        "entity_type": "WORKSPACE_LOGO",
+        "type": "image/svg+xml"
+      },
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "error": "Invalid file type. Only JPEG, PNG, WebP, JPG and GIF files are allowed.",
+        "status": false
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/assets/v2/workspaces/acme/",
+      "request": {
+        "entity_type": "WORKSPACE_LOGO"
+      },
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "error": "The payload is not valid"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/assets/v2/workspaces/acme/",
+      "request": {
+        "entity_identifier": "junk",
+        "entity_type": "WORKSPACE_LOGO"
+      },
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "error": "Please provide valid detail"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/assets/v2/workspaces/acme/",
+      "request": {
+        "entity_identifier": "<uuid:13>",
+        "entity_type": "WORKSPACE_LOGO"
+      },
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "error": "The payload is not valid"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/assets/v2/workspaces/acme/",
+      "request": {
+        "entity_identifier": 7,
+        "entity_type": "WORKSPACE_LOGO"
+      },
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "error": "The payload is not valid"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/assets/v2/workspaces/acme/",
+      "request": {
+        "entity_identifier": "",
+        "entity_type": "WORKSPACE_LOGO",
+        "name": "orphan.png"
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "asset_id": "<uuid:14>",
+        "asset_url": "/api/assets/v2/static/<uuid:14>/",
+        "upload_data": {
+          "fields": {
+            "Content-Type": "image/jpeg",
+            "key": "<masked>",
+            "policy": "<masked>",
+            "x-amz-algorithm": "AWS4-HMAC-SHA256",
+            "x-amz-credential": "<masked>",
+            "x-amz-date": "<masked>",
+            "x-amz-signature": "<masked>"
+          },
+          "url": "<masked>"
+        }
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "GET",
+      "path": "/api/users/me/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "avatar": "",
+        "avatar_url": null,
+        "cover_image": null,
+        "cover_image_url": null,
+        "date_joined": "<datetime Z>",
+        "display_name": "bob",
+        "email": "bob@example.com",
+        "first_name": "",
+        "id": "<uuid:7>",
+        "is_active": true,
+        "is_bot": false,
+        "is_email_verified": false,
+        "is_password_autoset": false,
+        "last_login_medium": "email",
+        "last_login_time": "<datetime Z>",
+        "last_name": "",
+        "user_timezone": "UTC",
+        "username": "<hex32>"
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "POST",
+      "path": "/api/assets/v2/workspaces/acme/",
+      "request": {
+        "entity_identifier": "<uuid:7>",
+        "entity_type": "USER_AVATAR",
+        "name": "bob.png"
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "asset_id": "<uuid:15>",
+        "asset_url": "/api/assets/v2/static/<uuid:15>/",
+        "upload_data": {
+          "fields": {
+            "Content-Type": "image/jpeg",
+            "key": "<masked>",
+            "policy": "<masked>",
+            "x-amz-algorithm": "AWS4-HMAC-SHA256",
+            "x-amz-credential": "<masked>",
+            "x-amz-date": "<masked>",
+            "x-amz-signature": "<masked>"
+          },
+          "url": "<masked>"
+        }
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "POST",
+      "path": "/api/assets/v2/workspaces/acme/",
+      "request": {
+        "entity_identifier": "<uuid:11>",
+        "entity_type": "ISSUE_DESCRIPTION",
+        "name": "i.png"
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "asset_id": "<uuid:16>",
+        "asset_url": "/api/assets/v2/workspaces/acme/projects/None/<uuid:16>/",
+        "upload_data": {
+          "fields": {
+            "Content-Type": "image/jpeg",
+            "key": "<masked>",
+            "policy": "<masked>",
+            "x-amz-algorithm": "AWS4-HMAC-SHA256",
+            "x-amz-credential": "<masked>",
+            "x-amz-date": "<masked>",
+            "x-amz-signature": "<masked>"
+          },
+          "url": "<masked>"
+        }
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "POST",
+      "path": "/api/assets/v2/workspaces/acme/",
+      "request": {
+        "entity_type": "DRAFT_ISSUE_ATTACHMENT",
+        "name": "d.png"
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "asset_id": "<uuid:17>",
+        "asset_url": null,
+        "upload_data": {
+          "fields": {
+            "Content-Type": "image/jpeg",
+            "key": "<masked>",
+            "policy": "<masked>",
+            "x-amz-algorithm": "AWS4-HMAC-SHA256",
+            "x-amz-credential": "<masked>",
+            "x-amz-date": "<masked>",
+            "x-amz-signature": "<masked>"
+          },
+          "url": "<masked>"
+        }
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "POST",
+      "path": "/api/assets/v2/workspaces/acme/",
+      "request": {
+        "entity_identifier": "<uuid:13>",
+        "entity_type": "PAGE_DESCRIPTION"
+      },
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "error": "The payload is not valid"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/assets/v2/workspaces/acme/",
+      "request": {
+        "entity_identifier": "<uuid:2>",
+        "entity_type": "WORKSPACE_LOGO",
+        "name": "logo one.png",
+        "size": 64,
+        "type": "image/png"
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "asset_id": "<uuid:18>",
+        "asset_url": "/api/assets/v2/static/<uuid:18>/",
+        "upload_data": {
+          "fields": {
+            "Content-Type": "image/png",
+            "key": "<masked>",
+            "policy": "<masked>",
+            "x-amz-algorithm": "AWS4-HMAC-SHA256",
+            "x-amz-credential": "<masked>",
+            "x-amz-date": "<masked>",
+            "x-amz-signature": "<masked>"
+          },
+          "url": "<masked>"
+        }
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/assets/v2/workspaces/acme/<uuid:18>/",
+      "status": 404,
+      "content_type": "application/json",
+      "body": {
+        "error": "The requested asset could not be found."
+      }
+    },
+    {
+      "actor": "browser",
+      "method": "UPLOAD",
+      "path": "logo",
+      "status": 204,
+      "body": {
+        "code": null
+      }
+    },
+    {
+      "actor": "outsider",
+      "method": "PATCH",
+      "path": "/api/assets/v2/workspaces/acme/<uuid:18>/",
+      "status": 403,
+      "content_type": "application/json",
+      "body": {
+        "error": "You don't have the required permissions."
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "PATCH",
+      "path": "/api/assets/v2/workspaces/acme/<uuid:13>/",
+      "status": 404,
+      "content_type": "application/json",
+      "body": {
+        "error": "The required object does not exist."
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "PATCH",
+      "path": "/api/assets/v2/workspaces/nowhere/<uuid:18>/",
+      "status": 403,
+      "content_type": "application/json",
+      "body": {
+        "error": "You don't have the required permissions."
+      }
+    },
+    {
+      "actor": "carol",
+      "method": "PATCH",
+      "path": "/api/assets/v2/workspaces/acme/<uuid:18>/",
+      "status": 204
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/workspaces/acme/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "background_color": "<masked>",
+        "created_at": "<datetime Z>",
+        "created_by": "<uuid:1>",
+        "deleted_at": null,
+        "id": "<uuid:2>",
+        "logo": "",
+        "logo_asset": "<uuid:18>",
+        "logo_url": "/api/assets/v2/static/<uuid:18>/",
+        "name": "Acme",
+        "organization_size": null,
+        "owner": "<uuid:1>",
+        "slug": "acme",
+        "timezone": "UTC",
+        "total_members": 4,
+        "updated_at": "<datetime Z>",
+        "updated_by": "<uuid:8>"
+      }
+    },
+    {
+      "actor": "anon",
+      "method": "GET",
+      "path": "/api/assets/v2/static/<uuid:18>/",
+      "status": 302,
+      "location": "<s3>/<bucket>/<uuid:2>/<hex32>-logo one.png?X-Amz-Expires=3600&response-content-disposition=inline; filename*=UTF-8''<hex32>&<signed>",
+      "content_type": "text/html"
+    },
+    {
+      "actor": "browser",
+      "method": "GET",
+      "path": "logo, static",
+      "status": 200,
+      "content_type": "image/png",
+      "body": {
+        "content": "LOGO",
+        "content_disposition": "inline; filename*=UTF-8''<hex32>"
+      }
+    },
+    {
+      "actor": "dan",
+      "method": "GET",
+      "path": "/api/assets/v2/workspaces/acme/<uuid:18>/",
+      "status": 302,
+      "location": "<s3>/<bucket>/<uuid:2>/<hex32>-logo one.png?X-Amz-Expires=3600&response-content-disposition=attachment; filename*=UTF-8''logo%20one.png&<signed>",
+      "content_type": "text/html"
+    },
+    {
+      "actor": "browser",
+      "method": "GET",
+      "path": "logo, workspace",
+      "status": 200,
+      "content_type": "image/png",
+      "body": {
+        "content": "LOGO",
+        "content_disposition": "attachment; filename*=UTF-8''logo%20one.png"
+      }
+    },
+    {
+      "actor": "outsider",
+      "method": "GET",
+      "path": "/api/assets/v2/workspaces/acme/<uuid:18>/",
+      "status": 403,
+      "content_type": "application/json",
+      "body": {
+        "error": "You don't have the required permissions."
+      }
+    },
+    {
+      "actor": "dan",
+      "method": "GET",
+      "path": "/api/assets/v2/workspaces/acme/download/<uuid:18>/",
+      "status": 302,
+      "location": "<s3>/<bucket>/<uuid:2>/<hex32>-logo one.png?X-Amz-Expires=3600&response-content-disposition=attachment; filename*=UTF-8''logo%20one.png&<signed>",
+      "content_type": "text/html"
+    },
+    {
+      "actor": "browser",
+      "method": "GET",
+      "path": "logo, download",
+      "status": 200,
+      "content_type": "image/png",
+      "body": {
+        "content": "LOGO",
+        "content_disposition": "attachment; filename*=UTF-8''logo%20one.png"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/assets/v2/workspaces/acme/check/<uuid:18>/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "exists": true
+      }
+    },
+    {
+      "actor": "outsider",
+      "method": "GET",
+      "path": "/api/assets/v2/workspaces/acme/check/<uuid:18>/",
+      "status": 403,
+      "content_type": "application/json",
+      "body": {
+        "error": "You don't have the required permissions."
+      }
+    },
+    {
+      "actor": "db",
+      "method": "QUERY",
+      "path": "file_assets",
+      "status": 0,
+      "body": [
+        {
+          "asset": "<uuid:2>/<hex>-orphan.png",
+          "attributes": {
+            "name": "orphan.png",
+            "size": 5242880,
+            "type": "image/jpeg"
+          },
+          "comment": null,
+          "created_by": "alice@example.com",
+          "deleted": false,
+          "entity_identifier": null,
+          "entity_type": "WORKSPACE_LOGO",
+          "external_id": null,
+          "external_source": null,
+          "has_draft": false,
+          "is_archived": false,
+          "is_deleted": false,
+          "is_uploaded": false,
+          "issue": null,
+          "last_modified_ok": null,
+          "page": null,
+          "project": null,
+          "size": 5242880,
+          "storage_metadata": {},
+          "updated_by": null,
+          "user": null,
+          "workspace": null
+        },
+        {
+          "asset": "<ws>/<hex>-bob.png",
+          "attributes": {
+            "name": "bob.png",
+            "size": 5242880,
+            "type": "image/jpeg"
+          },
+          "comment": null,
+          "created_by": "bob@example.com",
+          "deleted": false,
+          "entity_identifier": null,
+          "entity_type": "USER_AVATAR",
+          "external_id": null,
+          "external_source": null,
+          "has_draft": false,
+          "is_archived": false,
+          "is_deleted": false,
+          "is_uploaded": false,
+          "issue": null,
+          "last_modified_ok": null,
+          "page": null,
+          "project": null,
+          "size": 5242880,
+          "storage_metadata": {},
+          "updated_by": null,
+          "user": "bob@example.com",
+          "workspace": "acme"
+        },
+        {
+          "asset": "<ws>/<hex>-i.png",
+          "attributes": {
+            "name": "i.png",
+            "size": 5242880,
+            "type": "image/jpeg"
+          },
+          "comment": null,
+          "created_by": "bob@example.com",
+          "deleted": false,
+          "entity_identifier": null,
+          "entity_type": "ISSUE_DESCRIPTION",
+          "external_id": null,
+          "external_source": null,
+          "has_draft": false,
+          "is_archived": false,
+          "is_deleted": false,
+          "is_uploaded": false,
+          "issue": "Bug",
+          "last_modified_ok": null,
+          "page": null,
+          "project": null,
+          "size": 5242880,
+          "storage_metadata": {},
+          "updated_by": null,
+          "user": null,
+          "workspace": "acme"
+        },
+        {
+          "asset": "<ws>/<hex>-d.png",
+          "attributes": {
+            "name": "d.png",
+            "size": 5242880,
+            "type": "image/jpeg"
+          },
+          "comment": null,
+          "created_by": "bob@example.com",
+          "deleted": false,
+          "entity_identifier": null,
+          "entity_type": "DRAFT_ISSUE_ATTACHMENT",
+          "external_id": null,
+          "external_source": null,
+          "has_draft": false,
+          "is_archived": false,
+          "is_deleted": false,
+          "is_uploaded": false,
+          "issue": null,
+          "last_modified_ok": null,
+          "page": null,
+          "project": null,
+          "size": 5242880,
+          "storage_metadata": {},
+          "updated_by": null,
+          "user": null,
+          "workspace": "acme"
+        },
+        {
+          "asset": "<ws>/<hex>-logo one.png",
+          "attributes": {
+            "name": "logo one.png",
+            "size": 64,
+            "type": "image/png"
+          },
+          "comment": null,
+          "created_by": "alice@example.com",
+          "deleted": false,
+          "entity_identifier": null,
+          "entity_type": "WORKSPACE_LOGO",
+          "external_id": null,
+          "external_source": null,
+          "has_draft": false,
+          "is_archived": false,
+          "is_deleted": false,
+          "is_uploaded": true,
+          "issue": null,
+          "last_modified_ok": true,
+          "page": null,
+          "project": null,
+          "size": 64,
+          "storage_metadata": {
+            "ContentLength": 4,
+            "ContentType": "image/png",
+            "ETag": "\"6044e1b77e91b4fe89b4880b3c5fad15\"",
+            "Metadata": {}
+          },
+          "updated_by": null,
+          "user": null,
+          "workspace": "acme"
+        }
+      ]
+    },
+    {
+      "actor": "db",
+      "method": "QUERY",
+      "path": "workspaces",
+      "status": 0,
+      "body": [
+        {
+          "logo": "",
+          "logo_asset": "<uuid:2>/<hex>-logo one.png",
+          "slug": "acme",
+          "updated_by": "carol@example.com"
+        }
+      ]
+    },
+    {
+      "actor": "db",
+      "method": "QUERY",
+      "path": "projects",
+      "status": 0,
+      "body": [
+        {
+          "cover_asset": null,
+          "cover_image": null,
+          "identifier": "PL",
+          "updated_by": null
+        }
+      ]
+    },
+    {
+      "actor": "alice",
+      "method": "PATCH",
+      "path": "/api/assets/v2/workspaces/acme/<uuid:18>/",
+      "request": {
+        "attributes": {
+          "name": "",
+          "type": "image/png"
+        }
+      },
+      "status": 204
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/assets/v2/workspaces/acme/<uuid:18>/",
+      "status": 404,
+      "content_type": "application/json",
+      "body": {
+        "error": "The required object does not exist."
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/assets/v2/workspaces/acme/check/<uuid:18>/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "exists": false
+      }
+    },
+    {
+      "actor": "outsider",
+      "method": "POST",
+      "path": "/api/assets/v2/workspaces/acme/restore/<uuid:18>/",
+      "status": 403,
+      "content_type": "application/json",
+      "body": {
+        "error": "You don't have the required permissions."
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/assets/v2/workspaces/acme/restore/<uuid:13>/",
+      "status": 404,
+      "content_type": "application/json",
+      "body": {
+        "error": "The required object does not exist."
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "POST",
+      "path": "/api/assets/v2/workspaces/acme/restore/<uuid:18>/",
+      "status": 204
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/assets/v2/workspaces/acme/check/<uuid:18>/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "exists": true
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/assets/v2/workspaces/acme/check/<uuid:13>/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "exists": false
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/assets/v2/workspaces/acme/<uuid:18>/",
+      "status": 302,
+      "location": "<s3>/<bucket>/<uuid:2>/<hex32>-logo one.png?X-Amz-Expires=3600&response-content-disposition=attachment&<signed>",
+      "content_type": "text/html"
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/assets/v2/workspaces/acme/download/<uuid:18>/",
+      "status": 302,
+      "location": "<s3>/<bucket>/<uuid:2>/<hex32>-logo one.png?X-Amz-Expires=3600&response-content-disposition=attachment&<signed>",
+      "content_type": "text/html"
+    },
+    {
+      "actor": "browser",
+      "method": "UPLOAD",
+      "path": "orphan",
+      "status": 204,
+      "body": {
+        "code": null
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "PATCH",
+      "path": "/api/assets/v2/workspaces/acme/<uuid:14>/",
+      "status": 404,
+      "content_type": "application/json",
+      "body": {
+        "error": "The required object does not exist."
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/assets/v2/workspaces/acme/check/<uuid:14>/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "exists": false
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/assets/v2/workspaces/acme/",
+      "request": {
+        "entity_identifier": "<uuid:6>",
+        "entity_type": "PROJECT_COVER",
+        "name": "c.jpg",
+        "size": 10
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "asset_id": "<uuid:19>",
+        "asset_url": "/api/assets/v2/static/<uuid:19>/",
+        "upload_data": {
+          "fields": {
+            "Content-Type": "image/jpeg",
+            "key": "<masked>",
+            "policy": "<masked>",
+            "x-amz-algorithm": "AWS4-HMAC-SHA256",
+            "x-amz-credential": "<masked>",
+            "x-amz-date": "<masked>",
+            "x-amz-signature": "<masked>"
+          },
+          "url": "<masked>"
+        }
+      }
+    },
+    {
+      "actor": "browser",
+      "method": "UPLOAD",
+      "path": "cover",
+      "status": 204,
+      "body": {
+        "code": null
+      }
+    },
+    {
+      "actor": "dan",
+      "method": "PATCH",
+      "path": "/api/assets/v2/workspaces/acme/<uuid:19>/",
+      "status": 403,
+      "content_type": "application/json",
+      "body": {
+        "error": "You don't have access to this asset."
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "PATCH",
+      "path": "/api/assets/v2/workspaces/acme/<uuid:19>/",
+      "request": {
+        "attributes": {
+          "name": "cover.jpg"
+        }
+      },
+      "status": 204
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "anchor": null,
+        "archive_in": 0,
+        "archived_at": null,
+        "close_in": 0,
+        "cover_image": "",
+        "cover_image_asset": "<uuid:19>",
+        "cover_image_url": "/api/assets/v2/static/<uuid:19>/",
+        "created_at": "<datetime Z>",
+        "created_by": "<uuid:1>",
+        "cycle_view": false,
+        "default_assignee": null,
+        "default_state": null,
+        "deleted_at": null,
+        "description": "",
+        "description_html": null,
+        "description_text": null,
+        "emoji": null,
+        "estimate": null,
+        "external_id": null,
+        "external_source": null,
+        "guest_view_all_features": false,
+        "icon_prop": null,
+        "id": "<uuid:6>",
+        "identifier": "PL",
+        "inbox_view": false,
+        "intake_view": false,
+        "is_favorite": false,
+        "is_issue_type_enabled": false,
+        "is_time_tracking_enabled": false,
+        "issue_views_view": false,
+        "logo_props": {},
+        "member_role": 20,
+        "members": [
+          "<uuid:8>",
+          "<uuid:7>",
+          "<uuid:1>"
+        ],
+        "module_view": false,
+        "name": "Plane Lite",
+        "network": 2,
+        "next_work_item_sequence": 2,
+        "page_view": true,
+        "project_lead": null,
+        "sort_order": 65535,
+        "timezone": "UTC",
+        "updated_at": "<datetime Z>",
+        "updated_by": "<uuid:7>",
+        "workspace": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "dan",
+      "method": "GET",
+      "path": "/api/assets/v2/workspaces/acme/<uuid:19>/",
+      "status": 403,
+      "content_type": "application/json",
+      "body": {
+        "error": "You don't have access to this asset."
+      }
+    },
+    {
+      "actor": "dan",
+      "method": "DELETE",
+      "path": "/api/assets/v2/workspaces/acme/<uuid:19>/",
+      "status": 403,
+      "content_type": "application/json",
+      "body": {
+        "error": "You don't have access to this asset."
+      }
+    },
+    {
+      "actor": "carol",
+      "method": "GET",
+      "path": "/api/assets/v2/workspaces/acme/<uuid:19>/",
+      "status": 302,
+      "location": "<s3>/<bucket>/<uuid:2>/<hex32>-c.jpg?X-Amz-Expires=3600&response-content-disposition=attachment; filename*=UTF-8''cover.jpg&<signed>",
+      "content_type": "text/html"
+    },
+    {
+      "actor": "browser",
+      "method": "GET",
+      "path": "cover",
+      "status": 200,
+      "content_type": "image/jpeg",
+      "body": {
+        "content": "COVER",
+        "content_disposition": "attachment; filename*=UTF-8''cover.jpg"
+      }
+    },
+    {
+      "actor": "dan",
+      "method": "GET",
+      "path": "/api/assets/v2/workspaces/acme/download/<uuid:19>/",
+      "status": 302,
+      "location": "<s3>/<bucket>/<uuid:2>/<hex32>-c.jpg?X-Amz-Expires=3600&response-content-disposition=attachment; filename*=UTF-8''cover.jpg&<signed>",
+      "content_type": "text/html"
+    },
+    {
+      "actor": "dan",
+      "method": "GET",
+      "path": "/api/assets/v2/workspaces/acme/download/<uuid:14>/",
+      "status": 404,
+      "content_type": "application/json",
+      "body": {
+        "error": "The requested asset could not be found."
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/assets/v2/workspaces/acme/download/<uuid:13>/",
+      "status": 404,
+      "content_type": "application/json",
+      "body": {
+        "error": "The requested asset could not be found."
+      }
+    },
+    {
+      "actor": "db",
+      "method": "QUERY",
+      "path": "workspaces",
+      "status": 0,
+      "body": [
+        {
+          "logo": "",
+          "logo_asset": "<uuid:2>/<hex>-logo one.png",
+          "slug": "acme",
+          "updated_by": "alice@example.com"
+        }
+      ]
+    },
+    {
+      "actor": "db",
+      "method": "QUERY",
+      "path": "projects",
+      "status": 0,
+      "body": [
+        {
+          "cover_asset": "<uuid:2>/<hex>-c.jpg",
+          "cover_image": "",
+          "identifier": "PL",
+          "updated_by": "bob@example.com"
+        }
+      ]
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/assets/v2/workspaces/acme/",
+      "request": {
+        "entity_identifier": "<uuid:6>",
+        "entity_type": "PROJECT_COVER"
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "asset_id": "<uuid:20>",
+        "asset_url": "/api/assets/v2/static/<uuid:20>/",
+        "upload_data": {
+          "fields": {
+            "Content-Type": "image/jpeg",
+            "key": "<masked>",
+            "policy": "<masked>",
+            "x-amz-algorithm": "AWS4-HMAC-SHA256",
+            "x-amz-credential": "<masked>",
+            "x-amz-date": "<masked>",
+            "x-amz-signature": "<masked>"
+          },
+          "url": "<masked>"
+        }
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/assets/v2/workspaces/acme/<uuid:20>/",
+      "status": 404,
+      "content_type": "application/json",
+      "body": {
+        "error": "The requested asset could not be found."
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/assets/v2/workspaces/acme/download/<uuid:20>/",
+      "status": 404,
+      "content_type": "application/json",
+      "body": {
+        "error": "The requested asset could not be found."
+      }
+    },
+    {
+      "actor": "outsider",
+      "method": "POST",
+      "path": "/api/assets/v2/workspaces/acme/duplicate-assets/<uuid:19>/",
+      "request": {
+        "entity_type": "ISSUE_DESCRIPTION"
+      },
+      "status": 403,
+      "content_type": "application/json",
+      "body": {
+        "error": "You don't have the required permissions."
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/assets/v2/workspaces/acme/duplicate-assets/<uuid:19>/",
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "error": "Invalid entity type or entity id"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/assets/v2/workspaces/acme/duplicate-assets/<uuid:19>/",
+      "request": {
+        "entity_type": "COVER"
+      },
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "error": "Invalid entity type or entity id"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/assets/v2/workspaces/acme/duplicate-assets/<uuid:19>/",
+      "request": {
+        "entity_type": "ISSUE_DESCRIPTION",
+        "project_id": "<uuid:13>"
+      },
+      "status": 404,
+      "content_type": "application/json",
+      "body": {
+        "error": "Project not found"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/assets/v2/workspaces/acme/duplicate-assets/<uuid:20>/",
+      "request": {
+        "entity_type": "ISSUE_DESCRIPTION"
+      },
+      "status": 404,
+      "content_type": "application/json",
+      "body": {
+        "error": "Asset not found"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/assets/v2/workspaces/acme/duplicate-assets/<uuid:20>/",
+      "request": {
+        "entity_type": "ISSUE_DESCRIPTION",
+        "project_id": "junk"
+      },
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "error": "Please provide valid detail"
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "POST",
+      "path": "/api/assets/v2/workspaces/acme/duplicate-assets/<uuid:19>/",
+      "request": {
+        "entity_id": "<uuid:11>",
+        "entity_type": "ISSUE_DESCRIPTION",
+        "project_id": "<uuid:6>"
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "asset_id": "<uuid:21>"
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "GET",
+      "path": "/api/assets/v2/workspaces/acme/<uuid:21>/",
+      "status": 302,
+      "location": "<s3>/<bucket>/<uuid:2>/<hex32>-cover.jpg?X-Amz-Expires=3600&response-content-disposition=attachment; filename*=UTF-8''cover.jpg&<signed>",
+      "content_type": "text/html"
+    },
+    {
+      "actor": "browser",
+      "method": "GET",
+      "path": "copied cover",
+      "status": 200,
+      "content_type": "image/jpeg",
+      "body": {
+        "content": "COVER",
+        "content_disposition": "attachment; filename*=UTF-8''cover.jpg"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/assets/v2/workspaces/acme/duplicate-assets/<uuid:19>/",
+      "request": {
+        "entity_type": "WORKSPACE_LOGO"
+      },
+      "status": 429,
+      "content_type": "application/json",
+      "body": {
+        "error_code": 5900,
+        "error_message": "RATE_LIMIT_EXCEEDED"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/assets/v2/workspaces/acme/duplicate-assets/<uuid:19>/",
+      "request": {
+        "entity_id": "<uuid:6>",
+        "entity_type": "PROJECT_COVER"
+      },
+      "status": 429,
+      "content_type": "application/json",
+      "body": {
+        "error_code": 5900,
+        "error_message": "RATE_LIMIT_EXCEEDED"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/users/me/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "avatar": "",
+        "avatar_url": null,
+        "cover_image": null,
+        "cover_image_url": null,
+        "date_joined": "<datetime Z>",
+        "display_name": "alice",
+        "email": "alice@example.com",
+        "first_name": "",
+        "id": "<uuid:1>",
+        "is_active": true,
+        "is_bot": false,
+        "is_email_verified": false,
+        "is_password_autoset": false,
+        "last_login_medium": "email",
+        "last_login_time": "<datetime Z>",
+        "last_name": "",
+        "user_timezone": "UTC",
+        "username": "<hex32>"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/assets/v2/workspaces/acme/duplicate-assets/<uuid:18>/",
+      "request": {
+        "entity_id": "<uuid:1>",
+        "entity_type": "USER_COVER"
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "asset_id": "<uuid:22>"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/assets/v2/workspaces/acme/duplicate-assets/<uuid:18>/",
+      "request": {
+        "entity_id": "<uuid:6>",
+        "entity_type": "PROJECT_COVER"
+      },
+      "status": 500,
+      "content_type": "application/json",
+      "body": {
+        "error": "Something went wrong please try again later"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/assets/v2/workspaces/acme/duplicate-assets/<uuid:18>/",
+      "request": {
+        "entity_type": "WORKSPACE_LOGO"
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "asset_id": "<uuid:23>"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/assets/v2/workspaces/acme/duplicate-assets/<uuid:13>/",
+      "request": {
+        "entity_type": "USER_COVER"
+      },
+      "status": 404,
+      "content_type": "application/json",
+      "body": {
+        "error": "Asset not found"
+      }
+    },
+    {
+      "actor": "db",
+      "method": "QUERY",
+      "path": "file_assets",
+      "status": 0,
+      "body": [
+        {
+          "asset": "<uuid:2>/<hex>-orphan.png",
+          "attributes": {
+            "name": "orphan.png",
+            "size": 5242880,
+            "type": "image/jpeg"
+          },
+          "comment": null,
+          "created_by": "alice@example.com",
+          "deleted": false,
+          "entity_identifier": null,
+          "entity_type": "WORKSPACE_LOGO",
+          "external_id": null,
+          "external_source": null,
+          "has_draft": false,
+          "is_archived": false,
+          "is_deleted": false,
+          "is_uploaded": false,
+          "issue": null,
+          "last_modified_ok": null,
+          "page": null,
+          "project": null,
+          "size": 5242880,
+          "storage_metadata": {},
+          "updated_by": null,
+          "user": null,
+          "workspace": null
+        },
+        {
+          "asset": "<ws>/<hex>-bob.png",
+          "attributes": {
+            "name": "bob.png",
+            "size": 5242880,
+            "type": "image/jpeg"
+          },
+          "comment": null,
+          "created_by": "bob@example.com",
+          "deleted": false,
+          "entity_identifier": null,
+          "entity_type": "USER_AVATAR",
+          "external_id": null,
+          "external_source": null,
+          "has_draft": false,
+          "is_archived": false,
+          "is_deleted": false,
+          "is_uploaded": false,
+          "issue": null,
+          "last_modified_ok": null,
+          "page": null,
+          "project": null,
+          "size": 5242880,
+          "storage_metadata": {},
+          "updated_by": null,
+          "user": "bob@example.com",
+          "workspace": "acme"
+        },
+        {
+          "asset": "<ws>/<hex>-i.png",
+          "attributes": {
+            "name": "i.png",
+            "size": 5242880,
+            "type": "image/jpeg"
+          },
+          "comment": null,
+          "created_by": "bob@example.com",
+          "deleted": false,
+          "entity_identifier": null,
+          "entity_type": "ISSUE_DESCRIPTION",
+          "external_id": null,
+          "external_source": null,
+          "has_draft": false,
+          "is_archived": false,
+          "is_deleted": false,
+          "is_uploaded": false,
+          "issue": "Bug",
+          "last_modified_ok": null,
+          "page": null,
+          "project": null,
+          "size": 5242880,
+          "storage_metadata": {},
+          "updated_by": null,
+          "user": null,
+          "workspace": "acme"
+        },
+        {
+          "asset": "<ws>/<hex>-d.png",
+          "attributes": {
+            "name": "d.png",
+            "size": 5242880,
+            "type": "image/jpeg"
+          },
+          "comment": null,
+          "created_by": "bob@example.com",
+          "deleted": false,
+          "entity_identifier": null,
+          "entity_type": "DRAFT_ISSUE_ATTACHMENT",
+          "external_id": null,
+          "external_source": null,
+          "has_draft": false,
+          "is_archived": false,
+          "is_deleted": false,
+          "is_uploaded": false,
+          "issue": null,
+          "last_modified_ok": null,
+          "page": null,
+          "project": null,
+          "size": 5242880,
+          "storage_metadata": {},
+          "updated_by": null,
+          "user": null,
+          "workspace": "acme"
+        },
+        {
+          "asset": "<ws>/<hex>-logo one.png",
+          "attributes": {
+            "name": "",
+            "type": "image/png"
+          },
+          "comment": null,
+          "created_by": "alice@example.com",
+          "deleted": false,
+          "entity_identifier": null,
+          "entity_type": "WORKSPACE_LOGO",
+          "external_id": null,
+          "external_source": null,
+          "has_draft": false,
+          "is_archived": false,
+          "is_deleted": false,
+          "is_uploaded": true,
+          "issue": null,
+          "last_modified_ok": true,
+          "page": null,
+          "project": null,
+          "size": 64,
+          "storage_metadata": {
+            "ContentLength": 4,
+            "ContentType": "image/png",
+            "ETag": "\"6044e1b77e91b4fe89b4880b3c5fad15\"",
+            "Metadata": {}
+          },
+          "updated_by": null,
+          "user": null,
+          "workspace": "acme"
+        },
+        {
+          "asset": "<ws>/<hex>-c.jpg",
+          "attributes": {
+            "name": "cover.jpg"
+          },
+          "comment": null,
+          "created_by": "alice@example.com",
+          "deleted": false,
+          "entity_identifier": null,
+          "entity_type": "PROJECT_COVER",
+          "external_id": null,
+          "external_source": null,
+          "has_draft": false,
+          "is_archived": false,
+          "is_deleted": false,
+          "is_uploaded": true,
+          "issue": null,
+          "last_modified_ok": true,
+          "page": null,
+          "project": "PL",
+          "size": 10,
+          "storage_metadata": {
+            "ContentLength": 5,
+            "ContentType": "image/jpeg",
+            "ETag": "\"901b03ba0232d92accb3426e9acddfee\"",
+            "Metadata": {}
+          },
+          "updated_by": null,
+          "user": null,
+          "workspace": "acme"
+        },
+        {
+          "asset": "<ws>/<hex>-unnamed",
+          "attributes": {
+            "name": "unnamed",
+            "size": 5242880,
+            "type": "image/jpeg"
+          },
+          "comment": null,
+          "created_by": "alice@example.com",
+          "deleted": false,
+          "entity_identifier": null,
+          "entity_type": "PROJECT_COVER",
+          "external_id": null,
+          "external_source": null,
+          "has_draft": false,
+          "is_archived": false,
+          "is_deleted": false,
+          "is_uploaded": false,
+          "issue": null,
+          "last_modified_ok": null,
+          "page": null,
+          "project": "PL",
+          "size": 5242880,
+          "storage_metadata": {},
+          "updated_by": null,
+          "user": null,
+          "workspace": "acme"
+        },
+        {
+          "asset": "<ws>/<hex>-cover.jpg",
+          "attributes": {
+            "name": "cover.jpg",
+            "size": null,
+            "type": null
+          },
+          "comment": null,
+          "created_by": "bob@example.com",
+          "deleted": false,
+          "entity_identifier": null,
+          "entity_type": "ISSUE_DESCRIPTION",
+          "external_id": null,
+          "external_source": null,
+          "has_draft": false,
+          "is_archived": false,
+          "is_deleted": false,
+          "is_uploaded": true,
+          "issue": "Bug",
+          "last_modified_ok": true,
+          "page": null,
+          "project": "PL",
+          "size": 10,
+          "storage_metadata": {
+            "ContentLength": 5,
+            "ContentType": "image/jpeg",
+            "ETag": "\"901b03ba0232d92accb3426e9acddfee\"",
+            "Metadata": {}
+          },
+          "updated_by": null,
+          "user": null,
+          "workspace": "acme"
+        },
+        {
+          "asset": "<ws>/<hex>-unnamed",
+          "attributes": {
+            "name": "",
+            "size": null,
+            "type": "image/png"
+          },
+          "comment": null,
+          "created_by": "alice@example.com",
+          "deleted": false,
+          "entity_identifier": null,
+          "entity_type": "USER_COVER",
+          "external_id": null,
+          "external_source": null,
+          "has_draft": false,
+          "is_archived": false,
+          "is_deleted": false,
+          "is_uploaded": true,
+          "issue": null,
+          "last_modified_ok": true,
+          "page": null,
+          "project": null,
+          "size": 64,
+          "storage_metadata": {
+            "ContentLength": 4,
+            "ContentType": "image/png",
+            "ETag": "\"6044e1b77e91b4fe89b4880b3c5fad15\"",
+            "Metadata": {}
+          },
+          "updated_by": null,
+          "user": "alice@example.com",
+          "workspace": "acme"
+        },
+        {
+          "asset": "<uuid:2>/<hex>-unnamed",
+          "attributes": {
+            "name": "",
+            "size": null,
+            "type": "image/png"
+          },
+          "comment": null,
+          "created_by": "alice@example.com",
+          "deleted": false,
+          "entity_identifier": null,
+          "entity_type": "WORKSPACE_LOGO",
+          "external_id": null,
+          "external_source": null,
+          "has_draft": false,
+          "is_archived": false,
+          "is_deleted": false,
+          "is_uploaded": true,
+          "issue": null,
+          "last_modified_ok": true,
+          "page": null,
+          "project": null,
+          "size": 64,
+          "storage_metadata": {
+            "ContentLength": 4,
+            "ContentType": "image/png",
+            "ETag": "\"6044e1b77e91b4fe89b4880b3c5fad15\"",
+            "Metadata": {}
+          },
+          "updated_by": null,
+          "user": null,
+          "workspace": null
+        }
+      ]
+    },
+    {
+      "actor": "outsider",
+      "method": "DELETE",
+      "path": "/api/assets/v2/workspaces/acme/<uuid:18>/",
+      "status": 403,
+      "content_type": "application/json",
+      "body": {
+        "error": "You don't have the required permissions."
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "DELETE",
+      "path": "/api/assets/v2/workspaces/acme/<uuid:18>/",
+      "status": 204
+    },
+    {
+      "actor": "alice",
+      "method": "DELETE",
+      "path": "/api/assets/v2/workspaces/acme/<uuid:18>/",
+      "status": 404,
+      "content_type": "application/json",
+      "body": {
+        "error": "The required object does not exist."
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/assets/v2/workspaces/acme/check/<uuid:18>/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "exists": false
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "DELETE",
+      "path": "/api/assets/v2/workspaces/acme/<uuid:19>/",
+      "status": 204
+    },
+    {
+      "actor": "alice",
+      "method": "DELETE",
+      "path": "/api/assets/v2/workspaces/acme/<uuid:13>/",
+      "status": 404,
+      "content_type": "application/json",
+      "body": {
+        "error": "The required object does not exist."
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/workspaces/acme/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "background_color": "<masked>",
+        "created_at": "<datetime Z>",
+        "created_by": "<uuid:1>",
+        "deleted_at": null,
+        "id": "<uuid:2>",
+        "logo": "",
+        "logo_asset": null,
+        "logo_url": null,
+        "name": "Acme",
+        "organization_size": null,
+        "owner": "<uuid:1>",
+        "slug": "acme",
+        "timezone": "UTC",
+        "total_members": 4,
+        "updated_at": "<datetime Z>",
+        "updated_by": "<uuid:1>"
+      }
+    },
+    {
+      "actor": "db",
+      "method": "QUERY",
+      "path": "workspaces",
+      "status": 0,
+      "body": [
+        {
+          "logo": "",
+          "logo_asset": null,
+          "slug": "acme",
+          "updated_by": "alice@example.com"
+        }
+      ]
+    },
+    {
+      "actor": "db",
+      "method": "QUERY",
+      "path": "projects",
+      "status": 0,
+      "body": [
+        {
+          "cover_asset": null,
+          "cover_image": "",
+          "identifier": "PL",
+          "updated_by": "bob@example.com"
+        }
+      ]
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/assets/v2/workspaces/acme/restore/<uuid:18>/",
+      "status": 204
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/assets/v2/workspaces/acme/check/<uuid:18>/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "exists": true
+      }
+    },
+    {
+      "actor": "db",
+      "method": "QUERY",
+      "path": "file_assets",
+      "status": 0,
+      "body": [
+        {
+          "asset": "<uuid:2>/<hex>-orphan.png",
+          "attributes": {
+            "name": "orphan.png",
+            "size": 5242880,
+            "type": "image/jpeg"
+          },
+          "comment": null,
+          "created_by": "alice@example.com",
+          "deleted": false,
+          "entity_identifier": null,
+          "entity_type": "WORKSPACE_LOGO",
+          "external_id": null,
+          "external_source": null,
+          "has_draft": false,
+          "is_archived": false,
+          "is_deleted": false,
+          "is_uploaded": false,
+          "issue": null,
+          "last_modified_ok": null,
+          "page": null,
+          "project": null,
+          "size": 5242880,
+          "storage_metadata": {},
+          "updated_by": null,
+          "user": null,
+          "workspace": null
+        },
+        {
+          "asset": "<ws>/<hex>-bob.png",
+          "attributes": {
+            "name": "bob.png",
+            "size": 5242880,
+            "type": "image/jpeg"
+          },
+          "comment": null,
+          "created_by": "bob@example.com",
+          "deleted": false,
+          "entity_identifier": null,
+          "entity_type": "USER_AVATAR",
+          "external_id": null,
+          "external_source": null,
+          "has_draft": false,
+          "is_archived": false,
+          "is_deleted": false,
+          "is_uploaded": false,
+          "issue": null,
+          "last_modified_ok": null,
+          "page": null,
+          "project": null,
+          "size": 5242880,
+          "storage_metadata": {},
+          "updated_by": null,
+          "user": "bob@example.com",
+          "workspace": "acme"
+        },
+        {
+          "asset": "<ws>/<hex>-i.png",
+          "attributes": {
+            "name": "i.png",
+            "size": 5242880,
+            "type": "image/jpeg"
+          },
+          "comment": null,
+          "created_by": "bob@example.com",
+          "deleted": false,
+          "entity_identifier": null,
+          "entity_type": "ISSUE_DESCRIPTION",
+          "external_id": null,
+          "external_source": null,
+          "has_draft": false,
+          "is_archived": false,
+          "is_deleted": false,
+          "is_uploaded": false,
+          "issue": "Bug",
+          "last_modified_ok": null,
+          "page": null,
+          "project": null,
+          "size": 5242880,
+          "storage_metadata": {},
+          "updated_by": null,
+          "user": null,
+          "workspace": "acme"
+        },
+        {
+          "asset": "<ws>/<hex>-d.png",
+          "attributes": {
+            "name": "d.png",
+            "size": 5242880,
+            "type": "image/jpeg"
+          },
+          "comment": null,
+          "created_by": "bob@example.com",
+          "deleted": false,
+          "entity_identifier": null,
+          "entity_type": "DRAFT_ISSUE_ATTACHMENT",
+          "external_id": null,
+          "external_source": null,
+          "has_draft": false,
+          "is_archived": false,
+          "is_deleted": false,
+          "is_uploaded": false,
+          "issue": null,
+          "last_modified_ok": null,
+          "page": null,
+          "project": null,
+          "size": 5242880,
+          "storage_metadata": {},
+          "updated_by": null,
+          "user": null,
+          "workspace": "acme"
+        },
+        {
+          "asset": "<ws>/<hex>-logo one.png",
+          "attributes": {
+            "name": "",
+            "type": "image/png"
+          },
+          "comment": null,
+          "created_by": "alice@example.com",
+          "deleted": false,
+          "entity_identifier": null,
+          "entity_type": "WORKSPACE_LOGO",
+          "external_id": null,
+          "external_source": null,
+          "has_draft": false,
+          "is_archived": false,
+          "is_deleted": false,
+          "is_uploaded": true,
+          "issue": null,
+          "last_modified_ok": true,
+          "page": null,
+          "project": null,
+          "size": 64,
+          "storage_metadata": {
+            "ContentLength": 4,
+            "ContentType": "image/png",
+            "ETag": "\"6044e1b77e91b4fe89b4880b3c5fad15\"",
+            "Metadata": {}
+          },
+          "updated_by": null,
+          "user": null,
+          "workspace": "acme"
+        },
+        {
+          "asset": "<ws>/<hex>-c.jpg",
+          "attributes": {
+            "name": "cover.jpg"
+          },
+          "comment": null,
+          "created_by": "alice@example.com",
+          "deleted": true,
+          "entity_identifier": null,
+          "entity_type": "PROJECT_COVER",
+          "external_id": null,
+          "external_source": null,
+          "has_draft": false,
+          "is_archived": false,
+          "is_deleted": true,
+          "is_uploaded": true,
+          "issue": null,
+          "last_modified_ok": true,
+          "page": null,
+          "project": "PL",
+          "size": 10,
+          "storage_metadata": {
+            "ContentLength": 5,
+            "ContentType": "image/jpeg",
+            "ETag": "\"901b03ba0232d92accb3426e9acddfee\"",
+            "Metadata": {}
+          },
+          "updated_by": null,
+          "user": null,
+          "workspace": "acme"
+        },
+        {
+          "asset": "<ws>/<hex>-unnamed",
+          "attributes": {
+            "name": "unnamed",
+            "size": 5242880,
+            "type": "image/jpeg"
+          },
+          "comment": null,
+          "created_by": "alice@example.com",
+          "deleted": false,
+          "entity_identifier": null,
+          "entity_type": "PROJECT_COVER",
+          "external_id": null,
+          "external_source": null,
+          "has_draft": false,
+          "is_archived": false,
+          "is_deleted": false,
+          "is_uploaded": false,
+          "issue": null,
+          "last_modified_ok": null,
+          "page": null,
+          "project": "PL",
+          "size": 5242880,
+          "storage_metadata": {},
+          "updated_by": null,
+          "user": null,
+          "workspace": "acme"
+        },
+        {
+          "asset": "<ws>/<hex>-cover.jpg",
+          "attributes": {
+            "name": "cover.jpg",
+            "size": null,
+            "type": null
+          },
+          "comment": null,
+          "created_by": "bob@example.com",
+          "deleted": false,
+          "entity_identifier": null,
+          "entity_type": "ISSUE_DESCRIPTION",
+          "external_id": null,
+          "external_source": null,
+          "has_draft": false,
+          "is_archived": false,
+          "is_deleted": false,
+          "is_uploaded": true,
+          "issue": "Bug",
+          "last_modified_ok": true,
+          "page": null,
+          "project": "PL",
+          "size": 10,
+          "storage_metadata": {
+            "ContentLength": 5,
+            "ContentType": "image/jpeg",
+            "ETag": "\"901b03ba0232d92accb3426e9acddfee\"",
+            "Metadata": {}
+          },
+          "updated_by": null,
+          "user": null,
+          "workspace": "acme"
+        },
+        {
+          "asset": "<ws>/<hex>-unnamed",
+          "attributes": {
+            "name": "",
+            "size": null,
+            "type": "image/png"
+          },
+          "comment": null,
+          "created_by": "alice@example.com",
+          "deleted": false,
+          "entity_identifier": null,
+          "entity_type": "USER_COVER",
+          "external_id": null,
+          "external_source": null,
+          "has_draft": false,
+          "is_archived": false,
+          "is_deleted": false,
+          "is_uploaded": true,
+          "issue": null,
+          "last_modified_ok": true,
+          "page": null,
+          "project": null,
+          "size": 64,
+          "storage_metadata": {
+            "ContentLength": 4,
+            "ContentType": "image/png",
+            "ETag": "\"6044e1b77e91b4fe89b4880b3c5fad15\"",
+            "Metadata": {}
+          },
+          "updated_by": null,
+          "user": "alice@example.com",
+          "workspace": "acme"
+        },
+        {
+          "asset": "<uuid:2>/<hex>-unnamed",
+          "attributes": {
+            "name": "",
+            "size": null,
+            "type": "image/png"
+          },
+          "comment": null,
+          "created_by": "alice@example.com",
+          "deleted": false,
+          "entity_identifier": null,
+          "entity_type": "WORKSPACE_LOGO",
+          "external_id": null,
+          "external_source": null,
+          "has_draft": false,
+          "is_archived": false,
+          "is_deleted": false,
+          "is_uploaded": true,
+          "issue": null,
+          "last_modified_ok": true,
+          "page": null,
+          "project": null,
+          "size": 64,
+          "storage_metadata": {
+            "ContentLength": 4,
+            "ContentType": "image/png",
+            "ETag": "\"6044e1b77e91b4fe89b4880b3c5fad15\"",
+            "Metadata": {}
+          },
+          "updated_by": null,
+          "user": null,
+          "workspace": null
+        }
+      ]
+    },
+    {
+      "actor": "db",
+      "method": "QUERY",
+      "path": "workspaces",
+      "status": 0,
+      "body": [
+        {
+          "logo": "",
+          "logo_asset": null,
+          "slug": "acme",
+          "updated_by": "alice@example.com"
+        }
+      ]
+    },
+    {
+      "actor": "db",
+      "method": "QUERY",
+      "path": "projects",
+      "status": 0,
+      "body": [
+        {
+          "cover_asset": null,
+          "cover_image": "",
+          "identifier": "PL",
+          "updated_by": "bob@example.com"
+        }
+      ]
+    }
+  ]
+}

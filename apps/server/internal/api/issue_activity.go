@@ -306,6 +306,12 @@ func (a *API) issueActivity(ctx context.Context, j issueActivityJob) error {
 	case "link.activity.created", "link.activity.updated", "link.activity.deleted",
 		"issue_relation.activity.created", "issue_relation.activity.deleted":
 		err = t.structureActivity(ctx) // issue_activity_structure.go
+	case "module.activity.created", "module.activity.deleted":
+		err = t.moduleActivity(ctx) // issue_activity_module.go
+	case "cycle.activity.created", "cycle.activity.deleted":
+		err = t.cycleActivity(ctx) // issue_activity_cycle.go
+	case "attachment.activity.created", "attachment.activity.deleted":
+		err = t.attachmentActivity(ctx) // issue_activity_asset.go
 	}
 	if err != nil {
 		return err

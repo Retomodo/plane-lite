@@ -568,6 +568,107 @@
     {
       "actor": "alice",
       "method": "GET",
+      "path": "/api/users/me/workspaces/?search=%22bet%22",
+      "status": 200,
+      "content_type": "application/json",
+      "body": [
+        {
+          "background_color": "<masked>",
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:3>",
+          "deleted_at": null,
+          "id": "<uuid:5>",
+          "logo": null,
+          "logo_asset": null,
+          "logo_url": null,
+          "name": "Beta",
+          "organization_size": null,
+          "owner": "<uuid:3>",
+          "role": 20,
+          "slug": "beta",
+          "timezone": "UTC",
+          "total_members": 1,
+          "updated_at": "<datetime Z>",
+          "updated_by": null
+        }
+      ]
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/users/me/workspaces/?search=%22be%20ta%22",
+      "status": 200,
+      "content_type": "application/json",
+      "body": []
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/users/me/workspaces/?search='a%20c',bet",
+      "status": 200,
+      "content_type": "application/json",
+      "body": []
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/users/me/workspaces/?search=%22",
+      "status": 200,
+      "content_type": "application/json",
+      "body": [
+        {
+          "background_color": "<masked>",
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:3>",
+          "deleted_at": null,
+          "id": "<uuid:5>",
+          "logo": null,
+          "logo_asset": null,
+          "logo_url": null,
+          "name": "Beta",
+          "organization_size": null,
+          "owner": "<uuid:3>",
+          "role": 20,
+          "slug": "beta",
+          "timezone": "UTC",
+          "total_members": 1,
+          "updated_at": "<datetime Z>",
+          "updated_by": null
+        },
+        {
+          "background_color": "<masked>",
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:3>",
+          "deleted_at": null,
+          "id": "<uuid:4>",
+          "logo": "https://example.com/logo.png",
+          "logo_asset": null,
+          "logo_url": "https://example.com/logo.png",
+          "name": "Acme",
+          "organization_size": "2-10",
+          "owner": "<uuid:3>",
+          "role": 20,
+          "slug": "acme",
+          "timezone": "Asia/Kolkata",
+          "total_members": 1,
+          "updated_at": "<datetime Z>",
+          "updated_by": null
+        }
+      ]
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/users/me/workspaces/?search=%00",
+      "status": 400,
+      "content_type": "application/json",
+      "body": [
+        "Null characters are not allowed."
+      ]
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
       "path": "/api/users/me/workspaces/?owner=<uuid:6>",
       "status": 400,
       "content_type": "application/json",

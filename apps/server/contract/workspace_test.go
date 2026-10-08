@@ -103,6 +103,12 @@ func TestWorkspaceCreate(t *testing.T) {
 		alice.Get("/api/users/me/workspaces/?fields=id,name", wsMask)
 		aliceID := alice.Get("/api/users/me/").String("id")
 		alice.Get("/api/users/me/workspaces/?owner="+aliceID+"&search=a,c", wsMask)
+		// DRF 3.17's search_smart_split: quoted phrases stay whole (a lone
+		// quote is an empty term, matching everything); a null character is
+		// a 400.
+		for _, q := range []string{`%22bet%22`, `%22be%20ta%22`, `'a%20c',bet`, `%22`, `%00`} {
+			alice.Get("/api/users/me/workspaces/?search="+q, wsMask)
+		}
 		alice.Get("/api/users/me/workspaces/?owner=00000000-0000-4000-8000-00000000dead", wsMask)
 		alice.Get("/api/users/me/workspaces/?owner=nope", wsMask)
 		alice.Get("/api/users/me/workspaces/?owner=", wsMask)
@@ -304,6 +310,9 @@ func TestWorkspaceMembers(t *testing.T) {
 		fayM := idOf(findBy(members, "member.email", "fay@example.com"))
 		carol.Get(ws+"members/", SortBy("", "member.display_name"))
 		alice.Get(ws+"members/?search=bo", SortBy("", "member.email"))
+		for _, q := range []string{`%22bo%22`, `%22b%20o%22`, `%22`, `%00`} {
+			alice.Get(ws+"members/?search="+q, SortBy("", "member.email"))
+		}
 		alice.Get(ws + "members/" + bobM + "/")
 		carol.Get(ws + "members/" + bobM + "/")
 		alice.Get(ws + "members/00000000-0000-4000-8000-00000000dead/")

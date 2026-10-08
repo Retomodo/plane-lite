@@ -6,7 +6,7 @@
 
 // services
 import { API_BASE_URL } from "@plane/constants";
-import type { IIntakeState, IState } from "@plane/types";
+import type { IState } from "@plane/types";
 import { APIService } from "@/services/api.service";
 // helpers
 // types
@@ -34,14 +34,6 @@ export class ProjectStateService extends APIService {
 
   async getStates(workspaceSlug: string, projectId: string): Promise<IState[]> {
     return this.get(`/api/workspaces/${workspaceSlug}/projects/${projectId}/states/`)
-      .then((response) => response?.data)
-      .catch((error) => {
-        throw error?.response?.data;
-      });
-  }
-
-  async getIntakeState(workspaceSlug: string, projectId: string): Promise<IIntakeState> {
-    return this.get(`/api/workspaces/${workspaceSlug}/projects/${projectId}/intake-state/`)
       .then((response) => response?.data)
       .catch((error) => {
         throw error?.response?.data;

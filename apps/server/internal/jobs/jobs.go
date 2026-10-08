@@ -19,23 +19,27 @@ import (
 )
 
 type Runner struct {
-	log     *slog.Logger
-	inline  bool
-	workers *river.Workers
-	fns     map[string]func(context.Context, river.JobArgs) error
-	client  *river.Client[pgx.Tx]
+	log      *slog.Logger
+	inline   bool
+	workers  *river.Workers
+	fns      map[string]func(context.Context, river.JobArgs) error
+	periodic map[string]periodic
+	client   *river.Client[pgx.Tx]
 }
 
 // New returns a runner. With inline set, Enqueue runs the job immediately in
 // the caller's goroutine, the way the Django reference runs Celery eagerly
 // (tests only).
 func New(log *slog.Logger, inline bool) *Runner {
-	return &Runner{
-		log:     log,
-		inline:  inline,
-		workers: river.NewWorkers(),
-		fns:     map[string]func(context.Context, river.JobArgs) error{},
+	r := &Runner{
+		log:      log,
+		inline:   inline,
+		workers:  river.NewWorkers(),
+		fns:      map[string]func(context.Context, river.JobArgs) error{},
+		periodic: map[string]periodic{},
 	}
+	river.AddWorker(r.workers, river.WorkFunc(r.workPeriodic))
+	return r
 }
 
 // Register adds the worker for one job type. Call before Start.
@@ -47,15 +51,17 @@ func Register[T river.JobArgs](r *Runner, fn func(context.Context, T) error) {
 	}))
 }
 
-// Start begins working jobs. A no-op in inline mode.
+// Start begins working jobs and, on the elected leader, scheduling the
+// periodic ones. A no-op in inline mode.
 func (r *Runner) Start(ctx context.Context, pool *pgxpool.Pool) error {
 	if r.inline {
 		return nil
 	}
 	client, err := river.NewClient(riverpgxv5.New(pool), &river.Config{
-		Logger:  r.log,
-		Queues:  map[string]river.QueueConfig{river.QueueDefault: {MaxWorkers: 10}},
-		Workers: r.workers,
+		Logger:       r.log,
+		Queues:       map[string]river.QueueConfig{river.QueueDefault: {MaxWorkers: 10}},
+		Workers:      r.workers,
+		PeriodicJobs: r.periodicJobs(),
 	})
 	if err != nil {
 		return fmt.Errorf("jobs: %w", err)

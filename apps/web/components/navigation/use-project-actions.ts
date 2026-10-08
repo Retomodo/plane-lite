@@ -16,7 +16,6 @@ type UseProjectActionsProps = {
 };
 
 export const useProjectActions = ({ workspaceSlug, projectId, activeItem }: UseProjectActionsProps) => {
-  const [publishModalOpen, setPublishModalOpen] = useState(false);
   const [leaveProjectModalOpen, setLeaveProjectModalOpen] = useState(false);
 
   const handleLeaveProject = useCallback(() => {
@@ -42,20 +41,14 @@ export const useProjectActions = ({ workspaceSlug, projectId, activeItem }: UseP
     }
   }, [activeItem, projectId, workspaceSlug]);
 
-  const handlePublishModal = useCallback((open: boolean) => {
-    setPublishModalOpen(open);
-  }, []);
-
   const handleLeaveProjectModal = useCallback((open: boolean) => {
     setLeaveProjectModalOpen(open);
   }, []);
 
   return {
-    publishModalOpen,
     leaveProjectModalOpen,
     handleLeaveProject,
     handleCopyText,
-    handlePublishModal,
     handleLeaveProjectModal,
   };
 };

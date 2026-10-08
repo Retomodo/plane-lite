@@ -277,6 +277,8 @@
   "updating": "Обновление...",
   "create_new_issue": "Создать новый рабочий элемент",
   "editor_is_not_ready_to_discard_changes": "Редактор не готов отменить изменения",
+  "discard_changes_title": "Отказаться от изменений?",
+  "discard_changes_description": "У Вас есть несохранённые изменения. Если закрыть сейчас, они будут потеряны.",
   "failed_to_move_issue_to_project": "Ошибка перемещения рабочего элемента в проект",
   "create_more": "Создать еще",
   "add_to_project": "Добавить в проект",

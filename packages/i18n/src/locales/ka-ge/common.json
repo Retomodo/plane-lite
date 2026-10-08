@@ -277,6 +277,8 @@
   "updating": "განახლება",
   "create_new_issue": "ახალი სამუშაო ელემენტის შექმნა",
   "editor_is_not_ready_to_discard_changes": "რედაქტორი არ არის მზად ცვლილებების გაუქმებისთვის",
+  "discard_changes_title": "გავაუქმოთ ცვლილებები?",
+  "discard_changes_description": "თქვენ გაქვთ შეუნახავი ცვლილებები. თუ ახლა დახურავთ, ისინი დაიკარგება.",
   "failed_to_move_issue_to_project": "სამუშაო ელემენტის პროექტში გადატანა ვერ მოხერხდა",
   "create_more": "მეტის შექმნა",
   "add_to_project": "პროექტში დამატება",

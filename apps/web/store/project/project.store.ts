@@ -8,7 +8,7 @@ import { sortBy, cloneDeep, update, set } from "lodash-es";
 import { observable, action, computed, makeObservable, runInAction } from "mobx";
 import { computedFn } from "mobx-utils";
 // plane imports
-import type { TFetchStatus, TLoader, TProjectAnalyticsCount, TProjectAnalyticsCountParams } from "@plane/types";
+import type { TFetchStatus, TLoader } from "@plane/types";
 // helpers
 import { orderProjects, shouldFilterProject } from "@plane/utils";
 // services
@@ -26,7 +26,6 @@ export interface IProjectStore {
   loader: TLoader;
   fetchStatus: TFetchStatus;
   projectMap: Record<string, TProject>; // projectId: project info
-  projectAnalyticsCountMap: Record<string, TProjectAnalyticsCount>; // projectId: project analytics count
   // computed
   isInitializingProjects: boolean;
   filteredProjectIds: string[] | undefined;
@@ -41,7 +40,6 @@ export interface IProjectStore {
   getProjectById: (projectId: string | undefined | null) => TProject | undefined;
   getPartialProjectById: (projectId: string | undefined | null) => TPartialProject | undefined;
   getProjectIdentifierById: (projectId: string | undefined | null) => string;
-  getProjectAnalyticsCountById: (projectId: string | undefined | null) => TProjectAnalyticsCount | undefined;
   getProjectByIdentifier: (projectIdentifier: string) => TProject | undefined;
   // collapsible
   openCollapsibleSection: ProjectOverviewCollapsible[];
@@ -58,10 +56,6 @@ export interface IProjectStore {
   fetchPartialProjects: (workspaceSlug: string) => Promise<TPartialProject[]>;
   fetchProjects: (workspaceSlug: string) => Promise<TProject[]>;
   fetchProjectDetails: (workspaceSlug: string, projectId: string) => Promise<TProject>;
-  fetchProjectAnalyticsCount: (
-    workspaceSlug: string,
-    params?: TProjectAnalyticsCountParams
-  ) => Promise<TProjectAnalyticsCount[]>;
   // favorites actions
   addProjectToFavorites: (workspaceSlug: string, projectId: string) => Promise<any>;
   removeProjectFromFavorites: (workspaceSlug: string, projectId: string) => Promise<any>;
@@ -82,7 +76,6 @@ export class ProjectStore implements IProjectStore {
   loader: TLoader = "init-loader";
   fetchStatus: TFetchStatus = undefined;
   projectMap: Record<string, TProject> = {};
-  projectAnalyticsCountMap: Record<string, TProjectAnalyticsCount> = {};
   openCollapsibleSection: ProjectOverviewCollapsible[] = ["milestones"];
   lastCollapsibleAction: ProjectOverviewCollapsible | null = null;
 
@@ -102,7 +95,6 @@ export class ProjectStore implements IProjectStore {
       loader: observable.ref,
       fetchStatus: observable.ref,
       projectMap: observable,
-      projectAnalyticsCountMap: observable,
       openCollapsibleSection: observable.ref,
       lastCollapsibleAction: observable.ref,
       // computed
@@ -121,7 +113,6 @@ export class ProjectStore implements IProjectStore {
       fetchPartialProjects: action,
       fetchProjects: action,
       fetchProjectDetails: action,
-      fetchProjectAnalyticsCount: action,
       // favorites actions
       addProjectToFavorites: action,
       removeProjectFromFavorites: action,
@@ -375,30 +366,6 @@ export class ProjectStore implements IProjectStore {
   };
 
   /**
-   * Fetches project analytics count using workspace slug and project id
-   * @param workspaceSlug
-   * @param params TProjectAnalyticsCountParams
-   * @returns Promise<TProjectAnalyticsCount[]>
-   */
-  fetchProjectAnalyticsCount = async (
-    workspaceSlug: string,
-    params?: TProjectAnalyticsCountParams
-  ): Promise<TProjectAnalyticsCount[]> => {
-    try {
-      const response = await this.projectService.getProjectAnalyticsCount(workspaceSlug, params);
-      runInAction(() => {
-        for (const analyticsData of response) {
-          set(this.projectAnalyticsCountMap, [analyticsData.id], analyticsData);
-        }
-      });
-      return response;
-    } catch (error) {
-      console.log("Failed to fetch project analytics count", error);
-      throw error;
-    }
-  };
-
-  /**
    * Returns project details using project id
    * @param projectId
    * @returns TProject | null
@@ -436,16 +403,6 @@ export class ProjectStore implements IProjectStore {
   getProjectIdentifierById = computedFn((projectId: string | undefined | null) => {
     const projectInfo = this.projectMap?.[projectId ?? ""];
     return projectInfo?.identifier;
-  });
-
-  /**
-   * Returns project analytics count using project id
-   * @param projectId
-   * @returns TProjectAnalyticsCount[]
-   */
-  getProjectAnalyticsCountById = computedFn((projectId: string | undefined | null) => {
-    if (!projectId) return undefined;
-    return this.projectAnalyticsCountMap?.[projectId];
   });
 
   /**

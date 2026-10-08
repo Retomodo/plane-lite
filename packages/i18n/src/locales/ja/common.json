@@ -277,6 +277,8 @@
   "updating": "更新中",
   "create_new_issue": "新規作業項目を作成",
   "editor_is_not_ready_to_discard_changes": "エディターは変更を破棄する準備ができていません",
+  "discard_changes_title": "変更を破棄しますか？",
+  "discard_changes_description": "保存されていない変更があります。今閉じると、変更は失われます。",
   "failed_to_move_issue_to_project": "作業項目をプロジェクトに移動できませんでした",
   "create_more": "さらに作成",
   "add_to_project": "プロジェクトに追加",

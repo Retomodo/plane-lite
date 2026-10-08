@@ -16,6 +16,7 @@ import (
 	"plane-lite/server/internal/httpx"
 	"plane-lite/server/internal/jobs"
 	"plane-lite/server/internal/mail"
+	"plane-lite/server/internal/storage"
 	"plane-lite/server/internal/throttle"
 )
 
@@ -29,6 +30,7 @@ type API struct {
 	limiter  *throttle.Limiter
 	jobs     *jobs.Runner
 	mailer   *mail.Mailer
+	storage  *storage.Client // nil without AWS_* settings (routes_asset.go)
 
 	anonRate throttle.Rate // DRF DEFAULT_THROTTLE_RATES["anon"]
 	authRate throttle.Rate // AuthenticationThrottle (AUTHENTICATION_RATE_LIMIT)
@@ -81,6 +83,7 @@ func New(d Deps) *API {
 	a.registerSearchJobs()
 	a.registerAssetJobs()
 	a.registerMiscJobs()
+	a.registerScheduledJobs()
 	return a
 }
 

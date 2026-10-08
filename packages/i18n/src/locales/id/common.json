@@ -277,6 +277,8 @@
   "updating": "Memperbarui",
   "create_new_issue": "Buat item kerja baru",
   "editor_is_not_ready_to_discard_changes": "Editor belum siap untuk membuang perubahan",
+  "discard_changes_title": "Buang perubahan?",
+  "discard_changes_description": "Anda memiliki perubahan yang belum disimpan. Jika Anda menutup sekarang, perubahan tersebut akan hilang.",
   "failed_to_move_issue_to_project": "Gagal memindahkan item kerja ke proyek",
   "create_more": "Buat lebih banyak",
   "add_to_project": "Tambahkan ke proyek",

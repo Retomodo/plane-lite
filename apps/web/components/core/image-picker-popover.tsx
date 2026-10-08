@@ -4,15 +4,11 @@
  * See the LICENSE file for details.
  */
 
-import React, { useState, useRef, useCallback, useMemo } from "react";
+import React, { useState, useRef, useCallback } from "react";
 import { observer } from "mobx-react";
 import { useParams } from "next/navigation";
 import { useDropzone } from "react-dropzone";
-import type { Control, FieldPath, FieldValues } from "react-hook-form";
-import { Controller } from "react-hook-form";
-import useSWR from "swr";
 // plane imports
-import { Input, InputGroup } from "@makeplane/propel/components/input";
 import { Popover, PopoverBody, PopoverContent, PopoverTrigger } from "@makeplane/propel/components/popover";
 import { Tab, Tabs, TabsList, TabsPanel } from "@makeplane/propel/components/tabs";
 import { ACCEPTED_COVER_IMAGE_MIME_TYPES_FOR_REACT_DROPZONE, MAX_FILE_SIZE } from "@plane/constants";
@@ -20,27 +16,19 @@ import { Button } from "@makeplane/propel/components/button";
 import { Button as ButtonElement } from "@makeplane/propel/elements/button";
 import { setToast } from "@plane/blocks/toast";
 import { EFileAssetType } from "@plane/types";
-import { Loader } from "@plane/blocks/skeleton";
 // helpers
 import { STATIC_COVER_IMAGES, getCoverImageDisplayURL } from "@/helpers/cover-image.helper";
-// hooks
-import { useInstance } from "@/hooks/store/use-instance";
 // services
 import { FileService } from "@/services/file.service";
 
 type TTabOption = {
   key: string;
   title: string;
-  isEnabled: boolean;
 };
 
-// Generic over the form's values because react-hook-form's Control is invariant: its
-// `_options.validate` narrows `name` to a keyof union, so `Control<any>` no longer
-// accepts a typed form's control. Inferring from `control` keeps call sites unchanged.
-type Props<TFieldValues extends FieldValues = FieldValues> = {
+type Props = {
   label: string | React.ReactNode;
   value: string | null;
-  control: Control<TFieldValues>;
   onChange: (data: string) => void;
   disabled?: boolean;
   tabIndex?: number;
@@ -51,53 +39,24 @@ type Props<TFieldValues extends FieldValues = FieldValues> = {
 // services
 const fileService = new FileService();
 
-function ImagePickerPopoverComponent<TFieldValues extends FieldValues = FieldValues>(props: Props<TFieldValues>) {
-  const { label, value, control, onChange, disabled = false, tabIndex, isProfileCover = false, projectId } = props;
+function ImagePickerPopoverComponent(props: Props) {
+  const { label, value, onChange, disabled = false, tabIndex, isProfileCover = false, projectId } = props;
   // states
   const [image, setImage] = useState<File | null>(null);
   const [isImageUploading, setIsImageUploading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
-  const [searchParams, setSearchParams] = useState("");
-  const [formData, setFormData] = useState({
-    search: "",
-  });
   // router params
   const { workspaceSlug } = useParams();
-  // store hooks
-  const { config } = useInstance();
-  // derived values
-  const hasUnsplashConfigured = config?.has_unsplash_configured || false;
-  const tabOptions: TTabOption[] = useMemo(
-    () => [
-      {
-        key: "unsplash",
-        title: "Unsplash",
-        isEnabled: hasUnsplashConfigured,
-      },
-      {
-        key: "images",
-        title: "Images",
-        isEnabled: true,
-      },
-      {
-        key: "upload",
-        title: "Upload",
-        isEnabled: true,
-      },
-    ],
-    [hasUnsplashConfigured]
-  );
-
-  const enabledTabs = useMemo(() => tabOptions.filter((tab) => tab.isEnabled), [tabOptions]);
-
-  const { data: unsplashImages, error: unsplashError } = useSWR(
-    `UNSPLASH_IMAGES_${searchParams}`,
-    () => fileService.getUnsplashImages(searchParams),
+  const tabOptions: TTabOption[] = [
     {
-      revalidateOnFocus: false,
-      revalidateOnReconnect: false,
-    }
-  );
+      key: "images",
+      title: "Images",
+    },
+    {
+      key: "upload",
+      title: "Upload",
+    },
+  ];
 
   const imagePickerRef = useRef<HTMLDivElement>(null);
 
@@ -200,100 +159,18 @@ function ImagePickerPopoverComponent<TFieldValues extends FieldValues = FieldVal
               {/* Row wrapper: published Tabs omits className, so fill height comes from stretch. The
                   popup supplies the panel padding. */}
               <div className="flex h-full min-h-0 w-full">
-                <Tabs variant="contained" defaultValue={enabledTabs[0]?.key || "images"}>
+                <Tabs variant="contained" defaultValue="images">
                   <div className="flex h-full min-h-0 w-full flex-col">
                     {/* Published TabsList is inline-flex; stretch it to the previous full-width bar. */}
                     <div className="w-full min-w-0 [&_[role=tab]]:min-w-0 [&_[role=tab]]:flex-1 [&_[role=tablist]]:flex [&_[role=tablist]]:w-full">
                       <TabsList>
-                        {enabledTabs.map((tab) => (
+                        {tabOptions.map((tab) => (
                           <Tab key={tab.key} value={tab.key} label={tab.title} />
                         ))}
                       </TabsList>
                     </div>
                     {/* Grid wrapper: published TabsPanel omits className, so fill height comes from a one-row grid. */}
                     <div className="vertical-scrollbar mt-3 scrollbar-sm grid min-h-0 w-full flex-1 grid-rows-1 overflow-x-hidden overflow-y-auto p-3">
-                      <TabsPanel value="unsplash">
-                        <div className="space-y-4">
-                          {(unsplashImages || !unsplashError) && (
-                            <>
-                              <div className="flex items-center gap-x-2">
-                                <Controller
-                                  control={control}
-                                  name={"search" as FieldPath<TFieldValues>}
-                                  render={({ field: { value, ref } }) => (
-                                    <InputGroup size="2xl">
-                                      <Input
-                                        size="2xl"
-                                        id="search"
-                                        name="search"
-                                        type="text"
-                                        onKeyDown={(e) => {
-                                          if (e.key === "Enter") {
-                                            e.preventDefault();
-                                            setSearchParams(formData.search);
-                                          }
-                                        }}
-                                        value={value}
-                                        onChange={(e) => setFormData({ ...formData, search: e.target.value })}
-                                        ref={ref}
-                                        placeholder="Search for images"
-                                      />
-                                    </InputGroup>
-                                  )}
-                                />
-                                <Button
-                                  variant="primary"
-                                  size="lg"
-                                  stretch="auto"
-                                  label="Search"
-                                  onClick={() => setSearchParams(formData.search)}
-                                />
-                              </div>
-                              {unsplashImages ? (
-                                unsplashImages.length > 0 ? (
-                                  <div className="grid grid-cols-4 gap-4">
-                                    {unsplashImages.map((image) => (
-                                      <button
-                                        type="button"
-                                        key={image.id}
-                                        className="relative col-span-2 aspect-video md:col-span-1"
-                                        aria-label={
-                                          image.alt_description
-                                            ? `Select image: ${image.alt_description}`
-                                            : "Select image"
-                                        }
-                                        onClick={() => {
-                                          setIsOpen(false);
-                                          onChange(image.urls.regular);
-                                        }}
-                                      >
-                                        <img
-                                          src={image.urls.small}
-                                          alt={image.alt_description}
-                                          className="absolute top-0 left-0 h-full w-full cursor-pointer rounded-sm object-cover"
-                                        />
-                                      </button>
-                                    ))}
-                                  </div>
-                                ) : (
-                                  <p className="pt-7 text-center text-11 text-secondary">No images found.</p>
-                                )
-                              ) : (
-                                <Loader className="grid grid-cols-4 gap-4">
-                                  <Loader.Item height="80px" width="100%" />
-                                  <Loader.Item height="80px" width="100%" />
-                                  <Loader.Item height="80px" width="100%" />
-                                  <Loader.Item height="80px" width="100%" />
-                                  <Loader.Item height="80px" width="100%" />
-                                  <Loader.Item height="80px" width="100%" />
-                                  <Loader.Item height="80px" width="100%" />
-                                  <Loader.Item height="80px" width="100%" />
-                                </Loader>
-                              )}
-                            </>
-                          )}
-                        </div>
-                      </TabsPanel>
                       <TabsPanel value="images">
                         <div className="grid grid-cols-4 gap-4">
                           {Object.values(STATIC_COVER_IMAGES).map((imageUrl, index) => (
@@ -394,5 +271,4 @@ function ImagePickerPopoverComponent<TFieldValues extends FieldValues = FieldVal
   );
 }
 
-// observer() erases the generic signature, so restore it with a cast.
-export const ImagePickerPopover = observer(ImagePickerPopoverComponent) as typeof ImagePickerPopoverComponent;
+export const ImagePickerPopover = observer(ImagePickerPopoverComponent);

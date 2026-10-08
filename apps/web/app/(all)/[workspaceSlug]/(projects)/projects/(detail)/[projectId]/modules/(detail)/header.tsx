@@ -4,11 +4,11 @@
  * See the LICENSE file for details.
  */
 
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useRef } from "react";
 import { observer } from "mobx-react";
 import { useParams } from "next/navigation";
 // icons
-import { BarOutline, ModuleOutline, PreferencesOutline, RightSidePaneOutline } from "@makeplane/propel/icons";
+import { ModuleOutline, PreferencesOutline, RightSidePaneOutline } from "@makeplane/propel/icons";
 // plane imports
 import {
   EIssueFilterType,
@@ -25,7 +25,6 @@ import { EIssuesStoreType, EIssueLayoutTypes } from "@plane/types";
 import { Breadcrumbs } from "@plane/blocks/breadcrumb";
 import { Header } from "@plane/blocks/layout";
 // components
-import { WorkItemsModal } from "@/components/analytics/work-items/modal";
 import { BreadcrumbLink } from "@/components/common/breadcrumb-link";
 import { ModuleSelect } from "@/components/dropdowns/module/module-select";
 import {
@@ -53,8 +52,6 @@ import { useProjectCrumbProps } from "@/components/breadcrumbs/use-project-crumb
 export const ModuleIssuesHeader = observer(function ModuleIssuesHeader() {
   // refs
   const parentRef = useRef<HTMLDivElement>(null);
-  // states
-  const [analyticsModal, setAnalyticsModal] = useState(false);
   // router
   const router = useAppRouter();
   const { workspaceSlug, projectId, moduleId: routerModuleId } = useParams();
@@ -114,12 +111,6 @@ export const ModuleIssuesHeader = observer(function ModuleIssuesHeader() {
 
   return (
     <>
-      <WorkItemsModal
-        isOpen={analyticsModal}
-        onClose={() => setAnalyticsModal(false)}
-        moduleDetails={moduleDetails ?? undefined}
-        projectDetails={currentProjectDetails}
-      />
       <Header>
         <Header.LeftItem>
           <div className="flex items-center gap-2">
@@ -220,26 +211,6 @@ export const ModuleIssuesHeader = observer(function ModuleIssuesHeader() {
 
           {canUserCreateIssue ? (
             <>
-              <div className="hidden md:block">
-                <span className="hidden @4xl:flex">
-                  <Button
-                    variant="secondary"
-                    size="md"
-                    stretch="auto"
-                    label="Analytics"
-                    onClick={() => setAnalyticsModal(true)}
-                  />
-                </span>
-                <span className="@4xl:hidden">
-                  <IconButton
-                    variant="secondary"
-                    size="md"
-                    icon={<Icon icon={BarOutline} />}
-                    aria-label="Analytics"
-                    onClick={() => setAnalyticsModal(true)}
-                  />
-                </span>
-              </div>
               <div className="hidden sm:flex">
                 <Button
                   variant="primary"

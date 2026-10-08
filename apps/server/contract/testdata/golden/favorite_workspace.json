@@ -1,0 +1,5901 @@
+{
+  "steps": [
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/auth/get-csrf-token/",
+      "status": 200,
+      "content_type": "application/json",
+      "cookies": [
+        "csrftoken; value=<set>; Path=/; Max-Age=31449600; HttpOnly; SameSite=Lax"
+      ],
+      "body": {
+        "csrf_token": "<masked>"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/auth/sign-up/",
+      "request": {
+        "csrfmiddlewaretoken": "<masked>",
+        "email": "alice@example.com",
+        "password": "correct-Horse-battery-staple-91"
+      },
+      "status": 302,
+      "location": "http://localhost:3000",
+      "content_type": "text/html",
+      "cookies": [
+        "csrftoken; value=<set>; Path=/; Max-Age=31449600; HttpOnly; SameSite=Lax",
+        "session-id; value=<set>; Path=/; Max-Age=604800; HttpOnly; SameSite=Lax"
+      ]
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/",
+      "request": {
+        "name": "Acme",
+        "slug": "acme"
+      },
+      "status": 201,
+      "content_type": "application/json",
+      "body": {
+        "background_color": "<masked>",
+        "created_at": "<datetime Z>",
+        "created_by": "<uuid:1>",
+        "deleted_at": null,
+        "id": "<uuid:2>",
+        "logo": null,
+        "logo_asset": null,
+        "logo_url": null,
+        "name": "Acme",
+        "organization_size": null,
+        "owner": "<uuid:1>",
+        "role": 20,
+        "slug": "acme",
+        "timezone": "UTC",
+        "total_members": 1,
+        "updated_at": "<datetime Z>",
+        "updated_by": null
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "GET",
+      "path": "/auth/get-csrf-token/",
+      "status": 200,
+      "content_type": "application/json",
+      "cookies": [
+        "csrftoken; value=<set>; Path=/; Max-Age=31449600; HttpOnly; SameSite=Lax"
+      ],
+      "body": {
+        "csrf_token": "<masked>"
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "POST",
+      "path": "/auth/sign-up/",
+      "request": {
+        "csrfmiddlewaretoken": "<masked>",
+        "email": "bob@example.com",
+        "password": "correct-Horse-battery-staple-91"
+      },
+      "status": 302,
+      "location": "http://localhost:3000",
+      "content_type": "text/html",
+      "cookies": [
+        "csrftoken; value=<set>; Path=/; Max-Age=31449600; HttpOnly; SameSite=Lax",
+        "session-id; value=<set>; Path=/; Max-Age=604800; HttpOnly; SameSite=Lax"
+      ]
+    },
+    {
+      "actor": "carol",
+      "method": "GET",
+      "path": "/auth/get-csrf-token/",
+      "status": 200,
+      "content_type": "application/json",
+      "cookies": [
+        "csrftoken; value=<set>; Path=/; Max-Age=31449600; HttpOnly; SameSite=Lax"
+      ],
+      "body": {
+        "csrf_token": "<masked>"
+      }
+    },
+    {
+      "actor": "carol",
+      "method": "POST",
+      "path": "/auth/sign-up/",
+      "request": {
+        "csrfmiddlewaretoken": "<masked>",
+        "email": "carol@example.com",
+        "password": "correct-Horse-battery-staple-91"
+      },
+      "status": 302,
+      "location": "http://localhost:3000",
+      "content_type": "text/html",
+      "cookies": [
+        "csrftoken; value=<set>; Path=/; Max-Age=31449600; HttpOnly; SameSite=Lax",
+        "session-id; value=<set>; Path=/; Max-Age=604800; HttpOnly; SameSite=Lax"
+      ]
+    },
+    {
+      "actor": "dan",
+      "method": "GET",
+      "path": "/auth/get-csrf-token/",
+      "status": 200,
+      "content_type": "application/json",
+      "cookies": [
+        "csrftoken; value=<set>; Path=/; Max-Age=31449600; HttpOnly; SameSite=Lax"
+      ],
+      "body": {
+        "csrf_token": "<masked>"
+      }
+    },
+    {
+      "actor": "dan",
+      "method": "POST",
+      "path": "/auth/sign-up/",
+      "request": {
+        "csrfmiddlewaretoken": "<masked>",
+        "email": "dan@example.com",
+        "password": "correct-Horse-battery-staple-91"
+      },
+      "status": 302,
+      "location": "http://localhost:3000",
+      "content_type": "text/html",
+      "cookies": [
+        "csrftoken; value=<set>; Path=/; Max-Age=31449600; HttpOnly; SameSite=Lax",
+        "session-id; value=<set>; Path=/; Max-Age=604800; HttpOnly; SameSite=Lax"
+      ]
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/invitations/",
+      "request": {
+        "emails": [
+          {
+            "email": "bob@example.com",
+            "role": 15
+          },
+          {
+            "email": "carol@example.com",
+            "role": 5
+          },
+          {
+            "email": "dan@example.com",
+            "role": 15
+          }
+        ]
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "message": "Emails sent successfully"
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "GET",
+      "path": "/api/users/me/workspaces/invitations/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": [
+        {
+          "accepted": false,
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:1>",
+          "deleted_at": null,
+          "email": "bob@example.com",
+          "id": "<uuid:3>",
+          "invite_link": "/workspace-invitations/?invitation_id=<uuid:3>&slug=acme&token=<invite-token:bob@example.com>",
+          "message": "\n\nalice invited you to Acme on Plane\n\n      alice has invited you to join Acme on Plane.\n\n                    Join Acme on Plane\n\n                    alice has invited you to collaborate with them in\n                    Acme workspace on Plane.\n\n                          Accept invite\n\n                    If the button doesn’t work, copy and paste this link into\n                    your browser:\n\n                    http://localhost:3000/workspace-invitations/?invitation_id=<uuid:3>&slug=acme&token=<invite-token:bob@example.com>\n\n                    Note: This invitation was intended for\n                    bob@example.com. If you were not expecting this invitation, you can ignore\n                    this email.\n\n                    Plane Software, Inc.\n\n",
+          "responded_at": null,
+          "role": 15,
+          "token": "<invite-token:bob@example.com>",
+          "updated_at": "<datetime Z>",
+          "updated_by": "<uuid:1>",
+          "workspace": {
+            "id": "<uuid:2>",
+            "logo_url": null,
+            "name": "Acme",
+            "slug": "acme"
+          }
+        }
+      ]
+    },
+    {
+      "actor": "bob",
+      "method": "POST",
+      "path": "/api/users/me/workspaces/invitations/",
+      "request": {
+        "invitations": [
+          "<uuid:3>"
+        ]
+      },
+      "status": 204
+    },
+    {
+      "actor": "carol",
+      "method": "GET",
+      "path": "/api/users/me/workspaces/invitations/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": [
+        {
+          "accepted": false,
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:1>",
+          "deleted_at": null,
+          "email": "carol@example.com",
+          "id": "<uuid:4>",
+          "invite_link": "/workspace-invitations/?invitation_id=<uuid:4>&slug=acme&token=<invite-token:carol@example.com>",
+          "message": "\n\nalice invited you to Acme on Plane\n\n      alice has invited you to join Acme on Plane.\n\n                    Join Acme on Plane\n\n                    alice has invited you to collaborate with them in\n                    Acme workspace on Plane.\n\n                          Accept invite\n\n                    If the button doesn’t work, copy and paste this link into\n                    your browser:\n\n                    http://localhost:3000/workspace-invitations/?invitation_id=<uuid:4>&slug=acme&token=<invite-token:carol@example.com>\n\n                    Note: This invitation was intended for\n                    carol@example.com. If you were not expecting this invitation, you can ignore\n                    this email.\n\n                    Plane Software, Inc.\n\n",
+          "responded_at": null,
+          "role": 5,
+          "token": "<invite-token:carol@example.com>",
+          "updated_at": "<datetime Z>",
+          "updated_by": "<uuid:1>",
+          "workspace": {
+            "id": "<uuid:2>",
+            "logo_url": null,
+            "name": "Acme",
+            "slug": "acme"
+          }
+        }
+      ]
+    },
+    {
+      "actor": "carol",
+      "method": "POST",
+      "path": "/api/users/me/workspaces/invitations/",
+      "request": {
+        "invitations": [
+          "<uuid:4>"
+        ]
+      },
+      "status": 204
+    },
+    {
+      "actor": "dan",
+      "method": "GET",
+      "path": "/api/users/me/workspaces/invitations/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": [
+        {
+          "accepted": false,
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:1>",
+          "deleted_at": null,
+          "email": "dan@example.com",
+          "id": "<uuid:5>",
+          "invite_link": "/workspace-invitations/?invitation_id=<uuid:5>&slug=acme&token=<invite-token:dan@example.com>",
+          "message": "\n\nalice invited you to Acme on Plane\n\n      alice has invited you to join Acme on Plane.\n\n                    Join Acme on Plane\n\n                    alice has invited you to collaborate with them in\n                    Acme workspace on Plane.\n\n                          Accept invite\n\n                    If the button doesn’t work, copy and paste this link into\n                    your browser:\n\n                    http://localhost:3000/workspace-invitations/?invitation_id=<uuid:5>&slug=acme&token=<invite-token:dan@example.com>\n\n                    Note: This invitation was intended for\n                    dan@example.com. If you were not expecting this invitation, you can ignore\n                    this email.\n\n                    Plane Software, Inc.\n\n",
+          "responded_at": null,
+          "role": 15,
+          "token": "<invite-token:dan@example.com>",
+          "updated_at": "<datetime Z>",
+          "updated_by": "<uuid:1>",
+          "workspace": {
+            "id": "<uuid:2>",
+            "logo_url": null,
+            "name": "Acme",
+            "slug": "acme"
+          }
+        }
+      ]
+    },
+    {
+      "actor": "dan",
+      "method": "POST",
+      "path": "/api/users/me/workspaces/invitations/",
+      "request": {
+        "invitations": [
+          "<uuid:5>"
+        ]
+      },
+      "status": 204
+    },
+    {
+      "actor": "outsider",
+      "method": "GET",
+      "path": "/auth/get-csrf-token/",
+      "status": 200,
+      "content_type": "application/json",
+      "cookies": [
+        "csrftoken; value=<set>; Path=/; Max-Age=31449600; HttpOnly; SameSite=Lax"
+      ],
+      "body": {
+        "csrf_token": "<masked>"
+      }
+    },
+    {
+      "actor": "outsider",
+      "method": "POST",
+      "path": "/auth/sign-up/",
+      "request": {
+        "csrfmiddlewaretoken": "<masked>",
+        "email": "outsider@example.com",
+        "password": "correct-Horse-battery-staple-91"
+      },
+      "status": 302,
+      "location": "http://localhost:3000",
+      "content_type": "text/html",
+      "cookies": [
+        "csrftoken; value=<set>; Path=/; Max-Age=31449600; HttpOnly; SameSite=Lax",
+        "session-id; value=<set>; Path=/; Max-Age=604800; HttpOnly; SameSite=Lax"
+      ]
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/",
+      "request": {
+        "identifier": "PL",
+        "name": "Plane Lite"
+      },
+      "status": 201,
+      "content_type": "application/json",
+      "body": {
+        "anchor": null,
+        "archive_in": 0,
+        "archived_at": null,
+        "close_in": 0,
+        "cover_image": null,
+        "cover_image_asset": null,
+        "cover_image_url": null,
+        "created_at": "<datetime Z>",
+        "created_by": "<uuid:1>",
+        "cycle_view": false,
+        "default_assignee": null,
+        "default_state": null,
+        "deleted_at": null,
+        "description": "",
+        "description_html": null,
+        "description_text": null,
+        "emoji": null,
+        "estimate": null,
+        "external_id": null,
+        "external_source": null,
+        "guest_view_all_features": false,
+        "icon_prop": null,
+        "id": "<uuid:6>",
+        "identifier": "PL",
+        "inbox_view": false,
+        "intake_view": false,
+        "is_favorite": false,
+        "is_issue_type_enabled": false,
+        "is_time_tracking_enabled": false,
+        "issue_views_view": false,
+        "logo_props": {},
+        "member_role": 20,
+        "members": [
+          "<uuid:1>"
+        ],
+        "module_view": false,
+        "name": "Plane Lite",
+        "network": 2,
+        "next_work_item_sequence": 1,
+        "page_view": true,
+        "project_lead": null,
+        "sort_order": 65535,
+        "timezone": "UTC",
+        "updated_at": "<datetime Z>",
+        "updated_by": null,
+        "workspace": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "GET",
+      "path": "/api/users/me/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "avatar": "",
+        "avatar_url": null,
+        "cover_image": null,
+        "cover_image_url": null,
+        "date_joined": "<datetime Z>",
+        "display_name": "bob",
+        "email": "bob@example.com",
+        "first_name": "",
+        "id": "<uuid:7>",
+        "is_active": true,
+        "is_bot": false,
+        "is_email_verified": false,
+        "is_password_autoset": false,
+        "last_login_medium": "email",
+        "last_login_time": "<datetime Z>",
+        "last_name": "",
+        "user_timezone": "UTC",
+        "username": "<hex32>"
+      }
+    },
+    {
+      "actor": "carol",
+      "method": "GET",
+      "path": "/api/users/me/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "avatar": "",
+        "avatar_url": null,
+        "cover_image": null,
+        "cover_image_url": null,
+        "date_joined": "<datetime Z>",
+        "display_name": "carol",
+        "email": "carol@example.com",
+        "first_name": "",
+        "id": "<uuid:8>",
+        "is_active": true,
+        "is_bot": false,
+        "is_email_verified": false,
+        "is_password_autoset": false,
+        "last_login_medium": "email",
+        "last_login_time": "<datetime Z>",
+        "last_name": "",
+        "user_timezone": "UTC",
+        "username": "<hex32>"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/members/",
+      "request": {
+        "members": [
+          {
+            "member_id": "<uuid:7>",
+            "role": 15
+          },
+          {
+            "member_id": "<uuid:8>",
+            "role": 5
+          }
+        ]
+      },
+      "status": 201,
+      "content_type": "application/json",
+      "body": [
+        {
+          "created_at": "<datetime Z>",
+          "id": "<uuid:9>",
+          "member": "<uuid:8>",
+          "original_role": 5,
+          "project": "<uuid:6>",
+          "role": 5
+        },
+        {
+          "created_at": "<datetime Z>",
+          "id": "<uuid:10>",
+          "member": "<uuid:7>",
+          "original_role": 15,
+          "project": "<uuid:6>",
+          "role": 15
+        }
+      ]
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/",
+      "request": {
+        "identifier": "OT",
+        "name": "Other"
+      },
+      "status": 201,
+      "content_type": "application/json",
+      "body": {
+        "anchor": null,
+        "archive_in": 0,
+        "archived_at": null,
+        "close_in": 0,
+        "cover_image": null,
+        "cover_image_asset": null,
+        "cover_image_url": null,
+        "created_at": "<datetime Z>",
+        "created_by": "<uuid:1>",
+        "cycle_view": false,
+        "default_assignee": null,
+        "default_state": null,
+        "deleted_at": null,
+        "description": "",
+        "description_html": null,
+        "description_text": null,
+        "emoji": null,
+        "estimate": null,
+        "external_id": null,
+        "external_source": null,
+        "guest_view_all_features": false,
+        "icon_prop": null,
+        "id": "<uuid:11>",
+        "identifier": "OT",
+        "inbox_view": false,
+        "intake_view": false,
+        "is_favorite": false,
+        "is_issue_type_enabled": false,
+        "is_time_tracking_enabled": false,
+        "issue_views_view": false,
+        "logo_props": {},
+        "member_role": 20,
+        "members": [
+          "<uuid:1>"
+        ],
+        "module_view": false,
+        "name": "Other",
+        "network": 2,
+        "next_work_item_sequence": 1,
+        "page_view": true,
+        "project_lead": null,
+        "sort_order": 55535,
+        "timezone": "UTC",
+        "updated_at": "<datetime Z>",
+        "updated_by": null,
+        "workspace": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/cycles/",
+      "request": {
+        "logo_props": {
+          "in_use": "emoji"
+        },
+        "name": "Sprint"
+      },
+      "status": 201,
+      "content_type": "application/json",
+      "body": {
+        "assignee_ids": [],
+        "completed_issues": 0,
+        "created_by": "<uuid:1>",
+        "description": "",
+        "end_date": null,
+        "external_id": null,
+        "external_source": null,
+        "id": "<uuid:12>",
+        "is_favorite": false,
+        "logo_props": {
+          "in_use": "emoji"
+        },
+        "name": "Sprint",
+        "owned_by_id": "<uuid:1>",
+        "progress_snapshot": {},
+        "project_id": "<uuid:6>",
+        "sort_order": 65535,
+        "start_date": null,
+        "status": "DRAFT",
+        "total_issues": 0,
+        "version": 1,
+        "view_props": {},
+        "workspace_id": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:11>/cycles/",
+      "request": {
+        "name": "Elsewhere"
+      },
+      "status": 201,
+      "content_type": "application/json",
+      "body": {
+        "assignee_ids": [],
+        "completed_issues": 0,
+        "created_by": "<uuid:1>",
+        "description": "",
+        "end_date": null,
+        "external_id": null,
+        "external_source": null,
+        "id": "<uuid:13>",
+        "is_favorite": false,
+        "logo_props": {},
+        "name": "Elsewhere",
+        "owned_by_id": "<uuid:1>",
+        "progress_snapshot": {},
+        "project_id": "<uuid:11>",
+        "sort_order": 65535,
+        "start_date": null,
+        "status": "DRAFT",
+        "total_issues": 0,
+        "version": 1,
+        "view_props": {},
+        "workspace_id": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/modules/",
+      "request": {
+        "name": "Mod"
+      },
+      "status": 201,
+      "content_type": "application/json",
+      "body": {
+        "backlog_issues": 0,
+        "cancelled_issues": 0,
+        "completed_estimate_points": 0,
+        "completed_issues": 0,
+        "created_at": "<datetime Z>",
+        "description": "",
+        "description_html": null,
+        "description_text": null,
+        "external_id": null,
+        "external_source": null,
+        "id": "<uuid:14>",
+        "is_favorite": false,
+        "lead_id": null,
+        "logo_props": {},
+        "member_ids": [],
+        "name": "Mod",
+        "project_id": "<uuid:6>",
+        "sort_order": 65535,
+        "start_date": null,
+        "started_issues": 0,
+        "status": "planned",
+        "target_date": null,
+        "total_estimate_points": 0,
+        "total_issues": 0,
+        "unstarted_issues": 0,
+        "updated_at": "<datetime Z>",
+        "view_props": {},
+        "workspace_id": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/views/",
+      "request": {
+        "logo_props": {
+          "in_use": "icon"
+        },
+        "name": "View"
+      },
+      "status": 201,
+      "content_type": "application/json",
+      "body": {
+        "access": 1,
+        "archived_at": null,
+        "created_at": "<datetime Z>",
+        "created_by": "<uuid:1>",
+        "deleted_at": null,
+        "description": "",
+        "display_filters": {
+          "calendar_date_range": "",
+          "group_by": null,
+          "layout": "list",
+          "order_by": "-created_at",
+          "show_empty_groups": true,
+          "sub_issue": true,
+          "type": null
+        },
+        "display_properties": {
+          "assignee": true,
+          "attachment_count": true,
+          "created_on": true,
+          "due_date": true,
+          "estimate": true,
+          "key": true,
+          "labels": true,
+          "link": true,
+          "priority": true,
+          "start_date": true,
+          "state": true,
+          "sub_issue_count": true,
+          "updated_on": true
+        },
+        "filters": {},
+        "id": "<uuid:15>",
+        "is_locked": false,
+        "logo_props": {
+          "in_use": "icon"
+        },
+        "name": "View",
+        "owned_by": "<uuid:1>",
+        "project": "<uuid:6>",
+        "query": {},
+        "rich_filters": {},
+        "sort_order": 65535,
+        "updated_at": "<datetime Z>",
+        "updated_by": null,
+        "workspace": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/pages/",
+      "request": {
+        "logo_props": {
+          "in_use": "emoji"
+        },
+        "name": "Doc"
+      },
+      "status": 201,
+      "content_type": "application/json",
+      "body": {
+        "access": 0,
+        "archived_at": null,
+        "color": "",
+        "created_at": "<datetime Z>",
+        "created_by": "<uuid:1>",
+        "description_html": "<p></p>",
+        "id": "<uuid:16>",
+        "is_favorite": false,
+        "is_locked": false,
+        "label_ids": [],
+        "logo_props": {
+          "in_use": "emoji"
+        },
+        "name": "Doc",
+        "owned_by": "<uuid:1>",
+        "parent": null,
+        "project_ids": [
+          "<uuid:6>"
+        ],
+        "updated_at": "<datetime Z>",
+        "updated_by": null,
+        "view_props": {
+          "full_width": false
+        },
+        "workspace": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/pages/",
+      "request": {
+        "name": "Old doc"
+      },
+      "status": 201,
+      "content_type": "application/json",
+      "body": {
+        "access": 0,
+        "archived_at": null,
+        "color": "",
+        "created_at": "<datetime Z>",
+        "created_by": "<uuid:1>",
+        "description_html": "<p></p>",
+        "id": "<uuid:17>",
+        "is_favorite": false,
+        "is_locked": false,
+        "label_ids": [],
+        "logo_props": {},
+        "name": "Old doc",
+        "owned_by": "<uuid:1>",
+        "parent": null,
+        "project_ids": [
+          "<uuid:6>"
+        ],
+        "updated_at": "<datetime Z>",
+        "updated_by": null,
+        "view_props": {
+          "full_width": false
+        },
+        "workspace": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:11>/pages/",
+      "request": {
+        "name": "Other doc"
+      },
+      "status": 201,
+      "content_type": "application/json",
+      "body": {
+        "access": 0,
+        "archived_at": null,
+        "color": "",
+        "created_at": "<datetime Z>",
+        "created_by": "<uuid:1>",
+        "description_html": "<p></p>",
+        "id": "<uuid:18>",
+        "is_favorite": false,
+        "is_locked": false,
+        "label_ids": [],
+        "logo_props": {},
+        "name": "Other doc",
+        "owned_by": "<uuid:1>",
+        "parent": null,
+        "project_ids": [
+          "<uuid:11>"
+        ],
+        "updated_at": "<datetime Z>",
+        "updated_by": null,
+        "view_props": {
+          "full_width": false
+        },
+        "workspace": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "GET",
+      "path": "/api/users/me/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "avatar": "",
+        "avatar_url": null,
+        "cover_image": null,
+        "cover_image_url": null,
+        "date_joined": "<datetime Z>",
+        "display_name": "bob",
+        "email": "bob@example.com",
+        "first_name": "",
+        "id": "<uuid:7>",
+        "is_active": true,
+        "is_bot": false,
+        "is_email_verified": false,
+        "is_password_autoset": false,
+        "last_login_medium": "email",
+        "last_login_time": "<datetime Z>",
+        "last_name": "",
+        "user_timezone": "UTC",
+        "username": "<hex32>"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/users/me/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "avatar": "",
+        "avatar_url": null,
+        "cover_image": null,
+        "cover_image_url": null,
+        "date_joined": "<datetime Z>",
+        "display_name": "alice",
+        "email": "alice@example.com",
+        "first_name": "",
+        "id": "<uuid:1>",
+        "is_active": true,
+        "is_bot": false,
+        "is_email_verified": false,
+        "is_password_autoset": false,
+        "last_login_medium": "email",
+        "last_login_time": "<datetime Z>",
+        "last_name": "",
+        "user_timezone": "UTC",
+        "username": "<hex32>"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/issues/",
+      "request": {
+        "assignee_ids": [
+          "<uuid:7>",
+          "<uuid:1>"
+        ],
+        "name": "Issue"
+      },
+      "status": 201,
+      "content_type": "application/json",
+      "body": {
+        "archived_at": null,
+        "assignee_ids": [
+          "<uuid:1>",
+          "<uuid:7>"
+        ],
+        "attachment_count": null,
+        "completed_at": null,
+        "created_at": "<datetime Z>",
+        "created_by": "<uuid:1>",
+        "cycle_id": null,
+        "deleted_at": null,
+        "estimate_point": null,
+        "id": "<uuid:19>",
+        "is_draft": false,
+        "label_ids": [],
+        "link_count": null,
+        "module_ids": [],
+        "name": "Issue",
+        "parent_id": null,
+        "priority": "none",
+        "project_id": "<uuid:6>",
+        "sequence_id": 1,
+        "sort_order": 65535,
+        "start_date": null,
+        "state_id": "<uuid:20>",
+        "sub_issues_count": null,
+        "target_date": null,
+        "updated_at": "<datetime Z>",
+        "updated_by": null
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/",
+      "request": {
+        "name": "Beta",
+        "slug": "beta"
+      },
+      "status": 201,
+      "content_type": "application/json",
+      "body": {
+        "background_color": "<masked>",
+        "created_at": "<datetime Z>",
+        "created_by": "<uuid:1>",
+        "deleted_at": null,
+        "id": "<uuid:21>",
+        "logo": null,
+        "logo_asset": null,
+        "logo_url": null,
+        "name": "Beta",
+        "organization_size": null,
+        "owner": "<uuid:1>",
+        "role": 20,
+        "slug": "beta",
+        "timezone": "UTC",
+        "total_members": 1,
+        "updated_at": "<datetime Z>",
+        "updated_by": null
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/beta/projects/",
+      "request": {
+        "identifier": "BT",
+        "name": "Beta"
+      },
+      "status": 201,
+      "content_type": "application/json",
+      "body": {
+        "anchor": null,
+        "archive_in": 0,
+        "archived_at": null,
+        "close_in": 0,
+        "cover_image": null,
+        "cover_image_asset": null,
+        "cover_image_url": null,
+        "created_at": "<datetime Z>",
+        "created_by": "<uuid:1>",
+        "cycle_view": false,
+        "default_assignee": null,
+        "default_state": null,
+        "deleted_at": null,
+        "description": "",
+        "description_html": null,
+        "description_text": null,
+        "emoji": null,
+        "estimate": null,
+        "external_id": null,
+        "external_source": null,
+        "guest_view_all_features": false,
+        "icon_prop": null,
+        "id": "<uuid:22>",
+        "identifier": "BT",
+        "inbox_view": false,
+        "intake_view": false,
+        "is_favorite": false,
+        "is_issue_type_enabled": false,
+        "is_time_tracking_enabled": false,
+        "issue_views_view": false,
+        "logo_props": {},
+        "member_role": 20,
+        "members": [
+          "<uuid:1>"
+        ],
+        "module_view": false,
+        "name": "Beta",
+        "network": 2,
+        "next_work_item_sequence": 1,
+        "page_view": true,
+        "project_lead": null,
+        "sort_order": 65535,
+        "timezone": "UTC",
+        "updated_at": "<datetime Z>",
+        "updated_by": null,
+        "workspace": "<uuid:21>"
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "GET",
+      "path": "/api/users/me/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "avatar": "",
+        "avatar_url": null,
+        "cover_image": null,
+        "cover_image_url": null,
+        "date_joined": "<datetime Z>",
+        "display_name": "bob",
+        "email": "bob@example.com",
+        "first_name": "",
+        "id": "<uuid:7>",
+        "is_active": true,
+        "is_bot": false,
+        "is_email_verified": false,
+        "is_password_autoset": false,
+        "last_login_medium": "email",
+        "last_login_time": "<datetime Z>",
+        "last_name": "",
+        "user_timezone": "UTC",
+        "username": "<hex32>"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/workspaces/acme/user-favorites/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": []
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/user-favorites/",
+      "request": {
+        "entity_type": "folder",
+        "is_folder": true,
+        "name": "Folder A"
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "entity_data": null,
+        "entity_identifier": null,
+        "entity_type": "folder",
+        "id": "<uuid:23>",
+        "is_folder": true,
+        "name": "Folder A",
+        "parent": null,
+        "project_id": null,
+        "sequence": 65535,
+        "workspace_id": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/user-favorites/",
+      "request": {
+        "entity_type": "folder",
+        "is_folder": true,
+        "name": "Folder A"
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "entity_data": null,
+        "entity_identifier": null,
+        "entity_type": "folder",
+        "id": "<uuid:24>",
+        "is_folder": true,
+        "name": "Folder A",
+        "parent": null,
+        "project_id": null,
+        "sequence": 75535,
+        "workspace_id": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/user-favorites/",
+      "request": {
+        "entity_type": "folder",
+        "is_folder": true,
+        "name": "Folder B",
+        "sequence": 5
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "entity_data": null,
+        "entity_identifier": null,
+        "entity_type": "folder",
+        "id": "<uuid:25>",
+        "is_folder": true,
+        "name": "Folder B",
+        "parent": null,
+        "project_id": null,
+        "sequence": 85535,
+        "workspace_id": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/user-favorites/",
+      "request": {
+        "entity_identifier": "<uuid:12>",
+        "entity_type": "cycle",
+        "project_id": "<uuid:6>"
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "entity_data": {
+          "id": "<uuid:12>",
+          "logo_props": {
+            "in_use": "emoji"
+          },
+          "name": "Sprint",
+          "project_id": "<uuid:6>"
+        },
+        "entity_identifier": "<uuid:12>",
+        "entity_type": "cycle",
+        "id": "<uuid:26>",
+        "is_folder": false,
+        "name": null,
+        "parent": null,
+        "project_id": "<uuid:6>",
+        "sequence": 95535,
+        "workspace_id": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/user-favorites/",
+      "request": {
+        "entity_identifier": "<uuid:12>",
+        "entity_type": "cycle",
+        "name": "ignored",
+        "project_id": "<uuid:6>"
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "entity_data": {
+          "id": "<uuid:12>",
+          "logo_props": {
+            "in_use": "emoji"
+          },
+          "name": "Sprint",
+          "project_id": "<uuid:6>"
+        },
+        "entity_identifier": "<uuid:12>",
+        "entity_type": "cycle",
+        "id": "<uuid:26>",
+        "is_folder": false,
+        "name": null,
+        "parent": null,
+        "project_id": "<uuid:6>",
+        "sequence": 95535,
+        "workspace_id": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/user-favorites/",
+      "request": {
+        "entity_identifier": "<uuid:14>",
+        "entity_type": "module",
+        "project_id": "<uuid:6>"
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "entity_data": {
+          "id": "<uuid:14>",
+          "logo_props": {},
+          "name": "Mod",
+          "project_id": "<uuid:6>"
+        },
+        "entity_identifier": "<uuid:14>",
+        "entity_type": "module",
+        "id": "<uuid:27>",
+        "is_folder": false,
+        "name": null,
+        "parent": null,
+        "project_id": "<uuid:6>",
+        "sequence": 105535,
+        "workspace_id": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/user-favorites/",
+      "request": {
+        "entity_identifier": "<uuid:15>",
+        "entity_type": "view",
+        "project_id": "<uuid:6>"
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "entity_data": {
+          "id": "<uuid:15>",
+          "logo_props": {
+            "in_use": "icon"
+          },
+          "name": "View",
+          "project_id": "<uuid:6>"
+        },
+        "entity_identifier": "<uuid:15>",
+        "entity_type": "view",
+        "id": "<uuid:28>",
+        "is_folder": false,
+        "name": null,
+        "parent": null,
+        "project_id": "<uuid:6>",
+        "sequence": 115535,
+        "workspace_id": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/user-favorites/",
+      "request": {
+        "entity_identifier": "<uuid:16>",
+        "entity_type": "page",
+        "project_id": "<uuid:6>"
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "entity_data": {
+          "id": "<uuid:16>",
+          "logo_props": {
+            "in_use": "emoji"
+          },
+          "name": "Doc",
+          "project_id": "<uuid:6>"
+        },
+        "entity_identifier": "<uuid:16>",
+        "entity_type": "page",
+        "id": "<uuid:29>",
+        "is_folder": false,
+        "name": null,
+        "parent": null,
+        "project_id": "<uuid:6>",
+        "sequence": 125535,
+        "workspace_id": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/user-favorites/",
+      "request": {
+        "entity_identifier": "<uuid:17>",
+        "entity_type": "page",
+        "project_id": "<uuid:6>"
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "entity_data": {
+          "id": "<uuid:17>",
+          "logo_props": {},
+          "name": "Old doc",
+          "project_id": "<uuid:6>"
+        },
+        "entity_identifier": "<uuid:17>",
+        "entity_type": "page",
+        "id": "<uuid:30>",
+        "is_folder": false,
+        "name": null,
+        "parent": null,
+        "project_id": "<uuid:6>",
+        "sequence": 135535,
+        "workspace_id": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/user-favorites/",
+      "request": {
+        "entity_identifier": "<uuid:6>",
+        "entity_type": "project",
+        "project_id": "<uuid:6>"
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "entity_data": {
+          "id": "<uuid:6>",
+          "logo_props": {},
+          "name": "Plane Lite"
+        },
+        "entity_identifier": "<uuid:6>",
+        "entity_type": "project",
+        "id": "<uuid:31>",
+        "is_folder": false,
+        "name": null,
+        "parent": null,
+        "project_id": "<uuid:6>",
+        "sequence": 145535,
+        "workspace_id": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/user-favorites/",
+      "request": {
+        "entity_identifier": "<uuid:18>",
+        "entity_type": "page"
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "entity_data": {
+          "id": "<uuid:18>",
+          "logo_props": {},
+          "name": "Other doc",
+          "project_id": "<uuid:11>"
+        },
+        "entity_identifier": "<uuid:18>",
+        "entity_type": "page",
+        "id": "<uuid:32>",
+        "is_folder": false,
+        "name": null,
+        "parent": null,
+        "project_id": null,
+        "sequence": 155535,
+        "workspace_id": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/user-favorites/",
+      "request": {
+        "entity_identifier": "<uuid:19>",
+        "entity_type": "issue",
+        "project_id": "<uuid:6>"
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "entity_data": null,
+        "entity_identifier": "<uuid:19>",
+        "entity_type": "issue",
+        "id": "<uuid:33>",
+        "is_folder": false,
+        "name": null,
+        "parent": null,
+        "project_id": "<uuid:6>",
+        "sequence": 165535,
+        "workspace_id": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/user-favorites/",
+      "request": {
+        "entity_identifier": "<uuid:34>",
+        "entity_type": "banana"
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "entity_data": null,
+        "entity_identifier": "<uuid:34>",
+        "entity_type": "banana",
+        "id": "<uuid:35>",
+        "is_folder": false,
+        "name": null,
+        "parent": null,
+        "project_id": null,
+        "sequence": 175535,
+        "workspace_id": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/user-favorites/",
+      "request": {
+        "entity_identifier": "<uuid:34>",
+        "entity_type": "cycle",
+        "project_id": "<uuid:6>"
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "entity_data": null,
+        "entity_identifier": "<uuid:34>",
+        "entity_type": "cycle",
+        "id": "<uuid:36>",
+        "is_folder": false,
+        "name": null,
+        "parent": null,
+        "project_id": "<uuid:6>",
+        "sequence": 185535,
+        "workspace_id": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/user-favorites/",
+      "request": {
+        "entity_identifier": "<uuid:13>",
+        "entity_type": "cycle",
+        "project_id": "<uuid:11>"
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "entity_data": {
+          "id": "<uuid:13>",
+          "logo_props": {},
+          "name": "Elsewhere",
+          "project_id": "<uuid:11>"
+        },
+        "entity_identifier": "<uuid:13>",
+        "entity_type": "cycle",
+        "id": "<uuid:37>",
+        "is_folder": false,
+        "name": null,
+        "parent": null,
+        "project_id": "<uuid:11>",
+        "sequence": 195535,
+        "workspace_id": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/user-favorites/",
+      "request": {
+        "entity_type": "folder",
+        "name": "Late",
+        "parent": "<uuid:23>",
+        "sequence": 3.5
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "entity_data": null,
+        "entity_identifier": null,
+        "entity_type": "folder",
+        "id": "<uuid:38>",
+        "is_folder": false,
+        "name": "Late",
+        "parent": "<uuid:23>",
+        "project_id": null,
+        "sequence": 205535,
+        "workspace_id": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/user-favorites/",
+      "request": {
+        "created_by": "<uuid:34>",
+        "deleted_at": "2020-01-01",
+        "entity_identifier": "<uuid:34>",
+        "entity_type": "module",
+        "id": "<uuid:34>",
+        "is_folder": true,
+        "name": "Named",
+        "parent": "<uuid:25>",
+        "project_id": "<uuid:6>",
+        "user": "<uuid:34>",
+        "workspace_id": "<uuid:34>"
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "entity_data": null,
+        "entity_identifier": "<uuid:34>",
+        "entity_type": "module",
+        "id": "<uuid:39>",
+        "is_folder": true,
+        "name": "Named",
+        "parent": "<uuid:25>",
+        "project_id": "<uuid:6>",
+        "sequence": 215535,
+        "workspace_id": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/user-favorites/",
+      "request": {
+        "entity_identifier": 0,
+        "entity_type": "cycle"
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "entity_data": null,
+        "entity_identifier": "<uuid:40>",
+        "entity_type": "cycle",
+        "id": "<uuid:41>",
+        "is_folder": false,
+        "name": null,
+        "parent": null,
+        "project_id": null,
+        "sequence": 225535,
+        "workspace_id": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/user-favorites/",
+      "request": {
+        "entity_identifier": 7,
+        "entity_type": "cycle"
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "entity_data": null,
+        "entity_identifier": "<uuid:42>",
+        "entity_type": "cycle",
+        "id": "<uuid:43>",
+        "is_folder": false,
+        "name": null,
+        "parent": null,
+        "project_id": null,
+        "sequence": 235535,
+        "workspace_id": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/user-favorites/",
+      "request": {
+        "entity_identifier": "A613F041-C41F-4415-BE03-B6404BFFD39E",
+        "entity_type": "cycle",
+        "project_id": "66BAF2FE-5F64-48AF-A104-41ACF38AE746"
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "entity_data": {
+          "id": "<uuid:12>",
+          "logo_props": {
+            "in_use": "emoji"
+          },
+          "name": "Sprint",
+          "project_id": "<uuid:6>"
+        },
+        "entity_identifier": "<uuid:12>",
+        "entity_type": "cycle",
+        "id": "<uuid:26>",
+        "is_folder": false,
+        "name": null,
+        "parent": null,
+        "project_id": "<uuid:6>",
+        "sequence": 95535,
+        "workspace_id": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/user-favorites/",
+      "request": {
+        "entity_identifier": null,
+        "entity_type": "cycle",
+        "name": "null id"
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "entity_data": null,
+        "entity_identifier": null,
+        "entity_type": "cycle",
+        "id": "<uuid:44>",
+        "is_folder": false,
+        "name": "null id",
+        "parent": null,
+        "project_id": null,
+        "sequence": 245535,
+        "workspace_id": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/user-favorites/",
+      "request": {
+        "entity_type": "cycle",
+        "name": "no id"
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "entity_data": null,
+        "entity_identifier": null,
+        "entity_type": "cycle",
+        "id": "<uuid:45>",
+        "is_folder": false,
+        "name": "no id",
+        "parent": null,
+        "project_id": null,
+        "sequence": 255535,
+        "workspace_id": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "POST",
+      "path": "/api/workspaces/acme/user-favorites/",
+      "request": {
+        "entity_identifier": "<uuid:12>",
+        "entity_type": "cycle",
+        "project_id": "<uuid:6>"
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "entity_data": {
+          "id": "<uuid:12>",
+          "logo_props": {
+            "in_use": "emoji"
+          },
+          "name": "Sprint",
+          "project_id": "<uuid:6>"
+        },
+        "entity_identifier": "<uuid:12>",
+        "entity_type": "cycle",
+        "id": "<uuid:46>",
+        "is_folder": false,
+        "name": null,
+        "parent": null,
+        "project_id": "<uuid:6>",
+        "sequence": 265535,
+        "workspace_id": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "POST",
+      "path": "/api/workspaces/acme/user-favorites/",
+      "request": {
+        "entity_type": "folder",
+        "is_folder": true,
+        "name": "Bob's"
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "entity_data": null,
+        "entity_identifier": null,
+        "entity_type": "folder",
+        "id": "<uuid:47>",
+        "is_folder": true,
+        "name": "Bob's",
+        "parent": null,
+        "project_id": null,
+        "sequence": 275535,
+        "workspace_id": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "carol",
+      "method": "POST",
+      "path": "/api/workspaces/acme/user-favorites/",
+      "request": {
+        "entity_type": "folder",
+        "name": "Guest"
+      },
+      "status": 403,
+      "content_type": "application/json",
+      "body": {
+        "error": "You don't have the required permissions."
+      }
+    },
+    {
+      "actor": "dan",
+      "method": "POST",
+      "path": "/api/workspaces/acme/user-favorites/",
+      "request": {
+        "entity_identifier": "<uuid:12>",
+        "entity_type": "cycle",
+        "project_id": "<uuid:6>"
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "entity_data": {
+          "id": "<uuid:12>",
+          "logo_props": {
+            "in_use": "emoji"
+          },
+          "name": "Sprint",
+          "project_id": "<uuid:6>"
+        },
+        "entity_identifier": "<uuid:12>",
+        "entity_type": "cycle",
+        "id": "<uuid:48>",
+        "is_folder": false,
+        "name": null,
+        "parent": null,
+        "project_id": "<uuid:6>",
+        "sequence": 285535,
+        "workspace_id": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "dan",
+      "method": "POST",
+      "path": "/api/workspaces/acme/user-favorites/",
+      "request": {
+        "entity_type": "folder",
+        "name": "Dan's"
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "entity_data": null,
+        "entity_identifier": null,
+        "entity_type": "folder",
+        "id": "<uuid:49>",
+        "is_folder": false,
+        "name": "Dan's",
+        "parent": null,
+        "project_id": null,
+        "sequence": 295535,
+        "workspace_id": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "outsider",
+      "method": "POST",
+      "path": "/api/workspaces/acme/user-favorites/",
+      "request": {
+        "entity_type": "folder",
+        "name": "Outsider"
+      },
+      "status": 403,
+      "content_type": "application/json",
+      "body": {
+        "error": "You don't have the required permissions."
+      }
+    },
+    {
+      "actor": "anon",
+      "method": "POST",
+      "path": "/api/workspaces/acme/user-favorites/",
+      "request": {
+        "entity_type": "folder"
+      },
+      "status": 401,
+      "content_type": "application/json",
+      "body": {
+        "detail": "Authentication credentials were not provided."
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/user-favorites/",
+      "request": {
+        "entity_identifier": "<uuid:50>",
+        "entity_type": "cycle",
+        "name": "far",
+        "project_id": "<uuid:22>"
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "entity_data": null,
+        "entity_identifier": "<uuid:50>",
+        "entity_type": "cycle",
+        "id": "<uuid:51>",
+        "is_folder": false,
+        "name": "far",
+        "parent": null,
+        "project_id": "<uuid:22>",
+        "sequence": 65535,
+        "workspace_id": "<uuid:21>"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/user-favorites/",
+      "request": {
+        "entity_identifier": "<uuid:50>",
+        "entity_type": "cycle",
+        "name": "again"
+      },
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "error": "Favorite already exists"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/",
+      "request": {
+        "identifier": "GN",
+        "name": "Gone"
+      },
+      "status": 201,
+      "content_type": "application/json",
+      "body": {
+        "anchor": null,
+        "archive_in": 0,
+        "archived_at": null,
+        "close_in": 0,
+        "cover_image": null,
+        "cover_image_asset": null,
+        "cover_image_url": null,
+        "created_at": "<datetime Z>",
+        "created_by": "<uuid:1>",
+        "cycle_view": false,
+        "default_assignee": null,
+        "default_state": null,
+        "deleted_at": null,
+        "description": "",
+        "description_html": null,
+        "description_text": null,
+        "emoji": null,
+        "estimate": null,
+        "external_id": null,
+        "external_source": null,
+        "guest_view_all_features": false,
+        "icon_prop": null,
+        "id": "<uuid:52>",
+        "identifier": "GN",
+        "inbox_view": false,
+        "intake_view": false,
+        "is_favorite": false,
+        "is_issue_type_enabled": false,
+        "is_time_tracking_enabled": false,
+        "issue_views_view": false,
+        "logo_props": {},
+        "member_role": 20,
+        "members": [
+          "<uuid:1>"
+        ],
+        "module_view": false,
+        "name": "Gone",
+        "network": 2,
+        "next_work_item_sequence": 1,
+        "page_view": true,
+        "project_lead": null,
+        "sort_order": 45535,
+        "timezone": "UTC",
+        "updated_at": "<datetime Z>",
+        "updated_by": null,
+        "workspace": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/user-favorites/",
+      "request": {
+        "entity_identifier": "<uuid:53>",
+        "entity_type": "cycle",
+        "project_id": "<uuid:52>"
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "entity_data": null,
+        "entity_identifier": "<uuid:53>",
+        "entity_type": "cycle",
+        "id": "<uuid:54>",
+        "is_folder": false,
+        "name": null,
+        "parent": null,
+        "project_id": "<uuid:52>",
+        "sequence": 305535,
+        "workspace_id": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/user-favorites/",
+      "request": {
+        "entity_identifier": "<uuid:55>",
+        "entity_type": "cycle",
+        "project_id": "<uuid:34>"
+      },
+      "status": 404,
+      "content_type": "application/json",
+      "body": {
+        "error": "The required object does not exist."
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/user-favorites/",
+      "request": {
+        "entity_identifier": "<uuid:56>",
+        "entity_type": "cycle",
+        "project_id": "nope"
+      },
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "error": "Please provide valid detail"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/user-favorites/",
+      "request": {
+        "entity_identifier": "<uuid:57>",
+        "entity_type": "cycle",
+        "project_id": [
+          "<uuid:6>"
+        ]
+      },
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "error": "Please provide valid detail"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/user-favorites/",
+      "request": {
+        "entity_identifier": "<uuid:58>",
+        "entity_type": "cycle",
+        "project_id": 5
+      },
+      "status": 404,
+      "content_type": "application/json",
+      "body": {
+        "error": "The required object does not exist."
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/user-favorites/",
+      "request": {
+        "entity_identifier": "<uuid:59>",
+        "entity_type": "cycle",
+        "project_id": ""
+      },
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "error": "Please provide valid detail"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/user-favorites/",
+      "request": {
+        "entity_identifier": "<uuid:60>",
+        "entity_type": "cycle",
+        "project_id": true
+      },
+      "status": 404,
+      "content_type": "application/json",
+      "body": {
+        "error": "The required object does not exist."
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/user-favorites/",
+      "request": {
+        "entity_identifier": "<uuid:61>",
+        "entity_type": "cycle",
+        "project_id": 0
+      },
+      "status": 404,
+      "content_type": "application/json",
+      "body": {
+        "error": "The required object does not exist."
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/user-favorites/",
+      "request": {
+        "entity_identifier": "<uuid:62>",
+        "entity_type": "cycle",
+        "project_id": {}
+      },
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "error": "Please provide valid detail"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/user-favorites/",
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "entity_type": [
+          "This field is required."
+        ]
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/user-favorites/",
+      "request": {
+        "entity_type": null,
+        "name": null
+      },
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "entity_type": [
+          "This field may not be null."
+        ]
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/user-favorites/",
+      "request": {
+        "entity_type": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "name": "nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn"
+      },
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "entity_type": [
+          "Ensure this field has no more than 100 characters."
+        ],
+        "name": [
+          "Ensure this field has no more than 255 characters."
+        ]
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/user-favorites/",
+      "request": {
+        "entity_type": "",
+        "name": ""
+      },
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "entity_type": [
+          "This field may not be blank."
+        ]
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/user-favorites/",
+      "request": {
+        "entity_type": "folder",
+        "is_folder": "maybe",
+        "parent": "<uuid:34>",
+        "sequence": "x"
+      },
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "is_folder": [
+          "Must be a valid boolean."
+        ],
+        "parent": [
+          "Invalid pk \"<uuid:34>\" - object does not exist."
+        ],
+        "sequence": [
+          "A valid number is required."
+        ]
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/user-favorites/",
+      "request": {
+        "entity_type": "folder",
+        "parent": "nope"
+      },
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "parent": [
+          "“nope” is not a valid UUID."
+        ]
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/user-favorites/",
+      "request": {
+        "entity_type": "folder",
+        "parent": [
+          "<uuid:23>"
+        ]
+      },
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "parent": [
+          "“['<uuid:23>']” is not a valid UUID."
+        ]
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/user-favorites/",
+      "request": {
+        "entity_type": "folder",
+        "parent": true
+      },
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "parent": [
+          "Incorrect type. Expected pk value, received bool."
+        ]
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/user-favorites/",
+      "request": {
+        "entity_type": "folder",
+        "is_folder": null,
+        "parent": null,
+        "sequence": null
+      },
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "is_folder": [
+          "This field may not be null."
+        ],
+        "sequence": [
+          "This field may not be null."
+        ]
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/user-favorites/",
+      "request": {
+        "entity_type": [
+          "x"
+        ]
+      },
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "entity_type": [
+          "Not a valid string."
+        ]
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/user-favorites/",
+      "request": {
+        "entity_type": 12
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "entity_data": null,
+        "entity_identifier": null,
+        "entity_type": "12",
+        "id": "<uuid:63>",
+        "is_folder": false,
+        "name": null,
+        "parent": null,
+        "project_id": null,
+        "sequence": 315535,
+        "workspace_id": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/user-favorites/",
+      "request": {
+        "entity_identifier": "",
+        "entity_type": "cycle"
+      },
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "entity_identifier": [
+          "Must be a valid UUID."
+        ]
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/user-favorites/",
+      "request": {
+        "entity_identifier": "nope",
+        "entity_type": "cycle"
+      },
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "error": "Please provide valid detail"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/user-favorites/",
+      "request": {
+        "entity_identifier": [
+          "x"
+        ],
+        "entity_type": "cycle"
+      },
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "error": "Please provide valid detail"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/user-favorites/",
+      "request": {
+        "entity_identifier": {
+          "a": 1
+        },
+        "entity_type": "cycle"
+      },
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "error": "Please provide valid detail"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/user-favorites/",
+      "request": {
+        "entity_identifier": 1.5,
+        "entity_type": "cycle"
+      },
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "error": "Please provide valid detail"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/user-favorites/",
+      "request": {
+        "entity_identifier": true,
+        "entity_type": "cycle"
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "entity_data": null,
+        "entity_identifier": "<uuid:64>",
+        "entity_type": "cycle",
+        "id": "<uuid:65>",
+        "is_folder": false,
+        "name": null,
+        "parent": null,
+        "project_id": null,
+        "sequence": 325535,
+        "workspace_id": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/user-favorites/",
+      "request": {
+        "entity_identifier": "<uuid:12>"
+      },
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "entity_type": [
+          "This field is required."
+        ]
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/user-favorites/",
+      "request": [
+        "x"
+      ],
+      "status": 500,
+      "content_type": "application/json",
+      "body": {
+        "error": "Something went wrong please try again later"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/user-favorites/",
+      "request": "text",
+      "status": 500,
+      "content_type": "application/json",
+      "body": {
+        "error": "Something went wrong please try again later"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/user-favorites/",
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "entity_type": [
+          "This field is required."
+        ]
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "GET",
+      "path": "/api/workspaces/acme/user-favorites/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": [
+        {
+          "entity_data": null,
+          "entity_identifier": null,
+          "entity_type": "folder",
+          "id": "<uuid:47>",
+          "is_folder": true,
+          "name": "Bob's",
+          "parent": null,
+          "project_id": null,
+          "sequence": 275535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": {
+            "id": "<uuid:12>",
+            "logo_props": {
+              "in_use": "emoji"
+            },
+            "name": "Sprint",
+            "project_id": "<uuid:6>"
+          },
+          "entity_identifier": "<uuid:12>",
+          "entity_type": "cycle",
+          "id": "<uuid:46>",
+          "is_folder": false,
+          "name": null,
+          "parent": null,
+          "project_id": "<uuid:6>",
+          "sequence": 265535,
+          "workspace_id": "<uuid:2>"
+        }
+      ]
+    },
+    {
+      "actor": "dan",
+      "method": "GET",
+      "path": "/api/workspaces/acme/user-favorites/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": [
+        {
+          "entity_data": null,
+          "entity_identifier": null,
+          "entity_type": "folder",
+          "id": "<uuid:49>",
+          "is_folder": false,
+          "name": "Dan's",
+          "parent": null,
+          "project_id": null,
+          "sequence": 295535,
+          "workspace_id": "<uuid:2>"
+        }
+      ]
+    },
+    {
+      "actor": "carol",
+      "method": "GET",
+      "path": "/api/workspaces/acme/user-favorites/",
+      "status": 403,
+      "content_type": "application/json",
+      "body": {
+        "error": "You don't have the required permissions."
+      }
+    },
+    {
+      "actor": "outsider",
+      "method": "GET",
+      "path": "/api/workspaces/acme/user-favorites/",
+      "status": 403,
+      "content_type": "application/json",
+      "body": {
+        "error": "You don't have the required permissions."
+      }
+    },
+    {
+      "actor": "anon",
+      "method": "GET",
+      "path": "/api/workspaces/acme/user-favorites/",
+      "status": 401,
+      "content_type": "application/json",
+      "body": {
+        "detail": "Authentication credentials were not provided."
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/workspaces/nope/user-favorites/",
+      "status": 403,
+      "content_type": "application/json",
+      "body": {
+        "error": "You don't have the required permissions."
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/nope/user-favorites/",
+      "request": {
+        "entity_type": "folder"
+      },
+      "status": 403,
+      "content_type": "application/json",
+      "body": {
+        "error": "You don't have the required permissions."
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/workspaces/acme/user-favorites/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": [
+        {
+          "entity_data": null,
+          "entity_identifier": "<uuid:64>",
+          "entity_type": "cycle",
+          "id": "<uuid:65>",
+          "is_folder": false,
+          "name": null,
+          "parent": null,
+          "project_id": null,
+          "sequence": 325535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": null,
+          "entity_identifier": null,
+          "entity_type": "12",
+          "id": "<uuid:63>",
+          "is_folder": false,
+          "name": null,
+          "parent": null,
+          "project_id": null,
+          "sequence": 315535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": null,
+          "entity_identifier": "<uuid:53>",
+          "entity_type": "cycle",
+          "id": "<uuid:54>",
+          "is_folder": false,
+          "name": null,
+          "parent": null,
+          "project_id": "<uuid:52>",
+          "sequence": 305535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": null,
+          "entity_identifier": null,
+          "entity_type": "cycle",
+          "id": "<uuid:45>",
+          "is_folder": false,
+          "name": "no id",
+          "parent": null,
+          "project_id": null,
+          "sequence": 255535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": null,
+          "entity_identifier": null,
+          "entity_type": "cycle",
+          "id": "<uuid:44>",
+          "is_folder": false,
+          "name": "null id",
+          "parent": null,
+          "project_id": null,
+          "sequence": 245535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": null,
+          "entity_identifier": "<uuid:42>",
+          "entity_type": "cycle",
+          "id": "<uuid:43>",
+          "is_folder": false,
+          "name": null,
+          "parent": null,
+          "project_id": null,
+          "sequence": 235535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": null,
+          "entity_identifier": "<uuid:40>",
+          "entity_type": "cycle",
+          "id": "<uuid:41>",
+          "is_folder": false,
+          "name": null,
+          "parent": null,
+          "project_id": null,
+          "sequence": 225535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": {
+            "id": "<uuid:13>",
+            "logo_props": {},
+            "name": "Elsewhere",
+            "project_id": "<uuid:11>"
+          },
+          "entity_identifier": "<uuid:13>",
+          "entity_type": "cycle",
+          "id": "<uuid:37>",
+          "is_folder": false,
+          "name": null,
+          "parent": null,
+          "project_id": "<uuid:11>",
+          "sequence": 195535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": null,
+          "entity_identifier": "<uuid:34>",
+          "entity_type": "cycle",
+          "id": "<uuid:36>",
+          "is_folder": false,
+          "name": null,
+          "parent": null,
+          "project_id": "<uuid:6>",
+          "sequence": 185535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": null,
+          "entity_identifier": "<uuid:34>",
+          "entity_type": "banana",
+          "id": "<uuid:35>",
+          "is_folder": false,
+          "name": null,
+          "parent": null,
+          "project_id": null,
+          "sequence": 175535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": null,
+          "entity_identifier": "<uuid:19>",
+          "entity_type": "issue",
+          "id": "<uuid:33>",
+          "is_folder": false,
+          "name": null,
+          "parent": null,
+          "project_id": "<uuid:6>",
+          "sequence": 165535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": {
+            "id": "<uuid:6>",
+            "logo_props": {},
+            "name": "Plane Lite"
+          },
+          "entity_identifier": "<uuid:6>",
+          "entity_type": "project",
+          "id": "<uuid:31>",
+          "is_folder": false,
+          "name": null,
+          "parent": null,
+          "project_id": "<uuid:6>",
+          "sequence": 145535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": {
+            "id": "<uuid:17>",
+            "logo_props": {},
+            "name": "Old doc",
+            "project_id": "<uuid:6>"
+          },
+          "entity_identifier": "<uuid:17>",
+          "entity_type": "page",
+          "id": "<uuid:30>",
+          "is_folder": false,
+          "name": null,
+          "parent": null,
+          "project_id": "<uuid:6>",
+          "sequence": 135535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": {
+            "id": "<uuid:16>",
+            "logo_props": {
+              "in_use": "emoji"
+            },
+            "name": "Doc",
+            "project_id": "<uuid:6>"
+          },
+          "entity_identifier": "<uuid:16>",
+          "entity_type": "page",
+          "id": "<uuid:29>",
+          "is_folder": false,
+          "name": null,
+          "parent": null,
+          "project_id": "<uuid:6>",
+          "sequence": 125535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": {
+            "id": "<uuid:15>",
+            "logo_props": {
+              "in_use": "icon"
+            },
+            "name": "View",
+            "project_id": "<uuid:6>"
+          },
+          "entity_identifier": "<uuid:15>",
+          "entity_type": "view",
+          "id": "<uuid:28>",
+          "is_folder": false,
+          "name": null,
+          "parent": null,
+          "project_id": "<uuid:6>",
+          "sequence": 115535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": {
+            "id": "<uuid:14>",
+            "logo_props": {},
+            "name": "Mod",
+            "project_id": "<uuid:6>"
+          },
+          "entity_identifier": "<uuid:14>",
+          "entity_type": "module",
+          "id": "<uuid:27>",
+          "is_folder": false,
+          "name": null,
+          "parent": null,
+          "project_id": "<uuid:6>",
+          "sequence": 105535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": {
+            "id": "<uuid:12>",
+            "logo_props": {
+              "in_use": "emoji"
+            },
+            "name": "Sprint",
+            "project_id": "<uuid:6>"
+          },
+          "entity_identifier": "<uuid:12>",
+          "entity_type": "cycle",
+          "id": "<uuid:26>",
+          "is_folder": false,
+          "name": null,
+          "parent": null,
+          "project_id": "<uuid:6>",
+          "sequence": 95535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": null,
+          "entity_identifier": null,
+          "entity_type": "folder",
+          "id": "<uuid:25>",
+          "is_folder": true,
+          "name": "Folder B",
+          "parent": null,
+          "project_id": null,
+          "sequence": 85535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": null,
+          "entity_identifier": null,
+          "entity_type": "folder",
+          "id": "<uuid:24>",
+          "is_folder": true,
+          "name": "Folder A",
+          "parent": null,
+          "project_id": null,
+          "sequence": 75535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": null,
+          "entity_identifier": null,
+          "entity_type": "folder",
+          "id": "<uuid:23>",
+          "is_folder": true,
+          "name": "Folder A",
+          "parent": null,
+          "project_id": null,
+          "sequence": 65535,
+          "workspace_id": "<uuid:2>"
+        }
+      ]
+    },
+    {
+      "actor": "bob",
+      "method": "GET",
+      "path": "/api/workspaces/acme/user-favorites/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": [
+        {
+          "entity_data": null,
+          "entity_identifier": null,
+          "entity_type": "folder",
+          "id": "<uuid:47>",
+          "is_folder": true,
+          "name": "Bob's",
+          "parent": null,
+          "project_id": null,
+          "sequence": 275535,
+          "workspace_id": "<uuid:2>"
+        }
+      ]
+    },
+    {
+      "actor": "bob",
+      "method": "GET",
+      "path": "/api/workspaces/acme/user-favorites/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": [
+        {
+          "entity_data": null,
+          "entity_identifier": null,
+          "entity_type": "folder",
+          "id": "<uuid:47>",
+          "is_folder": true,
+          "name": "Bob's",
+          "parent": null,
+          "project_id": null,
+          "sequence": 275535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": {
+            "id": "<uuid:12>",
+            "logo_props": {
+              "in_use": "emoji"
+            },
+            "name": "Sprint",
+            "project_id": "<uuid:6>"
+          },
+          "entity_identifier": "<uuid:12>",
+          "entity_type": "cycle",
+          "id": "<uuid:46>",
+          "is_folder": false,
+          "name": null,
+          "parent": null,
+          "project_id": "<uuid:6>",
+          "sequence": 265535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": {
+            "id": "<uuid:12>",
+            "logo_props": {
+              "in_use": "emoji"
+            },
+            "name": "Sprint",
+            "project_id": "<uuid:6>"
+          },
+          "entity_identifier": "<uuid:12>",
+          "entity_type": "cycle",
+          "id": "<uuid:46>",
+          "is_folder": false,
+          "name": null,
+          "parent": null,
+          "project_id": "<uuid:6>",
+          "sequence": 265535,
+          "workspace_id": "<uuid:2>"
+        }
+      ]
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/workspaces/acme/user-favorites/<uuid:23>/group/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": [
+        {
+          "entity_data": null,
+          "entity_identifier": null,
+          "entity_type": "folder",
+          "id": "<uuid:38>",
+          "is_folder": false,
+          "name": "Late",
+          "parent": "<uuid:23>",
+          "project_id": null,
+          "sequence": 205535,
+          "workspace_id": "<uuid:2>"
+        }
+      ]
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/workspaces/acme/user-favorites/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": [
+        {
+          "entity_data": null,
+          "entity_identifier": "<uuid:64>",
+          "entity_type": "cycle",
+          "id": "<uuid:65>",
+          "is_folder": false,
+          "name": null,
+          "parent": null,
+          "project_id": null,
+          "sequence": 325535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": null,
+          "entity_identifier": null,
+          "entity_type": "12",
+          "id": "<uuid:63>",
+          "is_folder": false,
+          "name": null,
+          "parent": null,
+          "project_id": null,
+          "sequence": 315535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": null,
+          "entity_identifier": "<uuid:53>",
+          "entity_type": "cycle",
+          "id": "<uuid:54>",
+          "is_folder": false,
+          "name": null,
+          "parent": null,
+          "project_id": "<uuid:52>",
+          "sequence": 305535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": null,
+          "entity_identifier": null,
+          "entity_type": "cycle",
+          "id": "<uuid:45>",
+          "is_folder": false,
+          "name": "no id",
+          "parent": null,
+          "project_id": null,
+          "sequence": 255535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": null,
+          "entity_identifier": null,
+          "entity_type": "cycle",
+          "id": "<uuid:44>",
+          "is_folder": false,
+          "name": "null id",
+          "parent": null,
+          "project_id": null,
+          "sequence": 245535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": null,
+          "entity_identifier": "<uuid:42>",
+          "entity_type": "cycle",
+          "id": "<uuid:43>",
+          "is_folder": false,
+          "name": null,
+          "parent": null,
+          "project_id": null,
+          "sequence": 235535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": null,
+          "entity_identifier": "<uuid:40>",
+          "entity_type": "cycle",
+          "id": "<uuid:41>",
+          "is_folder": false,
+          "name": null,
+          "parent": null,
+          "project_id": null,
+          "sequence": 225535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": {
+            "id": "<uuid:13>",
+            "logo_props": {},
+            "name": "Elsewhere",
+            "project_id": "<uuid:11>"
+          },
+          "entity_identifier": "<uuid:13>",
+          "entity_type": "cycle",
+          "id": "<uuid:37>",
+          "is_folder": false,
+          "name": null,
+          "parent": null,
+          "project_id": "<uuid:11>",
+          "sequence": 195535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": null,
+          "entity_identifier": "<uuid:34>",
+          "entity_type": "cycle",
+          "id": "<uuid:36>",
+          "is_folder": false,
+          "name": null,
+          "parent": null,
+          "project_id": "<uuid:6>",
+          "sequence": 185535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": null,
+          "entity_identifier": "<uuid:34>",
+          "entity_type": "banana",
+          "id": "<uuid:35>",
+          "is_folder": false,
+          "name": null,
+          "parent": null,
+          "project_id": null,
+          "sequence": 175535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": null,
+          "entity_identifier": "<uuid:19>",
+          "entity_type": "issue",
+          "id": "<uuid:33>",
+          "is_folder": false,
+          "name": null,
+          "parent": null,
+          "project_id": "<uuid:6>",
+          "sequence": 165535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": {
+            "id": "<uuid:6>",
+            "logo_props": {},
+            "name": "Plane Lite"
+          },
+          "entity_identifier": "<uuid:6>",
+          "entity_type": "project",
+          "id": "<uuid:31>",
+          "is_folder": false,
+          "name": null,
+          "parent": null,
+          "project_id": "<uuid:6>",
+          "sequence": 145535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": {
+            "id": "<uuid:17>",
+            "logo_props": {},
+            "name": "Old doc",
+            "project_id": "<uuid:6>"
+          },
+          "entity_identifier": "<uuid:17>",
+          "entity_type": "page",
+          "id": "<uuid:30>",
+          "is_folder": false,
+          "name": null,
+          "parent": null,
+          "project_id": "<uuid:6>",
+          "sequence": 135535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": {
+            "id": "<uuid:16>",
+            "logo_props": {
+              "in_use": "emoji"
+            },
+            "name": "Doc",
+            "project_id": "<uuid:6>"
+          },
+          "entity_identifier": "<uuid:16>",
+          "entity_type": "page",
+          "id": "<uuid:29>",
+          "is_folder": false,
+          "name": null,
+          "parent": null,
+          "project_id": "<uuid:6>",
+          "sequence": 125535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": {
+            "id": "<uuid:15>",
+            "logo_props": {
+              "in_use": "icon"
+            },
+            "name": "View",
+            "project_id": "<uuid:6>"
+          },
+          "entity_identifier": "<uuid:15>",
+          "entity_type": "view",
+          "id": "<uuid:28>",
+          "is_folder": false,
+          "name": null,
+          "parent": null,
+          "project_id": "<uuid:6>",
+          "sequence": 115535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": {
+            "id": "<uuid:14>",
+            "logo_props": {},
+            "name": "Mod",
+            "project_id": "<uuid:6>"
+          },
+          "entity_identifier": "<uuid:14>",
+          "entity_type": "module",
+          "id": "<uuid:27>",
+          "is_folder": false,
+          "name": null,
+          "parent": null,
+          "project_id": "<uuid:6>",
+          "sequence": 105535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": {
+            "id": "<uuid:12>",
+            "logo_props": {
+              "in_use": "emoji"
+            },
+            "name": "Sprint",
+            "project_id": "<uuid:6>"
+          },
+          "entity_identifier": "<uuid:12>",
+          "entity_type": "cycle",
+          "id": "<uuid:26>",
+          "is_folder": false,
+          "name": null,
+          "parent": null,
+          "project_id": "<uuid:6>",
+          "sequence": 95535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": null,
+          "entity_identifier": null,
+          "entity_type": "folder",
+          "id": "<uuid:25>",
+          "is_folder": true,
+          "name": "Folder B",
+          "parent": null,
+          "project_id": null,
+          "sequence": 85535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": null,
+          "entity_identifier": null,
+          "entity_type": "folder",
+          "id": "<uuid:24>",
+          "is_folder": true,
+          "name": "Folder A",
+          "parent": null,
+          "project_id": null,
+          "sequence": 75535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": null,
+          "entity_identifier": null,
+          "entity_type": "folder",
+          "id": "<uuid:23>",
+          "is_folder": true,
+          "name": "Folder A",
+          "parent": null,
+          "project_id": null,
+          "sequence": 65535,
+          "workspace_id": "<uuid:2>"
+        }
+      ]
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/workspaces/acme/user-favorites/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": [
+        {
+          "entity_data": null,
+          "entity_identifier": "<uuid:64>",
+          "entity_type": "cycle",
+          "id": "<uuid:65>",
+          "is_folder": false,
+          "name": null,
+          "parent": null,
+          "project_id": null,
+          "sequence": 325535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": null,
+          "entity_identifier": null,
+          "entity_type": "12",
+          "id": "<uuid:63>",
+          "is_folder": false,
+          "name": null,
+          "parent": null,
+          "project_id": null,
+          "sequence": 315535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": null,
+          "entity_identifier": "<uuid:53>",
+          "entity_type": "cycle",
+          "id": "<uuid:54>",
+          "is_folder": false,
+          "name": null,
+          "parent": null,
+          "project_id": "<uuid:52>",
+          "sequence": 305535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": null,
+          "entity_identifier": null,
+          "entity_type": "cycle",
+          "id": "<uuid:45>",
+          "is_folder": false,
+          "name": "no id",
+          "parent": null,
+          "project_id": null,
+          "sequence": 255535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": null,
+          "entity_identifier": null,
+          "entity_type": "cycle",
+          "id": "<uuid:44>",
+          "is_folder": false,
+          "name": "null id",
+          "parent": null,
+          "project_id": null,
+          "sequence": 245535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": null,
+          "entity_identifier": "<uuid:42>",
+          "entity_type": "cycle",
+          "id": "<uuid:43>",
+          "is_folder": false,
+          "name": null,
+          "parent": null,
+          "project_id": null,
+          "sequence": 235535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": null,
+          "entity_identifier": "<uuid:40>",
+          "entity_type": "cycle",
+          "id": "<uuid:41>",
+          "is_folder": false,
+          "name": null,
+          "parent": null,
+          "project_id": null,
+          "sequence": 225535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": {
+            "id": "<uuid:13>",
+            "logo_props": {},
+            "name": "Elsewhere",
+            "project_id": "<uuid:11>"
+          },
+          "entity_identifier": "<uuid:13>",
+          "entity_type": "cycle",
+          "id": "<uuid:37>",
+          "is_folder": false,
+          "name": null,
+          "parent": null,
+          "project_id": "<uuid:11>",
+          "sequence": 195535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": null,
+          "entity_identifier": "<uuid:34>",
+          "entity_type": "cycle",
+          "id": "<uuid:36>",
+          "is_folder": false,
+          "name": null,
+          "parent": null,
+          "project_id": "<uuid:6>",
+          "sequence": 185535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": null,
+          "entity_identifier": "<uuid:34>",
+          "entity_type": "banana",
+          "id": "<uuid:35>",
+          "is_folder": false,
+          "name": null,
+          "parent": null,
+          "project_id": null,
+          "sequence": 175535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": null,
+          "entity_identifier": "<uuid:19>",
+          "entity_type": "issue",
+          "id": "<uuid:33>",
+          "is_folder": false,
+          "name": null,
+          "parent": null,
+          "project_id": "<uuid:6>",
+          "sequence": 165535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": {
+            "id": "<uuid:6>",
+            "logo_props": {},
+            "name": "Plane Lite"
+          },
+          "entity_identifier": "<uuid:6>",
+          "entity_type": "project",
+          "id": "<uuid:31>",
+          "is_folder": false,
+          "name": null,
+          "parent": null,
+          "project_id": "<uuid:6>",
+          "sequence": 145535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": {
+            "id": "<uuid:17>",
+            "logo_props": {},
+            "name": "Old doc",
+            "project_id": "<uuid:6>"
+          },
+          "entity_identifier": "<uuid:17>",
+          "entity_type": "page",
+          "id": "<uuid:30>",
+          "is_folder": false,
+          "name": null,
+          "parent": null,
+          "project_id": "<uuid:6>",
+          "sequence": 135535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": {
+            "id": "<uuid:16>",
+            "logo_props": {
+              "in_use": "emoji"
+            },
+            "name": "Doc",
+            "project_id": "<uuid:6>"
+          },
+          "entity_identifier": "<uuid:16>",
+          "entity_type": "page",
+          "id": "<uuid:29>",
+          "is_folder": false,
+          "name": null,
+          "parent": null,
+          "project_id": "<uuid:6>",
+          "sequence": 125535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": {
+            "id": "<uuid:15>",
+            "logo_props": {
+              "in_use": "icon"
+            },
+            "name": "View",
+            "project_id": "<uuid:6>"
+          },
+          "entity_identifier": "<uuid:15>",
+          "entity_type": "view",
+          "id": "<uuid:28>",
+          "is_folder": false,
+          "name": null,
+          "parent": null,
+          "project_id": "<uuid:6>",
+          "sequence": 115535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": {
+            "id": "<uuid:14>",
+            "logo_props": {},
+            "name": "Mod",
+            "project_id": "<uuid:6>"
+          },
+          "entity_identifier": "<uuid:14>",
+          "entity_type": "module",
+          "id": "<uuid:27>",
+          "is_folder": false,
+          "name": null,
+          "parent": null,
+          "project_id": "<uuid:6>",
+          "sequence": 105535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": {
+            "id": "<uuid:12>",
+            "logo_props": {
+              "in_use": "emoji"
+            },
+            "name": "Sprint",
+            "project_id": "<uuid:6>"
+          },
+          "entity_identifier": "<uuid:12>",
+          "entity_type": "cycle",
+          "id": "<uuid:26>",
+          "is_folder": false,
+          "name": null,
+          "parent": null,
+          "project_id": "<uuid:6>",
+          "sequence": 95535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": null,
+          "entity_identifier": null,
+          "entity_type": "folder",
+          "id": "<uuid:25>",
+          "is_folder": true,
+          "name": "Folder B",
+          "parent": null,
+          "project_id": null,
+          "sequence": 85535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": null,
+          "entity_identifier": null,
+          "entity_type": "folder",
+          "id": "<uuid:24>",
+          "is_folder": true,
+          "name": "Folder A",
+          "parent": null,
+          "project_id": null,
+          "sequence": 75535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": null,
+          "entity_identifier": null,
+          "entity_type": "folder",
+          "id": "<uuid:23>",
+          "is_folder": true,
+          "name": "Folder A",
+          "parent": null,
+          "project_id": null,
+          "sequence": 65535,
+          "workspace_id": "<uuid:2>"
+        }
+      ]
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/workspaces/acme/user-favorites/<uuid:23>/group/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": [
+        {
+          "entity_data": null,
+          "entity_identifier": null,
+          "entity_type": "folder",
+          "id": "<uuid:38>",
+          "is_folder": false,
+          "name": "Late",
+          "parent": "<uuid:23>",
+          "project_id": null,
+          "sequence": 205535,
+          "workspace_id": "<uuid:2>"
+        }
+      ]
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/workspaces/acme/user-favorites/<uuid:25>/group/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": [
+        {
+          "entity_data": null,
+          "entity_identifier": "<uuid:34>",
+          "entity_type": "module",
+          "id": "<uuid:39>",
+          "is_folder": true,
+          "name": "Named",
+          "parent": "<uuid:25>",
+          "project_id": "<uuid:6>",
+          "sequence": 215535,
+          "workspace_id": "<uuid:2>"
+        }
+      ]
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/workspaces/acme/user-favorites/<uuid:26>/group/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": []
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/workspaces/acme/user-favorites/<uuid:34>/group/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": []
+    },
+    {
+      "actor": "bob",
+      "method": "GET",
+      "path": "/api/workspaces/acme/user-favorites/<uuid:23>/group/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": []
+    },
+    {
+      "actor": "carol",
+      "method": "GET",
+      "path": "/api/workspaces/acme/user-favorites/<uuid:23>/group/",
+      "status": 403,
+      "content_type": "application/json",
+      "body": {
+        "error": "You don't have the required permissions."
+      }
+    },
+    {
+      "actor": "outsider",
+      "method": "GET",
+      "path": "/api/workspaces/acme/user-favorites/<uuid:23>/group/",
+      "status": 403,
+      "content_type": "application/json",
+      "body": {
+        "error": "You don't have the required permissions."
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/workspaces/acme/user-favorites/nope/group/",
+      "status": 404,
+      "content_type": "application/json",
+      "body": {
+        "error": "Page not found."
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/workspaces/acme/user-favorites/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": [
+        {
+          "entity_data": null,
+          "entity_identifier": "<uuid:64>",
+          "entity_type": "cycle",
+          "id": "<uuid:65>",
+          "is_folder": false,
+          "name": null,
+          "parent": null,
+          "project_id": null,
+          "sequence": 325535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": null,
+          "entity_identifier": null,
+          "entity_type": "12",
+          "id": "<uuid:63>",
+          "is_folder": false,
+          "name": null,
+          "parent": null,
+          "project_id": null,
+          "sequence": 315535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": null,
+          "entity_identifier": "<uuid:53>",
+          "entity_type": "cycle",
+          "id": "<uuid:54>",
+          "is_folder": false,
+          "name": null,
+          "parent": null,
+          "project_id": "<uuid:52>",
+          "sequence": 305535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": null,
+          "entity_identifier": null,
+          "entity_type": "cycle",
+          "id": "<uuid:45>",
+          "is_folder": false,
+          "name": "no id",
+          "parent": null,
+          "project_id": null,
+          "sequence": 255535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": null,
+          "entity_identifier": null,
+          "entity_type": "cycle",
+          "id": "<uuid:44>",
+          "is_folder": false,
+          "name": "null id",
+          "parent": null,
+          "project_id": null,
+          "sequence": 245535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": null,
+          "entity_identifier": "<uuid:42>",
+          "entity_type": "cycle",
+          "id": "<uuid:43>",
+          "is_folder": false,
+          "name": null,
+          "parent": null,
+          "project_id": null,
+          "sequence": 235535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": null,
+          "entity_identifier": "<uuid:40>",
+          "entity_type": "cycle",
+          "id": "<uuid:41>",
+          "is_folder": false,
+          "name": null,
+          "parent": null,
+          "project_id": null,
+          "sequence": 225535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": {
+            "id": "<uuid:13>",
+            "logo_props": {},
+            "name": "Elsewhere",
+            "project_id": "<uuid:11>"
+          },
+          "entity_identifier": "<uuid:13>",
+          "entity_type": "cycle",
+          "id": "<uuid:37>",
+          "is_folder": false,
+          "name": null,
+          "parent": null,
+          "project_id": "<uuid:11>",
+          "sequence": 195535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": null,
+          "entity_identifier": "<uuid:34>",
+          "entity_type": "cycle",
+          "id": "<uuid:36>",
+          "is_folder": false,
+          "name": null,
+          "parent": null,
+          "project_id": "<uuid:6>",
+          "sequence": 185535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": null,
+          "entity_identifier": "<uuid:34>",
+          "entity_type": "banana",
+          "id": "<uuid:35>",
+          "is_folder": false,
+          "name": null,
+          "parent": null,
+          "project_id": null,
+          "sequence": 175535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": null,
+          "entity_identifier": "<uuid:19>",
+          "entity_type": "issue",
+          "id": "<uuid:33>",
+          "is_folder": false,
+          "name": null,
+          "parent": null,
+          "project_id": "<uuid:6>",
+          "sequence": 165535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": {
+            "id": "<uuid:6>",
+            "logo_props": {},
+            "name": "Plane Lite"
+          },
+          "entity_identifier": "<uuid:6>",
+          "entity_type": "project",
+          "id": "<uuid:31>",
+          "is_folder": false,
+          "name": null,
+          "parent": null,
+          "project_id": "<uuid:6>",
+          "sequence": 145535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": null,
+          "entity_identifier": "<uuid:17>",
+          "entity_type": "page",
+          "id": "<uuid:30>",
+          "is_folder": false,
+          "name": null,
+          "parent": null,
+          "project_id": "<uuid:6>",
+          "sequence": 135535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": {
+            "id": "<uuid:16>",
+            "logo_props": {
+              "in_use": "emoji"
+            },
+            "name": "Doc",
+            "project_id": "<uuid:6>"
+          },
+          "entity_identifier": "<uuid:16>",
+          "entity_type": "page",
+          "id": "<uuid:29>",
+          "is_folder": false,
+          "name": null,
+          "parent": null,
+          "project_id": "<uuid:6>",
+          "sequence": 125535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": {
+            "id": "<uuid:15>",
+            "logo_props": {
+              "in_use": "icon"
+            },
+            "name": "View",
+            "project_id": "<uuid:6>"
+          },
+          "entity_identifier": "<uuid:15>",
+          "entity_type": "view",
+          "id": "<uuid:28>",
+          "is_folder": false,
+          "name": null,
+          "parent": null,
+          "project_id": "<uuid:6>",
+          "sequence": 115535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": null,
+          "entity_identifier": "<uuid:14>",
+          "entity_type": "module",
+          "id": "<uuid:27>",
+          "is_folder": false,
+          "name": null,
+          "parent": null,
+          "project_id": "<uuid:6>",
+          "sequence": 105535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": null,
+          "entity_identifier": "<uuid:12>",
+          "entity_type": "cycle",
+          "id": "<uuid:26>",
+          "is_folder": false,
+          "name": null,
+          "parent": null,
+          "project_id": "<uuid:6>",
+          "sequence": 95535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": null,
+          "entity_identifier": null,
+          "entity_type": "folder",
+          "id": "<uuid:25>",
+          "is_folder": true,
+          "name": "Folder B",
+          "parent": null,
+          "project_id": null,
+          "sequence": 85535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": null,
+          "entity_identifier": null,
+          "entity_type": "folder",
+          "id": "<uuid:24>",
+          "is_folder": true,
+          "name": "Folder A",
+          "parent": null,
+          "project_id": null,
+          "sequence": 75535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": null,
+          "entity_identifier": null,
+          "entity_type": "folder",
+          "id": "<uuid:23>",
+          "is_folder": true,
+          "name": "Folder A",
+          "parent": null,
+          "project_id": null,
+          "sequence": 65535,
+          "workspace_id": "<uuid:2>"
+        }
+      ]
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/workspaces/acme/user-favorites/<uuid:23>/group/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": [
+        {
+          "entity_data": null,
+          "entity_identifier": null,
+          "entity_type": "folder",
+          "id": "<uuid:38>",
+          "is_folder": false,
+          "name": "Late",
+          "parent": "<uuid:23>",
+          "project_id": null,
+          "sequence": 205535,
+          "workspace_id": "<uuid:2>"
+        }
+      ]
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/workspaces/acme/user-favorites/<uuid:25>/group/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": [
+        {
+          "entity_data": null,
+          "entity_identifier": "<uuid:34>",
+          "entity_type": "module",
+          "id": "<uuid:39>",
+          "is_folder": true,
+          "name": "Named",
+          "parent": "<uuid:25>",
+          "project_id": "<uuid:6>",
+          "sequence": 215535,
+          "workspace_id": "<uuid:2>"
+        }
+      ]
+    },
+    {
+      "actor": "alice",
+      "method": "PATCH",
+      "path": "/api/workspaces/acme/user-favorites/<uuid:23>/",
+      "request": {
+        "name": "Renamed"
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "entity_data": null,
+        "entity_identifier": null,
+        "entity_type": "folder",
+        "id": "<uuid:23>",
+        "is_folder": true,
+        "name": "Renamed",
+        "parent": null,
+        "project_id": null,
+        "sequence": 65535,
+        "workspace_id": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "PATCH",
+      "path": "/api/workspaces/acme/user-favorites/<uuid:23>/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "entity_data": null,
+        "entity_identifier": null,
+        "entity_type": "folder",
+        "id": "<uuid:23>",
+        "is_folder": true,
+        "name": "Renamed",
+        "parent": null,
+        "project_id": null,
+        "sequence": 65535,
+        "workspace_id": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "PATCH",
+      "path": "/api/workspaces/acme/user-favorites/<uuid:25>/",
+      "request": {
+        "is_folder": false,
+        "parent": "<uuid:23>",
+        "sequence": 123.5
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "entity_data": null,
+        "entity_identifier": null,
+        "entity_type": "folder",
+        "id": "<uuid:25>",
+        "is_folder": false,
+        "name": "Folder B",
+        "parent": "<uuid:23>",
+        "project_id": null,
+        "sequence": 123.5,
+        "workspace_id": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "PATCH",
+      "path": "/api/workspaces/acme/user-favorites/<uuid:26>/",
+      "request": {
+        "entity_identifier": "<uuid:15>",
+        "entity_type": "view",
+        "name": "in B",
+        "parent": "<uuid:25>",
+        "project_id": "<uuid:34>"
+      },
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "error": "The payload is not valid"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "PATCH",
+      "path": "/api/workspaces/acme/user-favorites/<uuid:25>/",
+      "request": {
+        "name": null,
+        "parent": null
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "entity_data": null,
+        "entity_identifier": null,
+        "entity_type": "folder",
+        "id": "<uuid:25>",
+        "is_folder": false,
+        "name": null,
+        "parent": null,
+        "project_id": null,
+        "sequence": 123.5,
+        "workspace_id": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "PATCH",
+      "path": "/api/workspaces/acme/user-favorites/<uuid:25>/",
+      "request": {
+        "parent": "<uuid:25>"
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "entity_data": null,
+        "entity_identifier": null,
+        "entity_type": "folder",
+        "id": "<uuid:25>",
+        "is_folder": false,
+        "name": null,
+        "parent": "<uuid:25>",
+        "project_id": null,
+        "sequence": 123.5,
+        "workspace_id": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "PATCH",
+      "path": "/api/workspaces/acme/user-favorites/<uuid:25>/",
+      "request": {
+        "entity_type": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "is_folder": "maybe",
+        "parent": "<uuid:34>",
+        "sequence": "x"
+      },
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "entity_type": [
+          "Ensure this field has no more than 100 characters."
+        ],
+        "is_folder": [
+          "Must be a valid boolean."
+        ],
+        "parent": [
+          "Invalid pk \"<uuid:34>\" - object does not exist."
+        ],
+        "sequence": [
+          "A valid number is required."
+        ]
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "PATCH",
+      "path": "/api/workspaces/acme/user-favorites/<uuid:25>/",
+      "request": {
+        "entity_identifier": "nope",
+        "entity_type": null,
+        "name": "nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn"
+      },
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "entity_identifier": [
+          "Must be a valid UUID."
+        ],
+        "entity_type": [
+          "This field may not be null."
+        ],
+        "name": [
+          "Ensure this field has no more than 255 characters."
+        ]
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "PATCH",
+      "path": "/api/workspaces/acme/user-favorites/<uuid:25>/",
+      "request": [
+        "x"
+      ],
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "non_field_errors": [
+          "Invalid data. Expected a dictionary, but got list."
+        ]
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "PATCH",
+      "path": "/api/workspaces/acme/user-favorites/<uuid:25>/",
+      "request": "text",
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "non_field_errors": [
+          "Invalid data. Expected a dictionary, but got str."
+        ]
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "PATCH",
+      "path": "/api/workspaces/acme/user-favorites/<uuid:23>/",
+      "request": {
+        "entity_identifier": "<uuid:15>",
+        "entity_type": "view"
+      },
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "error": "The payload is not valid"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "PATCH",
+      "path": "/api/workspaces/acme/user-favorites/<uuid:34>/",
+      "request": {
+        "name": "x"
+      },
+      "status": 404,
+      "content_type": "application/json",
+      "body": {
+        "error": "The required object does not exist."
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "PATCH",
+      "path": "/api/workspaces/acme/user-favorites/<uuid:46>/",
+      "request": {
+        "name": "stolen"
+      },
+      "status": 404,
+      "content_type": "application/json",
+      "body": {
+        "error": "The required object does not exist."
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "PATCH",
+      "path": "/api/workspaces/acme/user-favorites/<uuid:46>/",
+      "request": {
+        "name": "mine"
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "entity_data": null,
+        "entity_identifier": "<uuid:12>",
+        "entity_type": "cycle",
+        "id": "<uuid:46>",
+        "is_folder": false,
+        "name": "mine",
+        "parent": null,
+        "project_id": "<uuid:6>",
+        "sequence": 265535,
+        "workspace_id": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "carol",
+      "method": "PATCH",
+      "path": "/api/workspaces/acme/user-favorites/<uuid:23>/",
+      "request": {
+        "name": "x"
+      },
+      "status": 403,
+      "content_type": "application/json",
+      "body": {
+        "error": "You don't have the required permissions."
+      }
+    },
+    {
+      "actor": "outsider",
+      "method": "PATCH",
+      "path": "/api/workspaces/acme/user-favorites/<uuid:23>/",
+      "request": {
+        "name": "x"
+      },
+      "status": 403,
+      "content_type": "application/json",
+      "body": {
+        "error": "You don't have the required permissions."
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "PATCH",
+      "path": "/api/workspaces/acme/user-favorites/nope/",
+      "request": {
+        "name": "x"
+      },
+      "status": 404,
+      "content_type": "application/json",
+      "body": {
+        "error": "Page not found."
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/workspaces/acme/user-favorites/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": [
+        {
+          "entity_data": null,
+          "entity_identifier": "<uuid:64>",
+          "entity_type": "cycle",
+          "id": "<uuid:65>",
+          "is_folder": false,
+          "name": null,
+          "parent": null,
+          "project_id": null,
+          "sequence": 325535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": null,
+          "entity_identifier": null,
+          "entity_type": "12",
+          "id": "<uuid:63>",
+          "is_folder": false,
+          "name": null,
+          "parent": null,
+          "project_id": null,
+          "sequence": 315535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": null,
+          "entity_identifier": "<uuid:53>",
+          "entity_type": "cycle",
+          "id": "<uuid:54>",
+          "is_folder": false,
+          "name": null,
+          "parent": null,
+          "project_id": "<uuid:52>",
+          "sequence": 305535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": null,
+          "entity_identifier": null,
+          "entity_type": "cycle",
+          "id": "<uuid:45>",
+          "is_folder": false,
+          "name": "no id",
+          "parent": null,
+          "project_id": null,
+          "sequence": 255535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": null,
+          "entity_identifier": null,
+          "entity_type": "cycle",
+          "id": "<uuid:44>",
+          "is_folder": false,
+          "name": "null id",
+          "parent": null,
+          "project_id": null,
+          "sequence": 245535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": null,
+          "entity_identifier": "<uuid:42>",
+          "entity_type": "cycle",
+          "id": "<uuid:43>",
+          "is_folder": false,
+          "name": null,
+          "parent": null,
+          "project_id": null,
+          "sequence": 235535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": null,
+          "entity_identifier": "<uuid:40>",
+          "entity_type": "cycle",
+          "id": "<uuid:41>",
+          "is_folder": false,
+          "name": null,
+          "parent": null,
+          "project_id": null,
+          "sequence": 225535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": {
+            "id": "<uuid:13>",
+            "logo_props": {},
+            "name": "Elsewhere",
+            "project_id": "<uuid:11>"
+          },
+          "entity_identifier": "<uuid:13>",
+          "entity_type": "cycle",
+          "id": "<uuid:37>",
+          "is_folder": false,
+          "name": null,
+          "parent": null,
+          "project_id": "<uuid:11>",
+          "sequence": 195535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": null,
+          "entity_identifier": "<uuid:34>",
+          "entity_type": "cycle",
+          "id": "<uuid:36>",
+          "is_folder": false,
+          "name": null,
+          "parent": null,
+          "project_id": "<uuid:6>",
+          "sequence": 185535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": null,
+          "entity_identifier": "<uuid:34>",
+          "entity_type": "banana",
+          "id": "<uuid:35>",
+          "is_folder": false,
+          "name": null,
+          "parent": null,
+          "project_id": null,
+          "sequence": 175535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": null,
+          "entity_identifier": "<uuid:19>",
+          "entity_type": "issue",
+          "id": "<uuid:33>",
+          "is_folder": false,
+          "name": null,
+          "parent": null,
+          "project_id": "<uuid:6>",
+          "sequence": 165535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": {
+            "id": "<uuid:6>",
+            "logo_props": {},
+            "name": "Plane Lite"
+          },
+          "entity_identifier": "<uuid:6>",
+          "entity_type": "project",
+          "id": "<uuid:31>",
+          "is_folder": false,
+          "name": null,
+          "parent": null,
+          "project_id": "<uuid:6>",
+          "sequence": 145535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": null,
+          "entity_identifier": "<uuid:17>",
+          "entity_type": "page",
+          "id": "<uuid:30>",
+          "is_folder": false,
+          "name": null,
+          "parent": null,
+          "project_id": "<uuid:6>",
+          "sequence": 135535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": {
+            "id": "<uuid:16>",
+            "logo_props": {
+              "in_use": "emoji"
+            },
+            "name": "Doc",
+            "project_id": "<uuid:6>"
+          },
+          "entity_identifier": "<uuid:16>",
+          "entity_type": "page",
+          "id": "<uuid:29>",
+          "is_folder": false,
+          "name": null,
+          "parent": null,
+          "project_id": "<uuid:6>",
+          "sequence": 125535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": {
+            "id": "<uuid:15>",
+            "logo_props": {
+              "in_use": "icon"
+            },
+            "name": "View",
+            "project_id": "<uuid:6>"
+          },
+          "entity_identifier": "<uuid:15>",
+          "entity_type": "view",
+          "id": "<uuid:28>",
+          "is_folder": false,
+          "name": null,
+          "parent": null,
+          "project_id": "<uuid:6>",
+          "sequence": 115535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": null,
+          "entity_identifier": "<uuid:14>",
+          "entity_type": "module",
+          "id": "<uuid:27>",
+          "is_folder": false,
+          "name": null,
+          "parent": null,
+          "project_id": "<uuid:6>",
+          "sequence": 105535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": null,
+          "entity_identifier": "<uuid:12>",
+          "entity_type": "cycle",
+          "id": "<uuid:26>",
+          "is_folder": false,
+          "name": null,
+          "parent": null,
+          "project_id": "<uuid:6>",
+          "sequence": 95535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": null,
+          "entity_identifier": null,
+          "entity_type": "folder",
+          "id": "<uuid:24>",
+          "is_folder": true,
+          "name": "Folder A",
+          "parent": null,
+          "project_id": null,
+          "sequence": 75535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": null,
+          "entity_identifier": null,
+          "entity_type": "folder",
+          "id": "<uuid:23>",
+          "is_folder": true,
+          "name": "Renamed",
+          "parent": null,
+          "project_id": null,
+          "sequence": 65535,
+          "workspace_id": "<uuid:2>"
+        }
+      ]
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/workspaces/acme/user-favorites/<uuid:23>/group/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": [
+        {
+          "entity_data": null,
+          "entity_identifier": null,
+          "entity_type": "folder",
+          "id": "<uuid:38>",
+          "is_folder": false,
+          "name": "Late",
+          "parent": "<uuid:23>",
+          "project_id": null,
+          "sequence": 205535,
+          "workspace_id": "<uuid:2>"
+        }
+      ]
+    },
+    {
+      "actor": "bob",
+      "method": "PATCH",
+      "path": "/api/workspaces/acme/user-favorites/<uuid:46>/",
+      "request": {
+        "name": "gone"
+      },
+      "status": 404,
+      "content_type": "application/json",
+      "body": {
+        "error": "The required object does not exist."
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "DELETE",
+      "path": "/api/workspaces/acme/user-favorites/<uuid:46>/",
+      "status": 404,
+      "content_type": "application/json",
+      "body": {
+        "error": "The required object does not exist."
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "POST",
+      "path": "/api/workspaces/acme/user-favorites/",
+      "request": {
+        "entity_identifier": "<uuid:12>",
+        "entity_type": "cycle",
+        "project_id": "<uuid:6>"
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "entity_data": null,
+        "entity_identifier": "<uuid:12>",
+        "entity_type": "cycle",
+        "id": "<uuid:66>",
+        "is_folder": false,
+        "name": null,
+        "parent": null,
+        "project_id": "<uuid:6>",
+        "sequence": 335535,
+        "workspace_id": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "carol",
+      "method": "DELETE",
+      "path": "/api/workspaces/acme/user-favorites/<uuid:23>/",
+      "status": 403,
+      "content_type": "application/json",
+      "body": {
+        "error": "You don't have the required permissions."
+      }
+    },
+    {
+      "actor": "outsider",
+      "method": "DELETE",
+      "path": "/api/workspaces/acme/user-favorites/<uuid:23>/",
+      "status": 403,
+      "content_type": "application/json",
+      "body": {
+        "error": "You don't have the required permissions."
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "DELETE",
+      "path": "/api/workspaces/acme/user-favorites/<uuid:23>/",
+      "status": 404,
+      "content_type": "application/json",
+      "body": {
+        "error": "The required object does not exist."
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "DELETE",
+      "path": "/api/workspaces/acme/user-favorites/<uuid:34>/",
+      "status": 404,
+      "content_type": "application/json",
+      "body": {
+        "error": "The required object does not exist."
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "DELETE",
+      "path": "/api/workspaces/acme/user-favorites/nope/",
+      "status": 404,
+      "content_type": "application/json",
+      "body": {
+        "error": "Page not found."
+      }
+    },
+    {
+      "actor": "db",
+      "method": "QUERY",
+      "path": "user_favorites",
+      "status": 0,
+      "body": [
+        {
+          "created_by": "alice@example.com",
+          "email": "alice@example.com",
+          "entity": null,
+          "entity_type": "12",
+          "is_folder": false,
+          "live": true,
+          "name": null,
+          "no_entity": true,
+          "parent": null,
+          "project": null,
+          "sequence": 315535,
+          "updated_by": null,
+          "workspace": "acme"
+        },
+        {
+          "created_by": "alice@example.com",
+          "email": "alice@example.com",
+          "entity": null,
+          "entity_type": "banana",
+          "is_folder": false,
+          "live": true,
+          "name": null,
+          "no_entity": false,
+          "parent": null,
+          "project": null,
+          "sequence": 175535,
+          "updated_by": null,
+          "workspace": "acme"
+        },
+        {
+          "created_by": "alice@example.com",
+          "email": "alice@example.com",
+          "entity": null,
+          "entity_type": "cycle",
+          "is_folder": false,
+          "live": true,
+          "name": "far",
+          "no_entity": false,
+          "parent": null,
+          "project": "BT",
+          "sequence": 65535,
+          "updated_by": null,
+          "workspace": "beta"
+        },
+        {
+          "created_by": "alice@example.com",
+          "email": "alice@example.com",
+          "entity": null,
+          "entity_type": "cycle",
+          "is_folder": false,
+          "live": true,
+          "name": "no id",
+          "no_entity": true,
+          "parent": null,
+          "project": null,
+          "sequence": 255535,
+          "updated_by": null,
+          "workspace": "acme"
+        },
+        {
+          "created_by": "alice@example.com",
+          "email": "alice@example.com",
+          "entity": null,
+          "entity_type": "cycle",
+          "is_folder": false,
+          "live": true,
+          "name": "null id",
+          "no_entity": true,
+          "parent": null,
+          "project": null,
+          "sequence": 245535,
+          "updated_by": null,
+          "workspace": "acme"
+        },
+        {
+          "created_by": "alice@example.com",
+          "email": "alice@example.com",
+          "entity": "Elsewhere",
+          "entity_type": "cycle",
+          "is_folder": false,
+          "live": true,
+          "name": null,
+          "no_entity": false,
+          "parent": null,
+          "project": "OT",
+          "sequence": 195535,
+          "updated_by": null,
+          "workspace": "acme"
+        },
+        {
+          "created_by": "alice@example.com",
+          "email": "alice@example.com",
+          "entity": "Sprint",
+          "entity_type": "cycle",
+          "is_folder": false,
+          "live": true,
+          "name": null,
+          "no_entity": false,
+          "parent": null,
+          "project": "PL",
+          "sequence": 95535,
+          "updated_by": null,
+          "workspace": "acme"
+        },
+        {
+          "created_by": "alice@example.com",
+          "email": "alice@example.com",
+          "entity": null,
+          "entity_type": "cycle",
+          "is_folder": false,
+          "live": true,
+          "name": null,
+          "no_entity": false,
+          "parent": null,
+          "project": "PL",
+          "sequence": 185535,
+          "updated_by": null,
+          "workspace": "acme"
+        },
+        {
+          "created_by": "alice@example.com",
+          "email": "alice@example.com",
+          "entity": null,
+          "entity_type": "cycle",
+          "is_folder": false,
+          "live": true,
+          "name": null,
+          "no_entity": false,
+          "parent": null,
+          "project": null,
+          "sequence": 225535,
+          "updated_by": null,
+          "workspace": "acme"
+        },
+        {
+          "created_by": "alice@example.com",
+          "email": "alice@example.com",
+          "entity": null,
+          "entity_type": "cycle",
+          "is_folder": false,
+          "live": true,
+          "name": null,
+          "no_entity": false,
+          "parent": null,
+          "project": null,
+          "sequence": 235535,
+          "updated_by": null,
+          "workspace": "acme"
+        },
+        {
+          "created_by": "alice@example.com",
+          "email": "alice@example.com",
+          "entity": null,
+          "entity_type": "cycle",
+          "is_folder": false,
+          "live": true,
+          "name": null,
+          "no_entity": false,
+          "parent": null,
+          "project": "GN",
+          "sequence": 305535,
+          "updated_by": null,
+          "workspace": "acme"
+        },
+        {
+          "created_by": "alice@example.com",
+          "email": "alice@example.com",
+          "entity": null,
+          "entity_type": "cycle",
+          "is_folder": false,
+          "live": true,
+          "name": null,
+          "no_entity": false,
+          "parent": null,
+          "project": null,
+          "sequence": 325535,
+          "updated_by": null,
+          "workspace": "acme"
+        },
+        {
+          "created_by": "alice@example.com",
+          "email": "alice@example.com",
+          "entity": null,
+          "entity_type": "folder",
+          "is_folder": true,
+          "live": true,
+          "name": "Folder A",
+          "no_entity": true,
+          "parent": null,
+          "project": null,
+          "sequence": 75535,
+          "updated_by": null,
+          "workspace": "acme"
+        },
+        {
+          "created_by": "alice@example.com",
+          "email": "alice@example.com",
+          "entity": null,
+          "entity_type": "folder",
+          "is_folder": false,
+          "live": true,
+          "name": "Late",
+          "no_entity": true,
+          "parent": "Renamed",
+          "project": null,
+          "sequence": 205535,
+          "updated_by": null,
+          "workspace": "acme"
+        },
+        {
+          "created_by": "alice@example.com",
+          "email": "alice@example.com",
+          "entity": null,
+          "entity_type": "folder",
+          "is_folder": true,
+          "live": true,
+          "name": "Renamed",
+          "no_entity": true,
+          "parent": null,
+          "project": null,
+          "sequence": 65535,
+          "updated_by": "alice@example.com",
+          "workspace": "acme"
+        },
+        {
+          "created_by": "alice@example.com",
+          "email": "alice@example.com",
+          "entity": null,
+          "entity_type": "folder",
+          "is_folder": false,
+          "live": true,
+          "name": null,
+          "no_entity": true,
+          "parent": null,
+          "project": null,
+          "sequence": 123.5,
+          "updated_by": "alice@example.com",
+          "workspace": "acme"
+        },
+        {
+          "created_by": "alice@example.com",
+          "email": "alice@example.com",
+          "entity": null,
+          "entity_type": "issue",
+          "is_folder": false,
+          "live": true,
+          "name": null,
+          "no_entity": false,
+          "parent": null,
+          "project": "PL",
+          "sequence": 165535,
+          "updated_by": null,
+          "workspace": "acme"
+        },
+        {
+          "created_by": "alice@example.com",
+          "email": "alice@example.com",
+          "entity": null,
+          "entity_type": "module",
+          "is_folder": true,
+          "live": true,
+          "name": "Named",
+          "no_entity": false,
+          "parent": null,
+          "project": "PL",
+          "sequence": 215535,
+          "updated_by": null,
+          "workspace": "acme"
+        },
+        {
+          "created_by": "alice@example.com",
+          "email": "alice@example.com",
+          "entity": "Mod",
+          "entity_type": "module",
+          "is_folder": false,
+          "live": true,
+          "name": null,
+          "no_entity": false,
+          "parent": null,
+          "project": "PL",
+          "sequence": 105535,
+          "updated_by": null,
+          "workspace": "acme"
+        },
+        {
+          "created_by": "alice@example.com",
+          "email": "alice@example.com",
+          "entity": "Doc",
+          "entity_type": "page",
+          "is_folder": false,
+          "live": true,
+          "name": null,
+          "no_entity": false,
+          "parent": null,
+          "project": "PL",
+          "sequence": 125535,
+          "updated_by": null,
+          "workspace": "acme"
+        },
+        {
+          "created_by": "alice@example.com",
+          "email": "alice@example.com",
+          "entity": "Old doc",
+          "entity_type": "page",
+          "is_folder": false,
+          "live": true,
+          "name": null,
+          "no_entity": false,
+          "parent": null,
+          "project": "PL",
+          "sequence": 135535,
+          "updated_by": null,
+          "workspace": "acme"
+        },
+        {
+          "created_by": "alice@example.com",
+          "email": "alice@example.com",
+          "entity": "Other doc",
+          "entity_type": "page",
+          "is_folder": false,
+          "live": true,
+          "name": null,
+          "no_entity": false,
+          "parent": null,
+          "project": null,
+          "sequence": 155535,
+          "updated_by": null,
+          "workspace": "acme"
+        },
+        {
+          "created_by": "alice@example.com",
+          "email": "alice@example.com",
+          "entity": "Plane Lite",
+          "entity_type": "project",
+          "is_folder": false,
+          "live": true,
+          "name": null,
+          "no_entity": false,
+          "parent": null,
+          "project": "PL",
+          "sequence": 145535,
+          "updated_by": null,
+          "workspace": "acme"
+        },
+        {
+          "created_by": "alice@example.com",
+          "email": "alice@example.com",
+          "entity": "View",
+          "entity_type": "view",
+          "is_folder": false,
+          "live": true,
+          "name": null,
+          "no_entity": false,
+          "parent": null,
+          "project": "PL",
+          "sequence": 115535,
+          "updated_by": null,
+          "workspace": "acme"
+        },
+        {
+          "created_by": "bob@example.com",
+          "email": "bob@example.com",
+          "entity": "Sprint",
+          "entity_type": "cycle",
+          "is_folder": false,
+          "live": false,
+          "name": "mine",
+          "no_entity": false,
+          "parent": null,
+          "project": "PL",
+          "sequence": 265535,
+          "updated_by": "bob@example.com",
+          "workspace": "acme"
+        },
+        {
+          "created_by": "bob@example.com",
+          "email": "bob@example.com",
+          "entity": "Sprint",
+          "entity_type": "cycle",
+          "is_folder": false,
+          "live": true,
+          "name": null,
+          "no_entity": false,
+          "parent": null,
+          "project": "PL",
+          "sequence": 335535,
+          "updated_by": null,
+          "workspace": "acme"
+        },
+        {
+          "created_by": "bob@example.com",
+          "email": "bob@example.com",
+          "entity": null,
+          "entity_type": "folder",
+          "is_folder": true,
+          "live": true,
+          "name": "Bob's",
+          "no_entity": true,
+          "parent": null,
+          "project": null,
+          "sequence": 275535,
+          "updated_by": null,
+          "workspace": "acme"
+        },
+        {
+          "created_by": "dan@example.com",
+          "email": "dan@example.com",
+          "entity": "Sprint",
+          "entity_type": "cycle",
+          "is_folder": false,
+          "live": true,
+          "name": null,
+          "no_entity": false,
+          "parent": null,
+          "project": "PL",
+          "sequence": 285535,
+          "updated_by": null,
+          "workspace": "acme"
+        },
+        {
+          "created_by": "dan@example.com",
+          "email": "dan@example.com",
+          "entity": null,
+          "entity_type": "folder",
+          "is_folder": false,
+          "live": true,
+          "name": "Dan's",
+          "no_entity": true,
+          "parent": null,
+          "project": null,
+          "sequence": 295535,
+          "updated_by": null,
+          "workspace": "acme"
+        }
+      ]
+    },
+    {
+      "actor": "alice",
+      "method": "DELETE",
+      "path": "/api/workspaces/acme/user-favorites/<uuid:23>/",
+      "status": 204
+    },
+    {
+      "actor": "alice",
+      "method": "DELETE",
+      "path": "/api/workspaces/acme/user-favorites/<uuid:23>/",
+      "status": 404,
+      "content_type": "application/json",
+      "body": {
+        "error": "The required object does not exist."
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/workspaces/acme/user-favorites/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": [
+        {
+          "entity_data": null,
+          "entity_identifier": "<uuid:64>",
+          "entity_type": "cycle",
+          "id": "<uuid:65>",
+          "is_folder": false,
+          "name": null,
+          "parent": null,
+          "project_id": null,
+          "sequence": 325535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": null,
+          "entity_identifier": null,
+          "entity_type": "12",
+          "id": "<uuid:63>",
+          "is_folder": false,
+          "name": null,
+          "parent": null,
+          "project_id": null,
+          "sequence": 315535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": null,
+          "entity_identifier": "<uuid:53>",
+          "entity_type": "cycle",
+          "id": "<uuid:54>",
+          "is_folder": false,
+          "name": null,
+          "parent": null,
+          "project_id": "<uuid:52>",
+          "sequence": 305535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": null,
+          "entity_identifier": null,
+          "entity_type": "cycle",
+          "id": "<uuid:45>",
+          "is_folder": false,
+          "name": "no id",
+          "parent": null,
+          "project_id": null,
+          "sequence": 255535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": null,
+          "entity_identifier": null,
+          "entity_type": "cycle",
+          "id": "<uuid:44>",
+          "is_folder": false,
+          "name": "null id",
+          "parent": null,
+          "project_id": null,
+          "sequence": 245535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": null,
+          "entity_identifier": "<uuid:42>",
+          "entity_type": "cycle",
+          "id": "<uuid:43>",
+          "is_folder": false,
+          "name": null,
+          "parent": null,
+          "project_id": null,
+          "sequence": 235535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": null,
+          "entity_identifier": "<uuid:40>",
+          "entity_type": "cycle",
+          "id": "<uuid:41>",
+          "is_folder": false,
+          "name": null,
+          "parent": null,
+          "project_id": null,
+          "sequence": 225535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": {
+            "id": "<uuid:13>",
+            "logo_props": {},
+            "name": "Elsewhere",
+            "project_id": "<uuid:11>"
+          },
+          "entity_identifier": "<uuid:13>",
+          "entity_type": "cycle",
+          "id": "<uuid:37>",
+          "is_folder": false,
+          "name": null,
+          "parent": null,
+          "project_id": "<uuid:11>",
+          "sequence": 195535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": null,
+          "entity_identifier": "<uuid:34>",
+          "entity_type": "cycle",
+          "id": "<uuid:36>",
+          "is_folder": false,
+          "name": null,
+          "parent": null,
+          "project_id": "<uuid:6>",
+          "sequence": 185535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": null,
+          "entity_identifier": "<uuid:34>",
+          "entity_type": "banana",
+          "id": "<uuid:35>",
+          "is_folder": false,
+          "name": null,
+          "parent": null,
+          "project_id": null,
+          "sequence": 175535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": null,
+          "entity_identifier": "<uuid:19>",
+          "entity_type": "issue",
+          "id": "<uuid:33>",
+          "is_folder": false,
+          "name": null,
+          "parent": null,
+          "project_id": "<uuid:6>",
+          "sequence": 165535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": {
+            "id": "<uuid:6>",
+            "logo_props": {},
+            "name": "Plane Lite"
+          },
+          "entity_identifier": "<uuid:6>",
+          "entity_type": "project",
+          "id": "<uuid:31>",
+          "is_folder": false,
+          "name": null,
+          "parent": null,
+          "project_id": "<uuid:6>",
+          "sequence": 145535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": null,
+          "entity_identifier": "<uuid:17>",
+          "entity_type": "page",
+          "id": "<uuid:30>",
+          "is_folder": false,
+          "name": null,
+          "parent": null,
+          "project_id": "<uuid:6>",
+          "sequence": 135535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": {
+            "id": "<uuid:16>",
+            "logo_props": {
+              "in_use": "emoji"
+            },
+            "name": "Doc",
+            "project_id": "<uuid:6>"
+          },
+          "entity_identifier": "<uuid:16>",
+          "entity_type": "page",
+          "id": "<uuid:29>",
+          "is_folder": false,
+          "name": null,
+          "parent": null,
+          "project_id": "<uuid:6>",
+          "sequence": 125535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": {
+            "id": "<uuid:15>",
+            "logo_props": {
+              "in_use": "icon"
+            },
+            "name": "View",
+            "project_id": "<uuid:6>"
+          },
+          "entity_identifier": "<uuid:15>",
+          "entity_type": "view",
+          "id": "<uuid:28>",
+          "is_folder": false,
+          "name": null,
+          "parent": null,
+          "project_id": "<uuid:6>",
+          "sequence": 115535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": null,
+          "entity_identifier": "<uuid:14>",
+          "entity_type": "module",
+          "id": "<uuid:27>",
+          "is_folder": false,
+          "name": null,
+          "parent": null,
+          "project_id": "<uuid:6>",
+          "sequence": 105535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": null,
+          "entity_identifier": "<uuid:12>",
+          "entity_type": "cycle",
+          "id": "<uuid:26>",
+          "is_folder": false,
+          "name": null,
+          "parent": null,
+          "project_id": "<uuid:6>",
+          "sequence": 95535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": null,
+          "entity_identifier": null,
+          "entity_type": "folder",
+          "id": "<uuid:24>",
+          "is_folder": true,
+          "name": "Folder A",
+          "parent": null,
+          "project_id": null,
+          "sequence": 75535,
+          "workspace_id": "<uuid:2>"
+        }
+      ]
+    },
+    {
+      "actor": "alice",
+      "method": "DELETE",
+      "path": "/api/workspaces/acme/user-favorites/<uuid:25>/",
+      "status": 204
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/workspaces/acme/user-favorites/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": [
+        {
+          "entity_data": null,
+          "entity_identifier": "<uuid:64>",
+          "entity_type": "cycle",
+          "id": "<uuid:65>",
+          "is_folder": false,
+          "name": null,
+          "parent": null,
+          "project_id": null,
+          "sequence": 325535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": null,
+          "entity_identifier": null,
+          "entity_type": "12",
+          "id": "<uuid:63>",
+          "is_folder": false,
+          "name": null,
+          "parent": null,
+          "project_id": null,
+          "sequence": 315535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": null,
+          "entity_identifier": "<uuid:53>",
+          "entity_type": "cycle",
+          "id": "<uuid:54>",
+          "is_folder": false,
+          "name": null,
+          "parent": null,
+          "project_id": "<uuid:52>",
+          "sequence": 305535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": null,
+          "entity_identifier": null,
+          "entity_type": "cycle",
+          "id": "<uuid:45>",
+          "is_folder": false,
+          "name": "no id",
+          "parent": null,
+          "project_id": null,
+          "sequence": 255535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": null,
+          "entity_identifier": null,
+          "entity_type": "cycle",
+          "id": "<uuid:44>",
+          "is_folder": false,
+          "name": "null id",
+          "parent": null,
+          "project_id": null,
+          "sequence": 245535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": null,
+          "entity_identifier": "<uuid:42>",
+          "entity_type": "cycle",
+          "id": "<uuid:43>",
+          "is_folder": false,
+          "name": null,
+          "parent": null,
+          "project_id": null,
+          "sequence": 235535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": null,
+          "entity_identifier": "<uuid:40>",
+          "entity_type": "cycle",
+          "id": "<uuid:41>",
+          "is_folder": false,
+          "name": null,
+          "parent": null,
+          "project_id": null,
+          "sequence": 225535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": {
+            "id": "<uuid:13>",
+            "logo_props": {},
+            "name": "Elsewhere",
+            "project_id": "<uuid:11>"
+          },
+          "entity_identifier": "<uuid:13>",
+          "entity_type": "cycle",
+          "id": "<uuid:37>",
+          "is_folder": false,
+          "name": null,
+          "parent": null,
+          "project_id": "<uuid:11>",
+          "sequence": 195535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": null,
+          "entity_identifier": "<uuid:34>",
+          "entity_type": "cycle",
+          "id": "<uuid:36>",
+          "is_folder": false,
+          "name": null,
+          "parent": null,
+          "project_id": "<uuid:6>",
+          "sequence": 185535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": null,
+          "entity_identifier": "<uuid:34>",
+          "entity_type": "banana",
+          "id": "<uuid:35>",
+          "is_folder": false,
+          "name": null,
+          "parent": null,
+          "project_id": null,
+          "sequence": 175535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": null,
+          "entity_identifier": "<uuid:19>",
+          "entity_type": "issue",
+          "id": "<uuid:33>",
+          "is_folder": false,
+          "name": null,
+          "parent": null,
+          "project_id": "<uuid:6>",
+          "sequence": 165535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": {
+            "id": "<uuid:6>",
+            "logo_props": {},
+            "name": "Plane Lite"
+          },
+          "entity_identifier": "<uuid:6>",
+          "entity_type": "project",
+          "id": "<uuid:31>",
+          "is_folder": false,
+          "name": null,
+          "parent": null,
+          "project_id": "<uuid:6>",
+          "sequence": 145535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": null,
+          "entity_identifier": "<uuid:17>",
+          "entity_type": "page",
+          "id": "<uuid:30>",
+          "is_folder": false,
+          "name": null,
+          "parent": null,
+          "project_id": "<uuid:6>",
+          "sequence": 135535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": {
+            "id": "<uuid:16>",
+            "logo_props": {
+              "in_use": "emoji"
+            },
+            "name": "Doc",
+            "project_id": "<uuid:6>"
+          },
+          "entity_identifier": "<uuid:16>",
+          "entity_type": "page",
+          "id": "<uuid:29>",
+          "is_folder": false,
+          "name": null,
+          "parent": null,
+          "project_id": "<uuid:6>",
+          "sequence": 125535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": {
+            "id": "<uuid:15>",
+            "logo_props": {
+              "in_use": "icon"
+            },
+            "name": "View",
+            "project_id": "<uuid:6>"
+          },
+          "entity_identifier": "<uuid:15>",
+          "entity_type": "view",
+          "id": "<uuid:28>",
+          "is_folder": false,
+          "name": null,
+          "parent": null,
+          "project_id": "<uuid:6>",
+          "sequence": 115535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": null,
+          "entity_identifier": "<uuid:14>",
+          "entity_type": "module",
+          "id": "<uuid:27>",
+          "is_folder": false,
+          "name": null,
+          "parent": null,
+          "project_id": "<uuid:6>",
+          "sequence": 105535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": null,
+          "entity_identifier": "<uuid:12>",
+          "entity_type": "cycle",
+          "id": "<uuid:26>",
+          "is_folder": false,
+          "name": null,
+          "parent": null,
+          "project_id": "<uuid:6>",
+          "sequence": 95535,
+          "workspace_id": "<uuid:2>"
+        },
+        {
+          "entity_data": null,
+          "entity_identifier": null,
+          "entity_type": "folder",
+          "id": "<uuid:24>",
+          "is_folder": true,
+          "name": "Folder A",
+          "parent": null,
+          "project_id": null,
+          "sequence": 75535,
+          "workspace_id": "<uuid:2>"
+        }
+      ]
+    },
+    {
+      "actor": "db",
+      "method": "QUERY",
+      "path": "user_favorites",
+      "status": 0,
+      "body": [
+        {
+          "created_by": "alice@example.com",
+          "email": "alice@example.com",
+          "entity": null,
+          "entity_type": "12",
+          "is_folder": false,
+          "live": true,
+          "name": null,
+          "no_entity": true,
+          "parent": null,
+          "project": null,
+          "sequence": 315535,
+          "updated_by": null,
+          "workspace": "acme"
+        },
+        {
+          "created_by": "alice@example.com",
+          "email": "alice@example.com",
+          "entity": null,
+          "entity_type": "banana",
+          "is_folder": false,
+          "live": true,
+          "name": null,
+          "no_entity": false,
+          "parent": null,
+          "project": null,
+          "sequence": 175535,
+          "updated_by": null,
+          "workspace": "acme"
+        },
+        {
+          "created_by": "alice@example.com",
+          "email": "alice@example.com",
+          "entity": null,
+          "entity_type": "cycle",
+          "is_folder": false,
+          "live": true,
+          "name": "far",
+          "no_entity": false,
+          "parent": null,
+          "project": "BT",
+          "sequence": 65535,
+          "updated_by": null,
+          "workspace": "beta"
+        },
+        {
+          "created_by": "alice@example.com",
+          "email": "alice@example.com",
+          "entity": null,
+          "entity_type": "cycle",
+          "is_folder": false,
+          "live": true,
+          "name": "no id",
+          "no_entity": true,
+          "parent": null,
+          "project": null,
+          "sequence": 255535,
+          "updated_by": null,
+          "workspace": "acme"
+        },
+        {
+          "created_by": "alice@example.com",
+          "email": "alice@example.com",
+          "entity": null,
+          "entity_type": "cycle",
+          "is_folder": false,
+          "live": true,
+          "name": "null id",
+          "no_entity": true,
+          "parent": null,
+          "project": null,
+          "sequence": 245535,
+          "updated_by": null,
+          "workspace": "acme"
+        },
+        {
+          "created_by": "alice@example.com",
+          "email": "alice@example.com",
+          "entity": "Elsewhere",
+          "entity_type": "cycle",
+          "is_folder": false,
+          "live": true,
+          "name": null,
+          "no_entity": false,
+          "parent": null,
+          "project": "OT",
+          "sequence": 195535,
+          "updated_by": null,
+          "workspace": "acme"
+        },
+        {
+          "created_by": "alice@example.com",
+          "email": "alice@example.com",
+          "entity": "Sprint",
+          "entity_type": "cycle",
+          "is_folder": false,
+          "live": true,
+          "name": null,
+          "no_entity": false,
+          "parent": null,
+          "project": "PL",
+          "sequence": 95535,
+          "updated_by": null,
+          "workspace": "acme"
+        },
+        {
+          "created_by": "alice@example.com",
+          "email": "alice@example.com",
+          "entity": null,
+          "entity_type": "cycle",
+          "is_folder": false,
+          "live": true,
+          "name": null,
+          "no_entity": false,
+          "parent": null,
+          "project": "PL",
+          "sequence": 185535,
+          "updated_by": null,
+          "workspace": "acme"
+        },
+        {
+          "created_by": "alice@example.com",
+          "email": "alice@example.com",
+          "entity": null,
+          "entity_type": "cycle",
+          "is_folder": false,
+          "live": true,
+          "name": null,
+          "no_entity": false,
+          "parent": null,
+          "project": null,
+          "sequence": 225535,
+          "updated_by": null,
+          "workspace": "acme"
+        },
+        {
+          "created_by": "alice@example.com",
+          "email": "alice@example.com",
+          "entity": null,
+          "entity_type": "cycle",
+          "is_folder": false,
+          "live": true,
+          "name": null,
+          "no_entity": false,
+          "parent": null,
+          "project": null,
+          "sequence": 235535,
+          "updated_by": null,
+          "workspace": "acme"
+        },
+        {
+          "created_by": "alice@example.com",
+          "email": "alice@example.com",
+          "entity": null,
+          "entity_type": "cycle",
+          "is_folder": false,
+          "live": true,
+          "name": null,
+          "no_entity": false,
+          "parent": null,
+          "project": "GN",
+          "sequence": 305535,
+          "updated_by": null,
+          "workspace": "acme"
+        },
+        {
+          "created_by": "alice@example.com",
+          "email": "alice@example.com",
+          "entity": null,
+          "entity_type": "cycle",
+          "is_folder": false,
+          "live": true,
+          "name": null,
+          "no_entity": false,
+          "parent": null,
+          "project": null,
+          "sequence": 325535,
+          "updated_by": null,
+          "workspace": "acme"
+        },
+        {
+          "created_by": "alice@example.com",
+          "email": "alice@example.com",
+          "entity": null,
+          "entity_type": "folder",
+          "is_folder": true,
+          "live": true,
+          "name": "Folder A",
+          "no_entity": true,
+          "parent": null,
+          "project": null,
+          "sequence": 75535,
+          "updated_by": null,
+          "workspace": "acme"
+        },
+        {
+          "created_by": "alice@example.com",
+          "email": "alice@example.com",
+          "entity": null,
+          "entity_type": "issue",
+          "is_folder": false,
+          "live": true,
+          "name": null,
+          "no_entity": false,
+          "parent": null,
+          "project": "PL",
+          "sequence": 165535,
+          "updated_by": null,
+          "workspace": "acme"
+        },
+        {
+          "created_by": "alice@example.com",
+          "email": "alice@example.com",
+          "entity": "Mod",
+          "entity_type": "module",
+          "is_folder": false,
+          "live": true,
+          "name": null,
+          "no_entity": false,
+          "parent": null,
+          "project": "PL",
+          "sequence": 105535,
+          "updated_by": null,
+          "workspace": "acme"
+        },
+        {
+          "created_by": "alice@example.com",
+          "email": "alice@example.com",
+          "entity": "Doc",
+          "entity_type": "page",
+          "is_folder": false,
+          "live": true,
+          "name": null,
+          "no_entity": false,
+          "parent": null,
+          "project": "PL",
+          "sequence": 125535,
+          "updated_by": null,
+          "workspace": "acme"
+        },
+        {
+          "created_by": "alice@example.com",
+          "email": "alice@example.com",
+          "entity": "Old doc",
+          "entity_type": "page",
+          "is_folder": false,
+          "live": true,
+          "name": null,
+          "no_entity": false,
+          "parent": null,
+          "project": "PL",
+          "sequence": 135535,
+          "updated_by": null,
+          "workspace": "acme"
+        },
+        {
+          "created_by": "alice@example.com",
+          "email": "alice@example.com",
+          "entity": "Other doc",
+          "entity_type": "page",
+          "is_folder": false,
+          "live": true,
+          "name": null,
+          "no_entity": false,
+          "parent": null,
+          "project": null,
+          "sequence": 155535,
+          "updated_by": null,
+          "workspace": "acme"
+        },
+        {
+          "created_by": "alice@example.com",
+          "email": "alice@example.com",
+          "entity": "Plane Lite",
+          "entity_type": "project",
+          "is_folder": false,
+          "live": true,
+          "name": null,
+          "no_entity": false,
+          "parent": null,
+          "project": "PL",
+          "sequence": 145535,
+          "updated_by": null,
+          "workspace": "acme"
+        },
+        {
+          "created_by": "alice@example.com",
+          "email": "alice@example.com",
+          "entity": "View",
+          "entity_type": "view",
+          "is_folder": false,
+          "live": true,
+          "name": null,
+          "no_entity": false,
+          "parent": null,
+          "project": "PL",
+          "sequence": 115535,
+          "updated_by": null,
+          "workspace": "acme"
+        },
+        {
+          "created_by": "bob@example.com",
+          "email": "bob@example.com",
+          "entity": "Sprint",
+          "entity_type": "cycle",
+          "is_folder": false,
+          "live": false,
+          "name": "mine",
+          "no_entity": false,
+          "parent": null,
+          "project": "PL",
+          "sequence": 265535,
+          "updated_by": "bob@example.com",
+          "workspace": "acme"
+        },
+        {
+          "created_by": "bob@example.com",
+          "email": "bob@example.com",
+          "entity": "Sprint",
+          "entity_type": "cycle",
+          "is_folder": false,
+          "live": true,
+          "name": null,
+          "no_entity": false,
+          "parent": null,
+          "project": "PL",
+          "sequence": 335535,
+          "updated_by": null,
+          "workspace": "acme"
+        },
+        {
+          "created_by": "bob@example.com",
+          "email": "bob@example.com",
+          "entity": null,
+          "entity_type": "folder",
+          "is_folder": true,
+          "live": true,
+          "name": "Bob's",
+          "no_entity": true,
+          "parent": null,
+          "project": null,
+          "sequence": 275535,
+          "updated_by": null,
+          "workspace": "acme"
+        },
+        {
+          "created_by": "dan@example.com",
+          "email": "dan@example.com",
+          "entity": "Sprint",
+          "entity_type": "cycle",
+          "is_folder": false,
+          "live": true,
+          "name": null,
+          "no_entity": false,
+          "parent": null,
+          "project": "PL",
+          "sequence": 285535,
+          "updated_by": null,
+          "workspace": "acme"
+        },
+        {
+          "created_by": "dan@example.com",
+          "email": "dan@example.com",
+          "entity": null,
+          "entity_type": "folder",
+          "is_folder": false,
+          "live": true,
+          "name": "Dan's",
+          "no_entity": true,
+          "parent": null,
+          "project": null,
+          "sequence": 295535,
+          "updated_by": null,
+          "workspace": "acme"
+        }
+      ]
+    }
+  ]
+}

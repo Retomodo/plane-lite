@@ -21,7 +21,6 @@ import {
   LogOutOutline,
   MoreHorizontalOutline,
   SettingsOutline,
-  ShareAltOutline,
 } from "@makeplane/propel/icons";
 // plane imports
 import { EUserPermissions, EUserPermissionsLevel } from "@plane/constants";
@@ -39,7 +38,6 @@ import { cn } from "@plane/utils";
 import { DEFAULT_TAB_KEY, getTabUrl } from "@/components/navigation/tab-navigation-utils";
 import { useTabPreferences } from "@/components/navigation/use-tab-preferences";
 import { LeaveProjectModal } from "@/components/project/leave-project-modal";
-import { PublishProjectModal } from "@/components/project/publish-project/modal";
 // hooks
 import { useAppTheme } from "@/hooks/store/use-app-theme";
 import { useCommandPalette } from "@/hooks/store/use-command-palette";
@@ -89,7 +87,6 @@ export const SidebarProjectsListItem = observer(function SidebarProjectsListItem
 
   // states
   const [leaveProjectModalOpen, setLeaveProjectModal] = useState(false);
-  const [publishModalOpen, setPublishModal] = useState(false);
   const [isMenuActive, setIsMenuActive] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
   const isProjectListOpen = getIsProjectListOpen(projectId);
@@ -125,12 +122,6 @@ export const SidebarProjectsListItem = observer(function SidebarProjectsListItem
     [projectId, toggleProjectListOpen]
   );
   // auth
-  const isAdmin = allowPermissions(
-    [EUserPermissions.ADMIN],
-    EUserPermissionsLevel.PROJECT,
-    workspaceSlug.toString(),
-    project?.id
-  );
   const isAuthorized = allowPermissions(
     [EUserPermissions.ADMIN, EUserPermissions.MEMBER],
     EUserPermissionsLevel.PROJECT,
@@ -286,7 +277,6 @@ export const SidebarProjectsListItem = observer(function SidebarProjectsListItem
 
   return (
     <>
-      <PublishProjectModal isOpen={publishModalOpen} projectId={projectId} onClose={() => setPublishModal(false)} />
       <LeaveProjectModal project={project} isOpen={leaveProjectModalOpen} onClose={() => setLeaveProjectModal(false)} />
       <div key={`${project.id}_${URLProjectId}`}>
         <div
@@ -379,14 +369,6 @@ export const SidebarProjectsListItem = observer(function SidebarProjectsListItem
                     />
                     <MenuContent side="bottom" align="start">
                       {/* TODO: Removed is_favorite logic due to the optimization in projects API */}
-                      {/* publish project settings */}
-                      {isAdmin && (
-                        <MenuItem
-                          icon={<Icon icon={ShareAltOutline} />}
-                          label={t("publish_project")}
-                          onClick={() => setPublishModal(true)}
-                        />
-                      )}
                       <MenuItem icon={<Icon icon={LinkOutline} />} label={t("copy_link")} onClick={handleCopyText} />
                       {isAuthorized && (
                         <MenuItem

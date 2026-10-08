@@ -277,6 +277,8 @@
   "updating": "Actualizando",
   "create_new_issue": "Crear nuevo elemento de trabajo",
   "editor_is_not_ready_to_discard_changes": "El editor no está listo para descartar cambios",
+  "discard_changes_title": "¿Descartar los cambios?",
+  "discard_changes_description": "Tiene cambios sin guardar. Si cierra ahora, se perderán.",
   "failed_to_move_issue_to_project": "Error al mover elemento de trabajo al proyecto",
   "create_more": "Crear más",
   "add_to_project": "Agregar al proyecto",

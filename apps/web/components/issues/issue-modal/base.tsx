@@ -5,15 +5,17 @@
  */
 
 import { useEffect, useRef, useState } from "react";
-import { isEqual, xor } from "lodash-es";
+import { isEmpty, isEqual, xor } from "lodash-es";
 import { observer } from "mobx-react";
 import { useParams } from "next/navigation";
 // Plane imports
 import { Dialog, DialogContent } from "@makeplane/propel/components/dialog";
 import { useTranslation } from "@plane/i18n";
+import { ConfirmDialog } from "@plane/blocks/dialog";
 import { setToast } from "@plane/blocks/toast";
 import type { TBaseIssue, TIssue } from "@plane/types";
 import { EIssuesStoreType } from "@plane/types";
+import { isEmptyHtmlString } from "@plane/utils";
 // hooks
 import { useIssueModal } from "@/hooks/context/use-issue-modal";
 import { useCycle } from "@/hooks/store/use-cycle";
@@ -28,10 +30,25 @@ import { FileService } from "@/services/file.service";
 const fileService = new FileService();
 // local imports
 import { useCreateIssueToastActions } from "../create-issue-toast-action-items";
-import { DraftIssueLayout } from "./draft-issue-layout";
 import { IssueFormRoot } from "./form";
 import type { IssueFormProps } from "./form";
 import type { IssuesModalProps } from "./modal";
+
+/**
+ * Whether the form holds anything the user typed: drops empty values, the project (always set) and the
+ * default "none" priority, the same filter the old draft prompt used.
+ */
+const hasUnsavedChanges = (changes: Partial<TIssue> | null): boolean => {
+  if (!changes) return false;
+  return Object.entries(changes).some(([key, value]) => {
+    if (value === null || value === undefined || value === "") return false;
+    if (typeof value === "object" && isEmpty(value)) return false;
+    if (key === "project_id") return false;
+    if (key === "priority" && value === "none") return false;
+    if (key === "description_html" && typeof value === "string" && isEmptyHtmlString(value, ["img"])) return false;
+    return true;
+  });
+};
 
 export const CreateUpdateIssueModalBase = observer(function CreateUpdateIssueModalBase(props: IssuesModalProps) {
   const {
@@ -40,11 +57,8 @@ export const CreateUpdateIssueModalBase = observer(function CreateUpdateIssueMod
     onClose,
     beforeFormSubmit,
     onSubmit,
-    withDraftIssueWrapper = true,
     storeType: issueStoreFromProps,
-    isDraft = false,
     fetchIssueDetails = true,
-    moveToIssue = false,
     modalTitle,
     primaryButtonText,
     isProjectSelectionDisabled = false,
@@ -61,6 +75,7 @@ export const CreateUpdateIssueModalBase = observer(function CreateUpdateIssueMod
   const issueTitleRef = useRef<HTMLInputElement>(null);
   // states
   const [changesMade, setChangesMade] = useState<Partial<TIssue> | null>(null);
+  const [isDiscardConfirmOpen, setIsDiscardConfirmOpen] = useState(false);
   const [createMore, setCreateMore] = useState(false);
   const [activeProjectId, setActiveProjectId] = useState<string | null>(null);
   const [description, setDescription] = useState<string | undefined>(undefined);
@@ -73,7 +88,6 @@ export const CreateUpdateIssueModalBase = observer(function CreateUpdateIssueMod
   const { fetchModuleDetails } = useModule();
   const { issues } = useIssues(storeType);
   const { issues: projectIssues } = useIssues(EIssuesStoreType.PROJECT);
-  const { issues: draftIssues } = useIssues(EIssuesStoreType.WORKSPACE_DRAFT);
   const { fetchIssue } = useIssueDetail();
   const { allowedProjectIds, handleCreateUpdatePropertyValues, handleCreateSubWorkItem } = useIssueModal();
   const { getProjectByIdentifier } = useProject();
@@ -148,33 +162,30 @@ export const CreateUpdateIssueModalBase = observer(function CreateUpdateIssueMod
     setCreateMore(value);
   };
 
-  const handleClose = (saveAsDraft?: boolean) => {
-    if (changesMade && saveAsDraft && !data) {
-      handleCreateIssue(changesMade, true);
-    }
-
+  const handleClose = () => {
     setActiveProjectId(null);
     setChangesMade(null);
+    setIsDiscardConfirmOpen(false);
     onClose();
     handleDuplicateIssueModal(false);
   };
 
-  const handleCreateIssue = async (
-    payload: Partial<TIssue>,
-    is_draft_issue: boolean = false
-  ): Promise<TIssue | undefined> => {
+  // Closing a new work item with typed content asks first; an untouched form or an edit closes directly.
+  const handleRequestClose = () => {
+    if (isDiscardConfirmOpen) return;
+    if (!data?.id && hasUnsavedChanges(changesMade)) setIsDiscardConfirmOpen(true);
+    else handleClose();
+  };
+
+  const handleCreateIssue = async (payload: Partial<TIssue>): Promise<TIssue | undefined> => {
     if (!workspaceSlug || !payload.project_id) return;
 
     try {
       let response: TIssue | undefined;
-      // if draft issue, use draft issue store to create issue
-      if (is_draft_issue) {
-        response = (await draftIssues.createIssue(workspaceSlug.toString(), payload)) as TIssue;
-      }
       // if cycle id in payload does not match the cycleId in url
       // or if the moduleIds in Payload does not match the moduleId in url
       // use the project issue store to create issues
-      else if (
+      if (
         (payload.cycle_id !== cycleId && storeType === EIssuesStoreType.CYCLE) ||
         (!payload.module_ids?.includes(moduleId?.toString()) && storeType === EIssuesStoreType.MODULE)
       ) {
@@ -200,21 +211,19 @@ export const CreateUpdateIssueModalBase = observer(function CreateUpdateIssueMod
       if (!response) throw new Error();
 
       // check if we should add issue to cycle/module
-      if (!is_draft_issue) {
-        if (
-          payload.cycle_id &&
-          payload.cycle_id !== "" &&
-          (payload.cycle_id !== cycleId || storeType !== EIssuesStoreType.CYCLE)
-        ) {
-          await addIssueToCycle(response, payload.cycle_id);
-        }
-        if (
-          payload.module_ids &&
-          payload.module_ids.length > 0 &&
-          (!payload.module_ids.includes(moduleId?.toString()) || storeType !== EIssuesStoreType.MODULE)
-        ) {
-          await addIssueToModule(response, payload.module_ids);
-        }
+      if (
+        payload.cycle_id &&
+        payload.cycle_id !== "" &&
+        (payload.cycle_id !== cycleId || storeType !== EIssuesStoreType.CYCLE)
+      ) {
+        await addIssueToCycle(response, payload.cycle_id);
+      }
+      if (
+        payload.module_ids &&
+        payload.module_ids.length > 0 &&
+        (!payload.module_ids.includes(moduleId?.toString()) || storeType !== EIssuesStoreType.MODULE)
+      ) {
+        await addIssueToModule(response, payload.module_ids);
       }
 
       // add other property values
@@ -224,7 +233,6 @@ export const CreateUpdateIssueModalBase = observer(function CreateUpdateIssueMod
           issueTypeId: response.type_id,
           projectId: response.project_id,
           workspaceSlug: workspaceSlug?.toString(),
-          isDraft: is_draft_issue,
         });
 
         // create sub work item
@@ -238,11 +246,10 @@ export const CreateUpdateIssueModalBase = observer(function CreateUpdateIssueMod
       setToast({
         type: "success",
         title: t("success"),
-        message: `${is_draft_issue ? t("draft_created") : t("issue_created_successfully")} `,
-        actionItems:
-          !is_draft_issue && response?.project_id
-            ? buildCreateIssueToastActions({ workspaceSlug: workspaceSlug.toString(), issueId: response.id })
-            : undefined,
+        message: t("issue_created_successfully"),
+        actionItems: response?.project_id
+          ? buildCreateIssueToastActions({ workspaceSlug: workspaceSlug.toString(), issueId: response.id })
+          : undefined,
       });
       if (!createMore) handleClose();
       if (createMore && issueTitleRef) issueTitleRef?.current?.focus();
@@ -253,7 +260,7 @@ export const CreateUpdateIssueModalBase = observer(function CreateUpdateIssueMod
       setToast({
         type: "error",
         title: t("error"),
-        message: error?.error ?? t(is_draft_issue ? "draft_creation_failed" : "issue_creation_failed"),
+        message: error?.error ?? t("issue_creation_failed"),
       });
       throw error;
     }
@@ -324,8 +331,7 @@ export const CreateUpdateIssueModalBase = observer(function CreateUpdateIssueMod
     if (!workspaceSlug || !payload.project_id || !data?.id) return;
 
     try {
-      if (isDraft) await draftIssues.updateIssue(workspaceSlug.toString(), data.id, payload);
-      else if (updateIssue) await updateIssue(payload.project_id, data.id, payload);
+      if (updateIssue) await updateIssue(payload.project_id, data.id, payload);
 
       // Run cycle, module, and property changes sequentially to avoid
       // optimistic store writes from racing against each other.
@@ -336,7 +342,6 @@ export const CreateUpdateIssueModalBase = observer(function CreateUpdateIssueMod
         issueTypeId: payload.type_id,
         projectId: payload.project_id,
         workspaceSlug: workspaceSlug?.toString(),
-        isDraft: isDraft,
       });
 
       setToast({
@@ -359,7 +364,7 @@ export const CreateUpdateIssueModalBase = observer(function CreateUpdateIssueMod
     }
   };
 
-  const handleFormSubmit = async (payload: Partial<TIssue>, is_draft_issue: boolean = false) => {
+  const handleFormSubmit = async (payload: Partial<TIssue>) => {
     if (!workspaceSlug || !payload.project_id || !storeType) return;
     // remove sourceIssueId from payload since it is not needed
     if (data?.sourceIssueId) delete data.sourceIssueId;
@@ -368,14 +373,12 @@ export const CreateUpdateIssueModalBase = observer(function CreateUpdateIssueMod
 
     try {
       if (beforeFormSubmit) await beforeFormSubmit();
-      if (!data?.id) response = await handleCreateIssue(payload, is_draft_issue);
+      if (!data?.id) response = await handleCreateIssue(payload);
       else response = await handleUpdateIssue(payload);
     } finally {
       if (response != undefined && onSubmit) await onSubmit(response);
     }
   };
-
-  const handleFormChange = (formData: Partial<TIssue> | null) => setChangesMade(formData);
 
   const handleUpdateUploadedAssetIds = (assetId: string) => setUploadedAssetIds((prev) => [...prev, assetId]);
 
@@ -393,13 +396,12 @@ export const CreateUpdateIssueModalBase = observer(function CreateUpdateIssueMod
       module_ids: data?.module_ids ? data?.module_ids : moduleId ? [moduleId.toString()] : null,
     },
     onAssetUpload: handleUpdateUploadedAssetIds,
-    onClose: handleClose,
-    onSubmit: (payload) => handleFormSubmit(payload, isDraft),
+    onChange: setChangesMade,
+    onClose: handleRequestClose,
+    onSubmit: (payload) => handleFormSubmit(payload),
     projectId: activeProjectId,
     isCreateMoreToggleEnabled: createMore,
     onCreateMoreToggleChange: handleCreateMoreToggleChange,
-    isDraft: isDraft,
-    moveToIssue: moveToIssue,
     modalTitle: modalTitle,
     primaryButtonText: primaryButtonText,
     isDuplicateModalOpen: isDuplicateModalOpen,
@@ -411,11 +413,17 @@ export const CreateUpdateIssueModalBase = observer(function CreateUpdateIssueMod
     /* The modal it replaces passed no `handleClose`, so only its own form dismisses it. */
     <Dialog open={isOpen} disablePointerDismissal onOpenChange={() => {}}>
       <DialogContent size="lg">
-        {withDraftIssueWrapper ? (
-          <DraftIssueLayout {...commonIssueModalProps} changesMade={changesMade} onChange={handleFormChange} />
-        ) : (
-          <IssueFormRoot {...commonIssueModalProps} />
-        )}
+        <IssueFormRoot {...commonIssueModalProps} />
+        <ConfirmDialog
+          isOpen={isDiscardConfirmOpen}
+          handleClose={() => setIsDiscardConfirmOpen(false)}
+          handleSubmit={handleClose}
+          isSubmitting={false}
+          variant="danger"
+          title={t("discard_changes_title")}
+          content={t("discard_changes_description")}
+          primaryButtonText={{ default: t("discard") }}
+        />
       </DialogContent>
     </Dialog>
   );
