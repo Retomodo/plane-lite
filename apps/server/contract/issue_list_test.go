@@ -5,6 +5,7 @@ import (
 	"net/url"
 	"strings"
 	"testing"
+	"time"
 )
 
 // richFilter renders a filters= query value.
@@ -193,5 +194,14 @@ func TestIssueList(t *testing.T) {
 				v.deleted_at IS NULL AS live
 			FROM user_recent_visits v JOIN users u ON u.id = v.user_id
 			ORDER BY u.email, v.entity_name`)
+
+		// updated_at__gt is a direct ORM lookup, so a naive value is in the
+		// default timezone (UTC), not the user's: two hours ahead of now
+		// matches nothing, though in Kolkata time it would match every issue.
+		alice.Patch("/api/users/me/", map[string]any{"user_timezone": "Asia/Kolkata"}, Mask("token"))
+		naive := time.Now().UTC().Add(2 * time.Hour).Format("2006-01-02T15:04:05")
+		s.Alias(naive, "<now+2h>")
+		list(alice, "?updated_at__gt="+naive)
+		list(alice, "?updated_at__gt="+naive+"%2B05:30")
 	})
 }

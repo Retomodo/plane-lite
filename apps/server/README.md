@@ -44,6 +44,17 @@ Porting loop for each batch:
 3. Implement the endpoint in Go.
 4. Run `make test` until it's green.
 
+Several ports can run at once, each on its own stack (database, Redis, Mailpit
+and Django reference) with ports offset by 10 per slot:
+
+```sh
+scripts/devstack.sh 2 up                          # start slot 2
+CONTRACT_SLOT=2 go test ./contract/ -count=1      # verify against it
+scripts/capture-sql.sh 2 requests.txt             # SQL Django runs for some requests
+scripts/devstack.sh 2 down
+```
+
+[contract/PLAYBOOK.md](contract/PLAYBOOK.md) is the full porting procedure.
 Intentional differences from Django are listed in [DEVIATIONS.md](DEVIATIONS.md).
 
 ## Configuration
@@ -70,3 +81,8 @@ Variables use the Django backend's names:
 | 6 | Projects: `W/projects/` (list, create), `W/projects/details/` (with cursor pagination), `W/projects/<pk>/` GET/PATCH/DELETE, `P/archive/`, `W/project-identifiers/`, members (`P/members/…`, `leave/`, `project-members/me/`, `W/project-members/`), `/api/users/me/workspaces/<slug>/projects/invitations/` (self-join), `…/project-roles/`, `P/user-properties/`; project permissions; offset paginator; recent visits; project-added email | done |
 | 7 | States (`P/states/…`, `mark-default/`, `P/intake-state/`, `W/states/`) and labels (`P/issue-labels/…`, `W/labels/`); `ProjectBasePermission`; Django's `slugify` | done |
 | 8 | Issues: `P/issues/` (grouped and sub-grouped lists, rich `filters=` and legacy filters, create), `P/issues/<pk>/` GET/PATCH/DELETE, `P/issues/list/`, `P/archived-issues/`, `P/issues/<pk>/archive/`, `P/bulk-archive-issues/`, `P/bulk-delete-issues/`, `P/issue-dates/`, `P/issues/<id>/meta/`, `W/work-items/<PROJ-N>/`; the `issue_activity`, `notifications` and `issue_description_version_task` jobs; nh3-compatible HTML sanitizer (`internal/sanitize`); Django `QueryDict` query parsing | done |
+| 9 | Issue sub-resources: `P/issues/<id>/history/`, comments, issue and comment reactions, `subscribe/`, `sub-issues/`, `issue-links/` (with the link-title crawler job), `issue-relation/`, `remove-relation/`, `P/work-items/<id>/description-versions/`; comment, reaction, link and relation activity. Attachments come with file assets | done |
+| 12 | Estimates: `P/estimates/` GET/POST, `P/estimates/<id>/` DELETE, estimate points POST/PATCH, `W/estimates/` (uncached) | done |
+| 15 | Stickies & home: `W/quick-links/…`, `W/home-preferences/`, `W/stickies/…` | done |
+| 16 | Notifications: `W/users/notifications/` (filtered, paginated list), `<pk>/` GET/PATCH, `<pk>/read/`, `<pk>/archive/`, `unread/`, `mark-all-read/`, `/api/users/me/notification-preferences/` GET/PATCH | done |
+| 20 | Misc: `/api/timezones/`, `W/user-stats/<id>/`, `W/user-activity/<id>/` and its CSV `export/`, `W/user-profile/<id>/`, `W/user-issues/<id>/` | done |

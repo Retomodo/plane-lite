@@ -14,6 +14,7 @@ import (
 	"strconv"
 	"strings"
 	"testing"
+	"time"
 
 	"github.com/go-json-experiment/json"
 	"github.com/go-json-experiment/json/jsontext"
@@ -134,6 +135,13 @@ func (s *Scenario) Alias(value, placeholder string) {
 	if value != "" {
 		s.ids.aliases = append(s.ids.aliases, [2]string{value, placeholder})
 	}
+}
+
+// AliasToday makes today's UTC date (Django's timezone.now().date())
+// normalize to "<today>", for values like archived_at that depend on the
+// day the scenario runs.
+func (s *Scenario) AliasToday() {
+	s.Alias(time.Now().UTC().Format(time.DateOnly), "<today>")
 }
 
 // Client is one actor with its own cookie jar (a browser session).

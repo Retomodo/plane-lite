@@ -1,0 +1,1274 @@
+{
+  "steps": [
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/auth/get-csrf-token/",
+      "status": 200,
+      "content_type": "application/json",
+      "cookies": [
+        "csrftoken; value=<set>; Path=/; Max-Age=31449600; HttpOnly; SameSite=Lax"
+      ],
+      "body": {
+        "csrf_token": "<masked>"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/auth/sign-up/",
+      "request": {
+        "csrfmiddlewaretoken": "<masked>",
+        "email": "alice@example.com",
+        "password": "correct-Horse-battery-staple-91"
+      },
+      "status": 302,
+      "location": "http://localhost:3000",
+      "content_type": "text/html",
+      "cookies": [
+        "csrftoken; value=<set>; Path=/; Max-Age=31449600; HttpOnly; SameSite=Lax",
+        "session-id; value=<set>; Path=/; Max-Age=604800; HttpOnly; SameSite=Lax"
+      ]
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/",
+      "request": {
+        "name": "Acme",
+        "slug": "acme"
+      },
+      "status": 201,
+      "content_type": "application/json",
+      "body": {
+        "background_color": "<masked>",
+        "created_at": "<datetime Z>",
+        "created_by": "<uuid:1>",
+        "deleted_at": null,
+        "id": "<uuid:2>",
+        "logo": null,
+        "logo_asset": null,
+        "logo_url": null,
+        "name": "Acme",
+        "organization_size": null,
+        "owner": "<uuid:1>",
+        "role": 20,
+        "slug": "acme",
+        "timezone": "UTC",
+        "total_members": 1,
+        "updated_at": "<datetime Z>",
+        "updated_by": null
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "GET",
+      "path": "/auth/get-csrf-token/",
+      "status": 200,
+      "content_type": "application/json",
+      "cookies": [
+        "csrftoken; value=<set>; Path=/; Max-Age=31449600; HttpOnly; SameSite=Lax"
+      ],
+      "body": {
+        "csrf_token": "<masked>"
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "POST",
+      "path": "/auth/sign-up/",
+      "request": {
+        "csrfmiddlewaretoken": "<masked>",
+        "email": "bob@example.com",
+        "password": "correct-Horse-battery-staple-91"
+      },
+      "status": 302,
+      "location": "http://localhost:3000",
+      "content_type": "text/html",
+      "cookies": [
+        "csrftoken; value=<set>; Path=/; Max-Age=31449600; HttpOnly; SameSite=Lax",
+        "session-id; value=<set>; Path=/; Max-Age=604800; HttpOnly; SameSite=Lax"
+      ]
+    },
+    {
+      "actor": "carol",
+      "method": "GET",
+      "path": "/auth/get-csrf-token/",
+      "status": 200,
+      "content_type": "application/json",
+      "cookies": [
+        "csrftoken; value=<set>; Path=/; Max-Age=31449600; HttpOnly; SameSite=Lax"
+      ],
+      "body": {
+        "csrf_token": "<masked>"
+      }
+    },
+    {
+      "actor": "carol",
+      "method": "POST",
+      "path": "/auth/sign-up/",
+      "request": {
+        "csrfmiddlewaretoken": "<masked>",
+        "email": "carol@example.com",
+        "password": "correct-Horse-battery-staple-91"
+      },
+      "status": 302,
+      "location": "http://localhost:3000",
+      "content_type": "text/html",
+      "cookies": [
+        "csrftoken; value=<set>; Path=/; Max-Age=31449600; HttpOnly; SameSite=Lax",
+        "session-id; value=<set>; Path=/; Max-Age=604800; HttpOnly; SameSite=Lax"
+      ]
+    },
+    {
+      "actor": "dan",
+      "method": "GET",
+      "path": "/auth/get-csrf-token/",
+      "status": 200,
+      "content_type": "application/json",
+      "cookies": [
+        "csrftoken; value=<set>; Path=/; Max-Age=31449600; HttpOnly; SameSite=Lax"
+      ],
+      "body": {
+        "csrf_token": "<masked>"
+      }
+    },
+    {
+      "actor": "dan",
+      "method": "POST",
+      "path": "/auth/sign-up/",
+      "request": {
+        "csrfmiddlewaretoken": "<masked>",
+        "email": "dan@example.com",
+        "password": "correct-Horse-battery-staple-91"
+      },
+      "status": 302,
+      "location": "http://localhost:3000",
+      "content_type": "text/html",
+      "cookies": [
+        "csrftoken; value=<set>; Path=/; Max-Age=31449600; HttpOnly; SameSite=Lax",
+        "session-id; value=<set>; Path=/; Max-Age=604800; HttpOnly; SameSite=Lax"
+      ]
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/invitations/",
+      "request": {
+        "emails": [
+          {
+            "email": "bob@example.com",
+            "role": 15
+          },
+          {
+            "email": "carol@example.com",
+            "role": 5
+          },
+          {
+            "email": "dan@example.com",
+            "role": 15
+          }
+        ]
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "message": "Emails sent successfully"
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "GET",
+      "path": "/api/users/me/workspaces/invitations/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": [
+        {
+          "accepted": false,
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:1>",
+          "deleted_at": null,
+          "email": "bob@example.com",
+          "id": "<uuid:3>",
+          "invite_link": "/workspace-invitations/?invitation_id=<uuid:3>&slug=acme&token=<invite-token:bob@example.com>",
+          "message": "\n\nalice invited you to Acme on Plane\n\n      alice has invited you to join Acme on Plane.\n\n                    Join Acme on Plane\n\n                    alice has invited you to collaborate with them in\n                    Acme workspace on Plane.\n\n                          Accept invite\n\n                    If the button doesn’t work, copy and paste this link into\n                    your browser:\n\n                    http://localhost:3000/workspace-invitations/?invitation_id=<uuid:3>&slug=acme&token=<invite-token:bob@example.com>\n\n                    Note: This invitation was intended for\n                    bob@example.com. If you were not expecting this invitation, you can ignore\n                    this email.\n\n                    Plane Software, Inc.\n\n",
+          "responded_at": null,
+          "role": 15,
+          "token": "<invite-token:bob@example.com>",
+          "updated_at": "<datetime Z>",
+          "updated_by": "<uuid:1>",
+          "workspace": {
+            "id": "<uuid:2>",
+            "logo_url": null,
+            "name": "Acme",
+            "slug": "acme"
+          }
+        }
+      ]
+    },
+    {
+      "actor": "bob",
+      "method": "POST",
+      "path": "/api/users/me/workspaces/invitations/",
+      "request": {
+        "invitations": [
+          "<uuid:3>"
+        ]
+      },
+      "status": 204
+    },
+    {
+      "actor": "carol",
+      "method": "GET",
+      "path": "/api/users/me/workspaces/invitations/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": [
+        {
+          "accepted": false,
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:1>",
+          "deleted_at": null,
+          "email": "carol@example.com",
+          "id": "<uuid:4>",
+          "invite_link": "/workspace-invitations/?invitation_id=<uuid:4>&slug=acme&token=<invite-token:carol@example.com>",
+          "message": "\n\nalice invited you to Acme on Plane\n\n      alice has invited you to join Acme on Plane.\n\n                    Join Acme on Plane\n\n                    alice has invited you to collaborate with them in\n                    Acme workspace on Plane.\n\n                          Accept invite\n\n                    If the button doesn’t work, copy and paste this link into\n                    your browser:\n\n                    http://localhost:3000/workspace-invitations/?invitation_id=<uuid:4>&slug=acme&token=<invite-token:carol@example.com>\n\n                    Note: This invitation was intended for\n                    carol@example.com. If you were not expecting this invitation, you can ignore\n                    this email.\n\n                    Plane Software, Inc.\n\n",
+          "responded_at": null,
+          "role": 5,
+          "token": "<invite-token:carol@example.com>",
+          "updated_at": "<datetime Z>",
+          "updated_by": "<uuid:1>",
+          "workspace": {
+            "id": "<uuid:2>",
+            "logo_url": null,
+            "name": "Acme",
+            "slug": "acme"
+          }
+        }
+      ]
+    },
+    {
+      "actor": "carol",
+      "method": "POST",
+      "path": "/api/users/me/workspaces/invitations/",
+      "request": {
+        "invitations": [
+          "<uuid:4>"
+        ]
+      },
+      "status": 204
+    },
+    {
+      "actor": "dan",
+      "method": "GET",
+      "path": "/api/users/me/workspaces/invitations/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": [
+        {
+          "accepted": false,
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:1>",
+          "deleted_at": null,
+          "email": "dan@example.com",
+          "id": "<uuid:5>",
+          "invite_link": "/workspace-invitations/?invitation_id=<uuid:5>&slug=acme&token=<invite-token:dan@example.com>",
+          "message": "\n\nalice invited you to Acme on Plane\n\n      alice has invited you to join Acme on Plane.\n\n                    Join Acme on Plane\n\n                    alice has invited you to collaborate with them in\n                    Acme workspace on Plane.\n\n                          Accept invite\n\n                    If the button doesn’t work, copy and paste this link into\n                    your browser:\n\n                    http://localhost:3000/workspace-invitations/?invitation_id=<uuid:5>&slug=acme&token=<invite-token:dan@example.com>\n\n                    Note: This invitation was intended for\n                    dan@example.com. If you were not expecting this invitation, you can ignore\n                    this email.\n\n                    Plane Software, Inc.\n\n",
+          "responded_at": null,
+          "role": 15,
+          "token": "<invite-token:dan@example.com>",
+          "updated_at": "<datetime Z>",
+          "updated_by": "<uuid:1>",
+          "workspace": {
+            "id": "<uuid:2>",
+            "logo_url": null,
+            "name": "Acme",
+            "slug": "acme"
+          }
+        }
+      ]
+    },
+    {
+      "actor": "dan",
+      "method": "POST",
+      "path": "/api/users/me/workspaces/invitations/",
+      "request": {
+        "invitations": [
+          "<uuid:5>"
+        ]
+      },
+      "status": 204
+    },
+    {
+      "actor": "outsider",
+      "method": "GET",
+      "path": "/auth/get-csrf-token/",
+      "status": 200,
+      "content_type": "application/json",
+      "cookies": [
+        "csrftoken; value=<set>; Path=/; Max-Age=31449600; HttpOnly; SameSite=Lax"
+      ],
+      "body": {
+        "csrf_token": "<masked>"
+      }
+    },
+    {
+      "actor": "outsider",
+      "method": "POST",
+      "path": "/auth/sign-up/",
+      "request": {
+        "csrfmiddlewaretoken": "<masked>",
+        "email": "outsider@example.com",
+        "password": "correct-Horse-battery-staple-91"
+      },
+      "status": 302,
+      "location": "http://localhost:3000",
+      "content_type": "text/html",
+      "cookies": [
+        "csrftoken; value=<set>; Path=/; Max-Age=31449600; HttpOnly; SameSite=Lax",
+        "session-id; value=<set>; Path=/; Max-Age=604800; HttpOnly; SameSite=Lax"
+      ]
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/",
+      "request": {
+        "identifier": "PL",
+        "name": "Plane Lite"
+      },
+      "status": 201,
+      "content_type": "application/json",
+      "body": {
+        "anchor": null,
+        "archive_in": 0,
+        "archived_at": null,
+        "close_in": 0,
+        "cover_image": null,
+        "cover_image_asset": null,
+        "cover_image_url": null,
+        "created_at": "<datetime Z>",
+        "created_by": "<uuid:1>",
+        "cycle_view": false,
+        "default_assignee": null,
+        "default_state": null,
+        "deleted_at": null,
+        "description": "",
+        "description_html": null,
+        "description_text": null,
+        "emoji": null,
+        "estimate": null,
+        "external_id": null,
+        "external_source": null,
+        "guest_view_all_features": false,
+        "icon_prop": null,
+        "id": "<uuid:6>",
+        "identifier": "PL",
+        "inbox_view": false,
+        "intake_view": false,
+        "is_favorite": false,
+        "is_issue_type_enabled": false,
+        "is_time_tracking_enabled": false,
+        "issue_views_view": false,
+        "logo_props": {},
+        "member_role": 20,
+        "members": [
+          "<uuid:1>"
+        ],
+        "module_view": false,
+        "name": "Plane Lite",
+        "network": 2,
+        "next_work_item_sequence": 1,
+        "page_view": true,
+        "project_lead": null,
+        "sort_order": 65535,
+        "timezone": "UTC",
+        "updated_at": "<datetime Z>",
+        "updated_by": null,
+        "workspace": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "GET",
+      "path": "/api/users/me/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "avatar": "",
+        "avatar_url": null,
+        "cover_image": null,
+        "cover_image_url": null,
+        "date_joined": "<datetime Z>",
+        "display_name": "bob",
+        "email": "bob@example.com",
+        "first_name": "",
+        "id": "<uuid:7>",
+        "is_active": true,
+        "is_bot": false,
+        "is_email_verified": false,
+        "is_password_autoset": false,
+        "last_login_medium": "email",
+        "last_login_time": "<datetime Z>",
+        "last_name": "",
+        "user_timezone": "UTC",
+        "username": "<hex32>"
+      }
+    },
+    {
+      "actor": "carol",
+      "method": "GET",
+      "path": "/api/users/me/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "avatar": "",
+        "avatar_url": null,
+        "cover_image": null,
+        "cover_image_url": null,
+        "date_joined": "<datetime Z>",
+        "display_name": "carol",
+        "email": "carol@example.com",
+        "first_name": "",
+        "id": "<uuid:8>",
+        "is_active": true,
+        "is_bot": false,
+        "is_email_verified": false,
+        "is_password_autoset": false,
+        "last_login_medium": "email",
+        "last_login_time": "<datetime Z>",
+        "last_name": "",
+        "user_timezone": "UTC",
+        "username": "<hex32>"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/members/",
+      "request": {
+        "members": [
+          {
+            "member_id": "<uuid:7>",
+            "role": 15
+          },
+          {
+            "member_id": "<uuid:8>",
+            "role": 5
+          }
+        ]
+      },
+      "status": 201,
+      "content_type": "application/json",
+      "body": [
+        {
+          "created_at": "<datetime Z>",
+          "id": "<uuid:9>",
+          "member": "<uuid:8>",
+          "original_role": 5,
+          "project": "<uuid:6>",
+          "role": 5
+        },
+        {
+          "created_at": "<datetime Z>",
+          "id": "<uuid:10>",
+          "member": "<uuid:7>",
+          "original_role": 15,
+          "project": "<uuid:6>",
+          "role": 15
+        }
+      ]
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/issues/",
+      "request": {
+        "name": "Login bug"
+      },
+      "status": 201,
+      "content_type": "application/json",
+      "body": {
+        "archived_at": null,
+        "assignee_ids": [],
+        "attachment_count": null,
+        "completed_at": null,
+        "created_at": "<datetime Z>",
+        "created_by": "<uuid:1>",
+        "cycle_id": null,
+        "deleted_at": null,
+        "estimate_point": null,
+        "id": "<uuid:11>",
+        "is_draft": false,
+        "label_ids": [],
+        "link_count": null,
+        "module_ids": [],
+        "name": "Login bug",
+        "parent_id": null,
+        "priority": "none",
+        "project_id": "<uuid:6>",
+        "sequence_id": 1,
+        "sort_order": 65535,
+        "start_date": null,
+        "state_id": "<uuid:12>",
+        "sub_issues_count": null,
+        "target_date": null,
+        "updated_at": "<datetime Z>",
+        "updated_by": null
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/issues/<uuid:11>/subscribe/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "subscribed": true
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "GET",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/issues/<uuid:11>/subscribe/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "subscribed": false
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/users/me/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "avatar": "",
+        "avatar_url": null,
+        "cover_image": null,
+        "cover_image_url": null,
+        "date_joined": "<datetime Z>",
+        "display_name": "alice",
+        "email": "alice@example.com",
+        "first_name": "",
+        "id": "<uuid:1>",
+        "is_active": true,
+        "is_bot": false,
+        "is_email_verified": false,
+        "is_password_autoset": false,
+        "last_login_medium": "email",
+        "last_login_time": "<datetime Z>",
+        "last_name": "",
+        "user_timezone": "UTC",
+        "username": "<hex32>"
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/issues/<uuid:11>/subscribe/",
+      "request": {
+        "issue": "<uuid:13>",
+        "subscriber": "<uuid:1>"
+      },
+      "status": 201,
+      "content_type": "application/json",
+      "body": {
+        "created_at": "<datetime Z>",
+        "created_by": "<uuid:7>",
+        "deleted_at": null,
+        "id": "<uuid:14>",
+        "issue": "<uuid:11>",
+        "project": "<uuid:6>",
+        "subscriber": "<uuid:7>",
+        "updated_at": "<datetime Z>",
+        "updated_by": null,
+        "workspace": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/issues/<uuid:11>/subscribe/",
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "message": "User already subscribed to the issue."
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "GET",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/issues/<uuid:11>/subscribe/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "subscribed": true
+      }
+    },
+    {
+      "actor": "carol",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/issues/<uuid:11>/subscribe/",
+      "status": 201,
+      "content_type": "application/json",
+      "body": {
+        "created_at": "<datetime Z>",
+        "created_by": "<uuid:8>",
+        "deleted_at": null,
+        "id": "<uuid:15>",
+        "issue": "<uuid:11>",
+        "project": "<uuid:6>",
+        "subscriber": "<uuid:8>",
+        "updated_at": "<datetime Z>",
+        "updated_by": null,
+        "workspace": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "carol",
+      "method": "GET",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/issues/<uuid:11>/subscribe/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "subscribed": true
+      }
+    },
+    {
+      "actor": "dan",
+      "method": "GET",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/issues/<uuid:11>/subscribe/",
+      "status": 403,
+      "content_type": "application/json",
+      "body": {
+        "detail": "You do not have permission to perform this action."
+      }
+    },
+    {
+      "actor": "dan",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/issues/<uuid:11>/subscribe/",
+      "status": 403,
+      "content_type": "application/json",
+      "body": {
+        "detail": "You do not have permission to perform this action."
+      }
+    },
+    {
+      "actor": "dan",
+      "method": "DELETE",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/issues/<uuid:11>/subscribe/",
+      "status": 403,
+      "content_type": "application/json",
+      "body": {
+        "detail": "You do not have permission to perform this action."
+      }
+    },
+    {
+      "actor": "outsider",
+      "method": "GET",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/issues/<uuid:11>/subscribe/",
+      "status": 403,
+      "content_type": "application/json",
+      "body": {
+        "detail": "You do not have permission to perform this action."
+      }
+    },
+    {
+      "actor": "outsider",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/issues/<uuid:11>/subscribe/",
+      "status": 403,
+      "content_type": "application/json",
+      "body": {
+        "detail": "You do not have permission to perform this action."
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "DELETE",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/issues/<uuid:11>/subscribe/",
+      "status": 204
+    },
+    {
+      "actor": "bob",
+      "method": "DELETE",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/issues/<uuid:11>/subscribe/",
+      "status": 404,
+      "content_type": "application/json",
+      "body": {
+        "error": "The required object does not exist."
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "GET",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/issues/<uuid:11>/subscribe/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "subscribed": false
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/issues/<uuid:11>/subscribe/",
+      "status": 201,
+      "content_type": "application/json",
+      "body": {
+        "created_at": "<datetime Z>",
+        "created_by": "<uuid:7>",
+        "deleted_at": null,
+        "id": "<uuid:16>",
+        "issue": "<uuid:11>",
+        "project": "<uuid:6>",
+        "subscriber": "<uuid:7>",
+        "updated_at": "<datetime Z>",
+        "updated_by": null,
+        "workspace": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "DELETE",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/issues/<uuid:11>/subscribe/",
+      "status": 204
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/issues/<uuid:11>/subscribe/",
+      "status": 201,
+      "content_type": "application/json",
+      "body": {
+        "created_at": "<datetime Z>",
+        "created_by": "<uuid:1>",
+        "deleted_at": null,
+        "id": "<uuid:17>",
+        "issue": "<uuid:11>",
+        "project": "<uuid:6>",
+        "subscriber": "<uuid:1>",
+        "updated_at": "<datetime Z>",
+        "updated_by": null,
+        "workspace": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/issues/<uuid:13>/subscribe/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "subscribed": false
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/issues/<uuid:13>/subscribe/",
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "error": "The payload is not valid"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "DELETE",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/issues/<uuid:13>/subscribe/",
+      "status": 404,
+      "content_type": "application/json",
+      "body": {
+        "error": "The required object does not exist."
+      }
+    },
+    {
+      "actor": "carol",
+      "method": "DELETE",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/issues/<uuid:11>/subscribe/",
+      "status": 204
+    },
+    {
+      "actor": "alice",
+      "method": "PATCH",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/",
+      "request": {
+        "guest_view_all_features": true
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "anchor": null,
+        "archive_in": 0,
+        "archived_at": null,
+        "close_in": 0,
+        "cover_image": null,
+        "cover_image_asset": null,
+        "cover_image_url": null,
+        "created_at": "<datetime Z>",
+        "created_by": "<uuid:1>",
+        "cycle_view": false,
+        "default_assignee": null,
+        "default_state": null,
+        "deleted_at": null,
+        "description": "",
+        "description_html": null,
+        "description_text": null,
+        "emoji": null,
+        "estimate": null,
+        "external_id": null,
+        "external_source": null,
+        "guest_view_all_features": true,
+        "icon_prop": null,
+        "id": "<uuid:6>",
+        "identifier": "PL",
+        "inbox_view": false,
+        "intake_view": false,
+        "is_favorite": false,
+        "is_issue_type_enabled": false,
+        "is_time_tracking_enabled": false,
+        "issue_views_view": false,
+        "logo_props": {},
+        "member_role": 20,
+        "members": [
+          "<uuid:8>",
+          "<uuid:7>",
+          "<uuid:1>"
+        ],
+        "module_view": false,
+        "name": "Plane Lite",
+        "network": 2,
+        "next_work_item_sequence": 2,
+        "page_view": true,
+        "project_lead": null,
+        "sort_order": 65535,
+        "timezone": "UTC",
+        "updated_at": "<datetime Z>",
+        "updated_by": "<uuid:1>",
+        "workspace": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "carol",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/issues/<uuid:11>/comments/",
+      "request": {
+        "comment_html": "<p>Hi</p>"
+      },
+      "status": 201,
+      "content_type": "application/json",
+      "body": {
+        "access": "INTERNAL",
+        "actor": "<uuid:8>",
+        "actor_detail": {
+          "avatar": "",
+          "avatar_url": null,
+          "display_name": "carol",
+          "first_name": "",
+          "id": "<uuid:8>",
+          "is_bot": false,
+          "last_name": ""
+        },
+        "attachments": [],
+        "comment_html": "<p>Hi</p>",
+        "comment_json": {},
+        "comment_reactions": [],
+        "comment_stripped": "Hi",
+        "created_at": "<datetime Z>",
+        "created_by": "<uuid:8>",
+        "deleted_at": null,
+        "description": "<uuid:18>",
+        "edited_at": null,
+        "external_id": null,
+        "external_source": null,
+        "id": "<uuid:19>",
+        "issue": "<uuid:11>",
+        "issue_detail": {
+          "description_html": "<p></p>",
+          "description_json": {},
+          "id": "<uuid:11>",
+          "is_draft": false,
+          "name": "Login bug",
+          "priority": "none",
+          "sequence_id": 1,
+          "sort_order": 65535,
+          "start_date": null,
+          "target_date": null
+        },
+        "parent": null,
+        "project": "<uuid:6>",
+        "project_detail": {
+          "cover_image": null,
+          "cover_image_url": null,
+          "description": "",
+          "id": "<uuid:6>",
+          "identifier": "PL",
+          "logo_props": {},
+          "name": "Plane Lite"
+        },
+        "updated_at": "<datetime Z>",
+        "updated_by": "<uuid:8>",
+        "workspace": "<uuid:2>",
+        "workspace_detail": {
+          "id": "<uuid:2>",
+          "logo_url": null,
+          "name": "Acme",
+          "slug": "acme"
+        }
+      }
+    },
+    {
+      "actor": "carol",
+      "method": "GET",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/issues/<uuid:11>/subscribe/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "subscribed": true
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "GET",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/issues/<uuid:11>/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "archived_at": null,
+        "assignee_ids": [],
+        "attachment_count": null,
+        "completed_at": null,
+        "created_at": "<datetime Z>",
+        "created_by": "<uuid:1>",
+        "cycle_id": null,
+        "description_html": "<p></p>",
+        "estimate_point": null,
+        "id": "<uuid:11>",
+        "is_draft": false,
+        "is_subscribed": true,
+        "label_ids": [],
+        "link_count": null,
+        "module_ids": [],
+        "name": "Login bug",
+        "parent_id": null,
+        "priority": "none",
+        "project_id": "<uuid:6>",
+        "sequence_id": 1,
+        "sort_order": 65535,
+        "start_date": null,
+        "state_id": "<uuid:12>",
+        "sub_issues_count": null,
+        "target_date": null,
+        "updated_at": "<datetime Z>",
+        "updated_by": null
+      }
+    },
+    {
+      "actor": "db",
+      "method": "QUERY",
+      "path": "issues",
+      "status": 0,
+      "body": [
+        {
+          "activities_after_touch": 1,
+          "identifier": "PL",
+          "name": "Login bug",
+          "updated_by": null
+        }
+      ]
+    },
+    {
+      "actor": "db",
+      "method": "QUERY",
+      "path": "issue_comments",
+      "status": 0,
+      "body": [
+        {
+          "access": "INTERNAL",
+          "actor": "carol@example.com",
+          "attachments": [],
+          "comment_html": "<p>Hi</p>",
+          "comment_json": {},
+          "comment_stripped": "Hi",
+          "created_by": "carol@example.com",
+          "description_after": true,
+          "description_created_by": "carol@example.com",
+          "description_html": "<p>Hi</p>",
+          "description_json": {},
+          "description_live": true,
+          "description_project": "PL",
+          "description_slug": "acme",
+          "description_stripped": "Hi",
+          "description_synced": false,
+          "description_updated_by": null,
+          "edited": false,
+          "external_id": null,
+          "external_source": null,
+          "identifier": "PL",
+          "issue": "Login bug",
+          "live": true,
+          "no_binary": true,
+          "parent": null,
+          "slug": "acme",
+          "touched": true,
+          "updated_by": null
+        }
+      ]
+    },
+    {
+      "actor": "db",
+      "method": "QUERY",
+      "path": "descriptions",
+      "status": 0,
+      "body": [
+        {
+          "orphans": 0,
+          "total": 1
+        }
+      ]
+    },
+    {
+      "actor": "db",
+      "method": "QUERY",
+      "path": "issue_reactions",
+      "status": 0,
+      "body": []
+    },
+    {
+      "actor": "db",
+      "method": "QUERY",
+      "path": "comment_reactions",
+      "status": 0,
+      "body": []
+    },
+    {
+      "actor": "db",
+      "method": "QUERY",
+      "path": "issue_activities",
+      "status": 0,
+      "body": [
+        {
+          "actor": "alice@example.com",
+          "comment": "created the issue",
+          "created_by": "alice@example.com",
+          "field": null,
+          "has_epoch": true,
+          "identifier": "PL",
+          "issue": "Login bug",
+          "issue_comment": null,
+          "live": true,
+          "new_identifier": null,
+          "new_value": null,
+          "old_identifier": null,
+          "old_value": null,
+          "verb": "created"
+        },
+        {
+          "actor": "carol@example.com",
+          "comment": "created a comment",
+          "created_by": null,
+          "field": "comment",
+          "has_epoch": true,
+          "identifier": "PL",
+          "issue": "Login bug",
+          "issue_comment": "<p>Hi</p>",
+          "live": true,
+          "new_identifier": "<uuid:19>",
+          "new_value": "<p>Hi</p>",
+          "old_identifier": null,
+          "old_value": null,
+          "verb": "created"
+        }
+      ]
+    },
+    {
+      "actor": "db",
+      "method": "QUERY",
+      "path": "issue_subscribers",
+      "status": 0,
+      "body": [
+        {
+          "created_by": "alice@example.com",
+          "email": "alice@example.com",
+          "identifier": "PL",
+          "live": false,
+          "name": "Login bug",
+          "updated_by": "alice@example.com"
+        },
+        {
+          "created_by": "alice@example.com",
+          "email": "alice@example.com",
+          "identifier": "PL",
+          "live": true,
+          "name": "Login bug",
+          "updated_by": null
+        },
+        {
+          "created_by": "bob@example.com",
+          "email": "bob@example.com",
+          "identifier": "PL",
+          "live": false,
+          "name": "Login bug",
+          "updated_by": "bob@example.com"
+        },
+        {
+          "created_by": "bob@example.com",
+          "email": "bob@example.com",
+          "identifier": "PL",
+          "live": true,
+          "name": "Login bug",
+          "updated_by": null
+        },
+        {
+          "created_by": "carol@example.com",
+          "email": "carol@example.com",
+          "identifier": "PL",
+          "live": false,
+          "name": "Login bug",
+          "updated_by": "carol@example.com"
+        },
+        {
+          "created_by": "carol@example.com",
+          "email": "carol@example.com",
+          "identifier": "PL",
+          "live": true,
+          "name": "Login bug",
+          "updated_by": null
+        }
+      ]
+    },
+    {
+      "actor": "db",
+      "method": "QUERY",
+      "path": "issue_mentions",
+      "status": 0,
+      "body": []
+    },
+    {
+      "actor": "db",
+      "method": "QUERY",
+      "path": "notifications",
+      "status": 0,
+      "body": [
+        {
+          "activity_ok": true,
+          "actor": "None",
+          "entity_name": "issue",
+          "field": "comment",
+          "identifier": "PL",
+          "issue": "Login bug",
+          "issue_comment": "Hi",
+          "issue_data": {
+            "id": "<uuid:11>",
+            "identifier": "PL",
+            "name": "Login bug",
+            "sequence_id": 1,
+            "state_group": "backlog",
+            "state_name": "Backlog"
+          },
+          "message": null,
+          "message_html": "<p></p>",
+          "new_identifier": "<uuid:19>",
+          "new_value": "<p>Hi</p>",
+          "old_identifier": null,
+          "old_value": "None",
+          "receiver": "alice@example.com",
+          "sender": "in_app:issue_activities:created",
+          "title": "created a comment",
+          "triggered_by": "carol@example.com",
+          "unread": true,
+          "verb": "created"
+        },
+        {
+          "activity_ok": true,
+          "actor": "None",
+          "entity_name": "issue",
+          "field": "comment",
+          "identifier": "PL",
+          "issue": "Login bug",
+          "issue_comment": "Hi",
+          "issue_data": {
+            "id": "<uuid:11>",
+            "identifier": "PL",
+            "name": "Login bug",
+            "sequence_id": 1,
+            "state_group": "backlog",
+            "state_name": "Backlog"
+          },
+          "message": null,
+          "message_html": "<p></p>",
+          "new_identifier": "<uuid:19>",
+          "new_value": "<p>Hi</p>",
+          "old_identifier": null,
+          "old_value": "None",
+          "receiver": "bob@example.com",
+          "sender": "in_app:issue_activities:subscribed",
+          "title": "created a comment",
+          "triggered_by": "carol@example.com",
+          "unread": true,
+          "verb": "created"
+        }
+      ]
+    },
+    {
+      "actor": "db",
+      "method": "QUERY",
+      "path": "email_notification_logs",
+      "status": 0,
+      "body": [
+        {
+          "entity": "",
+          "entity_name": "issue",
+          "field": "comment",
+          "has_time": true,
+          "issue": "Login bug",
+          "issue_comment": "Hi",
+          "issue_data": {
+            "id": "<uuid:11>",
+            "identifier": "PL",
+            "name": "Login bug",
+            "project_id": "<uuid:6>",
+            "sequence_id": 1,
+            "state_group": "backlog",
+            "state_name": "Backlog",
+            "workspace_slug": "acme"
+          },
+          "new_value": "<p>Hi</p>",
+          "old_value": "None",
+          "pending": true,
+          "receiver": "alice@example.com",
+          "triggered_by": "carol@example.com",
+          "verb": "created"
+        },
+        {
+          "entity": "",
+          "entity_name": "issue",
+          "field": "comment",
+          "has_time": true,
+          "issue": "Login bug",
+          "issue_comment": "Hi",
+          "issue_data": {
+            "id": "<uuid:11>",
+            "identifier": "PL",
+            "name": "Login bug",
+            "project_id": "<uuid:6>",
+            "sequence_id": 1,
+            "state_group": "backlog",
+            "state_name": "Backlog",
+            "workspace_slug": "acme"
+          },
+          "new_value": "<p>Hi</p>",
+          "old_value": "None",
+          "pending": true,
+          "receiver": "bob@example.com",
+          "triggered_by": "carol@example.com",
+          "verb": "created"
+        }
+      ]
+    }
+  ]
+}

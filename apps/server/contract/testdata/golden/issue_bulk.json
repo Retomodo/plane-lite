@@ -837,7 +837,7 @@
       "status": 200,
       "content_type": "application/json",
       "body": {
-        "archived_at": "2026-10-07"
+        "archived_at": "<today>"
       }
     },
     {
@@ -857,7 +857,7 @@
       "status": 200,
       "content_type": "application/json",
       "body": {
-        "archived_at": "2026-10-07",
+        "archived_at": "<today>",
         "completed_at": "<datetime Z>",
         "created_at": "<datetime Z>",
         "created_by": "<uuid:1>",
@@ -895,7 +895,7 @@
         "prev_page_results": false,
         "results": [
           {
-            "archived_at": "2026-10-07",
+            "archived_at": "<today>",
             "assignee_ids": [
               "<uuid:7>"
             ],
@@ -938,7 +938,7 @@
       "status": 200,
       "content_type": "application/json",
       "body": {
-        "archived_at": "2026-10-07",
+        "archived_at": "<today>",
         "assignee_ids": [
           "<uuid:7>"
         ],
@@ -1137,7 +1137,7 @@
       "status": 200,
       "content_type": "application/json",
       "body": {
-        "archived_at": "2026-10-07"
+        "archived_at": "<today>"
       }
     },
     {
@@ -1188,7 +1188,7 @@
       "status": 200,
       "content_type": "application/json",
       "body": {
-        "archived_at": "2026-10-07"
+        "archived_at": "<today>"
       }
     },
     {
@@ -1203,7 +1203,7 @@
       "status": 200,
       "content_type": "application/json",
       "body": {
-        "archived_at": "2026-10-07"
+        "archived_at": "<today>"
       }
     },
     {
@@ -1222,7 +1222,7 @@
         "prev_page_results": false,
         "results": [
           {
-            "archived_at": "2026-10-07",
+            "archived_at": "<today>",
             "assignee_ids": [],
             "attachment_count": null,
             "completed_at": "<datetime Z>",
@@ -1250,7 +1250,7 @@
             "updated_by": null
           },
           {
-            "archived_at": "2026-10-07",
+            "archived_at": "<today>",
             "assignee_ids": [],
             "attachment_count": null,
             "completed_at": null,
@@ -1278,7 +1278,7 @@
             "updated_by": null
           },
           {
-            "archived_at": "2026-10-07",
+            "archived_at": "<today>",
             "assignee_ids": [
               "<uuid:7>"
             ],
@@ -1769,7 +1769,7 @@
       "status": 0,
       "body": [
         {
-          "archived_at": "2026-10-07",
+          "archived_at": "<today>",
           "completed": true,
           "created_by": "alice@example.com",
           "description_html": "<p></p>",
@@ -1793,7 +1793,7 @@
           "updated_by": "alice@example.com"
         },
         {
-          "archived_at": "2026-10-07",
+          "archived_at": "<today>",
           "completed": false,
           "created_by": "alice@example.com",
           "description_html": "<p></p>",
@@ -1841,7 +1841,7 @@
           "updated_by": null
         },
         {
-          "archived_at": "2026-10-07",
+          "archived_at": "<today>",
           "completed": true,
           "created_by": "alice@example.com",
           "description_html": "<p></p>",

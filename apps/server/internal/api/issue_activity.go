@@ -299,6 +299,13 @@ func (a *API) issueActivity(ctx context.Context, j issueActivityJob) error {
 	case "issue.activity.deleted":
 		comment := "deleted the issue"
 		t.add(&activity{Verb: "deleted", Field: strp("issue"), Comment: comment})
+	case "comment.activity.created", "comment.activity.updated", "comment.activity.deleted",
+		"issue_reaction.activity.created", "issue_reaction.activity.deleted",
+		"comment_reaction.activity.created", "comment_reaction.activity.deleted":
+		err = t.discussionActivity(ctx) // issue_activity_discussion.go
+	case "link.activity.created", "link.activity.updated", "link.activity.deleted",
+		"issue_relation.activity.created", "issue_relation.activity.deleted":
+		err = t.structureActivity(ctx) // issue_activity_structure.go
 	}
 	if err != nil {
 		return err

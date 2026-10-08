@@ -152,6 +152,9 @@ type issueList struct {
 	group, sub  string
 	// localTimes renders created_at/updated_at in the user's time zone.
 	localTimes bool
+	// workspace marks a workspace-level list (the profile issues page),
+	// whose issue_group_values gets no project_id.
+	workspace bool
 }
 
 const issueFrom = ` FROM issues i LEFT JOIN states s ON s.id = i.state_id JOIN projects p ON p.id = i.project_id
@@ -500,19 +503,28 @@ func (l *issueList) paginateFlat(ctx context.Context, page *offsetPage) error {
 func (l *issueList) groupValues(ctx context.Context, field string) ([]string, error) {
 	var sql string
 	args := []any{l.slug, l.projectID}
+	inProject := func(col string) string { return " AND " + col + " = $2" }
+	if l.workspace {
+		args = args[:1]
+		inProject = func(string) string { return "" }
+	}
 	none := false
 	switch field {
 	case "state_id":
 		sql = `SELECT st.id::text FROM states st JOIN workspaces w ON w.id = st.workspace_id WHERE NOT st.is_triage
-			AND w.slug = $1 AND st.project_id = $2 AND st.deleted_at IS NULL AND st."group" <> 'triage'`
+			AND w.slug = $1` + inProject("st.project_id") + ` AND st.deleted_at IS NULL AND st."group" <> 'triage'`
 	case "labels__id", "issue_module__module_id", "cycle_id":
 		table := map[string]string{"labels__id": "labels", "issue_module__module_id": "modules", "cycle_id": "cycles"}[field]
 		sql = `SELECT x.id::text FROM ` + table + ` x JOIN workspaces w ON w.id = x.workspace_id
-			WHERE w.slug = $1 AND x.project_id = $2 AND x.deleted_at IS NULL`
+			WHERE w.slug = $1` + inProject("x.project_id") + ` AND x.deleted_at IS NULL`
 		none = true
 	case "assignees__id":
 		sql = `SELECT pm.member_id::text FROM project_members pm JOIN workspaces w ON w.id = pm.workspace_id
 			WHERE w.slug = $1 AND pm.project_id = $2 AND pm.is_active AND pm.deleted_at IS NULL`
+		if l.workspace {
+			sql = `SELECT wm.member_id::text FROM workspace_members wm JOIN workspaces w ON w.id = wm.workspace_id
+			WHERE w.slug = $1 AND wm.is_active AND wm.deleted_at IS NULL`
+		}
 	case "project_id":
 		sql = `SELECT x.id::text FROM projects x JOIN workspaces w ON w.id = x.workspace_id
 			WHERE w.slug = $1 AND x.deleted_at IS NULL`
@@ -530,7 +542,9 @@ func (l *issueList) groupValues(ctx context.Context, field string) ([]string, er
 			col = "i.created_by_id"
 		}
 		f := l.filtered.clone()
-		f.filter("i.project_id = " + f.arg(l.projectID))
+		if !l.workspace {
+			f.filter("i.project_id = " + f.arg(l.projectID))
+		}
 		sql = "SELECT DISTINCT " + col + "::text" + l.body(f)
 		args = f.args
 	default:

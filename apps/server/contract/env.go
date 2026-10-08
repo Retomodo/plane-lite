@@ -9,10 +9,15 @@
 //
 //	docker compose -f docker-compose.dev.yml up -d                       # verify
 //	docker compose -f docker-compose.dev.yml --profile reference up -d   # record
+//
+// CONTRACT_SLOT=N targets the isolated stack scripts/devstack.sh N runs, whose
+// ports are the defaults plus N*10.
 package contract
 
 import (
+	"fmt"
 	"os"
+	"strconv"
 )
 
 // Settings shared by the Django reference (docker-compose.dev.yml) and the
@@ -39,19 +44,23 @@ type env struct {
 }
 
 func loadEnv() env {
+	slot, _ := strconv.Atoi(os.Getenv("CONTRACT_SLOT"))
+	port := func(base int) int { return base + slot*10 }
 	e := env{
 		record:       os.Getenv("CONTRACT_RECORD") == "1",
-		referenceURL: getenv("CONTRACT_REFERENCE_URL", "http://localhost:58000"),
-		mailpitURL:   getenv("CONTRACT_MAILPIT_URL", "http://localhost:58025"),
+		referenceURL: getenv("CONTRACT_REFERENCE_URL", fmt.Sprintf("http://localhost:%d", port(58000))),
+		mailpitURL:   getenv("CONTRACT_MAILPIT_URL", fmt.Sprintf("http://localhost:%d", port(58025))),
 		smtpHost:     "localhost",
-		smtpPort:     51025,
+		smtpPort:     port(51025),
 	}
+	db := fmt.Sprintf("postgres://plane:plane@localhost:%d/", port(55432))
+	redis := fmt.Sprintf("redis://localhost:%d/", port(56379))
 	if e.record {
-		e.databaseURL = getenv("CONTRACT_REFERENCE_DATABASE_URL", "postgres://plane:plane@localhost:55432/plane_ref")
-		e.redisURL = getenv("CONTRACT_REFERENCE_REDIS_URL", "redis://localhost:56379/1")
+		e.databaseURL = getenv("CONTRACT_REFERENCE_DATABASE_URL", db+"plane_ref")
+		e.redisURL = getenv("CONTRACT_REFERENCE_REDIS_URL", redis+"1")
 	} else {
-		e.databaseURL = getenv("CONTRACT_DATABASE_URL", "postgres://plane:plane@localhost:55432/plane_test")
-		e.redisURL = getenv("CONTRACT_REDIS_URL", "redis://localhost:56379/2")
+		e.databaseURL = getenv("CONTRACT_DATABASE_URL", db+"plane_test")
+		e.redisURL = getenv("CONTRACT_REDIS_URL", redis+"2")
 	}
 	return e
 }

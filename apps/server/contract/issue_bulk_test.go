@@ -5,6 +5,7 @@ import "testing"
 func TestIssueBulk(t *testing.T) {
 	Run(t, "issue_bulk", func(s *Scenario) {
 		alice, bob, carol, dan, outsider, pl := projectTeam(s, "18")
+		s.AliasToday() // archived_at
 		const ws = "/api/workspaces/acme/"
 		p := ws + "projects/" + pl + "/"
 		ids := Unordered("*.label_ids", "*.assignee_ids", "*.module_ids")

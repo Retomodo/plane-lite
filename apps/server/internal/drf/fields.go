@@ -475,6 +475,48 @@ func (v *Validator) PKList(name string, exists func(uuid.UUID) (bool, error)) ([
 	return out, true, nil
 }
 
+// CharList validates a non-nullable ListField(child=CharField(...)), the
+// field ModelSerializer builds for an ArrayField of CharField or URLField.
+// maxItems > 0 adds the ArrayField's ArrayMaxLengthValidator(size), which
+// runs on the whole list once every child is valid.
+func (v *Validator) CharList(name string, child CharField, maxItems int) ([]string, bool) {
+	val, ok := v.get(name, false, false)
+	if !ok {
+		return nil, false
+	}
+	if val.IsNull() {
+		v.Add(name, msgNull)
+		return nil, false
+	}
+	elems, isList := val.Elems()
+	if !isList {
+		v.Add(name, `Expected a list of items but got type "`+pyTypeName(val.Kind(), val.raw)+`".`)
+		return nil, false
+	}
+	out := make([]string, 0, len(elems))
+	errs := map[int][]string{}
+	for i, el := range elems {
+		sub := &Validator{data: &Data{root: Value{raw: jsontext.Value("{}")}, fields: map[string]Value{"": el}, keys: []string{""}},
+			loc: v.loc, errs: map[string][]string{}, indexed: map[string]map[int][]string{}}
+		s, ok := sub.Char("", child)
+		switch {
+		case !ok:
+			errs[i] = sub.errs[""]
+		case s != nil: // a non-null child never yields None
+			out = append(out, *s)
+		}
+	}
+	if len(errs) > 0 {
+		v.indexed[name] = errs
+		return nil, false
+	}
+	if maxItems > 0 && len(out) > maxItems {
+		v.Add(name, fmt.Sprintf("List contains %d items, it should contain no more than %d.", len(out), maxItems))
+		return nil, false
+	}
+	return out, true
+}
+
 // pkChild runs a non-null PrimaryKeyRelatedField on one value, returning its
 // error message, if any.
 func pkChild(val Value, exists func(uuid.UUID) (bool, error)) (string, uuid.UUID, error) {

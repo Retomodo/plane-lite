@@ -8,7 +8,7 @@ Hand-verified notes are added on top.
 This document covers every **kept** endpoint that is not yet ported. CUT features and the batch-1 endpoints are listed
 only in [Appendix A](#appendix-a-excluded-endpoints).
 
-> Status: sections 1 and 2 are ported (batches 3 and 4), section 3 (batch 5), section 4 (batch 6), section 5 (batch 7) and section 6 (batch 8), except the unused rows noted in DEVIATIONS.md; their rows are ticked.
+> Status: sections 1 and 2 are ported (batches 3 and 4), section 3 (batch 5), section 4 (batch 6), section 5 (batch 7), section 6 (batch 8), section 7 except the v2 attachments (batch 9), sections 10, 13, 14 and 18 (batches 12, 15, 16 and 20), except the unused rows noted in DEVIATIONS.md; their rows are ticked.
 
 ## How to read the tables
 
@@ -261,18 +261,18 @@ Depends on: issue_filters + ComplexFilterBackend, grouper, order_issue_queryset,
 
 39 endpoints · 2 L / 22 M / 15 S · 12 unused by web/live
 
-Almost every write here emits `issue_activity(+notif)`; the `history/` endpoint renders those rows, so activity fidelity is visible to users. Web uses v2 attachments (`AP/issues/…/attachments/`); v1 `issue-attachments/` is unused.
+Almost every write here emits `issue_activity(+notif)`; the `history/` endpoint renders those rows, so activity fidelity is visible to users. Web uses v2 attachments (`AP/issues/…/attachments/`); v1 `issue-attachments/` is unused. The v2 attachment rows are left for section 17 (file assets).
 
-| ☐ | Method | URL | View · file:line | Serializer(s) | Permission | Side effects | Caller | Cx |
+| ☑ | Method | URL | View · file:line | Serializer(s) | Permission | Side effects | Caller | Cx |
 |---|---|---|---|---|---|---|---|---|
-| ☐ | GET | `P/issues/<issue_id>/sub-issues/` | `SubIssuesEndpoint.get` issue/sub_issue.py:37 | — (dict/values) | ProjectEntityPermission | annotated sub-issue list + `state_distribution`; optional `group_by` | web | L |
-| ☐ | POST | `P/issues/<issue_id>/sub-issues/` | `SubIssuesEndpoint.post` issue/sub_issue.py:210 | IssueSerializer | ProjectEntityPermission | issue_activity(+notif). bulk set parent; activity per child | web | M |
-| ☐ | GET | `P/issues/<issue_id>/issue-links/` | `IssueLinkViewSet.list` (DRF default) class issue/link.py:26; get_queryset issue/link.py:32 | IssueLinkSerializer | ProjectEntityPermission | — | web | S |
-| ☐ | POST | `P/issues/<issue_id>/issue-links/` | `IssueLinkViewSet.create` issue/link.py:48 | IssueLinkSerializer | ProjectEntityPermission | crawl_work_item_link_title; issue_activity(+notif). `crawl_work_item_link_title` fetches remote page (SSRF-guarded) and writes IssueLink.metadata | web | M |
+| ☑ | GET | `P/issues/<issue_id>/sub-issues/` | `SubIssuesEndpoint.get` issue/sub_issue.py:37 | — (dict/values) | ProjectEntityPermission | annotated sub-issue list + `state_distribution`; optional `group_by` | web | L |
+| ☑ | POST | `P/issues/<issue_id>/sub-issues/` | `SubIssuesEndpoint.post` issue/sub_issue.py:210 | IssueSerializer | ProjectEntityPermission | issue_activity(+notif). bulk set parent; activity per child | web | M |
+| ☑ | GET | `P/issues/<issue_id>/issue-links/` | `IssueLinkViewSet.list` (DRF default) class issue/link.py:26; get_queryset issue/link.py:32 | IssueLinkSerializer | ProjectEntityPermission | — | web | S |
+| ☑ | POST | `P/issues/<issue_id>/issue-links/` | `IssueLinkViewSet.create` issue/link.py:48 | IssueLinkSerializer | ProjectEntityPermission | crawl_work_item_link_title; issue_activity(+notif). `crawl_work_item_link_title` fetches remote page (SSRF-guarded) and writes IssueLink.metadata | web | M |
 | ☐ | GET | `P/issues/<issue_id>/issue-links/<pk>/` | `IssueLinkViewSet.retrieve` (DRF default) class issue/link.py:26; get_queryset issue/link.py:32 | IssueLinkSerializer | ProjectEntityPermission | — | **UNUSED** | S |
 | ☐ | PUT | `P/issues/<issue_id>/issue-links/<pk>/` | `IssueLinkViewSet.update` (DRF default) class issue/link.py:26; get_queryset issue/link.py:32 | IssueLinkSerializer | ProjectEntityPermission | — | **UNUSED** | S |
-| ☐ | PATCH | `P/issues/<issue_id>/issue-links/<pk>/` | `IssueLinkViewSet.partial_update` issue/link.py:71 | IssueLinkSerializer | ProjectEntityPermission | crawl_work_item_link_title; issue_activity(+notif). re-crawl title | web | M |
-| ☐ | DELETE | `P/issues/<issue_id>/issue-links/<pk>/` | `IssueLinkViewSet.destroy` issue/link.py:102 | IssueLinkSerializer | ProjectEntityPermission | issue_activity(+notif) | web | M |
+| ☑ | PATCH | `P/issues/<issue_id>/issue-links/<pk>/` | `IssueLinkViewSet.partial_update` issue/link.py:71 | IssueLinkSerializer | ProjectEntityPermission | crawl_work_item_link_title; issue_activity(+notif). re-crawl title | web | M |
+| ☑ | DELETE | `P/issues/<issue_id>/issue-links/<pk>/` | `IssueLinkViewSet.destroy` issue/link.py:102 | IssueLinkSerializer | ProjectEntityPermission | issue_activity(+notif) | web | M |
 | ☐ | GET | `P/issues/<issue_id>/issue-attachments/`<br>`P/issues/<issue_id>/issue-attachments/<pk>/` | `IssueAttachmentEndpoint.get` issue/attachment.py:89 | IssueAttachmentSerializer | AP[A,M,G]/PROJ | — | **UNUSED** | S |
 | ☐ | POST | `P/issues/<issue_id>/issue-attachments/`<br>`P/issues/<issue_id>/issue-attachments/<pk>/` | `IssueAttachmentEndpoint.post` issue/attachment.py:38 | IssueAttachmentSerializer | AP[A,M,G]/PROJ | issue_activity(+notif) | **UNUSED** | M |
 | ☐ | DELETE | `P/issues/<issue_id>/issue-attachments/`<br>`P/issues/<issue_id>/issue-attachments/<pk>/` | `IssueAttachmentEndpoint.delete` issue/attachment.py:63 | — (dict/values) | AP[A]/PROJ+creator(FileAsset) | issue_activity(+notif) | **UNUSED** | M |
@@ -280,30 +280,30 @@ Almost every write here emits `issue_activity(+notif)`; the `history/` endpoint 
 | ☐ | POST | `AP/issues/<issue_id>/attachments/`<br>`AP/issues/<issue_id>/attachments/<pk>/` (unused) | `IssueAttachmentV2Endpoint.post` issue/attachment.py:100 | IssueAttachmentSerializer | AP[A,M,G]/PROJ | creates FileAsset(is_uploaded=False) + presigned S3 POST | web | M |
 | ☐ | PATCH | `AP/issues/<issue_id>/attachments/` (unused)<br>`AP/issues/<issue_id>/attachments/<pk>/` | `IssueAttachmentV2Endpoint.patch` issue/attachment.py:206 | IssueAttachmentSerializer | AP[A,M,G]/PROJ | issue_activity(+notif); get_asset_object_metadata. marks uploaded; `get_asset_object_metadata` (S3 HEAD → FileAsset.storage_metadata) | web | M |
 | ☐ | DELETE | `AP/issues/<issue_id>/attachments/` (unused)<br>`AP/issues/<issue_id>/attachments/<pk>/` | `IssueAttachmentV2Endpoint.delete` issue/attachment.py:150 | — (dict/values) | AP[A]/PROJ+creator(FileAsset) | issue_activity(+notif) | web | M |
-| ☐ | GET | `P/issues/<issue_id>/history/` | `IssueActivityEndpoint.get` issue/activity.py:30 | IssueActivitySerializer, IssueCommentSerializer | AP[A,M,G]/PROJ · ProjectEntityPermission | merges IssueActivity + IssueComment (with reactions) ordered by created_at; `activity_type` filter | web | M |
+| ☑ | GET | `P/issues/<issue_id>/history/` | `IssueActivityEndpoint.get` issue/activity.py:30 | IssueActivitySerializer, IssueCommentSerializer | AP[A,M,G]/PROJ · ProjectEntityPermission | merges IssueActivity + IssueComment (with reactions) ordered by created_at; `activity_type` filter | web | M |
 | ☐ | GET | `P/issues/<issue_id>/comments/` | `IssueCommentViewSet.list` (DRF default) class issue/comment.py:28; get_queryset issue/comment.py:35 | IssueCommentSerializer | IsAuthenticated | — | **UNUSED** | S |
-| ☐ | POST | `P/issues/<issue_id>/comments/` | `IssueCommentViewSet.create` issue/comment.py:64 | IssueCommentSerializer | AP[A,M,G]/PROJ | issue_activity(+notif); model_activity†. comment mentions → notifications | web | M |
+| ☑ | POST | `P/issues/<issue_id>/comments/` | `IssueCommentViewSet.create` issue/comment.py:64 | IssueCommentSerializer | AP[A,M,G]/PROJ | issue_activity(+notif); model_activity†. comment mentions → notifications | web | M |
 | ☐ | GET | `P/issues/<issue_id>/comments/<pk>/` | `IssueCommentViewSet.retrieve` (DRF default) class issue/comment.py:28; get_queryset issue/comment.py:35 | IssueCommentSerializer | IsAuthenticated | — | **UNUSED** | S |
 | ☐ | PUT | `P/issues/<issue_id>/comments/<pk>/` | `IssueCommentViewSet.update` (DRF default) class issue/comment.py:28; get_queryset issue/comment.py:35 | IssueCommentSerializer | IsAuthenticated | — | **UNUSED** | S |
-| ☐ | PATCH | `P/issues/<issue_id>/comments/<pk>/` | `IssueCommentViewSet.partial_update` issue/comment.py:110 | IssueCommentSerializer | AP[A]/PROJ+creator(IssueComment) | issue_activity(+notif); model_activity† | web | M |
-| ☐ | DELETE | `P/issues/<issue_id>/comments/<pk>/` | `IssueCommentViewSet.destroy` issue/comment.py:145 | IssueCommentSerializer | AP[A]/PROJ+creator(IssueComment) | issue_activity(+notif) | web | M |
+| ☑ | PATCH | `P/issues/<issue_id>/comments/<pk>/` | `IssueCommentViewSet.partial_update` issue/comment.py:110 | IssueCommentSerializer | AP[A]/PROJ+creator(IssueComment) | issue_activity(+notif); model_activity† | web | M |
+| ☑ | DELETE | `P/issues/<issue_id>/comments/<pk>/` | `IssueCommentViewSet.destroy` issue/comment.py:145 | IssueCommentSerializer | AP[A]/PROJ+creator(IssueComment) | issue_activity(+notif) | web | M |
 | ☐ | GET | `P/issues/<issue_id>/issue-subscribers/` | `IssueSubscriberViewSet.list` issue/subscriber.py:52 | ProjectMemberLiteSerializer | ProjectEntityPermission | — | **UNUSED** | S |
 | ☐ | POST | `P/issues/<issue_id>/issue-subscribers/` | `IssueSubscriberViewSet.create` (DRF default) class issue/subscriber.py:16; perform_create issue/subscriber.py:30, get_queryset issue/subscriber.py:36 | IssueSubscriberSerializer | ProjectEntityPermission | — | **UNUSED** | S |
 | ☐ | DELETE | `P/issues/<issue_id>/issue-subscribers/<subscriber_id>/` | `IssueSubscriberViewSet.destroy` issue/subscriber.py:59 | — (dict/values) | ProjectEntityPermission | — | **UNUSED** | S |
-| ☐ | GET | `P/issues/<issue_id>/subscribe/` | `IssueSubscriberViewSet.subscription_status` issue/subscriber.py:97 | — (dict/values) | ProjectEntityPermission | — | web | S |
-| ☐ | POST | `P/issues/<issue_id>/subscribe/` | `IssueSubscriberViewSet.subscribe` issue/subscriber.py:69 | IssueSubscriberSerializer | ProjectEntityPermission | — | web | S |
-| ☐ | DELETE | `P/issues/<issue_id>/subscribe/` | `IssueSubscriberViewSet.unsubscribe` issue/subscriber.py:87 | — (dict/values) | ProjectEntityPermission | — | web | S |
-| ☐ | GET | `P/issues/<issue_id>/reactions/` | `IssueReactionViewSet.list` (DRF default) class issue/reaction.py:25; get_queryset issue/reaction.py:29 | IssueReactionSerializer | IsAuthenticated | — | web | S |
-| ☐ | POST | `P/issues/<issue_id>/reactions/` | `IssueReactionViewSet.create` issue/reaction.py:46 | IssueReactionSerializer | AP[A,M,G]/PROJ | issue_activity(+notif) | web | M |
-| ☐ | DELETE | `P/issues/<issue_id>/reactions/<str:reaction_code>/` | `IssueReactionViewSet.destroy` issue/reaction.py:65 | — (dict/values) | AP[A,M,G]/PROJ | issue_activity(+notif) | web | M |
-| ☐ | GET | `P/comments/<comment_id>/reactions/` | `CommentReactionViewSet.list` (DRF default) class issue/comment.py:163; get_queryset issue/comment.py:167 | CommentReactionSerializer | IsAuthenticated | — | web | S |
-| ☐ | POST | `P/comments/<comment_id>/reactions/` | `CommentReactionViewSet.create` issue/comment.py:184 | CommentReactionSerializer | AP[A,M,G]/PROJ | issue_activity(+notif) | web | M |
-| ☐ | DELETE | `P/comments/<comment_id>/reactions/<str:reaction_code>/` | `CommentReactionViewSet.destroy` issue/comment.py:213 | — (dict/values) | AP[A,M,G]/PROJ | issue_activity(+notif) | web | M |
-| ☐ | GET | `P/issues/<issue_id>/issue-relation/` | `IssueRelationViewSet.list` issue/relation.py:42 | — (dict/values) | ProjectEntityPermission | 6 relation buckets (blocking/blocked_by/duplicate/relates_to/start_*/finish_*) each annotated | web | L |
-| ☐ | POST | `P/issues/<issue_id>/issue-relation/` | `IssueRelationViewSet.create` issue/relation.py:209 | RelatedIssueSerializer, IssueRelationSerializer | ProjectEntityPermission | issue_activity(+notif). bulk create, reverse relation mapping (issue_relation_mapper) | web | M |
-| ☐ | POST | `P/issues/<issue_id>/remove-relation/` | `IssueRelationViewSet.remove_relation` issue/relation.py:271 | IssueRelationSerializer | ProjectEntityPermission | issue_activity(+notif) | web | M |
+| ☑ | GET | `P/issues/<issue_id>/subscribe/` | `IssueSubscriberViewSet.subscription_status` issue/subscriber.py:97 | — (dict/values) | ProjectEntityPermission | — | web | S |
+| ☑ | POST | `P/issues/<issue_id>/subscribe/` | `IssueSubscriberViewSet.subscribe` issue/subscriber.py:69 | IssueSubscriberSerializer | ProjectEntityPermission | — | web | S |
+| ☑ | DELETE | `P/issues/<issue_id>/subscribe/` | `IssueSubscriberViewSet.unsubscribe` issue/subscriber.py:87 | — (dict/values) | ProjectEntityPermission | — | web | S |
+| ☑ | GET | `P/issues/<issue_id>/reactions/` | `IssueReactionViewSet.list` (DRF default) class issue/reaction.py:25; get_queryset issue/reaction.py:29 | IssueReactionSerializer | IsAuthenticated | — | web | S |
+| ☑ | POST | `P/issues/<issue_id>/reactions/` | `IssueReactionViewSet.create` issue/reaction.py:46 | IssueReactionSerializer | AP[A,M,G]/PROJ | issue_activity(+notif) | web | M |
+| ☑ | DELETE | `P/issues/<issue_id>/reactions/<str:reaction_code>/` | `IssueReactionViewSet.destroy` issue/reaction.py:65 | — (dict/values) | AP[A,M,G]/PROJ | issue_activity(+notif) | web | M |
+| ☑ | GET | `P/comments/<comment_id>/reactions/` | `CommentReactionViewSet.list` (DRF default) class issue/comment.py:163; get_queryset issue/comment.py:167 | CommentReactionSerializer | IsAuthenticated | — | web | S |
+| ☑ | POST | `P/comments/<comment_id>/reactions/` | `CommentReactionViewSet.create` issue/comment.py:184 | CommentReactionSerializer | AP[A,M,G]/PROJ | issue_activity(+notif) | web | M |
+| ☑ | DELETE | `P/comments/<comment_id>/reactions/<str:reaction_code>/` | `CommentReactionViewSet.destroy` issue/comment.py:213 | — (dict/values) | AP[A,M,G]/PROJ | issue_activity(+notif) | web | M |
+| ☑ | GET | `P/issues/<issue_id>/issue-relation/` | `IssueRelationViewSet.list` issue/relation.py:42 | — (dict/values) | ProjectEntityPermission | 6 relation buckets (blocking/blocked_by/duplicate/relates_to/start_*/finish_*) each annotated | web | L |
+| ☑ | POST | `P/issues/<issue_id>/issue-relation/` | `IssueRelationViewSet.create` issue/relation.py:209 | RelatedIssueSerializer, IssueRelationSerializer | ProjectEntityPermission | issue_activity(+notif). bulk create, reverse relation mapping (issue_relation_mapper) | web | M |
+| ☑ | POST | `P/issues/<issue_id>/remove-relation/` | `IssueRelationViewSet.remove_relation` issue/relation.py:271 | IssueRelationSerializer | ProjectEntityPermission | issue_activity(+notif) | web | M |
 | ☐ | GET | `P/issues/<issue_id>/versions/`<br>`P/issues/<issue_id>/versions/<pk>/` | `IssueVersionEndpoint.get` issue/version.py:37 | IssueVersionDetailSerializer | AP[A,M,G]/PROJ | IssueVersion rows are only written by the manual `sync_issue_version`/`issue_task` tasks, never by a view | **UNUSED** | M |
-| ☐ | GET | `P/work-items/<work_item_id>/description-versions/`<br>`P/work-items/<work_item_id>/description-versions/<pk>/` | `WorkItemDescriptionVersionEndpoint.get` issue/version.py:87 | IssueDescriptionVersionDetailSerializer | AP[A,M,G]/PROJ | global_paginator cursor | web | M |
+| ☑ | GET | `P/work-items/<work_item_id>/description-versions/`<br>`P/work-items/<work_item_id>/description-versions/<pk>/` | `WorkItemDescriptionVersionEndpoint.get` issue/version.py:87 | IssueDescriptionVersionDetailSerializer | AP[A,M,G]/PROJ | global_paginator cursor | web | M |
 
 ### 8. Cycles
 
@@ -376,18 +376,18 @@ Module detail/list/archive views share very large annotation blocks (26–56 `an
 
 Small. `W/estimates/` (boot, cached) and `P/estimates/` are the main reads.
 
-| ☐ | Method | URL | View · file:line | Serializer(s) | Permission | Side effects | Caller | Cx |
+| ☑ | Method | URL | View · file:line | Serializer(s) | Permission | Side effects | Caller | Cx |
 |---|---|---|---|---|---|---|---|---|
 | ☐ | GET | `P/project-estimates/` | `ProjectEstimatePointEndpoint.get` estimate/base.py:36 | EstimatePointSerializer | AP[A,M]/PROJ | — | **UNUSED** | S |
-| ☐ | GET | `P/estimates/` | `BulkEstimatePointEndpoint.list` estimate/base.py:54 | EstimateReadSerializer | ProjectEntityPermission | — | web | S |
-| ☐ | POST | `P/estimates/` | `BulkEstimatePointEndpoint.create` estimate/base.py:64 | EstimatePointSerializer, EstimateReadSerializer | ProjectEntityPermission | invalidate_cache: `/api/workspaces/:slug/estimates/`. Estimate + bulk_create EstimatePoint | web | M |
+| ☑ | GET | `P/estimates/` | `BulkEstimatePointEndpoint.list` estimate/base.py:54 | EstimateReadSerializer | ProjectEntityPermission | — | web | S |
+| ☑ | POST | `P/estimates/` | `BulkEstimatePointEndpoint.create` estimate/base.py:64 | EstimatePointSerializer, EstimateReadSerializer | ProjectEntityPermission | invalidate_cache: `/api/workspaces/:slug/estimates/`. Estimate + bulk_create EstimatePoint | web | M |
 | ☐ | GET | `P/estimates/<estimate_id>/` | `BulkEstimatePointEndpoint.retrieve` estimate/base.py:103 | EstimateReadSerializer | ProjectEntityPermission | — | **UNUSED** (dead web service fn `fetchEstimateById`) | S |
 | ☐ | PATCH | `P/estimates/<estimate_id>/` | `BulkEstimatePointEndpoint.partial_update` estimate/base.py:109 | EstimateReadSerializer | ProjectEntityPermission | invalidate_cache: `/api/workspaces/:slug/estimates/` | **UNUSED** | M |
-| ☐ | DELETE | `P/estimates/<estimate_id>/` | `BulkEstimatePointEndpoint.destroy` estimate/base.py:147 | — (dict/values) | ProjectEntityPermission | invalidate_cache: `/api/workspaces/:slug/estimates/` | web | S |
-| ☐ | POST | `P/estimates/<estimate_id>/estimate-points/` | `EstimatePointEndpoint.create` estimate/base.py:155 | EstimatePointSerializer | AP[A,M]/PROJ | — | web | S |
-| ☐ | PATCH | `P/estimates/<estimate_id>/estimate-points/<estimate_point_id>/` | `EstimatePointEndpoint.partial_update` estimate/base.py:182 | EstimatePointSerializer | AP[A,M]/PROJ | — | web | S |
+| ☑ | DELETE | `P/estimates/<estimate_id>/` | `BulkEstimatePointEndpoint.destroy` estimate/base.py:147 | — (dict/values) | ProjectEntityPermission | invalidate_cache: `/api/workspaces/:slug/estimates/` | web | S |
+| ☑ | POST | `P/estimates/<estimate_id>/estimate-points/` | `EstimatePointEndpoint.create` estimate/base.py:155 | EstimatePointSerializer | AP[A,M]/PROJ | — | web | S |
+| ☑ | PATCH | `P/estimates/<estimate_id>/estimate-points/<estimate_point_id>/` | `EstimatePointEndpoint.partial_update` estimate/base.py:182 | EstimatePointSerializer | AP[A,M]/PROJ | — | web | S |
 | ☐ | DELETE | `P/estimates/<estimate_id>/estimate-points/<estimate_point_id>/` | `EstimatePointEndpoint.destroy` estimate/base.py:197 | EstimatePointSerializer | AP[A,M]/PROJ | issue_activity. `new_estimate_id` re-points issues (issue_activity per issue) before delete | **UNUSED** | M |
-| ☐ | GET | `W/estimates/` | `WorkspaceEstimatesEndpoint.get` workspace/estimate.py:22 | WorkspaceEstimateSerializer | WorkspaceEntityPermission | cache_response(2h). Redis response cache 2 h | web | S |
+| ☑ | GET | `W/estimates/` | `WorkspaceEstimatesEndpoint.get` workspace/estimate.py:22 | WorkspaceEstimateSerializer | WorkspaceEntityPermission | cache_response(2h). Redis response cache 2 h | web | S |
 
 ### 11. Saved views
 
@@ -441,20 +441,20 @@ apps/live calls `GET/PATCH P/pages/<id>/`, `GET/PATCH P/pages/<id>/description/`
 
 Home page boot: `W/home-preferences/` (lazily creates rows), `W/quick-links/`, `W/recent-visits/` (section 15), `W/stickies/`.
 
-| ☐ | Method | URL | View · file:line | Serializer(s) | Permission | Side effects | Caller | Cx |
+| ☑ | Method | URL | View · file:line | Serializer(s) | Permission | Side effects | Caller | Cx |
 |---|---|---|---|---|---|---|---|---|
-| ☐ | GET | `W/quick-links/` | `QuickLinkViewSet.list` workspace/quick_link.py:61 | WorkspaceUserLinkSerializer | AP[A,M,G]/WS | — | web | S |
-| ☐ | POST | `W/quick-links/` | `QuickLinkViewSet.create` workspace/quick_link.py:24 | WorkspaceUserLinkSerializer | AP[A,M,G]/WS | — | web | S |
+| ☑ | GET | `W/quick-links/` | `QuickLinkViewSet.list` workspace/quick_link.py:61 | WorkspaceUserLinkSerializer | AP[A,M,G]/WS | — | web | S |
+| ☑ | POST | `W/quick-links/` | `QuickLinkViewSet.create` workspace/quick_link.py:24 | WorkspaceUserLinkSerializer | AP[A,M,G]/WS | — | web | S |
 | ☐ | GET | `W/quick-links/<pk>/` | `QuickLinkViewSet.retrieve` workspace/quick_link.py:46 | WorkspaceUserLinkSerializer | AP[A,M,G]/WS | — | **UNUSED** | S |
-| ☐ | PATCH | `W/quick-links/<pk>/` | `QuickLinkViewSet.partial_update` workspace/quick_link.py:34 | WorkspaceUserLinkSerializer | AP[A,M,G]/WS | — | web | S |
-| ☐ | DELETE | `W/quick-links/<pk>/` | `QuickLinkViewSet.destroy` workspace/quick_link.py:55 | — (dict/values) | AP[A,M,G]/WS | — | web | S |
-| ☐ | GET | `W/home-preferences/`<br>`W/home-preferences/<str:key>/` (unused) | `WorkspaceHomePreferenceViewSet.get` workspace/home.py:24 | — (dict/values) | AP[A,M,G]/WS | writes on GET: bulk_create missing widget keys | web | M |
-| ☐ | PATCH | `W/home-preferences/` (unused)<br>`W/home-preferences/<str:key>/` | `WorkspaceHomePreferenceViewSet.patch` workspace/home.py:68 | WorkspaceHomePreferenceSerializer | AP[A,M,G]/WS | — | web | S |
-| ☐ | GET | `W/stickies/` | `WorkspaceStickyViewSet.list` workspace/sticky.py:41 | StickySerializer | AP[A,M,G]/WS | paginated (per_page/cursor) + `?query` search | web | M |
-| ☐ | POST | `W/stickies/` | `WorkspaceStickyViewSet.create` workspace/sticky.py:32 | StickySerializer | AP[A,M,G]/WS | — | web | S |
+| ☑ | PATCH | `W/quick-links/<pk>/` | `QuickLinkViewSet.partial_update` workspace/quick_link.py:34 | WorkspaceUserLinkSerializer | AP[A,M,G]/WS | — | web | S |
+| ☑ | DELETE | `W/quick-links/<pk>/` | `QuickLinkViewSet.destroy` workspace/quick_link.py:55 | — (dict/values) | AP[A,M,G]/WS | — | web | S |
+| ☑ | GET | `W/home-preferences/`<br>`W/home-preferences/<str:key>/` (unused) | `WorkspaceHomePreferenceViewSet.get` workspace/home.py:24 | — (dict/values) | AP[A,M,G]/WS | writes on GET: bulk_create missing widget keys | web | M |
+| ☑ | PATCH | `W/home-preferences/` (unused)<br>`W/home-preferences/<str:key>/` | `WorkspaceHomePreferenceViewSet.patch` workspace/home.py:68 | WorkspaceHomePreferenceSerializer | AP[A,M,G]/WS | — | web | S |
+| ☑ | GET | `W/stickies/` | `WorkspaceStickyViewSet.list` workspace/sticky.py:41 | StickySerializer | AP[A,M,G]/WS | paginated (per_page/cursor) + `?query` search | web | M |
+| ☑ | POST | `W/stickies/` | `WorkspaceStickyViewSet.create` workspace/sticky.py:32 | StickySerializer | AP[A,M,G]/WS | — | web | S |
 | ☐ | GET | `W/stickies/<pk>/` | `WorkspaceStickyViewSet.retrieve` (DRF default) class workspace/sticky.py:16; get_queryset workspace/sticky.py:21 | StickySerializer | IsAuthenticated | — | **UNUSED** (dead web service fn `getSticky`) | S |
-| ☐ | PATCH | `W/stickies/<pk>/` | `WorkspaceStickyViewSet.partial_update` workspace/sticky.py:55 | StickySerializer | AP[—]/WS+creator(Sticky) | — | web | S |
-| ☐ | DELETE | `W/stickies/<pk>/` | `WorkspaceStickyViewSet.destroy` workspace/sticky.py:59 | StickySerializer | AP[—]/WS+creator(Sticky) | — | web | S |
+| ☑ | PATCH | `W/stickies/<pk>/` | `WorkspaceStickyViewSet.partial_update` workspace/sticky.py:55 | StickySerializer | AP[—]/WS+creator(Sticky) | — | web | S |
+| ☑ | DELETE | `W/stickies/<pk>/` | `WorkspaceStickyViewSet.destroy` workspace/sticky.py:59 | StickySerializer | AP[—]/WS+creator(Sticky) | — | web | S |
 
 ### 14. Notifications
 
@@ -462,20 +462,20 @@ Home page boot: `W/home-preferences/` (lazily creates rows), `W/quick-links/`, `
 
 `W/users/notifications/unread/` is polled from the top nav. In-app rows are produced by the `notifications` task (see Celery section) — the endpoints are only readers/mutators.
 
-| ☐ | Method | URL | View · file:line | Serializer(s) | Permission | Side effects | Caller | Cx |
+| ☑ | Method | URL | View · file:line | Serializer(s) | Permission | Side effects | Caller | Cx |
 |---|---|---|---|---|---|---|---|---|
-| ☐ | GET | `W/users/notifications/` | `NotificationViewSet.list` notification/base.py:49 | NotificationSerializer | AP[A,M,G]/WS | filters type/snoozed/archived/read/mentioned; `is_mentioned_notification` annotation; ordered snoozed_till,-created_at; paginated | web | L |
-| ☐ | GET | `W/users/notifications/<pk>/` | `NotificationViewSet.retrieve` (DRF default) class notification/base.py:33; get_queryset notification/base.py:37 | NotificationSerializer | IsAuthenticated | — | web | S |
-| ☐ | PATCH | `W/users/notifications/<pk>/` | `NotificationViewSet.partial_update` notification/base.py:157 | NotificationSerializer | AP[A,M,G]/WS | — | web | S |
+| ☑ | GET | `W/users/notifications/` | `NotificationViewSet.list` notification/base.py:49 | NotificationSerializer | AP[A,M,G]/WS | filters type/snoozed/archived/read/mentioned; `is_mentioned_notification` annotation; ordered snoozed_till,-created_at; paginated | web | L |
+| ☑ | GET | `W/users/notifications/<pk>/` | `NotificationViewSet.retrieve` (DRF default) class notification/base.py:33; get_queryset notification/base.py:37 | NotificationSerializer | IsAuthenticated | — | web | S |
+| ☑ | PATCH | `W/users/notifications/<pk>/` | `NotificationViewSet.partial_update` notification/base.py:157 | NotificationSerializer | AP[A,M,G]/WS | — | web | S |
 | ☐ | DELETE | `W/users/notifications/<pk>/` | `NotificationViewSet.destroy` (DRF default) class notification/base.py:33; get_queryset notification/base.py:37 | NotificationSerializer | IsAuthenticated | — | **UNUSED** | S |
-| ☐ | POST | `W/users/notifications/<pk>/read/` | `NotificationViewSet.mark_read` notification/base.py:169 | NotificationSerializer | AP[A,M,G]/WS | — | web | S |
-| ☐ | DELETE | `W/users/notifications/<pk>/read/` | `NotificationViewSet.mark_unread` notification/base.py:177 | NotificationSerializer | AP[A,M,G]/WS | — | web | S |
-| ☐ | POST | `W/users/notifications/<pk>/archive/` | `NotificationViewSet.archive` notification/base.py:185 | NotificationSerializer | AP[A,M,G]/WS | — | web | S |
-| ☐ | DELETE | `W/users/notifications/<pk>/archive/` | `NotificationViewSet.unarchive` notification/base.py:193 | NotificationSerializer | AP[A,M,G]/WS | — | web | S |
-| ☐ | GET | `W/users/notifications/unread/` | `UnreadNotificationEndpoint.get` notification/base.py:205 | — (dict/values) | AP[A,M,G]/WS | sidebar badge; called frequently | web | S |
-| ☐ | POST | `W/users/notifications/mark-all-read/` | `MarkAllReadNotificationViewSet.create` notification/base.py:239 | — (dict/values) | AP[A,M,G]/WS | applies list-style filters then bulk sets read_at | web | M |
-| ☐ | GET | `/api/users/me/notification-preferences/` | `UserNotificationPreferenceEndpoint.get` notification/base.py:301 | UserNotificationPreferenceSerializer | IsAuthenticated | — | web | S |
-| ☐ | PATCH | `/api/users/me/notification-preferences/` | `UserNotificationPreferenceEndpoint.patch` notification/base.py:307 | UserNotificationPreferenceSerializer | IsAuthenticated | — | web | S |
+| ☑ | POST | `W/users/notifications/<pk>/read/` | `NotificationViewSet.mark_read` notification/base.py:169 | NotificationSerializer | AP[A,M,G]/WS | — | web | S |
+| ☑ | DELETE | `W/users/notifications/<pk>/read/` | `NotificationViewSet.mark_unread` notification/base.py:177 | NotificationSerializer | AP[A,M,G]/WS | — | web | S |
+| ☑ | POST | `W/users/notifications/<pk>/archive/` | `NotificationViewSet.archive` notification/base.py:185 | NotificationSerializer | AP[A,M,G]/WS | — | web | S |
+| ☑ | DELETE | `W/users/notifications/<pk>/archive/` | `NotificationViewSet.unarchive` notification/base.py:193 | NotificationSerializer | AP[A,M,G]/WS | — | web | S |
+| ☑ | GET | `W/users/notifications/unread/` | `UnreadNotificationEndpoint.get` notification/base.py:205 | — (dict/values) | AP[A,M,G]/WS | sidebar badge; called frequently | web | S |
+| ☑ | POST | `W/users/notifications/mark-all-read/` | `MarkAllReadNotificationViewSet.create` notification/base.py:239 | — (dict/values) | AP[A,M,G]/WS | applies list-style filters then bulk sets read_at | web | M |
+| ☑ | GET | `/api/users/me/notification-preferences/` | `UserNotificationPreferenceEndpoint.get` notification/base.py:301 | UserNotificationPreferenceSerializer | IsAuthenticated | — | web | S |
+| ☑ | PATCH | `/api/users/me/notification-preferences/` | `UserNotificationPreferenceEndpoint.patch` notification/base.py:307 | UserNotificationPreferenceSerializer | IsAuthenticated | — | web | S |
 
 ### 15. Favorites & recents
 
@@ -556,18 +556,18 @@ All v2 endpoints implement the presigned-upload protocol: POST → FileAsset(is_
 
 Profile pages (`W/user-*/<user_id>/`) reuse issue filters/grouper; `users/me/workspaces/<slug>/*-graph/` and `…/dashboard/` are dead.
 
-| ☐ | Method | URL | View · file:line | Serializer(s) | Permission | Side effects | Caller | Cx |
+| ☑ | Method | URL | View · file:line | Serializer(s) | Permission | Side effects | Caller | Cx |
 |---|---|---|---|---|---|---|---|---|
-| ☐ | GET | `/api/timezones/` | `TimezoneEndpoint.get` timezone/base.py:29 | — (dict/values) | AllowAny | cache_page(2h). static list; page cached 2 h | web | S |
+| ☑ | GET | `/api/timezones/` | `TimezoneEndpoint.get` timezone/base.py:29 | — (dict/values) | AllowAny | cache_page(2h). static list; page cached 2 h | web | S |
 | ☐ | GET | `/api/users/me/activities/` | `UserActivityEndpoint.get` user/base.py:382 | IssueActivitySerializer | IsAuthenticated | — | **UNUSED** | M |
 | ☐ | GET | `/api/users/me/workspaces/<str:slug>/activity-graph/` | `UserActivityGraphEndpoint.get` workspace/user.py:533 | — (dict/values) | IsAuthenticated | — | **UNUSED** | M |
 | ☐ | GET | `/api/users/me/workspaces/<str:slug>/issues-completed-graph/` | `UserIssueCompletedGraphEndpoint.get` workspace/user.py:550 | — (dict/values) | IsAuthenticated | — | **UNUSED** | M |
 | ☐ | GET | `/api/users/me/workspaces/<str:slug>/dashboard/` | `UserWorkspaceDashboardEndpoint.get` workspace/base.py:234 | — (dict/values) | IsAuthenticated | legacy dashboard aggregates | **UNUSED** | L |
-| ☐ | GET | `W/user-stats/<user_id>/` | `WorkspaceUserProfileStatsEndpoint.get` workspace/user.py:406 | — (dict/values) | IsAuthenticated | state/priority distribution, created/assigned/completed/subscribed counts | web | L |
-| ☐ | GET | `W/user-activity/<user_id>/` | `WorkspaceUserActivityEndpoint.get` workspace/user.py:378 | IssueActivitySerializer | WorkspaceEntityPermission | paginated IssueActivity | web | M |
-| ☐ | POST | `W/user-activity/<user_id>/export/` | `ExportWorkspaceUserActivityEndpoint.post` workspace/base.py:350 | — (dict/values) | WorkspaceEntityPermission | synchronous CSV download (no task) | web | M |
-| ☐ | GET | `W/user-profile/<user_id>/` | `WorkspaceUserProfileEndpoint.get` workspace/user.py:281 | — (dict/values) | IsAuthenticated | per-project counts for user | web | L |
-| ☐ | GET | `W/user-issues/<user_id>/` | `WorkspaceUserProfileIssuesEndpoint.get` workspace/user.py:135 | — (dict/values) | WorkspaceViewerPermission | grouped/paginated issue list like IssueViewSet.list | web | L |
+| ☑ | GET | `W/user-stats/<user_id>/` | `WorkspaceUserProfileStatsEndpoint.get` workspace/user.py:406 | — (dict/values) | IsAuthenticated | state/priority distribution, created/assigned/completed/subscribed counts | web | L |
+| ☑ | GET | `W/user-activity/<user_id>/` | `WorkspaceUserActivityEndpoint.get` workspace/user.py:378 | IssueActivitySerializer | WorkspaceEntityPermission | paginated IssueActivity | web | M |
+| ☑ | POST | `W/user-activity/<user_id>/export/` | `ExportWorkspaceUserActivityEndpoint.post` workspace/base.py:350 | — (dict/values) | WorkspaceEntityPermission | synchronous CSV download (no task) | web | M |
+| ☑ | GET | `W/user-profile/<user_id>/` | `WorkspaceUserProfileEndpoint.get` workspace/user.py:281 | — (dict/values) | IsAuthenticated | per-project counts for user | web | L |
+| ☑ | GET | `W/user-issues/<user_id>/` | `WorkspaceUserProfileIssuesEndpoint.get` workspace/user.py:135 | — (dict/values) | WorkspaceViewerPermission | grouped/paginated issue list like IssueViewSet.list | web | L |
 
 ## 1. Shared building blocks (port once)
 

@@ -1,0 +1,4977 @@
+{
+  "steps": [
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/auth/get-csrf-token/",
+      "status": 200,
+      "content_type": "application/json",
+      "cookies": [
+        "csrftoken; value=<set>; Path=/; Max-Age=31449600; HttpOnly; SameSite=Lax"
+      ],
+      "body": {
+        "csrf_token": "<masked>"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/auth/sign-up/",
+      "request": {
+        "csrfmiddlewaretoken": "<masked>",
+        "email": "alice@example.com",
+        "password": "correct-Horse-battery-staple-91"
+      },
+      "status": 302,
+      "location": "http://localhost:3000",
+      "content_type": "text/html",
+      "cookies": [
+        "csrftoken; value=<set>; Path=/; Max-Age=31449600; HttpOnly; SameSite=Lax",
+        "session-id; value=<set>; Path=/; Max-Age=604800; HttpOnly; SameSite=Lax"
+      ]
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/",
+      "request": {
+        "name": "Acme",
+        "slug": "acme"
+      },
+      "status": 201,
+      "content_type": "application/json",
+      "body": {
+        "background_color": "<masked>",
+        "created_at": "<datetime Z>",
+        "created_by": "<uuid:1>",
+        "deleted_at": null,
+        "id": "<uuid:2>",
+        "logo": null,
+        "logo_asset": null,
+        "logo_url": null,
+        "name": "Acme",
+        "organization_size": null,
+        "owner": "<uuid:1>",
+        "role": 20,
+        "slug": "acme",
+        "timezone": "UTC",
+        "total_members": 1,
+        "updated_at": "<datetime Z>",
+        "updated_by": null
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "GET",
+      "path": "/auth/get-csrf-token/",
+      "status": 200,
+      "content_type": "application/json",
+      "cookies": [
+        "csrftoken; value=<set>; Path=/; Max-Age=31449600; HttpOnly; SameSite=Lax"
+      ],
+      "body": {
+        "csrf_token": "<masked>"
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "POST",
+      "path": "/auth/sign-up/",
+      "request": {
+        "csrfmiddlewaretoken": "<masked>",
+        "email": "bob@example.com",
+        "password": "correct-Horse-battery-staple-91"
+      },
+      "status": 302,
+      "location": "http://localhost:3000",
+      "content_type": "text/html",
+      "cookies": [
+        "csrftoken; value=<set>; Path=/; Max-Age=31449600; HttpOnly; SameSite=Lax",
+        "session-id; value=<set>; Path=/; Max-Age=604800; HttpOnly; SameSite=Lax"
+      ]
+    },
+    {
+      "actor": "carol",
+      "method": "GET",
+      "path": "/auth/get-csrf-token/",
+      "status": 200,
+      "content_type": "application/json",
+      "cookies": [
+        "csrftoken; value=<set>; Path=/; Max-Age=31449600; HttpOnly; SameSite=Lax"
+      ],
+      "body": {
+        "csrf_token": "<masked>"
+      }
+    },
+    {
+      "actor": "carol",
+      "method": "POST",
+      "path": "/auth/sign-up/",
+      "request": {
+        "csrfmiddlewaretoken": "<masked>",
+        "email": "carol@example.com",
+        "password": "correct-Horse-battery-staple-91"
+      },
+      "status": 302,
+      "location": "http://localhost:3000",
+      "content_type": "text/html",
+      "cookies": [
+        "csrftoken; value=<set>; Path=/; Max-Age=31449600; HttpOnly; SameSite=Lax",
+        "session-id; value=<set>; Path=/; Max-Age=604800; HttpOnly; SameSite=Lax"
+      ]
+    },
+    {
+      "actor": "dan",
+      "method": "GET",
+      "path": "/auth/get-csrf-token/",
+      "status": 200,
+      "content_type": "application/json",
+      "cookies": [
+        "csrftoken; value=<set>; Path=/; Max-Age=31449600; HttpOnly; SameSite=Lax"
+      ],
+      "body": {
+        "csrf_token": "<masked>"
+      }
+    },
+    {
+      "actor": "dan",
+      "method": "POST",
+      "path": "/auth/sign-up/",
+      "request": {
+        "csrfmiddlewaretoken": "<masked>",
+        "email": "dan@example.com",
+        "password": "correct-Horse-battery-staple-91"
+      },
+      "status": 302,
+      "location": "http://localhost:3000",
+      "content_type": "text/html",
+      "cookies": [
+        "csrftoken; value=<set>; Path=/; Max-Age=31449600; HttpOnly; SameSite=Lax",
+        "session-id; value=<set>; Path=/; Max-Age=604800; HttpOnly; SameSite=Lax"
+      ]
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/invitations/",
+      "request": {
+        "emails": [
+          {
+            "email": "bob@example.com",
+            "role": 15
+          },
+          {
+            "email": "carol@example.com",
+            "role": 5
+          },
+          {
+            "email": "dan@example.com",
+            "role": 15
+          }
+        ]
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "message": "Emails sent successfully"
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "GET",
+      "path": "/api/users/me/workspaces/invitations/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": [
+        {
+          "accepted": false,
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:1>",
+          "deleted_at": null,
+          "email": "bob@example.com",
+          "id": "<uuid:3>",
+          "invite_link": "/workspace-invitations/?invitation_id=<uuid:3>&slug=acme&token=<invite-token:bob@example.com>",
+          "message": "\n\nalice invited you to Acme on Plane\n\n      alice has invited you to join Acme on Plane.\n\n                    Join Acme on Plane\n\n                    alice has invited you to collaborate with them in\n                    Acme workspace on Plane.\n\n                          Accept invite\n\n                    If the button doesn’t work, copy and paste this link into\n                    your browser:\n\n                    http://localhost:3000/workspace-invitations/?invitation_id=<uuid:3>&slug=acme&token=<invite-token:bob@example.com>\n\n                    Note: This invitation was intended for\n                    bob@example.com. If you were not expecting this invitation, you can ignore\n                    this email.\n\n                    Plane Software, Inc.\n\n",
+          "responded_at": null,
+          "role": 15,
+          "token": "<invite-token:bob@example.com>",
+          "updated_at": "<datetime Z>",
+          "updated_by": "<uuid:1>",
+          "workspace": {
+            "id": "<uuid:2>",
+            "logo_url": null,
+            "name": "Acme",
+            "slug": "acme"
+          }
+        }
+      ]
+    },
+    {
+      "actor": "bob",
+      "method": "POST",
+      "path": "/api/users/me/workspaces/invitations/",
+      "request": {
+        "invitations": [
+          "<uuid:3>"
+        ]
+      },
+      "status": 204
+    },
+    {
+      "actor": "carol",
+      "method": "GET",
+      "path": "/api/users/me/workspaces/invitations/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": [
+        {
+          "accepted": false,
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:1>",
+          "deleted_at": null,
+          "email": "carol@example.com",
+          "id": "<uuid:4>",
+          "invite_link": "/workspace-invitations/?invitation_id=<uuid:4>&slug=acme&token=<invite-token:carol@example.com>",
+          "message": "\n\nalice invited you to Acme on Plane\n\n      alice has invited you to join Acme on Plane.\n\n                    Join Acme on Plane\n\n                    alice has invited you to collaborate with them in\n                    Acme workspace on Plane.\n\n                          Accept invite\n\n                    If the button doesn’t work, copy and paste this link into\n                    your browser:\n\n                    http://localhost:3000/workspace-invitations/?invitation_id=<uuid:4>&slug=acme&token=<invite-token:carol@example.com>\n\n                    Note: This invitation was intended for\n                    carol@example.com. If you were not expecting this invitation, you can ignore\n                    this email.\n\n                    Plane Software, Inc.\n\n",
+          "responded_at": null,
+          "role": 5,
+          "token": "<invite-token:carol@example.com>",
+          "updated_at": "<datetime Z>",
+          "updated_by": "<uuid:1>",
+          "workspace": {
+            "id": "<uuid:2>",
+            "logo_url": null,
+            "name": "Acme",
+            "slug": "acme"
+          }
+        }
+      ]
+    },
+    {
+      "actor": "carol",
+      "method": "POST",
+      "path": "/api/users/me/workspaces/invitations/",
+      "request": {
+        "invitations": [
+          "<uuid:4>"
+        ]
+      },
+      "status": 204
+    },
+    {
+      "actor": "dan",
+      "method": "GET",
+      "path": "/api/users/me/workspaces/invitations/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": [
+        {
+          "accepted": false,
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:1>",
+          "deleted_at": null,
+          "email": "dan@example.com",
+          "id": "<uuid:5>",
+          "invite_link": "/workspace-invitations/?invitation_id=<uuid:5>&slug=acme&token=<invite-token:dan@example.com>",
+          "message": "\n\nalice invited you to Acme on Plane\n\n      alice has invited you to join Acme on Plane.\n\n                    Join Acme on Plane\n\n                    alice has invited you to collaborate with them in\n                    Acme workspace on Plane.\n\n                          Accept invite\n\n                    If the button doesn’t work, copy and paste this link into\n                    your browser:\n\n                    http://localhost:3000/workspace-invitations/?invitation_id=<uuid:5>&slug=acme&token=<invite-token:dan@example.com>\n\n                    Note: This invitation was intended for\n                    dan@example.com. If you were not expecting this invitation, you can ignore\n                    this email.\n\n                    Plane Software, Inc.\n\n",
+          "responded_at": null,
+          "role": 15,
+          "token": "<invite-token:dan@example.com>",
+          "updated_at": "<datetime Z>",
+          "updated_by": "<uuid:1>",
+          "workspace": {
+            "id": "<uuid:2>",
+            "logo_url": null,
+            "name": "Acme",
+            "slug": "acme"
+          }
+        }
+      ]
+    },
+    {
+      "actor": "dan",
+      "method": "POST",
+      "path": "/api/users/me/workspaces/invitations/",
+      "request": {
+        "invitations": [
+          "<uuid:5>"
+        ]
+      },
+      "status": 204
+    },
+    {
+      "actor": "outsider",
+      "method": "GET",
+      "path": "/auth/get-csrf-token/",
+      "status": 200,
+      "content_type": "application/json",
+      "cookies": [
+        "csrftoken; value=<set>; Path=/; Max-Age=31449600; HttpOnly; SameSite=Lax"
+      ],
+      "body": {
+        "csrf_token": "<masked>"
+      }
+    },
+    {
+      "actor": "outsider",
+      "method": "POST",
+      "path": "/auth/sign-up/",
+      "request": {
+        "csrfmiddlewaretoken": "<masked>",
+        "email": "outsider@example.com",
+        "password": "correct-Horse-battery-staple-91"
+      },
+      "status": 302,
+      "location": "http://localhost:3000",
+      "content_type": "text/html",
+      "cookies": [
+        "csrftoken; value=<set>; Path=/; Max-Age=31449600; HttpOnly; SameSite=Lax",
+        "session-id; value=<set>; Path=/; Max-Age=604800; HttpOnly; SameSite=Lax"
+      ]
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/",
+      "request": {
+        "identifier": "PL",
+        "name": "Plane Lite"
+      },
+      "status": 201,
+      "content_type": "application/json",
+      "body": {
+        "anchor": null,
+        "archive_in": 0,
+        "archived_at": null,
+        "close_in": 0,
+        "cover_image": null,
+        "cover_image_asset": null,
+        "cover_image_url": null,
+        "created_at": "<datetime Z>",
+        "created_by": "<uuid:1>",
+        "cycle_view": false,
+        "default_assignee": null,
+        "default_state": null,
+        "deleted_at": null,
+        "description": "",
+        "description_html": null,
+        "description_text": null,
+        "emoji": null,
+        "estimate": null,
+        "external_id": null,
+        "external_source": null,
+        "guest_view_all_features": false,
+        "icon_prop": null,
+        "id": "<uuid:6>",
+        "identifier": "PL",
+        "inbox_view": false,
+        "intake_view": false,
+        "is_favorite": false,
+        "is_issue_type_enabled": false,
+        "is_time_tracking_enabled": false,
+        "issue_views_view": false,
+        "logo_props": {},
+        "member_role": 20,
+        "members": [
+          "<uuid:1>"
+        ],
+        "module_view": false,
+        "name": "Plane Lite",
+        "network": 2,
+        "next_work_item_sequence": 1,
+        "page_view": true,
+        "project_lead": null,
+        "sort_order": 65535,
+        "timezone": "UTC",
+        "updated_at": "<datetime Z>",
+        "updated_by": null,
+        "workspace": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "GET",
+      "path": "/api/users/me/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "avatar": "",
+        "avatar_url": null,
+        "cover_image": null,
+        "cover_image_url": null,
+        "date_joined": "<datetime Z>",
+        "display_name": "bob",
+        "email": "bob@example.com",
+        "first_name": "",
+        "id": "<uuid:7>",
+        "is_active": true,
+        "is_bot": false,
+        "is_email_verified": false,
+        "is_password_autoset": false,
+        "last_login_medium": "email",
+        "last_login_time": "<datetime Z>",
+        "last_name": "",
+        "user_timezone": "UTC",
+        "username": "<hex32>"
+      }
+    },
+    {
+      "actor": "carol",
+      "method": "GET",
+      "path": "/api/users/me/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "avatar": "",
+        "avatar_url": null,
+        "cover_image": null,
+        "cover_image_url": null,
+        "date_joined": "<datetime Z>",
+        "display_name": "carol",
+        "email": "carol@example.com",
+        "first_name": "",
+        "id": "<uuid:8>",
+        "is_active": true,
+        "is_bot": false,
+        "is_email_verified": false,
+        "is_password_autoset": false,
+        "last_login_medium": "email",
+        "last_login_time": "<datetime Z>",
+        "last_name": "",
+        "user_timezone": "UTC",
+        "username": "<hex32>"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/members/",
+      "request": {
+        "members": [
+          {
+            "member_id": "<uuid:7>",
+            "role": 15
+          },
+          {
+            "member_id": "<uuid:8>",
+            "role": 5
+          }
+        ]
+      },
+      "status": 201,
+      "content_type": "application/json",
+      "body": [
+        {
+          "created_at": "<datetime Z>",
+          "id": "<uuid:9>",
+          "member": "<uuid:8>",
+          "original_role": 5,
+          "project": "<uuid:6>",
+          "role": 5
+        },
+        {
+          "created_at": "<datetime Z>",
+          "id": "<uuid:10>",
+          "member": "<uuid:7>",
+          "original_role": 15,
+          "project": "<uuid:6>",
+          "role": 15
+        }
+      ]
+    },
+    {
+      "actor": "bob",
+      "method": "PATCH",
+      "path": "/api/users/me/",
+      "request": {
+        "user_timezone": "Asia/Kolkata"
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "avatar": "",
+        "avatar_asset": null,
+        "bot_type": null,
+        "cover_image": null,
+        "cover_image_asset": null,
+        "created_at": "<datetime Z>",
+        "created_location": "",
+        "date_joined": "<datetime Z>",
+        "display_name": "bob",
+        "email": "bob@example.com",
+        "first_name": "",
+        "id": "<uuid:7>",
+        "is_active": true,
+        "is_bot": false,
+        "is_email_valid": false,
+        "is_email_verified": false,
+        "is_managed": false,
+        "is_password_autoset": false,
+        "is_password_expired": false,
+        "is_password_reset_required": false,
+        "is_staff": false,
+        "is_superuser": false,
+        "last_active": "<datetime Z>",
+        "last_location": "",
+        "last_login": "<datetime Z>",
+        "last_login_ip": "10.0.62.2",
+        "last_login_medium": "email",
+        "last_login_time": "<datetime Z>",
+        "last_login_uagent": "Go-http-client/1.1",
+        "last_logout_ip": "",
+        "last_logout_time": null,
+        "last_name": "",
+        "masked_at": null,
+        "mobile_number": null,
+        "token": "<masked>",
+        "token_updated_at": "<datetime Z>",
+        "updated_at": "<datetime Z>",
+        "user_timezone": "Asia/Kolkata",
+        "username": "<hex32>"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/issue-labels/",
+      "request": {
+        "name": "Bug"
+      },
+      "status": 201,
+      "content_type": "application/json",
+      "body": {
+        "color": "",
+        "id": "<uuid:11>",
+        "name": "Bug",
+        "parent": null,
+        "project_id": "<uuid:6>",
+        "sort_order": 65535,
+        "workspace_id": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "GET",
+      "path": "/api/users/me/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "avatar": "",
+        "avatar_url": null,
+        "cover_image": null,
+        "cover_image_url": null,
+        "date_joined": "<datetime +05:30>",
+        "display_name": "bob",
+        "email": "bob@example.com",
+        "first_name": "",
+        "id": "<uuid:7>",
+        "is_active": true,
+        "is_bot": false,
+        "is_email_verified": false,
+        "is_password_autoset": false,
+        "last_login_medium": "email",
+        "last_login_time": "<datetime +05:30>",
+        "last_name": "",
+        "user_timezone": "Asia/Kolkata",
+        "username": "<hex32>"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/issues/",
+      "request": {
+        "assignee_ids": [
+          "<uuid:7>"
+        ],
+        "label_ids": [
+          "<uuid:11>"
+        ],
+        "name": "Alpha"
+      },
+      "status": 201,
+      "content_type": "application/json",
+      "body": {
+        "archived_at": null,
+        "assignee_ids": [
+          "<uuid:7>"
+        ],
+        "attachment_count": null,
+        "completed_at": null,
+        "created_at": "<datetime Z>",
+        "created_by": "<uuid:1>",
+        "cycle_id": null,
+        "deleted_at": null,
+        "estimate_point": null,
+        "id": "<uuid:12>",
+        "is_draft": false,
+        "label_ids": [
+          "<uuid:11>"
+        ],
+        "link_count": null,
+        "module_ids": [],
+        "name": "Alpha",
+        "parent_id": null,
+        "priority": "none",
+        "project_id": "<uuid:6>",
+        "sequence_id": 1,
+        "sort_order": 65535,
+        "start_date": null,
+        "state_id": "<uuid:13>",
+        "sub_issues_count": null,
+        "target_date": null,
+        "updated_at": "<datetime Z>",
+        "updated_by": null
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "GET",
+      "path": "/api/users/me/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "avatar": "",
+        "avatar_url": null,
+        "cover_image": null,
+        "cover_image_url": null,
+        "date_joined": "<datetime +05:30>",
+        "display_name": "bob",
+        "email": "bob@example.com",
+        "first_name": "",
+        "id": "<uuid:7>",
+        "is_active": true,
+        "is_bot": false,
+        "is_email_verified": false,
+        "is_password_autoset": false,
+        "last_login_medium": "email",
+        "last_login_time": "<datetime +05:30>",
+        "last_name": "",
+        "user_timezone": "Asia/Kolkata",
+        "username": "<hex32>"
+      }
+    },
+    {
+      "actor": "carol",
+      "method": "GET",
+      "path": "/api/users/me/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "avatar": "",
+        "avatar_url": null,
+        "cover_image": null,
+        "cover_image_url": null,
+        "date_joined": "<datetime Z>",
+        "display_name": "carol",
+        "email": "carol@example.com",
+        "first_name": "",
+        "id": "<uuid:8>",
+        "is_active": true,
+        "is_bot": false,
+        "is_email_verified": false,
+        "is_password_autoset": false,
+        "last_login_medium": "email",
+        "last_login_time": "<datetime Z>",
+        "last_name": "",
+        "user_timezone": "UTC",
+        "username": "<hex32>"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/issues/",
+      "request": {
+        "assignee_ids": [
+          "<uuid:7>",
+          "<uuid:8>"
+        ],
+        "name": "Beta",
+        "priority": "high"
+      },
+      "status": 201,
+      "content_type": "application/json",
+      "body": {
+        "archived_at": null,
+        "assignee_ids": [
+          "<uuid:7>"
+        ],
+        "attachment_count": null,
+        "completed_at": null,
+        "created_at": "<datetime Z>",
+        "created_by": "<uuid:1>",
+        "cycle_id": null,
+        "deleted_at": null,
+        "estimate_point": null,
+        "id": "<uuid:14>",
+        "is_draft": false,
+        "label_ids": [],
+        "link_count": null,
+        "module_ids": [],
+        "name": "Beta",
+        "parent_id": null,
+        "priority": "high",
+        "project_id": "<uuid:6>",
+        "sequence_id": 2,
+        "sort_order": 75535,
+        "start_date": null,
+        "state_id": "<uuid:13>",
+        "sub_issues_count": null,
+        "target_date": null,
+        "updated_at": "<datetime Z>",
+        "updated_by": null
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/issues/",
+      "request": {
+        "name": "Gamma"
+      },
+      "status": 201,
+      "content_type": "application/json",
+      "body": {
+        "archived_at": null,
+        "assignee_ids": [],
+        "attachment_count": null,
+        "completed_at": null,
+        "created_at": "<datetime Z>",
+        "created_by": "<uuid:1>",
+        "cycle_id": null,
+        "deleted_at": null,
+        "estimate_point": null,
+        "id": "<uuid:15>",
+        "is_draft": false,
+        "label_ids": [],
+        "link_count": null,
+        "module_ids": [],
+        "name": "Gamma",
+        "parent_id": null,
+        "priority": "none",
+        "project_id": "<uuid:6>",
+        "sequence_id": 3,
+        "sort_order": 85535,
+        "start_date": null,
+        "state_id": "<uuid:13>",
+        "sub_issues_count": null,
+        "target_date": null,
+        "updated_at": "<datetime Z>",
+        "updated_by": null
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/issues/",
+      "request": {
+        "name": "Delta"
+      },
+      "status": 201,
+      "content_type": "application/json",
+      "body": {
+        "archived_at": null,
+        "assignee_ids": [],
+        "attachment_count": null,
+        "completed_at": null,
+        "created_at": "<datetime Z>",
+        "created_by": "<uuid:1>",
+        "cycle_id": null,
+        "deleted_at": null,
+        "estimate_point": null,
+        "id": "<uuid:16>",
+        "is_draft": false,
+        "label_ids": [],
+        "link_count": null,
+        "module_ids": [],
+        "name": "Delta",
+        "parent_id": null,
+        "priority": "none",
+        "project_id": "<uuid:6>",
+        "sequence_id": 4,
+        "sort_order": 95535,
+        "start_date": null,
+        "state_id": "<uuid:13>",
+        "sub_issues_count": null,
+        "target_date": null,
+        "updated_at": "<datetime Z>",
+        "updated_by": null
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/issues/",
+      "request": {
+        "archived_at": "2026-01-01",
+        "name": "Archived"
+      },
+      "status": 500,
+      "content_type": "application/json",
+      "body": {
+        "error": "Something went wrong please try again later"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/issues/",
+      "request": {
+        "is_draft": true,
+        "name": "Draft"
+      },
+      "status": 500,
+      "content_type": "application/json",
+      "body": {
+        "error": "Something went wrong please try again later"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/",
+      "request": {
+        "identifier": "OT",
+        "name": "Other"
+      },
+      "status": 201,
+      "content_type": "application/json",
+      "body": {
+        "anchor": null,
+        "archive_in": 0,
+        "archived_at": null,
+        "close_in": 0,
+        "cover_image": null,
+        "cover_image_asset": null,
+        "cover_image_url": null,
+        "created_at": "<datetime Z>",
+        "created_by": "<uuid:1>",
+        "cycle_view": false,
+        "default_assignee": null,
+        "default_state": null,
+        "deleted_at": null,
+        "description": "",
+        "description_html": null,
+        "description_text": null,
+        "emoji": null,
+        "estimate": null,
+        "external_id": null,
+        "external_source": null,
+        "guest_view_all_features": false,
+        "icon_prop": null,
+        "id": "<uuid:17>",
+        "identifier": "OT",
+        "inbox_view": false,
+        "intake_view": false,
+        "is_favorite": false,
+        "is_issue_type_enabled": false,
+        "is_time_tracking_enabled": false,
+        "issue_views_view": false,
+        "logo_props": {},
+        "member_role": 20,
+        "members": [
+          "<uuid:1>"
+        ],
+        "module_view": false,
+        "name": "Other",
+        "network": 2,
+        "next_work_item_sequence": 1,
+        "page_view": true,
+        "project_lead": null,
+        "sort_order": 55535,
+        "timezone": "UTC",
+        "updated_at": "<datetime Z>",
+        "updated_by": null,
+        "workspace": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:17>/issues/",
+      "request": {
+        "name": "Epsilon"
+      },
+      "status": 201,
+      "content_type": "application/json",
+      "body": {
+        "archived_at": null,
+        "assignee_ids": [],
+        "attachment_count": null,
+        "completed_at": null,
+        "created_at": "<datetime Z>",
+        "created_by": "<uuid:1>",
+        "cycle_id": null,
+        "deleted_at": null,
+        "estimate_point": null,
+        "id": "<uuid:18>",
+        "is_draft": false,
+        "label_ids": [],
+        "link_count": null,
+        "module_ids": [],
+        "name": "Epsilon",
+        "parent_id": null,
+        "priority": "none",
+        "project_id": "<uuid:17>",
+        "sequence_id": 1,
+        "sort_order": 65535,
+        "start_date": null,
+        "state_id": "<uuid:19>",
+        "sub_issues_count": null,
+        "target_date": null,
+        "updated_at": "<datetime Z>",
+        "updated_by": null
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/issues/<uuid:12>/issue-relation/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "blocked_by": [],
+        "blocking": [],
+        "duplicate": [],
+        "finish_after": [],
+        "finish_before": [],
+        "relates_to": [],
+        "start_after": [],
+        "start_before": []
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/issues/<uuid:12>/issue-relation/",
+      "request": {
+        "issues": [
+          "<uuid:14>"
+        ],
+        "relation_type": "blocking"
+      },
+      "status": 201,
+      "content_type": "application/json",
+      "body": [
+        {
+          "created_at": "<datetime +05:30>",
+          "created_by": "<uuid:7>",
+          "id": "<uuid:14>",
+          "name": "Beta",
+          "priority": "high",
+          "project_id": "<uuid:6>",
+          "relation_type": "blocked_by",
+          "sequence_id": 2,
+          "state_id": "<uuid:13>",
+          "updated_at": "<datetime +05:30>",
+          "updated_by": "<uuid:7>"
+        }
+      ]
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/issues/<uuid:12>/issue-relation/",
+      "request": {
+        "issues": [
+          "<uuid:15>",
+          "<uuid:18>"
+        ],
+        "relation_type": "blocked_by"
+      },
+      "status": 201,
+      "content_type": "application/json",
+      "body": [
+        {
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:1>",
+          "id": "<uuid:18>",
+          "name": "Epsilon",
+          "priority": "none",
+          "project_id": "<uuid:17>",
+          "relation_type": "blocked_by",
+          "sequence_id": 1,
+          "state_id": "<uuid:19>",
+          "updated_at": "<datetime Z>",
+          "updated_by": "<uuid:1>"
+        },
+        {
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:1>",
+          "id": "<uuid:15>",
+          "name": "Gamma",
+          "priority": "none",
+          "project_id": "<uuid:6>",
+          "relation_type": "blocked_by",
+          "sequence_id": 3,
+          "state_id": "<uuid:13>",
+          "updated_at": "<datetime Z>",
+          "updated_by": "<uuid:1>"
+        }
+      ]
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/issues/<uuid:12>/issue-relation/",
+      "request": {
+        "issues": [
+          "<uuid:16>"
+        ],
+        "relation_type": "relates_to"
+      },
+      "status": 201,
+      "content_type": "application/json",
+      "body": [
+        {
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:1>",
+          "id": "<uuid:16>",
+          "name": "Delta",
+          "priority": "none",
+          "project_id": "<uuid:6>",
+          "relation_type": "relates_to",
+          "sequence_id": 4,
+          "state_id": "<uuid:13>",
+          "updated_at": "<datetime Z>",
+          "updated_by": "<uuid:1>"
+        }
+      ]
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/issues/<uuid:16>/issue-relation/",
+      "request": {
+        "issues": [
+          "<uuid:12>"
+        ],
+        "relation_type": "relates_to"
+      },
+      "status": 201,
+      "content_type": "application/json",
+      "body": [
+        {
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:1>",
+          "id": "<uuid:12>",
+          "name": "Alpha",
+          "priority": "none",
+          "project_id": "<uuid:6>",
+          "relation_type": "relates_to",
+          "sequence_id": 1,
+          "state_id": "<uuid:13>",
+          "updated_at": "<datetime Z>",
+          "updated_by": "<uuid:1>"
+        }
+      ]
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/issues/<uuid:12>/issue-relation/",
+      "request": {
+        "issues": [
+          "<uuid:14>"
+        ],
+        "relation_type": "duplicate"
+      },
+      "status": 201,
+      "content_type": "application/json",
+      "body": [
+        {
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:1>",
+          "id": "<uuid:14>",
+          "name": "Beta",
+          "priority": "high",
+          "project_id": "<uuid:6>",
+          "relation_type": "duplicate",
+          "sequence_id": 2,
+          "state_id": "<uuid:13>",
+          "updated_at": "<datetime Z>",
+          "updated_by": "<uuid:1>"
+        }
+      ]
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/issues/<uuid:12>/issue-relation/",
+      "request": {
+        "issues": [
+          "<uuid:15>"
+        ],
+        "relation_type": "blocked_by"
+      },
+      "status": 201,
+      "content_type": "application/json",
+      "body": [
+        {
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:1>",
+          "id": "<uuid:15>",
+          "name": "Gamma",
+          "priority": "none",
+          "project_id": "<uuid:6>",
+          "relation_type": "blocked_by",
+          "sequence_id": 3,
+          "state_id": "<uuid:13>",
+          "updated_at": "<datetime Z>",
+          "updated_by": "<uuid:1>"
+        }
+      ]
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/issues/<uuid:12>/issue-relation/",
+      "request": {
+        "issues": [
+          "<uuid:15>"
+        ],
+        "relation_type": "start_after"
+      },
+      "status": 201,
+      "content_type": "application/json",
+      "body": [
+        {
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:1>",
+          "id": "<uuid:15>",
+          "name": "Gamma",
+          "priority": "none",
+          "project_id": "<uuid:6>",
+          "relation_type": "start_before",
+          "sequence_id": 3,
+          "state_id": "<uuid:13>",
+          "updated_at": "<datetime Z>",
+          "updated_by": "<uuid:1>"
+        }
+      ]
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/issues/<uuid:14>/issue-relation/",
+      "request": {
+        "issues": [
+          "<uuid:16>"
+        ],
+        "relation_type": "start_before"
+      },
+      "status": 201,
+      "content_type": "application/json",
+      "body": [
+        {
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:1>",
+          "id": "<uuid:16>",
+          "name": "Delta",
+          "priority": "none",
+          "project_id": "<uuid:6>",
+          "relation_type": "start_before",
+          "sequence_id": 4,
+          "state_id": "<uuid:13>",
+          "updated_at": "<datetime Z>",
+          "updated_by": "<uuid:1>"
+        }
+      ]
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/issues/<uuid:14>/issue-relation/",
+      "request": {
+        "issues": [
+          "<uuid:15>"
+        ],
+        "relation_type": "finish_after"
+      },
+      "status": 201,
+      "content_type": "application/json",
+      "body": [
+        {
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:1>",
+          "id": "<uuid:15>",
+          "name": "Gamma",
+          "priority": "none",
+          "project_id": "<uuid:6>",
+          "relation_type": "finish_before",
+          "sequence_id": 3,
+          "state_id": "<uuid:13>",
+          "updated_at": "<datetime Z>",
+          "updated_by": "<uuid:1>"
+        }
+      ]
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/issues/<uuid:15>/issue-relation/",
+      "request": {
+        "issues": [
+          "<uuid:16>"
+        ],
+        "relation_type": "finish_before"
+      },
+      "status": 201,
+      "content_type": "application/json",
+      "body": [
+        {
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:1>",
+          "id": "<uuid:16>",
+          "name": "Delta",
+          "priority": "none",
+          "project_id": "<uuid:6>",
+          "relation_type": "finish_before",
+          "sequence_id": 4,
+          "state_id": "<uuid:13>",
+          "updated_at": "<datetime Z>",
+          "updated_by": "<uuid:1>"
+        }
+      ]
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/issues/<uuid:12>/issue-relation/",
+      "request": {
+        "issues": [
+          "<uuid:16>"
+        ],
+        "relation_type": "finish_before"
+      },
+      "status": 201,
+      "content_type": "application/json",
+      "body": [
+        {
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:1>",
+          "id": "<uuid:16>",
+          "name": "Delta",
+          "priority": "none",
+          "project_id": "<uuid:6>",
+          "relation_type": "finish_before",
+          "sequence_id": 4,
+          "state_id": "<uuid:13>",
+          "updated_at": "<datetime Z>",
+          "updated_by": "<uuid:1>"
+        }
+      ]
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/issues/<uuid:12>/issue-relation/",
+      "request": {
+        "issues": [
+          "<uuid:14>"
+        ],
+        "relation_type": "implements"
+      },
+      "status": 201,
+      "content_type": "application/json",
+      "body": [
+        {
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:1>",
+          "id": "<uuid:14>",
+          "name": "Beta",
+          "priority": "high",
+          "project_id": "<uuid:6>",
+          "relation_type": "implemented_by",
+          "sequence_id": 2,
+          "state_id": "<uuid:13>",
+          "updated_at": "<datetime Z>",
+          "updated_by": "<uuid:1>"
+        }
+      ]
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/issues/<uuid:15>/issue-relation/",
+      "request": {
+        "issues": [
+          "<uuid:16>",
+          "<uuid:12>"
+        ],
+        "relation_type": "implemented_by"
+      },
+      "status": 201,
+      "content_type": "application/json",
+      "body": [
+        {
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:1>",
+          "id": "<uuid:16>",
+          "name": "Delta",
+          "priority": "none",
+          "project_id": "<uuid:6>",
+          "relation_type": "implemented_by",
+          "sequence_id": 4,
+          "state_id": "<uuid:13>",
+          "updated_at": "<datetime Z>",
+          "updated_by": "<uuid:1>"
+        },
+        {
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:1>",
+          "id": "<uuid:12>",
+          "name": "Alpha",
+          "priority": "none",
+          "project_id": "<uuid:6>",
+          "relation_type": "implemented_by",
+          "sequence_id": 1,
+          "state_id": "<uuid:13>",
+          "updated_at": "<datetime Z>",
+          "updated_by": "<uuid:1>"
+        }
+      ]
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/issues/<uuid:12>/issue-relation/",
+      "request": {
+        "issues": [
+          "<uuid:20>"
+        ],
+        "relation_type": "nonsense"
+      },
+      "status": 201,
+      "content_type": "application/json",
+      "body": []
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/issues/<uuid:12>/issue-relation/",
+      "request": {
+        "issues": [
+          "<uuid:21>",
+          "<uuid:22>"
+        ],
+        "relation_type": "relates_to"
+      },
+      "status": 201,
+      "content_type": "application/json",
+      "body": []
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/issues/<uuid:12>/issue-relation/",
+      "request": {
+        "issues": [
+          "<uuid:12>"
+        ],
+        "relation_type": "relates_to"
+      },
+      "status": 201,
+      "content_type": "application/json",
+      "body": [
+        {
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:1>",
+          "id": "<uuid:12>",
+          "name": "Alpha",
+          "priority": "none",
+          "project_id": "<uuid:6>",
+          "relation_type": "relates_to",
+          "sequence_id": 1,
+          "state_id": "<uuid:13>",
+          "updated_at": "<datetime Z>",
+          "updated_by": "<uuid:1>"
+        }
+      ]
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/issues/<uuid:12>/issue-relation/",
+      "request": {
+        "issues": [
+          "<uuid:14>"
+        ]
+      },
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "message": "Issue relation type is required"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/issues/<uuid:12>/issue-relation/",
+      "request": [
+        "x"
+      ],
+      "status": 500,
+      "content_type": "application/json",
+      "body": {
+        "error": "Something went wrong please try again later"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/issues/<uuid:12>/issue-relation/",
+      "request": {
+        "issues": "x",
+        "relation_type": "blocking"
+      },
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "error": "Please provide valid detail"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/issues/<uuid:12>/issue-relation/",
+      "request": {
+        "issues": null,
+        "relation_type": "blocking"
+      },
+      "status": 500,
+      "content_type": "application/json",
+      "body": {
+        "error": "Something went wrong please try again later"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/issues/<uuid:12>/issue-relation/",
+      "request": {
+        "relation_type": "blocking"
+      },
+      "status": 201,
+      "content_type": "application/json",
+      "body": []
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/issues/<uuid:12>/issue-relation/",
+      "request": {
+        "issues": [
+          "<uuid:16>"
+        ],
+        "relation_type": "xxxxxxxxxxxxxxxxxxxxx"
+      },
+      "status": 500,
+      "content_type": "application/json",
+      "body": {
+        "error": "Something went wrong please try again later"
+      }
+    },
+    {
+      "actor": "carol",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/issues/<uuid:12>/issue-relation/",
+      "request": {
+        "issues": [
+          "<uuid:16>"
+        ],
+        "relation_type": "blocking"
+      },
+      "status": 403,
+      "content_type": "application/json",
+      "body": {
+        "detail": "You do not have permission to perform this action."
+      }
+    },
+    {
+      "actor": "dan",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/issues/<uuid:12>/issue-relation/",
+      "request": {
+        "issues": [
+          "<uuid:16>"
+        ],
+        "relation_type": "blocking"
+      },
+      "status": 403,
+      "content_type": "application/json",
+      "body": {
+        "detail": "You do not have permission to perform this action."
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/issues/<uuid:22>/issue-relation/",
+      "request": {
+        "issues": [
+          "<uuid:16>"
+        ],
+        "relation_type": "blocking"
+      },
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "error": "The payload is not valid"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/issues/<uuid:12>/issue-relation/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "blocked_by": [
+          {
+            "assignee_ids": [],
+            "created_at": "<datetime Z>",
+            "created_by": "<uuid:1>",
+            "id": "<uuid:18>",
+            "label_ids": [],
+            "name": "Epsilon",
+            "priority": "none",
+            "project_id": "<uuid:17>",
+            "relation_type": "blocked_by",
+            "sequence_id": 1,
+            "sort_order": 65535,
+            "state_id": "<uuid:19>",
+            "updated_at": "<datetime Z>",
+            "updated_by": null
+          },
+          {
+            "assignee_ids": [],
+            "created_at": "<datetime Z>",
+            "created_by": "<uuid:1>",
+            "id": "<uuid:15>",
+            "label_ids": [],
+            "name": "Gamma",
+            "priority": "none",
+            "project_id": "<uuid:6>",
+            "relation_type": "blocked_by",
+            "sequence_id": 3,
+            "sort_order": 85535,
+            "state_id": "<uuid:13>",
+            "updated_at": "<datetime Z>",
+            "updated_by": null
+          }
+        ],
+        "blocking": [
+          {
+            "assignee_ids": [
+              "<uuid:7>"
+            ],
+            "created_at": "<datetime Z>",
+            "created_by": "<uuid:1>",
+            "id": "<uuid:14>",
+            "label_ids": [],
+            "name": "Beta",
+            "priority": "high",
+            "project_id": "<uuid:6>",
+            "relation_type": "blocking",
+            "sequence_id": 2,
+            "sort_order": 75535,
+            "state_id": "<uuid:13>",
+            "updated_at": "<datetime Z>",
+            "updated_by": null
+          }
+        ],
+        "duplicate": [
+          {
+            "assignee_ids": [
+              "<uuid:7>"
+            ],
+            "created_at": "<datetime Z>",
+            "created_by": "<uuid:1>",
+            "id": "<uuid:14>",
+            "label_ids": [],
+            "name": "Beta",
+            "priority": "high",
+            "project_id": "<uuid:6>",
+            "relation_type": "duplicate",
+            "sequence_id": 2,
+            "sort_order": 75535,
+            "state_id": "<uuid:13>",
+            "updated_at": "<datetime Z>",
+            "updated_by": null
+          }
+        ],
+        "finish_after": [],
+        "finish_before": [],
+        "relates_to": [
+          {
+            "assignee_ids": [
+              "<uuid:7>"
+            ],
+            "created_at": "<datetime Z>",
+            "created_by": "<uuid:1>",
+            "id": "<uuid:12>",
+            "label_ids": [
+              "<uuid:11>"
+            ],
+            "name": "Alpha",
+            "priority": "none",
+            "project_id": "<uuid:6>",
+            "relation_type": "relates_to",
+            "sequence_id": 1,
+            "sort_order": 65535,
+            "state_id": "<uuid:13>",
+            "updated_at": "<datetime Z>",
+            "updated_by": null
+          },
+          {
+            "assignee_ids": [],
+            "created_at": "<datetime Z>",
+            "created_by": "<uuid:1>",
+            "id": "<uuid:16>",
+            "label_ids": [],
+            "name": "Delta",
+            "priority": "none",
+            "project_id": "<uuid:6>",
+            "relation_type": "relates_to",
+            "sequence_id": 4,
+            "sort_order": 95535,
+            "state_id": "<uuid:13>",
+            "updated_at": "<datetime Z>",
+            "updated_by": null
+          }
+        ],
+        "start_after": [
+          {
+            "assignee_ids": [],
+            "created_at": "<datetime Z>",
+            "created_by": "<uuid:1>",
+            "id": "<uuid:15>",
+            "label_ids": [],
+            "name": "Gamma",
+            "priority": "none",
+            "project_id": "<uuid:6>",
+            "relation_type": "start_after",
+            "sequence_id": 3,
+            "sort_order": 85535,
+            "state_id": "<uuid:13>",
+            "updated_at": "<datetime Z>",
+            "updated_by": null
+          }
+        ],
+        "start_before": []
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "GET",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/issues/<uuid:12>/issue-relation/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "blocked_by": [
+          {
+            "assignee_ids": [],
+            "created_at": "<datetime Z>",
+            "created_by": "<uuid:1>",
+            "id": "<uuid:18>",
+            "label_ids": [],
+            "name": "Epsilon",
+            "priority": "none",
+            "project_id": "<uuid:17>",
+            "relation_type": "blocked_by",
+            "sequence_id": 1,
+            "sort_order": 65535,
+            "state_id": "<uuid:19>",
+            "updated_at": "<datetime Z>",
+            "updated_by": null
+          },
+          {
+            "assignee_ids": [],
+            "created_at": "<datetime Z>",
+            "created_by": "<uuid:1>",
+            "id": "<uuid:15>",
+            "label_ids": [],
+            "name": "Gamma",
+            "priority": "none",
+            "project_id": "<uuid:6>",
+            "relation_type": "blocked_by",
+            "sequence_id": 3,
+            "sort_order": 85535,
+            "state_id": "<uuid:13>",
+            "updated_at": "<datetime Z>",
+            "updated_by": null
+          }
+        ],
+        "blocking": [
+          {
+            "assignee_ids": [
+              "<uuid:7>"
+            ],
+            "created_at": "<datetime Z>",
+            "created_by": "<uuid:1>",
+            "id": "<uuid:14>",
+            "label_ids": [],
+            "name": "Beta",
+            "priority": "high",
+            "project_id": "<uuid:6>",
+            "relation_type": "blocking",
+            "sequence_id": 2,
+            "sort_order": 75535,
+            "state_id": "<uuid:13>",
+            "updated_at": "<datetime Z>",
+            "updated_by": null
+          }
+        ],
+        "duplicate": [
+          {
+            "assignee_ids": [
+              "<uuid:7>"
+            ],
+            "created_at": "<datetime Z>",
+            "created_by": "<uuid:1>",
+            "id": "<uuid:14>",
+            "label_ids": [],
+            "name": "Beta",
+            "priority": "high",
+            "project_id": "<uuid:6>",
+            "relation_type": "duplicate",
+            "sequence_id": 2,
+            "sort_order": 75535,
+            "state_id": "<uuid:13>",
+            "updated_at": "<datetime Z>",
+            "updated_by": null
+          }
+        ],
+        "finish_after": [],
+        "finish_before": [],
+        "relates_to": [
+          {
+            "assignee_ids": [
+              "<uuid:7>"
+            ],
+            "created_at": "<datetime Z>",
+            "created_by": "<uuid:1>",
+            "id": "<uuid:12>",
+            "label_ids": [
+              "<uuid:11>"
+            ],
+            "name": "Alpha",
+            "priority": "none",
+            "project_id": "<uuid:6>",
+            "relation_type": "relates_to",
+            "sequence_id": 1,
+            "sort_order": 65535,
+            "state_id": "<uuid:13>",
+            "updated_at": "<datetime Z>",
+            "updated_by": null
+          },
+          {
+            "assignee_ids": [],
+            "created_at": "<datetime Z>",
+            "created_by": "<uuid:1>",
+            "id": "<uuid:16>",
+            "label_ids": [],
+            "name": "Delta",
+            "priority": "none",
+            "project_id": "<uuid:6>",
+            "relation_type": "relates_to",
+            "sequence_id": 4,
+            "sort_order": 95535,
+            "state_id": "<uuid:13>",
+            "updated_at": "<datetime Z>",
+            "updated_by": null
+          }
+        ],
+        "start_after": [
+          {
+            "assignee_ids": [],
+            "created_at": "<datetime Z>",
+            "created_by": "<uuid:1>",
+            "id": "<uuid:15>",
+            "label_ids": [],
+            "name": "Gamma",
+            "priority": "none",
+            "project_id": "<uuid:6>",
+            "relation_type": "start_after",
+            "sequence_id": 3,
+            "sort_order": 85535,
+            "state_id": "<uuid:13>",
+            "updated_at": "<datetime Z>",
+            "updated_by": null
+          }
+        ],
+        "start_before": []
+      }
+    },
+    {
+      "actor": "carol",
+      "method": "GET",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/issues/<uuid:12>/issue-relation/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "blocked_by": [
+          {
+            "assignee_ids": [],
+            "created_at": "<datetime Z>",
+            "created_by": "<uuid:1>",
+            "id": "<uuid:18>",
+            "label_ids": [],
+            "name": "Epsilon",
+            "priority": "none",
+            "project_id": "<uuid:17>",
+            "relation_type": "blocked_by",
+            "sequence_id": 1,
+            "sort_order": 65535,
+            "state_id": "<uuid:19>",
+            "updated_at": "<datetime Z>",
+            "updated_by": null
+          },
+          {
+            "assignee_ids": [],
+            "created_at": "<datetime Z>",
+            "created_by": "<uuid:1>",
+            "id": "<uuid:15>",
+            "label_ids": [],
+            "name": "Gamma",
+            "priority": "none",
+            "project_id": "<uuid:6>",
+            "relation_type": "blocked_by",
+            "sequence_id": 3,
+            "sort_order": 85535,
+            "state_id": "<uuid:13>",
+            "updated_at": "<datetime Z>",
+            "updated_by": null
+          }
+        ],
+        "blocking": [
+          {
+            "assignee_ids": [
+              "<uuid:7>"
+            ],
+            "created_at": "<datetime Z>",
+            "created_by": "<uuid:1>",
+            "id": "<uuid:14>",
+            "label_ids": [],
+            "name": "Beta",
+            "priority": "high",
+            "project_id": "<uuid:6>",
+            "relation_type": "blocking",
+            "sequence_id": 2,
+            "sort_order": 75535,
+            "state_id": "<uuid:13>",
+            "updated_at": "<datetime Z>",
+            "updated_by": null
+          }
+        ],
+        "duplicate": [
+          {
+            "assignee_ids": [
+              "<uuid:7>"
+            ],
+            "created_at": "<datetime Z>",
+            "created_by": "<uuid:1>",
+            "id": "<uuid:14>",
+            "label_ids": [],
+            "name": "Beta",
+            "priority": "high",
+            "project_id": "<uuid:6>",
+            "relation_type": "duplicate",
+            "sequence_id": 2,
+            "sort_order": 75535,
+            "state_id": "<uuid:13>",
+            "updated_at": "<datetime Z>",
+            "updated_by": null
+          }
+        ],
+        "finish_after": [],
+        "finish_before": [],
+        "relates_to": [
+          {
+            "assignee_ids": [
+              "<uuid:7>"
+            ],
+            "created_at": "<datetime Z>",
+            "created_by": "<uuid:1>",
+            "id": "<uuid:12>",
+            "label_ids": [
+              "<uuid:11>"
+            ],
+            "name": "Alpha",
+            "priority": "none",
+            "project_id": "<uuid:6>",
+            "relation_type": "relates_to",
+            "sequence_id": 1,
+            "sort_order": 65535,
+            "state_id": "<uuid:13>",
+            "updated_at": "<datetime Z>",
+            "updated_by": null
+          },
+          {
+            "assignee_ids": [],
+            "created_at": "<datetime Z>",
+            "created_by": "<uuid:1>",
+            "id": "<uuid:16>",
+            "label_ids": [],
+            "name": "Delta",
+            "priority": "none",
+            "project_id": "<uuid:6>",
+            "relation_type": "relates_to",
+            "sequence_id": 4,
+            "sort_order": 95535,
+            "state_id": "<uuid:13>",
+            "updated_at": "<datetime Z>",
+            "updated_by": null
+          }
+        ],
+        "start_after": [
+          {
+            "assignee_ids": [],
+            "created_at": "<datetime Z>",
+            "created_by": "<uuid:1>",
+            "id": "<uuid:15>",
+            "label_ids": [],
+            "name": "Gamma",
+            "priority": "none",
+            "project_id": "<uuid:6>",
+            "relation_type": "start_after",
+            "sequence_id": 3,
+            "sort_order": 85535,
+            "state_id": "<uuid:13>",
+            "updated_at": "<datetime Z>",
+            "updated_by": null
+          }
+        ],
+        "start_before": []
+      }
+    },
+    {
+      "actor": "dan",
+      "method": "GET",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/issues/<uuid:12>/issue-relation/",
+      "status": 403,
+      "content_type": "application/json",
+      "body": {
+        "detail": "You do not have permission to perform this action."
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/issues/<uuid:14>/issue-relation/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "blocked_by": [
+          {
+            "assignee_ids": [
+              "<uuid:7>"
+            ],
+            "created_at": "<datetime Z>",
+            "created_by": "<uuid:1>",
+            "id": "<uuid:12>",
+            "label_ids": [
+              "<uuid:11>"
+            ],
+            "name": "Alpha",
+            "priority": "none",
+            "project_id": "<uuid:6>",
+            "relation_type": "blocked_by",
+            "sequence_id": 1,
+            "sort_order": 65535,
+            "state_id": "<uuid:13>",
+            "updated_at": "<datetime Z>",
+            "updated_by": null
+          }
+        ],
+        "blocking": [],
+        "duplicate": [
+          {
+            "assignee_ids": [
+              "<uuid:7>"
+            ],
+            "created_at": "<datetime Z>",
+            "created_by": "<uuid:1>",
+            "id": "<uuid:12>",
+            "label_ids": [
+              "<uuid:11>"
+            ],
+            "name": "Alpha",
+            "priority": "none",
+            "project_id": "<uuid:6>",
+            "relation_type": "duplicate",
+            "sequence_id": 1,
+            "sort_order": 65535,
+            "state_id": "<uuid:13>",
+            "updated_at": "<datetime Z>",
+            "updated_by": null
+          }
+        ],
+        "finish_after": [
+          {
+            "assignee_ids": [],
+            "created_at": "<datetime Z>",
+            "created_by": "<uuid:1>",
+            "id": "<uuid:15>",
+            "label_ids": [],
+            "name": "Gamma",
+            "priority": "none",
+            "project_id": "<uuid:6>",
+            "relation_type": "finish_after",
+            "sequence_id": 3,
+            "sort_order": 85535,
+            "state_id": "<uuid:13>",
+            "updated_at": "<datetime Z>",
+            "updated_by": null
+          }
+        ],
+        "finish_before": [],
+        "relates_to": [],
+        "start_after": [],
+        "start_before": [
+          {
+            "assignee_ids": [],
+            "created_at": "<datetime Z>",
+            "created_by": "<uuid:1>",
+            "id": "<uuid:16>",
+            "label_ids": [],
+            "name": "Delta",
+            "priority": "none",
+            "project_id": "<uuid:6>",
+            "relation_type": "start_before",
+            "sequence_id": 4,
+            "sort_order": 95535,
+            "state_id": "<uuid:13>",
+            "updated_at": "<datetime Z>",
+            "updated_by": null
+          }
+        ]
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/issues/<uuid:15>/issue-relation/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "blocked_by": [],
+        "blocking": [
+          {
+            "assignee_ids": [
+              "<uuid:7>"
+            ],
+            "created_at": "<datetime Z>",
+            "created_by": "<uuid:1>",
+            "id": "<uuid:12>",
+            "label_ids": [
+              "<uuid:11>"
+            ],
+            "name": "Alpha",
+            "priority": "none",
+            "project_id": "<uuid:6>",
+            "relation_type": "blocking",
+            "sequence_id": 1,
+            "sort_order": 65535,
+            "state_id": "<uuid:13>",
+            "updated_at": "<datetime Z>",
+            "updated_by": null
+          }
+        ],
+        "duplicate": [],
+        "finish_after": [],
+        "finish_before": [
+          {
+            "assignee_ids": [
+              "<uuid:7>"
+            ],
+            "created_at": "<datetime Z>",
+            "created_by": "<uuid:1>",
+            "id": "<uuid:14>",
+            "label_ids": [],
+            "name": "Beta",
+            "priority": "high",
+            "project_id": "<uuid:6>",
+            "relation_type": "finish_before",
+            "sequence_id": 2,
+            "sort_order": 75535,
+            "state_id": "<uuid:13>",
+            "updated_at": "<datetime Z>",
+            "updated_by": null
+          },
+          {
+            "assignee_ids": [],
+            "created_at": "<datetime Z>",
+            "created_by": "<uuid:1>",
+            "id": "<uuid:16>",
+            "label_ids": [],
+            "name": "Delta",
+            "priority": "none",
+            "project_id": "<uuid:6>",
+            "relation_type": "finish_before",
+            "sequence_id": 4,
+            "sort_order": 95535,
+            "state_id": "<uuid:13>",
+            "updated_at": "<datetime Z>",
+            "updated_by": null
+          }
+        ],
+        "relates_to": [],
+        "start_after": [],
+        "start_before": [
+          {
+            "assignee_ids": [
+              "<uuid:7>"
+            ],
+            "created_at": "<datetime Z>",
+            "created_by": "<uuid:1>",
+            "id": "<uuid:12>",
+            "label_ids": [
+              "<uuid:11>"
+            ],
+            "name": "Alpha",
+            "priority": "none",
+            "project_id": "<uuid:6>",
+            "relation_type": "start_before",
+            "sequence_id": 1,
+            "sort_order": 65535,
+            "state_id": "<uuid:13>",
+            "updated_at": "<datetime Z>",
+            "updated_by": null
+          }
+        ]
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/issues/<uuid:16>/issue-relation/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "blocked_by": [],
+        "blocking": [],
+        "duplicate": [],
+        "finish_after": [
+          {
+            "assignee_ids": [],
+            "created_at": "<datetime Z>",
+            "created_by": "<uuid:1>",
+            "id": "<uuid:15>",
+            "label_ids": [],
+            "name": "Gamma",
+            "priority": "none",
+            "project_id": "<uuid:6>",
+            "relation_type": "finish_after",
+            "sequence_id": 3,
+            "sort_order": 85535,
+            "state_id": "<uuid:13>",
+            "updated_at": "<datetime Z>",
+            "updated_by": null
+          }
+        ],
+        "finish_before": [],
+        "relates_to": [
+          {
+            "assignee_ids": [
+              "<uuid:7>"
+            ],
+            "created_at": "<datetime Z>",
+            "created_by": "<uuid:1>",
+            "id": "<uuid:12>",
+            "label_ids": [
+              "<uuid:11>"
+            ],
+            "name": "Alpha",
+            "priority": "none",
+            "project_id": "<uuid:6>",
+            "relation_type": "relates_to",
+            "sequence_id": 1,
+            "sort_order": 65535,
+            "state_id": "<uuid:13>",
+            "updated_at": "<datetime Z>",
+            "updated_by": null
+          }
+        ],
+        "start_after": [
+          {
+            "assignee_ids": [
+              "<uuid:7>"
+            ],
+            "created_at": "<datetime Z>",
+            "created_by": "<uuid:1>",
+            "id": "<uuid:14>",
+            "label_ids": [],
+            "name": "Beta",
+            "priority": "high",
+            "project_id": "<uuid:6>",
+            "relation_type": "start_after",
+            "sequence_id": 2,
+            "sort_order": 75535,
+            "state_id": "<uuid:13>",
+            "updated_at": "<datetime Z>",
+            "updated_by": null
+          }
+        ],
+        "start_before": []
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/issues/<uuid:22>/issue-relation/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "blocked_by": [],
+        "blocking": [],
+        "duplicate": [],
+        "finish_after": [],
+        "finish_before": [],
+        "relates_to": [],
+        "start_after": [],
+        "start_before": []
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/workspaces/acme/projects/<uuid:17>/issues/<uuid:18>/issue-relation/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "blocked_by": [],
+        "blocking": [
+          {
+            "assignee_ids": [
+              "<uuid:7>"
+            ],
+            "created_at": "<datetime Z>",
+            "created_by": "<uuid:1>",
+            "id": "<uuid:12>",
+            "label_ids": [
+              "<uuid:11>"
+            ],
+            "name": "Alpha",
+            "priority": "none",
+            "project_id": "<uuid:6>",
+            "relation_type": "blocking",
+            "sequence_id": 1,
+            "sort_order": 65535,
+            "state_id": "<uuid:13>",
+            "updated_at": "<datetime Z>",
+            "updated_by": null
+          }
+        ],
+        "duplicate": [],
+        "finish_after": [],
+        "finish_before": [],
+        "relates_to": [],
+        "start_after": [],
+        "start_before": []
+      }
+    },
+    {
+      "actor": "carol",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/issues/<uuid:12>/remove-relation/",
+      "request": {
+        "related_issue": "<uuid:14>",
+        "relation_type": "blocking"
+      },
+      "status": 403,
+      "content_type": "application/json",
+      "body": {
+        "detail": "You do not have permission to perform this action."
+      }
+    },
+    {
+      "actor": "dan",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/issues/<uuid:12>/remove-relation/",
+      "request": {
+        "related_issue": "<uuid:14>",
+        "relation_type": "blocking"
+      },
+      "status": 403,
+      "content_type": "application/json",
+      "body": {
+        "detail": "You do not have permission to perform this action."
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/issues/<uuid:12>/remove-relation/",
+      "request": {
+        "related_issue": "<uuid:14>",
+        "relation_type": "blocking"
+      },
+      "status": 204
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/issues/<uuid:12>/remove-relation/",
+      "request": {
+        "related_issue": "<uuid:15>"
+      },
+      "status": 204
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/issues/<uuid:15>/remove-relation/",
+      "request": {
+        "related_issue": "<uuid:12>",
+        "relation_type": "blocked_by"
+      },
+      "status": 204
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/issues/<uuid:12>/remove-relation/",
+      "request": {
+        "related_issue": "<uuid:22>",
+        "relation_type": "blocking"
+      },
+      "status": 500,
+      "content_type": "application/json",
+      "body": {
+        "error": "Something went wrong please try again later"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/issues/<uuid:12>/remove-relation/",
+      "status": 500,
+      "content_type": "application/json",
+      "body": {
+        "error": "Something went wrong please try again later"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/issues/<uuid:12>/remove-relation/",
+      "request": {
+        "related_issue": "x"
+      },
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "error": "Please provide valid detail"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/issues/<uuid:12>/remove-relation/",
+      "request": [
+        "x"
+      ],
+      "status": 500,
+      "content_type": "application/json",
+      "body": {
+        "error": "Something went wrong please try again later"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/issues/<uuid:12>/issue-relation/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "blocked_by": [
+          {
+            "assignee_ids": [],
+            "created_at": "<datetime Z>",
+            "created_by": "<uuid:1>",
+            "id": "<uuid:18>",
+            "label_ids": [],
+            "name": "Epsilon",
+            "priority": "none",
+            "project_id": "<uuid:17>",
+            "relation_type": "blocked_by",
+            "sequence_id": 1,
+            "sort_order": 65535,
+            "state_id": "<uuid:19>",
+            "updated_at": "<datetime Z>",
+            "updated_by": null
+          }
+        ],
+        "blocking": [
+          {
+            "assignee_ids": [
+              "<uuid:7>"
+            ],
+            "created_at": "<datetime Z>",
+            "created_by": "<uuid:1>",
+            "id": "<uuid:14>",
+            "label_ids": [],
+            "name": "Beta",
+            "priority": "high",
+            "project_id": "<uuid:6>",
+            "relation_type": "blocking",
+            "sequence_id": 2,
+            "sort_order": 75535,
+            "state_id": "<uuid:13>",
+            "updated_at": "<datetime Z>",
+            "updated_by": null
+          }
+        ],
+        "duplicate": [],
+        "finish_after": [],
+        "finish_before": [],
+        "relates_to": [
+          {
+            "assignee_ids": [
+              "<uuid:7>"
+            ],
+            "created_at": "<datetime Z>",
+            "created_by": "<uuid:1>",
+            "id": "<uuid:12>",
+            "label_ids": [
+              "<uuid:11>"
+            ],
+            "name": "Alpha",
+            "priority": "none",
+            "project_id": "<uuid:6>",
+            "relation_type": "relates_to",
+            "sequence_id": 1,
+            "sort_order": 65535,
+            "state_id": "<uuid:13>",
+            "updated_at": "<datetime Z>",
+            "updated_by": null
+          },
+          {
+            "assignee_ids": [],
+            "created_at": "<datetime Z>",
+            "created_by": "<uuid:1>",
+            "id": "<uuid:16>",
+            "label_ids": [],
+            "name": "Delta",
+            "priority": "none",
+            "project_id": "<uuid:6>",
+            "relation_type": "relates_to",
+            "sequence_id": 4,
+            "sort_order": 95535,
+            "state_id": "<uuid:13>",
+            "updated_at": "<datetime Z>",
+            "updated_by": null
+          }
+        ],
+        "start_after": [],
+        "start_before": []
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/issues/<uuid:14>/issue-relation/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "blocked_by": [
+          {
+            "assignee_ids": [
+              "<uuid:7>"
+            ],
+            "created_at": "<datetime Z>",
+            "created_by": "<uuid:1>",
+            "id": "<uuid:12>",
+            "label_ids": [
+              "<uuid:11>"
+            ],
+            "name": "Alpha",
+            "priority": "none",
+            "project_id": "<uuid:6>",
+            "relation_type": "blocked_by",
+            "sequence_id": 1,
+            "sort_order": 65535,
+            "state_id": "<uuid:13>",
+            "updated_at": "<datetime Z>",
+            "updated_by": null
+          }
+        ],
+        "blocking": [],
+        "duplicate": [],
+        "finish_after": [
+          {
+            "assignee_ids": [],
+            "created_at": "<datetime Z>",
+            "created_by": "<uuid:1>",
+            "id": "<uuid:15>",
+            "label_ids": [],
+            "name": "Gamma",
+            "priority": "none",
+            "project_id": "<uuid:6>",
+            "relation_type": "finish_after",
+            "sequence_id": 3,
+            "sort_order": 85535,
+            "state_id": "<uuid:13>",
+            "updated_at": "<datetime Z>",
+            "updated_by": null
+          }
+        ],
+        "finish_before": [],
+        "relates_to": [],
+        "start_after": [],
+        "start_before": [
+          {
+            "assignee_ids": [],
+            "created_at": "<datetime Z>",
+            "created_by": "<uuid:1>",
+            "id": "<uuid:16>",
+            "label_ids": [],
+            "name": "Delta",
+            "priority": "none",
+            "project_id": "<uuid:6>",
+            "relation_type": "start_before",
+            "sequence_id": 4,
+            "sort_order": 95535,
+            "state_id": "<uuid:13>",
+            "updated_at": "<datetime Z>",
+            "updated_by": null
+          }
+        ]
+      }
+    },
+    {
+      "actor": "db",
+      "method": "QUERY",
+      "path": "issue_links",
+      "status": 0,
+      "body": []
+    },
+    {
+      "actor": "db",
+      "method": "QUERY",
+      "path": "issue_relations",
+      "status": 0,
+      "body": [
+        {
+          "created_by": "alice@example.com",
+          "issue": "Alpha",
+          "live": true,
+          "project": "PL",
+          "related": "Alpha",
+          "relation_type": "relates_to",
+          "updated_by": "alice@example.com"
+        },
+        {
+          "created_by": "alice@example.com",
+          "issue": "Alpha",
+          "live": false,
+          "project": "PL",
+          "related": "Beta",
+          "relation_type": "duplicate",
+          "updated_by": "bob@example.com"
+        },
+        {
+          "created_by": "alice@example.com",
+          "issue": "Alpha",
+          "live": true,
+          "project": "PL",
+          "related": "Delta",
+          "relation_type": "relates_to",
+          "updated_by": "alice@example.com"
+        },
+        {
+          "created_by": "alice@example.com",
+          "issue": "Alpha",
+          "live": true,
+          "project": "PL",
+          "related": "Epsilon",
+          "relation_type": "blocked_by",
+          "updated_by": "alice@example.com"
+        },
+        {
+          "created_by": "alice@example.com",
+          "issue": "Alpha",
+          "live": false,
+          "project": "PL",
+          "related": "Gamma",
+          "relation_type": "blocked_by",
+          "updated_by": "alice@example.com"
+        },
+        {
+          "created_by": "bob@example.com",
+          "issue": "Beta",
+          "live": true,
+          "project": "PL",
+          "related": "Alpha",
+          "relation_type": "blocked_by",
+          "updated_by": "bob@example.com"
+        },
+        {
+          "created_by": "alice@example.com",
+          "issue": "Beta",
+          "live": true,
+          "project": "PL",
+          "related": "Delta",
+          "relation_type": "start_before",
+          "updated_by": "alice@example.com"
+        },
+        {
+          "created_by": "alice@example.com",
+          "issue": "Delta",
+          "live": true,
+          "project": "PL",
+          "related": "Alpha",
+          "relation_type": "relates_to",
+          "updated_by": "alice@example.com"
+        },
+        {
+          "created_by": "alice@example.com",
+          "issue": "Gamma",
+          "live": false,
+          "project": "PL",
+          "related": "Alpha",
+          "relation_type": "start_before",
+          "updated_by": "alice@example.com"
+        },
+        {
+          "created_by": "alice@example.com",
+          "issue": "Gamma",
+          "live": true,
+          "project": "PL",
+          "related": "Beta",
+          "relation_type": "finish_before",
+          "updated_by": "alice@example.com"
+        },
+        {
+          "created_by": "alice@example.com",
+          "issue": "Gamma",
+          "live": true,
+          "project": "PL",
+          "related": "Delta",
+          "relation_type": "finish_before",
+          "updated_by": "alice@example.com"
+        }
+      ]
+    },
+    {
+      "actor": "db",
+      "method": "QUERY",
+      "path": "issues",
+      "status": 0,
+      "body": [
+        {
+          "archived_at": null,
+          "completed": false,
+          "created_by": "alice@example.com",
+          "description_html": "<p></p>",
+          "description_json": {},
+          "description_stripped": "",
+          "external_id": null,
+          "external_source": null,
+          "identifier": "OT",
+          "is_draft": false,
+          "live": true,
+          "name": "Epsilon",
+          "parent": null,
+          "point": null,
+          "priority": "none",
+          "sequence_id": 1,
+          "sort_order": 65535,
+          "start_date": null,
+          "state": "Backlog",
+          "target_date": null,
+          "touched": true,
+          "updated_by": null
+        },
+        {
+          "archived_at": null,
+          "completed": false,
+          "created_by": "alice@example.com",
+          "description_html": "<p></p>",
+          "description_json": {},
+          "description_stripped": "",
+          "external_id": null,
+          "external_source": null,
+          "identifier": "PL",
+          "is_draft": false,
+          "live": true,
+          "name": "Alpha",
+          "parent": null,
+          "point": null,
+          "priority": "none",
+          "sequence_id": 1,
+          "sort_order": 65535,
+          "start_date": null,
+          "state": "Backlog",
+          "target_date": null,
+          "touched": true,
+          "updated_by": null
+        },
+        {
+          "archived_at": null,
+          "completed": false,
+          "created_by": "alice@example.com",
+          "description_html": "<p></p>",
+          "description_json": {},
+          "description_stripped": "",
+          "external_id": null,
+          "external_source": null,
+          "identifier": "PL",
+          "is_draft": false,
+          "live": true,
+          "name": "Beta",
+          "parent": null,
+          "point": null,
+          "priority": "high",
+          "sequence_id": 2,
+          "sort_order": 75535,
+          "start_date": null,
+          "state": "Backlog",
+          "target_date": null,
+          "touched": true,
+          "updated_by": null
+        },
+        {
+          "archived_at": null,
+          "completed": false,
+          "created_by": "alice@example.com",
+          "description_html": "<p></p>",
+          "description_json": {},
+          "description_stripped": "",
+          "external_id": null,
+          "external_source": null,
+          "identifier": "PL",
+          "is_draft": false,
+          "live": true,
+          "name": "Gamma",
+          "parent": null,
+          "point": null,
+          "priority": "none",
+          "sequence_id": 3,
+          "sort_order": 85535,
+          "start_date": null,
+          "state": "Backlog",
+          "target_date": null,
+          "touched": true,
+          "updated_by": null
+        },
+        {
+          "archived_at": null,
+          "completed": false,
+          "created_by": "alice@example.com",
+          "description_html": "<p></p>",
+          "description_json": {},
+          "description_stripped": "",
+          "external_id": null,
+          "external_source": null,
+          "identifier": "PL",
+          "is_draft": false,
+          "live": true,
+          "name": "Delta",
+          "parent": null,
+          "point": null,
+          "priority": "none",
+          "sequence_id": 4,
+          "sort_order": 95535,
+          "start_date": null,
+          "state": "Backlog",
+          "target_date": null,
+          "touched": true,
+          "updated_by": null
+        },
+        {
+          "archived_at": "2026-01-01",
+          "completed": false,
+          "created_by": "alice@example.com",
+          "description_html": "<p></p>",
+          "description_json": {},
+          "description_stripped": "",
+          "external_id": null,
+          "external_source": null,
+          "identifier": "PL",
+          "is_draft": false,
+          "live": true,
+          "name": "Archived",
+          "parent": null,
+          "point": null,
+          "priority": "none",
+          "sequence_id": 5,
+          "sort_order": 105535,
+          "start_date": null,
+          "state": "Backlog",
+          "target_date": null,
+          "touched": true,
+          "updated_by": null
+        },
+        {
+          "archived_at": null,
+          "completed": false,
+          "created_by": "alice@example.com",
+          "description_html": "<p></p>",
+          "description_json": {},
+          "description_stripped": "",
+          "external_id": null,
+          "external_source": null,
+          "identifier": "PL",
+          "is_draft": true,
+          "live": true,
+          "name": "Draft",
+          "parent": null,
+          "point": null,
+          "priority": "none",
+          "sequence_id": 6,
+          "sort_order": 115535,
+          "start_date": null,
+          "state": "Backlog",
+          "target_date": null,
+          "touched": true,
+          "updated_by": null
+        }
+      ]
+    },
+    {
+      "actor": "db",
+      "method": "QUERY",
+      "path": "issue_sequences",
+      "status": 0,
+      "body": [
+        {
+          "deleted": false,
+          "identifier": "OT",
+          "live": true,
+          "name": "Epsilon",
+          "sequence": 1
+        },
+        {
+          "deleted": false,
+          "identifier": "PL",
+          "live": true,
+          "name": "Alpha",
+          "sequence": 1
+        },
+        {
+          "deleted": false,
+          "identifier": "PL",
+          "live": true,
+          "name": "Beta",
+          "sequence": 2
+        },
+        {
+          "deleted": false,
+          "identifier": "PL",
+          "live": true,
+          "name": "Gamma",
+          "sequence": 3
+        },
+        {
+          "deleted": false,
+          "identifier": "PL",
+          "live": true,
+          "name": "Delta",
+          "sequence": 4
+        },
+        {
+          "deleted": false,
+          "identifier": "PL",
+          "live": true,
+          "name": "Archived",
+          "sequence": 5
+        },
+        {
+          "deleted": false,
+          "identifier": "PL",
+          "live": true,
+          "name": "Draft",
+          "sequence": 6
+        }
+      ]
+    },
+    {
+      "actor": "db",
+      "method": "QUERY",
+      "path": "issue_assignees",
+      "status": 0,
+      "body": [
+        {
+          "created_by": "alice@example.com",
+          "email": "bob@example.com",
+          "live": true,
+          "name": "Alpha",
+          "updated_by": null
+        },
+        {
+          "created_by": "alice@example.com",
+          "email": "bob@example.com",
+          "live": true,
+          "name": "Beta",
+          "updated_by": null
+        }
+      ]
+    },
+    {
+      "actor": "db",
+      "method": "QUERY",
+      "path": "issue_labels",
+      "status": 0,
+      "body": [
+        {
+          "created_by": "alice@example.com",
+          "label": "Bug",
+          "live": true,
+          "name": "Alpha",
+          "updated_by": null
+        }
+      ]
+    },
+    {
+      "actor": "db",
+      "method": "QUERY",
+      "path": "issue_activities",
+      "status": 0,
+      "body": [
+        {
+          "actor": "alice@example.com",
+          "comment": "created the issue",
+          "created_by": "alice@example.com",
+          "field": null,
+          "has_epoch": true,
+          "issue": "Alpha",
+          "live": true,
+          "new_identifier": null,
+          "new_value": null,
+          "old_identifier": null,
+          "old_value": null,
+          "verb": "created"
+        },
+        {
+          "actor": "alice@example.com",
+          "comment": "deleted None relation",
+          "created_by": null,
+          "field": null,
+          "has_epoch": true,
+          "issue": "Alpha",
+          "live": true,
+          "new_identifier": null,
+          "new_value": "",
+          "old_identifier": "<uuid:15>",
+          "old_value": "PL-3",
+          "verb": "deleted"
+        },
+        {
+          "actor": "alice@example.com",
+          "comment": "deleted blocked_by relation",
+          "created_by": null,
+          "field": "blocking",
+          "has_epoch": true,
+          "issue": "Alpha",
+          "live": true,
+          "new_identifier": null,
+          "new_value": "",
+          "old_identifier": "<uuid:12>",
+          "old_value": "PL-3",
+          "verb": "deleted"
+        },
+        {
+          "actor": "bob@example.com",
+          "comment": "deleted blocking relation",
+          "created_by": null,
+          "field": "blocking",
+          "has_epoch": true,
+          "issue": "Alpha",
+          "live": true,
+          "new_identifier": null,
+          "new_value": "",
+          "old_identifier": "<uuid:14>",
+          "old_value": "PL-2",
+          "verb": "deleted"
+        },
+        {
+          "actor": "alice@example.com",
+          "comment": "added assignee ",
+          "created_by": null,
+          "field": "assignees",
+          "has_epoch": true,
+          "issue": "Alpha",
+          "live": true,
+          "new_identifier": "<uuid:7>",
+          "new_value": "bob",
+          "old_identifier": null,
+          "old_value": "",
+          "verb": "updated"
+        },
+        {
+          "actor": "alice@example.com",
+          "comment": "added blocked_by relation",
+          "created_by": null,
+          "field": "blocked_by",
+          "has_epoch": true,
+          "issue": "Alpha",
+          "live": true,
+          "new_identifier": null,
+          "new_value": "OT-1",
+          "old_identifier": "<uuid:18>",
+          "old_value": "",
+          "verb": "updated"
+        },
+        {
+          "actor": "alice@example.com",
+          "comment": "added blocked_by relation",
+          "created_by": null,
+          "field": "blocked_by",
+          "has_epoch": true,
+          "issue": "Alpha",
+          "live": true,
+          "new_identifier": null,
+          "new_value": "PL-3",
+          "old_identifier": "<uuid:15>",
+          "old_value": "",
+          "verb": "updated"
+        },
+        {
+          "actor": "alice@example.com",
+          "comment": "added blocked_by relation",
+          "created_by": null,
+          "field": "blocked_by",
+          "has_epoch": true,
+          "issue": "Alpha",
+          "live": true,
+          "new_identifier": null,
+          "new_value": "PL-3",
+          "old_identifier": "<uuid:15>",
+          "old_value": "",
+          "verb": "updated"
+        },
+        {
+          "actor": "bob@example.com",
+          "comment": "added blocking relation",
+          "created_by": null,
+          "field": "blocking",
+          "has_epoch": true,
+          "issue": "Alpha",
+          "live": true,
+          "new_identifier": null,
+          "new_value": "PL-2",
+          "old_identifier": "<uuid:14>",
+          "old_value": "",
+          "verb": "updated"
+        },
+        {
+          "actor": "alice@example.com",
+          "comment": "added duplicate relation",
+          "created_by": null,
+          "field": "duplicate",
+          "has_epoch": true,
+          "issue": "Alpha",
+          "live": true,
+          "new_identifier": null,
+          "new_value": "PL-2",
+          "old_identifier": "<uuid:14>",
+          "old_value": "",
+          "verb": "updated"
+        },
+        {
+          "actor": "alice@example.com",
+          "comment": "added finish_before relation",
+          "created_by": null,
+          "field": "finish_before",
+          "has_epoch": true,
+          "issue": "Alpha",
+          "live": true,
+          "new_identifier": null,
+          "new_value": "PL-4",
+          "old_identifier": "<uuid:16>",
+          "old_value": "",
+          "verb": "updated"
+        },
+        {
+          "actor": "alice@example.com",
+          "comment": "added implements relation",
+          "created_by": null,
+          "field": "implements",
+          "has_epoch": true,
+          "issue": "Alpha",
+          "live": true,
+          "new_identifier": null,
+          "new_value": "PL-2",
+          "old_identifier": "<uuid:14>",
+          "old_value": "",
+          "verb": "updated"
+        },
+        {
+          "actor": "alice@example.com",
+          "comment": "added implements relation",
+          "created_by": null,
+          "field": "implements",
+          "has_epoch": true,
+          "issue": "Alpha",
+          "live": true,
+          "new_identifier": null,
+          "new_value": "PL-3",
+          "old_identifier": "<uuid:15>",
+          "old_value": "",
+          "verb": "updated"
+        },
+        {
+          "actor": "alice@example.com",
+          "comment": "added nonsense relation",
+          "created_by": null,
+          "field": "nonsense",
+          "has_epoch": true,
+          "issue": "Alpha",
+          "live": true,
+          "new_identifier": null,
+          "new_value": "PL-5",
+          "old_identifier": "<uuid:20>",
+          "old_value": "",
+          "verb": "updated"
+        },
+        {
+          "actor": "alice@example.com",
+          "comment": "added relates_to relation",
+          "created_by": null,
+          "field": "relates_to",
+          "has_epoch": true,
+          "issue": "Alpha",
+          "live": true,
+          "new_identifier": null,
+          "new_value": "PL-1",
+          "old_identifier": "<uuid:12>",
+          "old_value": "",
+          "verb": "updated"
+        },
+        {
+          "actor": "alice@example.com",
+          "comment": "added relates_to relation",
+          "created_by": null,
+          "field": "relates_to",
+          "has_epoch": true,
+          "issue": "Alpha",
+          "live": true,
+          "new_identifier": null,
+          "new_value": "PL-1",
+          "old_identifier": "<uuid:12>",
+          "old_value": "",
+          "verb": "updated"
+        },
+        {
+          "actor": "alice@example.com",
+          "comment": "added relates_to relation",
+          "created_by": null,
+          "field": "relates_to",
+          "has_epoch": true,
+          "issue": "Alpha",
+          "live": true,
+          "new_identifier": null,
+          "new_value": "PL-4",
+          "old_identifier": "<uuid:16>",
+          "old_value": "",
+          "verb": "updated"
+        },
+        {
+          "actor": "alice@example.com",
+          "comment": "added relates_to relation",
+          "created_by": null,
+          "field": "relates_to",
+          "has_epoch": true,
+          "issue": "Alpha",
+          "live": true,
+          "new_identifier": null,
+          "new_value": "PL-4",
+          "old_identifier": "<uuid:16>",
+          "old_value": "",
+          "verb": "updated"
+        },
+        {
+          "actor": "alice@example.com",
+          "comment": "added start_after relation",
+          "created_by": null,
+          "field": "start_after",
+          "has_epoch": true,
+          "issue": "Alpha",
+          "live": true,
+          "new_identifier": null,
+          "new_value": "PL-3",
+          "old_identifier": "<uuid:15>",
+          "old_value": "",
+          "verb": "updated"
+        },
+        {
+          "actor": "alice@example.com",
+          "comment": "created the issue",
+          "created_by": "alice@example.com",
+          "field": null,
+          "has_epoch": true,
+          "issue": "Archived",
+          "live": true,
+          "new_identifier": null,
+          "new_value": null,
+          "old_identifier": null,
+          "old_value": null,
+          "verb": "created"
+        },
+        {
+          "actor": "alice@example.com",
+          "comment": "added nonsense relation",
+          "created_by": null,
+          "field": "nonsense",
+          "has_epoch": true,
+          "issue": "Archived",
+          "live": true,
+          "new_identifier": null,
+          "new_value": "PL-1",
+          "old_identifier": "<uuid:12>",
+          "old_value": "",
+          "verb": "updated"
+        },
+        {
+          "actor": "alice@example.com",
+          "comment": "created the issue",
+          "created_by": "alice@example.com",
+          "field": null,
+          "has_epoch": true,
+          "issue": "Beta",
+          "live": true,
+          "new_identifier": null,
+          "new_value": null,
+          "old_identifier": null,
+          "old_value": null,
+          "verb": "created"
+        },
+        {
+          "actor": "bob@example.com",
+          "comment": "deleted blocking relation",
+          "created_by": null,
+          "field": "blocked_by",
+          "has_epoch": true,
+          "issue": "Beta",
+          "live": true,
+          "new_identifier": null,
+          "new_value": "",
+          "old_identifier": "<uuid:14>",
+          "old_value": "PL-1",
+          "verb": "deleted"
+        },
+        {
+          "actor": "alice@example.com",
+          "comment": "added assignee ",
+          "created_by": null,
+          "field": "assignees",
+          "has_epoch": true,
+          "issue": "Beta",
+          "live": true,
+          "new_identifier": "<uuid:7>",
+          "new_value": "bob",
+          "old_identifier": null,
+          "old_value": "",
+          "verb": "updated"
+        },
+        {
+          "actor": "alice@example.com",
+          "comment": "added assignee ",
+          "created_by": null,
+          "field": "assignees",
+          "has_epoch": true,
+          "issue": "Beta",
+          "live": true,
+          "new_identifier": "<uuid:8>",
+          "new_value": "carol",
+          "old_identifier": null,
+          "old_value": "",
+          "verb": "updated"
+        },
+        {
+          "actor": "bob@example.com",
+          "comment": "added blocked_by relation",
+          "created_by": null,
+          "field": "blocked_by",
+          "has_epoch": true,
+          "issue": "Beta",
+          "live": true,
+          "new_identifier": null,
+          "new_value": "PL-1",
+          "old_identifier": "<uuid:12>",
+          "old_value": "",
+          "verb": "updated"
+        },
+        {
+          "actor": "alice@example.com",
+          "comment": "added duplicate relation",
+          "created_by": null,
+          "field": "duplicate",
+          "has_epoch": true,
+          "issue": "Beta",
+          "live": true,
+          "new_identifier": null,
+          "new_value": "PL-1",
+          "old_identifier": "<uuid:12>",
+          "old_value": "",
+          "verb": "updated"
+        },
+        {
+          "actor": "alice@example.com",
+          "comment": "added finish_after relation",
+          "created_by": null,
+          "field": "finish_after",
+          "has_epoch": true,
+          "issue": "Beta",
+          "live": true,
+          "new_identifier": null,
+          "new_value": "PL-3",
+          "old_identifier": "<uuid:15>",
+          "old_value": "",
+          "verb": "updated"
+        },
+        {
+          "actor": "alice@example.com",
+          "comment": "added implemented_by relation",
+          "created_by": null,
+          "field": "implemented_by",
+          "has_epoch": true,
+          "issue": "Beta",
+          "live": true,
+          "new_identifier": null,
+          "new_value": "PL-1",
+          "old_identifier": "<uuid:12>",
+          "old_value": "",
+          "verb": "updated"
+        },
+        {
+          "actor": "alice@example.com",
+          "comment": "added start_before relation",
+          "created_by": null,
+          "field": "start_before",
+          "has_epoch": true,
+          "issue": "Beta",
+          "live": true,
+          "new_identifier": null,
+          "new_value": "PL-4",
+          "old_identifier": "<uuid:16>",
+          "old_value": "",
+          "verb": "updated"
+        },
+        {
+          "actor": "alice@example.com",
+          "comment": "created the issue",
+          "created_by": "alice@example.com",
+          "field": null,
+          "has_epoch": true,
+          "issue": "Delta",
+          "live": true,
+          "new_identifier": null,
+          "new_value": null,
+          "old_identifier": null,
+          "old_value": null,
+          "verb": "created"
+        },
+        {
+          "actor": "alice@example.com",
+          "comment": "added finish_after relation",
+          "created_by": null,
+          "field": "finish_after",
+          "has_epoch": true,
+          "issue": "Delta",
+          "live": true,
+          "new_identifier": null,
+          "new_value": "PL-1",
+          "old_identifier": "<uuid:12>",
+          "old_value": "",
+          "verb": "updated"
+        },
+        {
+          "actor": "alice@example.com",
+          "comment": "added finish_after relation",
+          "created_by": null,
+          "field": "finish_after",
+          "has_epoch": true,
+          "issue": "Delta",
+          "live": true,
+          "new_identifier": null,
+          "new_value": "PL-3",
+          "old_identifier": "<uuid:15>",
+          "old_value": "",
+          "verb": "updated"
+        },
+        {
+          "actor": "alice@example.com",
+          "comment": "added implements relation",
+          "created_by": null,
+          "field": "implements",
+          "has_epoch": true,
+          "issue": "Delta",
+          "live": true,
+          "new_identifier": null,
+          "new_value": "PL-3",
+          "old_identifier": "<uuid:15>",
+          "old_value": "",
+          "verb": "updated"
+        },
+        {
+          "actor": "alice@example.com",
+          "comment": "added relates_to relation",
+          "created_by": null,
+          "field": "relates_to",
+          "has_epoch": true,
+          "issue": "Delta",
+          "live": true,
+          "new_identifier": null,
+          "new_value": "PL-1",
+          "old_identifier": "<uuid:12>",
+          "old_value": "",
+          "verb": "updated"
+        },
+        {
+          "actor": "alice@example.com",
+          "comment": "added relates_to relation",
+          "created_by": null,
+          "field": "relates_to",
+          "has_epoch": true,
+          "issue": "Delta",
+          "live": true,
+          "new_identifier": null,
+          "new_value": "PL-1",
+          "old_identifier": "<uuid:12>",
+          "old_value": "",
+          "verb": "updated"
+        },
+        {
+          "actor": "alice@example.com",
+          "comment": "added start_after relation",
+          "created_by": null,
+          "field": "start_after",
+          "has_epoch": true,
+          "issue": "Delta",
+          "live": true,
+          "new_identifier": null,
+          "new_value": "PL-2",
+          "old_identifier": "<uuid:14>",
+          "old_value": "",
+          "verb": "updated"
+        },
+        {
+          "actor": "alice@example.com",
+          "comment": "created the issue",
+          "created_by": "alice@example.com",
+          "field": null,
+          "has_epoch": true,
+          "issue": "Draft",
+          "live": true,
+          "new_identifier": null,
+          "new_value": null,
+          "old_identifier": null,
+          "old_value": null,
+          "verb": "created"
+        },
+        {
+          "actor": "alice@example.com",
+          "comment": "created the issue",
+          "created_by": "alice@example.com",
+          "field": null,
+          "has_epoch": true,
+          "issue": "Epsilon",
+          "live": true,
+          "new_identifier": null,
+          "new_value": null,
+          "old_identifier": null,
+          "old_value": null,
+          "verb": "created"
+        },
+        {
+          "actor": "alice@example.com",
+          "comment": "added blocking relation",
+          "created_by": null,
+          "field": "blocking",
+          "has_epoch": true,
+          "issue": "Epsilon",
+          "live": true,
+          "new_identifier": null,
+          "new_value": "PL-1",
+          "old_identifier": "<uuid:12>",
+          "old_value": "",
+          "verb": "updated"
+        },
+        {
+          "actor": "alice@example.com",
+          "comment": "created the issue",
+          "created_by": "alice@example.com",
+          "field": null,
+          "has_epoch": true,
+          "issue": "Gamma",
+          "live": true,
+          "new_identifier": null,
+          "new_value": null,
+          "old_identifier": null,
+          "old_value": null,
+          "verb": "created"
+        },
+        {
+          "actor": "alice@example.com",
+          "comment": "deleted None relation",
+          "created_by": null,
+          "field": null,
+          "has_epoch": true,
+          "issue": "Gamma",
+          "live": true,
+          "new_identifier": null,
+          "new_value": "",
+          "old_identifier": "<uuid:15>",
+          "old_value": "PL-1",
+          "verb": "deleted"
+        },
+        {
+          "actor": "alice@example.com",
+          "comment": "deleted blocked_by relation",
+          "created_by": null,
+          "field": "blocked_by",
+          "has_epoch": true,
+          "issue": "Gamma",
+          "live": true,
+          "new_identifier": null,
+          "new_value": "",
+          "old_identifier": "<uuid:12>",
+          "old_value": "PL-1",
+          "verb": "deleted"
+        },
+        {
+          "actor": "alice@example.com",
+          "comment": "added blocking relation",
+          "created_by": null,
+          "field": "blocking",
+          "has_epoch": true,
+          "issue": "Gamma",
+          "live": true,
+          "new_identifier": null,
+          "new_value": "PL-1",
+          "old_identifier": "<uuid:12>",
+          "old_value": "",
+          "verb": "updated"
+        },
+        {
+          "actor": "alice@example.com",
+          "comment": "added blocking relation",
+          "created_by": null,
+          "field": "blocking",
+          "has_epoch": true,
+          "issue": "Gamma",
+          "live": true,
+          "new_identifier": null,
+          "new_value": "PL-1",
+          "old_identifier": "<uuid:12>",
+          "old_value": "",
+          "verb": "updated"
+        },
+        {
+          "actor": "alice@example.com",
+          "comment": "added finish_before relation",
+          "created_by": null,
+          "field": "finish_before",
+          "has_epoch": true,
+          "issue": "Gamma",
+          "live": true,
+          "new_identifier": null,
+          "new_value": "PL-2",
+          "old_identifier": "<uuid:14>",
+          "old_value": "",
+          "verb": "updated"
+        },
+        {
+          "actor": "alice@example.com",
+          "comment": "added finish_before relation",
+          "created_by": null,
+          "field": "finish_before",
+          "has_epoch": true,
+          "issue": "Gamma",
+          "live": true,
+          "new_identifier": null,
+          "new_value": "PL-4",
+          "old_identifier": "<uuid:16>",
+          "old_value": "",
+          "verb": "updated"
+        },
+        {
+          "actor": "alice@example.com",
+          "comment": "added implemented_by relation",
+          "created_by": null,
+          "field": "implemented_by",
+          "has_epoch": true,
+          "issue": "Gamma",
+          "live": true,
+          "new_identifier": null,
+          "new_value": "PL-1",
+          "old_identifier": "<uuid:12>",
+          "old_value": "",
+          "verb": "updated"
+        },
+        {
+          "actor": "alice@example.com",
+          "comment": "added implemented_by relation",
+          "created_by": null,
+          "field": "implemented_by",
+          "has_epoch": true,
+          "issue": "Gamma",
+          "live": true,
+          "new_identifier": null,
+          "new_value": "PL-4",
+          "old_identifier": "<uuid:16>",
+          "old_value": "",
+          "verb": "updated"
+        },
+        {
+          "actor": "alice@example.com",
+          "comment": "added start_before relation",
+          "created_by": null,
+          "field": "start_before",
+          "has_epoch": true,
+          "issue": "Gamma",
+          "live": true,
+          "new_identifier": null,
+          "new_value": "PL-1",
+          "old_identifier": "<uuid:12>",
+          "old_value": "",
+          "verb": "updated"
+        }
+      ]
+    },
+    {
+      "actor": "db",
+      "method": "QUERY",
+      "path": "issue_subscribers",
+      "status": 0,
+      "body": [
+        {
+          "created_by": "alice@example.com",
+          "email": "alice@example.com",
+          "live": true,
+          "name": "Alpha",
+          "updated_by": null
+        },
+        {
+          "created_by": "bob@example.com",
+          "email": "bob@example.com",
+          "live": true,
+          "name": "Alpha",
+          "updated_by": "bob@example.com"
+        },
+        {
+          "created_by": "alice@example.com",
+          "email": "alice@example.com",
+          "live": true,
+          "name": "Archived",
+          "updated_by": null
+        },
+        {
+          "created_by": "alice@example.com",
+          "email": "alice@example.com",
+          "live": true,
+          "name": "Beta",
+          "updated_by": null
+        },
+        {
+          "created_by": "bob@example.com",
+          "email": "bob@example.com",
+          "live": true,
+          "name": "Beta",
+          "updated_by": "bob@example.com"
+        },
+        {
+          "created_by": "carol@example.com",
+          "email": "carol@example.com",
+          "live": true,
+          "name": "Beta",
+          "updated_by": "carol@example.com"
+        },
+        {
+          "created_by": "alice@example.com",
+          "email": "alice@example.com",
+          "live": true,
+          "name": "Delta",
+          "updated_by": null
+        },
+        {
+          "created_by": "alice@example.com",
+          "email": "alice@example.com",
+          "live": true,
+          "name": "Draft",
+          "updated_by": null
+        },
+        {
+          "created_by": "alice@example.com",
+          "email": "alice@example.com",
+          "live": true,
+          "name": "Epsilon",
+          "updated_by": null
+        },
+        {
+          "created_by": "alice@example.com",
+          "email": "alice@example.com",
+          "live": true,
+          "name": "Gamma",
+          "updated_by": null
+        }
+      ]
+    },
+    {
+      "actor": "db",
+      "method": "QUERY",
+      "path": "issue_mentions",
+      "status": 0,
+      "body": []
+    },
+    {
+      "actor": "db",
+      "method": "QUERY",
+      "path": "notifications",
+      "status": 0,
+      "body": [
+        {
+          "activity_ok": false,
+          "entity_name": "issue",
+          "field": "blocking",
+          "identifier": "PL",
+          "issue": "Alpha",
+          "issue_comment": "",
+          "issue_data": {
+            "id": "<uuid:12>",
+            "identifier": "PL",
+            "name": "Alpha",
+            "sequence_id": 1,
+            "state_group": "backlog",
+            "state_name": "Backlog"
+          },
+          "message": null,
+          "message_html": "<p></p>",
+          "new_identifier": null,
+          "new_value": "PL-2",
+          "old_identifier": "<uuid:14>",
+          "old_value": "",
+          "receiver": "alice@example.com",
+          "sender": "in_app:issue_activities:created",
+          "title": "added blocking relation",
+          "triggered_by": "bob@example.com",
+          "unread": true,
+          "verb": "updated"
+        },
+        {
+          "activity_ok": false,
+          "entity_name": "issue",
+          "field": "blocking",
+          "identifier": "PL",
+          "issue": "Alpha",
+          "issue_comment": "",
+          "issue_data": {
+            "id": "<uuid:12>",
+            "identifier": "PL",
+            "name": "Alpha",
+            "sequence_id": 1,
+            "state_group": "backlog",
+            "state_name": "Backlog"
+          },
+          "message": null,
+          "message_html": "<p></p>",
+          "new_identifier": null,
+          "new_value": "",
+          "old_identifier": "<uuid:14>",
+          "old_value": "PL-2",
+          "receiver": "alice@example.com",
+          "sender": "in_app:issue_activities:created",
+          "title": "deleted blocking relation",
+          "triggered_by": "bob@example.com",
+          "unread": true,
+          "verb": "deleted"
+        },
+        {
+          "activity_ok": false,
+          "entity_name": "issue",
+          "field": "assignees",
+          "identifier": "PL",
+          "issue": "Alpha",
+          "issue_comment": "",
+          "issue_data": {
+            "id": "<uuid:12>",
+            "identifier": "PL",
+            "name": "Alpha",
+            "sequence_id": 1,
+            "state_group": "backlog",
+            "state_name": "Backlog"
+          },
+          "message": null,
+          "message_html": "<p></p>",
+          "new_identifier": "<uuid:7>",
+          "new_value": "bob",
+          "old_identifier": null,
+          "old_value": "",
+          "receiver": "bob@example.com",
+          "sender": "in_app:issue_activities:assigned",
+          "title": "added assignee ",
+          "triggered_by": "alice@example.com",
+          "unread": true,
+          "verb": "updated"
+        },
+        {
+          "activity_ok": false,
+          "entity_name": "issue",
+          "field": "assignees",
+          "identifier": "PL",
+          "issue": "Beta",
+          "issue_comment": "",
+          "issue_data": {
+            "id": "<uuid:14>",
+            "identifier": "PL",
+            "name": "Beta",
+            "sequence_id": 2,
+            "state_group": "backlog",
+            "state_name": "Backlog"
+          },
+          "message": null,
+          "message_html": "<p></p>",
+          "new_identifier": "<uuid:7>",
+          "new_value": "bob",
+          "old_identifier": null,
+          "old_value": "",
+          "receiver": "bob@example.com",
+          "sender": "in_app:issue_activities:assigned",
+          "title": "added assignee ",
+          "triggered_by": "alice@example.com",
+          "unread": true,
+          "verb": "updated"
+        },
+        {
+          "activity_ok": false,
+          "entity_name": "issue",
+          "field": "assignees",
+          "identifier": "PL",
+          "issue": "Beta",
+          "issue_comment": "",
+          "issue_data": {
+            "id": "<uuid:14>",
+            "identifier": "PL",
+            "name": "Beta",
+            "sequence_id": 2,
+            "state_group": "backlog",
+            "state_name": "Backlog"
+          },
+          "message": null,
+          "message_html": "<p></p>",
+          "new_identifier": "<uuid:8>",
+          "new_value": "carol",
+          "old_identifier": null,
+          "old_value": "",
+          "receiver": "bob@example.com",
+          "sender": "in_app:issue_activities:assigned",
+          "title": "added assignee ",
+          "triggered_by": "alice@example.com",
+          "unread": true,
+          "verb": "updated"
+        },
+        {
+          "activity_ok": false,
+          "entity_name": "issue",
+          "field": "blocked_by",
+          "identifier": "PL",
+          "issue": "Alpha",
+          "issue_comment": "",
+          "issue_data": {
+            "id": "<uuid:12>",
+            "identifier": "PL",
+            "name": "Alpha",
+            "sequence_id": 1,
+            "state_group": "backlog",
+            "state_name": "Backlog"
+          },
+          "message": null,
+          "message_html": "<p></p>",
+          "new_identifier": null,
+          "new_value": "OT-1",
+          "old_identifier": "<uuid:18>",
+          "old_value": "",
+          "receiver": "bob@example.com",
+          "sender": "in_app:issue_activities:assigned",
+          "title": "added blocked_by relation",
+          "triggered_by": "alice@example.com",
+          "unread": true,
+          "verb": "updated"
+        },
+        {
+          "activity_ok": false,
+          "entity_name": "issue",
+          "field": "blocked_by",
+          "identifier": "PL",
+          "issue": "Alpha",
+          "issue_comment": "",
+          "issue_data": {
+            "id": "<uuid:12>",
+            "identifier": "PL",
+            "name": "Alpha",
+            "sequence_id": 1,
+            "state_group": "backlog",
+            "state_name": "Backlog"
+          },
+          "message": null,
+          "message_html": "<p></p>",
+          "new_identifier": null,
+          "new_value": "PL-3",
+          "old_identifier": "<uuid:15>",
+          "old_value": "",
+          "receiver": "bob@example.com",
+          "sender": "in_app:issue_activities:assigned",
+          "title": "added blocked_by relation",
+          "triggered_by": "alice@example.com",
+          "unread": true,
+          "verb": "updated"
+        },
+        {
+          "activity_ok": false,
+          "entity_name": "issue",
+          "field": "blocked_by",
+          "identifier": "PL",
+          "issue": "Alpha",
+          "issue_comment": "",
+          "issue_data": {
+            "id": "<uuid:12>",
+            "identifier": "PL",
+            "name": "Alpha",
+            "sequence_id": 1,
+            "state_group": "backlog",
+            "state_name": "Backlog"
+          },
+          "message": null,
+          "message_html": "<p></p>",
+          "new_identifier": null,
+          "new_value": "PL-3",
+          "old_identifier": "<uuid:15>",
+          "old_value": "",
+          "receiver": "bob@example.com",
+          "sender": "in_app:issue_activities:assigned",
+          "title": "added blocked_by relation",
+          "triggered_by": "alice@example.com",
+          "unread": true,
+          "verb": "updated"
+        },
+        {
+          "activity_ok": false,
+          "entity_name": "issue",
+          "field": "duplicate",
+          "identifier": "PL",
+          "issue": "Alpha",
+          "issue_comment": "",
+          "issue_data": {
+            "id": "<uuid:12>",
+            "identifier": "PL",
+            "name": "Alpha",
+            "sequence_id": 1,
+            "state_group": "backlog",
+            "state_name": "Backlog"
+          },
+          "message": null,
+          "message_html": "<p></p>",
+          "new_identifier": null,
+          "new_value": "PL-2",
+          "old_identifier": "<uuid:14>",
+          "old_value": "",
+          "receiver": "bob@example.com",
+          "sender": "in_app:issue_activities:assigned",
+          "title": "added duplicate relation",
+          "triggered_by": "alice@example.com",
+          "unread": true,
+          "verb": "updated"
+        },
+        {
+          "activity_ok": false,
+          "entity_name": "issue",
+          "field": "finish_after",
+          "identifier": "PL",
+          "issue": "Beta",
+          "issue_comment": "",
+          "issue_data": {
+            "id": "<uuid:14>",
+            "identifier": "PL",
+            "name": "Beta",
+            "sequence_id": 2,
+            "state_group": "backlog",
+            "state_name": "Backlog"
+          },
+          "message": null,
+          "message_html": "<p></p>",
+          "new_identifier": null,
+          "new_value": "PL-3",
+          "old_identifier": "<uuid:15>",
+          "old_value": "",
+          "receiver": "bob@example.com",
+          "sender": "in_app:issue_activities:assigned",
+          "title": "added finish_after relation",
+          "triggered_by": "alice@example.com",
+          "unread": true,
+          "verb": "updated"
+        },
+        {
+          "activity_ok": false,
+          "entity_name": "issue",
+          "field": "finish_before",
+          "identifier": "PL",
+          "issue": "Alpha",
+          "issue_comment": "",
+          "issue_data": {
+            "id": "<uuid:12>",
+            "identifier": "PL",
+            "name": "Alpha",
+            "sequence_id": 1,
+            "state_group": "backlog",
+            "state_name": "Backlog"
+          },
+          "message": null,
+          "message_html": "<p></p>",
+          "new_identifier": null,
+          "new_value": "PL-4",
+          "old_identifier": "<uuid:16>",
+          "old_value": "",
+          "receiver": "bob@example.com",
+          "sender": "in_app:issue_activities:assigned",
+          "title": "added finish_before relation",
+          "triggered_by": "alice@example.com",
+          "unread": true,
+          "verb": "updated"
+        },
+        {
+          "activity_ok": false,
+          "entity_name": "issue",
+          "field": "implements",
+          "identifier": "PL",
+          "issue": "Alpha",
+          "issue_comment": "",
+          "issue_data": {
+            "id": "<uuid:12>",
+            "identifier": "PL",
+            "name": "Alpha",
+            "sequence_id": 1,
+            "state_group": "backlog",
+            "state_name": "Backlog"
+          },
+          "message": null,
+          "message_html": "<p></p>",
+          "new_identifier": null,
+          "new_value": "PL-2",
+          "old_identifier": "<uuid:14>",
+          "old_value": "",
+          "receiver": "bob@example.com",
+          "sender": "in_app:issue_activities:assigned",
+          "title": "added implements relation",
+          "triggered_by": "alice@example.com",
+          "unread": true,
+          "verb": "updated"
+        },
+        {
+          "activity_ok": false,
+          "entity_name": "issue",
+          "field": "nonsense",
+          "identifier": "PL",
+          "issue": "Alpha",
+          "issue_comment": "",
+          "issue_data": {
+            "id": "<uuid:12>",
+            "identifier": "PL",
+            "name": "Alpha",
+            "sequence_id": 1,
+            "state_group": "backlog",
+            "state_name": "Backlog"
+          },
+          "message": null,
+          "message_html": "<p></p>",
+          "new_identifier": null,
+          "new_value": "PL-5",
+          "old_identifier": "<uuid:20>",
+          "old_value": "",
+          "receiver": "bob@example.com",
+          "sender": "in_app:issue_activities:assigned",
+          "title": "added nonsense relation",
+          "triggered_by": "alice@example.com",
+          "unread": true,
+          "verb": "updated"
+        },
+        {
+          "activity_ok": false,
+          "entity_name": "issue",
+          "field": "relates_to",
+          "identifier": "PL",
+          "issue": "Alpha",
+          "issue_comment": "",
+          "issue_data": {
+            "id": "<uuid:12>",
+            "identifier": "PL",
+            "name": "Alpha",
+            "sequence_id": 1,
+            "state_group": "backlog",
+            "state_name": "Backlog"
+          },
+          "message": null,
+          "message_html": "<p></p>",
+          "new_identifier": null,
+          "new_value": "PL-1",
+          "old_identifier": "<uuid:12>",
+          "old_value": "",
+          "receiver": "bob@example.com",
+          "sender": "in_app:issue_activities:assigned",
+          "title": "added relates_to relation",
+          "triggered_by": "alice@example.com",
+          "unread": true,
+          "verb": "updated"
+        },
+        {
+          "activity_ok": false,
+          "entity_name": "issue",
+          "field": "relates_to",
+          "identifier": "PL",
+          "issue": "Alpha",
+          "issue_comment": "",
+          "issue_data": {
+            "id": "<uuid:12>",
+            "identifier": "PL",
+            "name": "Alpha",
+            "sequence_id": 1,
+            "state_group": "backlog",
+            "state_name": "Backlog"
+          },
+          "message": null,
+          "message_html": "<p></p>",
+          "new_identifier": null,
+          "new_value": "PL-1",
+          "old_identifier": "<uuid:12>",
+          "old_value": "",
+          "receiver": "bob@example.com",
+          "sender": "in_app:issue_activities:assigned",
+          "title": "added relates_to relation",
+          "triggered_by": "alice@example.com",
+          "unread": true,
+          "verb": "updated"
+        },
+        {
+          "activity_ok": false,
+          "entity_name": "issue",
+          "field": "relates_to",
+          "identifier": "PL",
+          "issue": "Alpha",
+          "issue_comment": "",
+          "issue_data": {
+            "id": "<uuid:12>",
+            "identifier": "PL",
+            "name": "Alpha",
+            "sequence_id": 1,
+            "state_group": "backlog",
+            "state_name": "Backlog"
+          },
+          "message": null,
+          "message_html": "<p></p>",
+          "new_identifier": null,
+          "new_value": "PL-4",
+          "old_identifier": "<uuid:16>",
+          "old_value": "",
+          "receiver": "bob@example.com",
+          "sender": "in_app:issue_activities:assigned",
+          "title": "added relates_to relation",
+          "triggered_by": "alice@example.com",
+          "unread": true,
+          "verb": "updated"
+        },
+        {
+          "activity_ok": false,
+          "entity_name": "issue",
+          "field": "start_after",
+          "identifier": "PL",
+          "issue": "Alpha",
+          "issue_comment": "",
+          "issue_data": {
+            "id": "<uuid:12>",
+            "identifier": "PL",
+            "name": "Alpha",
+            "sequence_id": 1,
+            "state_group": "backlog",
+            "state_name": "Backlog"
+          },
+          "message": null,
+          "message_html": "<p></p>",
+          "new_identifier": null,
+          "new_value": "PL-3",
+          "old_identifier": "<uuid:15>",
+          "old_value": "",
+          "receiver": "bob@example.com",
+          "sender": "in_app:issue_activities:assigned",
+          "title": "added start_after relation",
+          "triggered_by": "alice@example.com",
+          "unread": true,
+          "verb": "updated"
+        },
+        {
+          "activity_ok": false,
+          "entity_name": "issue",
+          "field": "start_before",
+          "identifier": "PL",
+          "issue": "Beta",
+          "issue_comment": "",
+          "issue_data": {
+            "id": "<uuid:14>",
+            "identifier": "PL",
+            "name": "Beta",
+            "sequence_id": 2,
+            "state_group": "backlog",
+            "state_name": "Backlog"
+          },
+          "message": null,
+          "message_html": "<p></p>",
+          "new_identifier": null,
+          "new_value": "PL-4",
+          "old_identifier": "<uuid:16>",
+          "old_value": "",
+          "receiver": "bob@example.com",
+          "sender": "in_app:issue_activities:assigned",
+          "title": "added start_before relation",
+          "triggered_by": "alice@example.com",
+          "unread": true,
+          "verb": "updated"
+        },
+        {
+          "activity_ok": false,
+          "entity_name": "issue",
+          "field": "None",
+          "identifier": "PL",
+          "issue": "Alpha",
+          "issue_comment": "",
+          "issue_data": {
+            "id": "<uuid:12>",
+            "identifier": "PL",
+            "name": "Alpha",
+            "sequence_id": 1,
+            "state_group": "backlog",
+            "state_name": "Backlog"
+          },
+          "message": null,
+          "message_html": "<p></p>",
+          "new_identifier": null,
+          "new_value": "",
+          "old_identifier": "<uuid:15>",
+          "old_value": "PL-3",
+          "receiver": "bob@example.com",
+          "sender": "in_app:issue_activities:assigned",
+          "title": "deleted None relation",
+          "triggered_by": "alice@example.com",
+          "unread": true,
+          "verb": "deleted"
+        },
+        {
+          "activity_ok": false,
+          "entity_name": "issue",
+          "field": "assignees",
+          "identifier": "PL",
+          "issue": "Beta",
+          "issue_comment": "",
+          "issue_data": {
+            "id": "<uuid:14>",
+            "identifier": "PL",
+            "name": "Beta",
+            "sequence_id": 2,
+            "state_group": "backlog",
+            "state_name": "Backlog"
+          },
+          "message": null,
+          "message_html": "<p></p>",
+          "new_identifier": "<uuid:7>",
+          "new_value": "bob",
+          "old_identifier": null,
+          "old_value": "",
+          "receiver": "carol@example.com",
+          "sender": "in_app:issue_activities:subscribed",
+          "title": "added assignee ",
+          "triggered_by": "alice@example.com",
+          "unread": true,
+          "verb": "updated"
+        },
+        {
+          "activity_ok": false,
+          "entity_name": "issue",
+          "field": "assignees",
+          "identifier": "PL",
+          "issue": "Beta",
+          "issue_comment": "",
+          "issue_data": {
+            "id": "<uuid:14>",
+            "identifier": "PL",
+            "name": "Beta",
+            "sequence_id": 2,
+            "state_group": "backlog",
+            "state_name": "Backlog"
+          },
+          "message": null,
+          "message_html": "<p></p>",
+          "new_identifier": "<uuid:8>",
+          "new_value": "carol",
+          "old_identifier": null,
+          "old_value": "",
+          "receiver": "carol@example.com",
+          "sender": "in_app:issue_activities:subscribed",
+          "title": "added assignee ",
+          "triggered_by": "alice@example.com",
+          "unread": true,
+          "verb": "updated"
+        },
+        {
+          "activity_ok": false,
+          "entity_name": "issue",
+          "field": "finish_after",
+          "identifier": "PL",
+          "issue": "Beta",
+          "issue_comment": "",
+          "issue_data": {
+            "id": "<uuid:14>",
+            "identifier": "PL",
+            "name": "Beta",
+            "sequence_id": 2,
+            "state_group": "backlog",
+            "state_name": "Backlog"
+          },
+          "message": null,
+          "message_html": "<p></p>",
+          "new_identifier": null,
+          "new_value": "PL-3",
+          "old_identifier": "<uuid:15>",
+          "old_value": "",
+          "receiver": "carol@example.com",
+          "sender": "in_app:issue_activities:subscribed",
+          "title": "added finish_after relation",
+          "triggered_by": "alice@example.com",
+          "unread": true,
+          "verb": "updated"
+        },
+        {
+          "activity_ok": false,
+          "entity_name": "issue",
+          "field": "start_before",
+          "identifier": "PL",
+          "issue": "Beta",
+          "issue_comment": "",
+          "issue_data": {
+            "id": "<uuid:14>",
+            "identifier": "PL",
+            "name": "Beta",
+            "sequence_id": 2,
+            "state_group": "backlog",
+            "state_name": "Backlog"
+          },
+          "message": null,
+          "message_html": "<p></p>",
+          "new_identifier": null,
+          "new_value": "PL-4",
+          "old_identifier": "<uuid:16>",
+          "old_value": "",
+          "receiver": "carol@example.com",
+          "sender": "in_app:issue_activities:subscribed",
+          "title": "added start_before relation",
+          "triggered_by": "alice@example.com",
+          "unread": true,
+          "verb": "updated"
+        }
+      ]
+    },
+    {
+      "actor": "db",
+      "method": "QUERY",
+      "path": "email_notification_logs",
+      "status": 0,
+      "body": [
+        {
+          "entity": "",
+          "entity_name": "issue",
+          "field": "blocking",
+          "has_time": true,
+          "issue": "Alpha",
+          "issue_data": {
+            "id": "<uuid:12>",
+            "identifier": "PL",
+            "name": "Alpha",
+            "project_id": "<uuid:6>",
+            "sequence_id": 1,
+            "state_group": "backlog",
+            "state_name": "Backlog",
+            "workspace_slug": "acme"
+          },
+          "new_value": "",
+          "old_value": "PL-2",
+          "pending": true,
+          "receiver": "alice@example.com",
+          "triggered_by": "bob@example.com",
+          "verb": "deleted"
+        },
+        {
+          "entity": "",
+          "entity_name": "issue",
+          "field": "blocking",
+          "has_time": true,
+          "issue": "Alpha",
+          "issue_data": {
+            "id": "<uuid:12>",
+            "identifier": "PL",
+            "name": "Alpha",
+            "project_id": "<uuid:6>",
+            "sequence_id": 1,
+            "state_group": "backlog",
+            "state_name": "Backlog",
+            "workspace_slug": "acme"
+          },
+          "new_value": "PL-2",
+          "old_value": "",
+          "pending": true,
+          "receiver": "alice@example.com",
+          "triggered_by": "bob@example.com",
+          "verb": "updated"
+        },
+        {
+          "entity": "",
+          "entity_name": "issue",
+          "field": "None",
+          "has_time": true,
+          "issue": "Alpha",
+          "issue_data": {
+            "id": "<uuid:12>",
+            "identifier": "PL",
+            "name": "Alpha",
+            "project_id": "<uuid:6>",
+            "sequence_id": 1,
+            "state_group": "backlog",
+            "state_name": "Backlog",
+            "workspace_slug": "acme"
+          },
+          "new_value": "",
+          "old_value": "PL-3",
+          "pending": true,
+          "receiver": "bob@example.com",
+          "triggered_by": "alice@example.com",
+          "verb": "deleted"
+        },
+        {
+          "entity": "",
+          "entity_name": "issue",
+          "field": "assignees",
+          "has_time": true,
+          "issue": "Alpha",
+          "issue_data": {
+            "id": "<uuid:12>",
+            "identifier": "PL",
+            "name": "Alpha",
+            "project_id": "<uuid:6>",
+            "sequence_id": 1,
+            "state_group": "backlog",
+            "state_name": "Backlog",
+            "workspace_slug": "acme"
+          },
+          "new_value": "bob",
+          "old_value": "",
+          "pending": true,
+          "receiver": "bob@example.com",
+          "triggered_by": "alice@example.com",
+          "verb": "updated"
+        },
+        {
+          "entity": "",
+          "entity_name": "issue",
+          "field": "assignees",
+          "has_time": true,
+          "issue": "Beta",
+          "issue_data": {
+            "id": "<uuid:14>",
+            "identifier": "PL",
+            "name": "Beta",
+            "project_id": "<uuid:6>",
+            "sequence_id": 2,
+            "state_group": "backlog",
+            "state_name": "Backlog",
+            "workspace_slug": "acme"
+          },
+          "new_value": "bob",
+          "old_value": "",
+          "pending": true,
+          "receiver": "bob@example.com",
+          "triggered_by": "alice@example.com",
+          "verb": "updated"
+        },
+        {
+          "entity": "",
+          "entity_name": "issue",
+          "field": "assignees",
+          "has_time": true,
+          "issue": "Beta",
+          "issue_data": {
+            "id": "<uuid:14>",
+            "identifier": "PL",
+            "name": "Beta",
+            "project_id": "<uuid:6>",
+            "sequence_id": 2,
+            "state_group": "backlog",
+            "state_name": "Backlog",
+            "workspace_slug": "acme"
+          },
+          "new_value": "carol",
+          "old_value": "",
+          "pending": true,
+          "receiver": "bob@example.com",
+          "triggered_by": "alice@example.com",
+          "verb": "updated"
+        },
+        {
+          "entity": "",
+          "entity_name": "issue",
+          "field": "blocked_by",
+          "has_time": true,
+          "issue": "Alpha",
+          "issue_data": {
+            "id": "<uuid:12>",
+            "identifier": "PL",
+            "name": "Alpha",
+            "project_id": "<uuid:6>",
+            "sequence_id": 1,
+            "state_group": "backlog",
+            "state_name": "Backlog",
+            "workspace_slug": "acme"
+          },
+          "new_value": "OT-1",
+          "old_value": "",
+          "pending": true,
+          "receiver": "bob@example.com",
+          "triggered_by": "alice@example.com",
+          "verb": "updated"
+        },
+        {
+          "entity": "",
+          "entity_name": "issue",
+          "field": "blocked_by",
+          "has_time": true,
+          "issue": "Alpha",
+          "issue_data": {
+            "id": "<uuid:12>",
+            "identifier": "PL",
+            "name": "Alpha",
+            "project_id": "<uuid:6>",
+            "sequence_id": 1,
+            "state_group": "backlog",
+            "state_name": "Backlog",
+            "workspace_slug": "acme"
+          },
+          "new_value": "PL-3",
+          "old_value": "",
+          "pending": true,
+          "receiver": "bob@example.com",
+          "triggered_by": "alice@example.com",
+          "verb": "updated"
+        },
+        {
+          "entity": "",
+          "entity_name": "issue",
+          "field": "blocked_by",
+          "has_time": true,
+          "issue": "Alpha",
+          "issue_data": {
+            "id": "<uuid:12>",
+            "identifier": "PL",
+            "name": "Alpha",
+            "project_id": "<uuid:6>",
+            "sequence_id": 1,
+            "state_group": "backlog",
+            "state_name": "Backlog",
+            "workspace_slug": "acme"
+          },
+          "new_value": "PL-3",
+          "old_value": "",
+          "pending": true,
+          "receiver": "bob@example.com",
+          "triggered_by": "alice@example.com",
+          "verb": "updated"
+        },
+        {
+          "entity": "",
+          "entity_name": "issue",
+          "field": "duplicate",
+          "has_time": true,
+          "issue": "Alpha",
+          "issue_data": {
+            "id": "<uuid:12>",
+            "identifier": "PL",
+            "name": "Alpha",
+            "project_id": "<uuid:6>",
+            "sequence_id": 1,
+            "state_group": "backlog",
+            "state_name": "Backlog",
+            "workspace_slug": "acme"
+          },
+          "new_value": "PL-2",
+          "old_value": "",
+          "pending": true,
+          "receiver": "bob@example.com",
+          "triggered_by": "alice@example.com",
+          "verb": "updated"
+        },
+        {
+          "entity": "",
+          "entity_name": "issue",
+          "field": "finish_after",
+          "has_time": true,
+          "issue": "Beta",
+          "issue_data": {
+            "id": "<uuid:14>",
+            "identifier": "PL",
+            "name": "Beta",
+            "project_id": "<uuid:6>",
+            "sequence_id": 2,
+            "state_group": "backlog",
+            "state_name": "Backlog",
+            "workspace_slug": "acme"
+          },
+          "new_value": "PL-3",
+          "old_value": "",
+          "pending": true,
+          "receiver": "bob@example.com",
+          "triggered_by": "alice@example.com",
+          "verb": "updated"
+        },
+        {
+          "entity": "",
+          "entity_name": "issue",
+          "field": "finish_before",
+          "has_time": true,
+          "issue": "Alpha",
+          "issue_data": {
+            "id": "<uuid:12>",
+            "identifier": "PL",
+            "name": "Alpha",
+            "project_id": "<uuid:6>",
+            "sequence_id": 1,
+            "state_group": "backlog",
+            "state_name": "Backlog",
+            "workspace_slug": "acme"
+          },
+          "new_value": "PL-4",
+          "old_value": "",
+          "pending": true,
+          "receiver": "bob@example.com",
+          "triggered_by": "alice@example.com",
+          "verb": "updated"
+        },
+        {
+          "entity": "",
+          "entity_name": "issue",
+          "field": "implements",
+          "has_time": true,
+          "issue": "Alpha",
+          "issue_data": {
+            "id": "<uuid:12>",
+            "identifier": "PL",
+            "name": "Alpha",
+            "project_id": "<uuid:6>",
+            "sequence_id": 1,
+            "state_group": "backlog",
+            "state_name": "Backlog",
+            "workspace_slug": "acme"
+          },
+          "new_value": "PL-2",
+          "old_value": "",
+          "pending": true,
+          "receiver": "bob@example.com",
+          "triggered_by": "alice@example.com",
+          "verb": "updated"
+        },
+        {
+          "entity": "",
+          "entity_name": "issue",
+          "field": "nonsense",
+          "has_time": true,
+          "issue": "Alpha",
+          "issue_data": {
+            "id": "<uuid:12>",
+            "identifier": "PL",
+            "name": "Alpha",
+            "project_id": "<uuid:6>",
+            "sequence_id": 1,
+            "state_group": "backlog",
+            "state_name": "Backlog",
+            "workspace_slug": "acme"
+          },
+          "new_value": "PL-5",
+          "old_value": "",
+          "pending": true,
+          "receiver": "bob@example.com",
+          "triggered_by": "alice@example.com",
+          "verb": "updated"
+        },
+        {
+          "entity": "",
+          "entity_name": "issue",
+          "field": "relates_to",
+          "has_time": true,
+          "issue": "Alpha",
+          "issue_data": {
+            "id": "<uuid:12>",
+            "identifier": "PL",
+            "name": "Alpha",
+            "project_id": "<uuid:6>",
+            "sequence_id": 1,
+            "state_group": "backlog",
+            "state_name": "Backlog",
+            "workspace_slug": "acme"
+          },
+          "new_value": "PL-1",
+          "old_value": "",
+          "pending": true,
+          "receiver": "bob@example.com",
+          "triggered_by": "alice@example.com",
+          "verb": "updated"
+        },
+        {
+          "entity": "",
+          "entity_name": "issue",
+          "field": "relates_to",
+          "has_time": true,
+          "issue": "Alpha",
+          "issue_data": {
+            "id": "<uuid:12>",
+            "identifier": "PL",
+            "name": "Alpha",
+            "project_id": "<uuid:6>",
+            "sequence_id": 1,
+            "state_group": "backlog",
+            "state_name": "Backlog",
+            "workspace_slug": "acme"
+          },
+          "new_value": "PL-1",
+          "old_value": "",
+          "pending": true,
+          "receiver": "bob@example.com",
+          "triggered_by": "alice@example.com",
+          "verb": "updated"
+        },
+        {
+          "entity": "",
+          "entity_name": "issue",
+          "field": "relates_to",
+          "has_time": true,
+          "issue": "Alpha",
+          "issue_data": {
+            "id": "<uuid:12>",
+            "identifier": "PL",
+            "name": "Alpha",
+            "project_id": "<uuid:6>",
+            "sequence_id": 1,
+            "state_group": "backlog",
+            "state_name": "Backlog",
+            "workspace_slug": "acme"
+          },
+          "new_value": "PL-4",
+          "old_value": "",
+          "pending": true,
+          "receiver": "bob@example.com",
+          "triggered_by": "alice@example.com",
+          "verb": "updated"
+        },
+        {
+          "entity": "",
+          "entity_name": "issue",
+          "field": "start_after",
+          "has_time": true,
+          "issue": "Alpha",
+          "issue_data": {
+            "id": "<uuid:12>",
+            "identifier": "PL",
+            "name": "Alpha",
+            "project_id": "<uuid:6>",
+            "sequence_id": 1,
+            "state_group": "backlog",
+            "state_name": "Backlog",
+            "workspace_slug": "acme"
+          },
+          "new_value": "PL-3",
+          "old_value": "",
+          "pending": true,
+          "receiver": "bob@example.com",
+          "triggered_by": "alice@example.com",
+          "verb": "updated"
+        },
+        {
+          "entity": "",
+          "entity_name": "issue",
+          "field": "start_before",
+          "has_time": true,
+          "issue": "Beta",
+          "issue_data": {
+            "id": "<uuid:14>",
+            "identifier": "PL",
+            "name": "Beta",
+            "project_id": "<uuid:6>",
+            "sequence_id": 2,
+            "state_group": "backlog",
+            "state_name": "Backlog",
+            "workspace_slug": "acme"
+          },
+          "new_value": "PL-4",
+          "old_value": "",
+          "pending": true,
+          "receiver": "bob@example.com",
+          "triggered_by": "alice@example.com",
+          "verb": "updated"
+        },
+        {
+          "entity": "",
+          "entity_name": "issue",
+          "field": "assignees",
+          "has_time": true,
+          "issue": "Beta",
+          "issue_data": {
+            "id": "<uuid:14>",
+            "identifier": "PL",
+            "name": "Beta",
+            "project_id": "<uuid:6>",
+            "sequence_id": 2,
+            "state_group": "backlog",
+            "state_name": "Backlog",
+            "workspace_slug": "acme"
+          },
+          "new_value": "bob",
+          "old_value": "",
+          "pending": true,
+          "receiver": "carol@example.com",
+          "triggered_by": "alice@example.com",
+          "verb": "updated"
+        },
+        {
+          "entity": "",
+          "entity_name": "issue",
+          "field": "assignees",
+          "has_time": true,
+          "issue": "Beta",
+          "issue_data": {
+            "id": "<uuid:14>",
+            "identifier": "PL",
+            "name": "Beta",
+            "project_id": "<uuid:6>",
+            "sequence_id": 2,
+            "state_group": "backlog",
+            "state_name": "Backlog",
+            "workspace_slug": "acme"
+          },
+          "new_value": "carol",
+          "old_value": "",
+          "pending": true,
+          "receiver": "carol@example.com",
+          "triggered_by": "alice@example.com",
+          "verb": "updated"
+        },
+        {
+          "entity": "",
+          "entity_name": "issue",
+          "field": "finish_after",
+          "has_time": true,
+          "issue": "Beta",
+          "issue_data": {
+            "id": "<uuid:14>",
+            "identifier": "PL",
+            "name": "Beta",
+            "project_id": "<uuid:6>",
+            "sequence_id": 2,
+            "state_group": "backlog",
+            "state_name": "Backlog",
+            "workspace_slug": "acme"
+          },
+          "new_value": "PL-3",
+          "old_value": "",
+          "pending": true,
+          "receiver": "carol@example.com",
+          "triggered_by": "alice@example.com",
+          "verb": "updated"
+        },
+        {
+          "entity": "",
+          "entity_name": "issue",
+          "field": "start_before",
+          "has_time": true,
+          "issue": "Beta",
+          "issue_data": {
+            "id": "<uuid:14>",
+            "identifier": "PL",
+            "name": "Beta",
+            "project_id": "<uuid:6>",
+            "sequence_id": 2,
+            "state_group": "backlog",
+            "state_name": "Backlog",
+            "workspace_slug": "acme"
+          },
+          "new_value": "PL-4",
+          "old_value": "",
+          "pending": true,
+          "receiver": "carol@example.com",
+          "triggered_by": "alice@example.com",
+          "verb": "updated"
+        }
+      ]
+    },
+    {
+      "actor": "db",
+      "method": "QUERY",
+      "path": "issue_description_versions",
+      "status": 0,
+      "body": [
+        {
+          "created_by": "alice@example.com",
+          "description_html": "<p></p>",
+          "description_json": {},
+          "description_stripped": "",
+          "name": "Alpha",
+          "owned_by": "alice@example.com",
+          "saved_after": false,
+          "updated_by": null
+        },
+        {
+          "created_by": "alice@example.com",
+          "description_html": "<p></p>",
+          "description_json": {},
+          "description_stripped": "",
+          "name": "Beta",
+          "owned_by": "alice@example.com",
+          "saved_after": false,
+          "updated_by": null
+        },
+        {
+          "created_by": "alice@example.com",
+          "description_html": "<p></p>",
+          "description_json": {},
+          "description_stripped": "",
+          "name": "Delta",
+          "owned_by": "alice@example.com",
+          "saved_after": false,
+          "updated_by": null
+        },
+        {
+          "created_by": "alice@example.com",
+          "description_html": "<p></p>",
+          "description_json": {},
+          "description_stripped": "",
+          "name": "Epsilon",
+          "owned_by": "alice@example.com",
+          "saved_after": false,
+          "updated_by": null
+        },
+        {
+          "created_by": "alice@example.com",
+          "description_html": "<p></p>",
+          "description_json": {},
+          "description_stripped": "",
+          "name": "Gamma",
+          "owned_by": "alice@example.com",
+          "saved_after": false,
+          "updated_by": null
+        }
+      ]
+    },
+    {
+      "actor": "db",
+      "method": "QUERY",
+      "path": "recent_visits",
+      "status": 0,
+      "body": []
+    }
+  ]
+}

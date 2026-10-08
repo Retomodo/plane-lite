@@ -1,0 +1,4119 @@
+{
+  "steps": [
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/auth/get-csrf-token/",
+      "status": 200,
+      "content_type": "application/json",
+      "cookies": [
+        "csrftoken; value=<set>; Path=/; Max-Age=31449600; HttpOnly; SameSite=Lax"
+      ],
+      "body": {
+        "csrf_token": "<masked>"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/auth/sign-up/",
+      "request": {
+        "csrfmiddlewaretoken": "<masked>",
+        "email": "alice@example.com",
+        "password": "correct-Horse-battery-staple-91"
+      },
+      "status": 302,
+      "location": "http://localhost:3000",
+      "content_type": "text/html",
+      "cookies": [
+        "csrftoken; value=<set>; Path=/; Max-Age=31449600; HttpOnly; SameSite=Lax",
+        "session-id; value=<set>; Path=/; Max-Age=604800; HttpOnly; SameSite=Lax"
+      ]
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/",
+      "request": {
+        "name": "Acme",
+        "slug": "acme"
+      },
+      "status": 201,
+      "content_type": "application/json",
+      "body": {
+        "background_color": "<masked>",
+        "created_at": "<datetime Z>",
+        "created_by": "<uuid:1>",
+        "deleted_at": null,
+        "id": "<uuid:2>",
+        "logo": null,
+        "logo_asset": null,
+        "logo_url": null,
+        "name": "Acme",
+        "organization_size": null,
+        "owner": "<uuid:1>",
+        "role": 20,
+        "slug": "acme",
+        "timezone": "UTC",
+        "total_members": 1,
+        "updated_at": "<datetime Z>",
+        "updated_by": null
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "GET",
+      "path": "/auth/get-csrf-token/",
+      "status": 200,
+      "content_type": "application/json",
+      "cookies": [
+        "csrftoken; value=<set>; Path=/; Max-Age=31449600; HttpOnly; SameSite=Lax"
+      ],
+      "body": {
+        "csrf_token": "<masked>"
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "POST",
+      "path": "/auth/sign-up/",
+      "request": {
+        "csrfmiddlewaretoken": "<masked>",
+        "email": "bob@example.com",
+        "password": "correct-Horse-battery-staple-91"
+      },
+      "status": 302,
+      "location": "http://localhost:3000",
+      "content_type": "text/html",
+      "cookies": [
+        "csrftoken; value=<set>; Path=/; Max-Age=31449600; HttpOnly; SameSite=Lax",
+        "session-id; value=<set>; Path=/; Max-Age=604800; HttpOnly; SameSite=Lax"
+      ]
+    },
+    {
+      "actor": "carol",
+      "method": "GET",
+      "path": "/auth/get-csrf-token/",
+      "status": 200,
+      "content_type": "application/json",
+      "cookies": [
+        "csrftoken; value=<set>; Path=/; Max-Age=31449600; HttpOnly; SameSite=Lax"
+      ],
+      "body": {
+        "csrf_token": "<masked>"
+      }
+    },
+    {
+      "actor": "carol",
+      "method": "POST",
+      "path": "/auth/sign-up/",
+      "request": {
+        "csrfmiddlewaretoken": "<masked>",
+        "email": "carol@example.com",
+        "password": "correct-Horse-battery-staple-91"
+      },
+      "status": 302,
+      "location": "http://localhost:3000",
+      "content_type": "text/html",
+      "cookies": [
+        "csrftoken; value=<set>; Path=/; Max-Age=31449600; HttpOnly; SameSite=Lax",
+        "session-id; value=<set>; Path=/; Max-Age=604800; HttpOnly; SameSite=Lax"
+      ]
+    },
+    {
+      "actor": "dan",
+      "method": "GET",
+      "path": "/auth/get-csrf-token/",
+      "status": 200,
+      "content_type": "application/json",
+      "cookies": [
+        "csrftoken; value=<set>; Path=/; Max-Age=31449600; HttpOnly; SameSite=Lax"
+      ],
+      "body": {
+        "csrf_token": "<masked>"
+      }
+    },
+    {
+      "actor": "dan",
+      "method": "POST",
+      "path": "/auth/sign-up/",
+      "request": {
+        "csrfmiddlewaretoken": "<masked>",
+        "email": "dan@example.com",
+        "password": "correct-Horse-battery-staple-91"
+      },
+      "status": 302,
+      "location": "http://localhost:3000",
+      "content_type": "text/html",
+      "cookies": [
+        "csrftoken; value=<set>; Path=/; Max-Age=31449600; HttpOnly; SameSite=Lax",
+        "session-id; value=<set>; Path=/; Max-Age=604800; HttpOnly; SameSite=Lax"
+      ]
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/invitations/",
+      "request": {
+        "emails": [
+          {
+            "email": "bob@example.com",
+            "role": 15
+          },
+          {
+            "email": "carol@example.com",
+            "role": 5
+          },
+          {
+            "email": "dan@example.com",
+            "role": 15
+          }
+        ]
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "message": "Emails sent successfully"
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "GET",
+      "path": "/api/users/me/workspaces/invitations/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": [
+        {
+          "accepted": false,
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:1>",
+          "deleted_at": null,
+          "email": "bob@example.com",
+          "id": "<uuid:3>",
+          "invite_link": "/workspace-invitations/?invitation_id=<uuid:3>&slug=acme&token=<invite-token:bob@example.com>",
+          "message": "\n\nalice invited you to Acme on Plane\n\n      alice has invited you to join Acme on Plane.\n\n                    Join Acme on Plane\n\n                    alice has invited you to collaborate with them in\n                    Acme workspace on Plane.\n\n                          Accept invite\n\n                    If the button doesn’t work, copy and paste this link into\n                    your browser:\n\n                    http://localhost:3000/workspace-invitations/?invitation_id=<uuid:3>&slug=acme&token=<invite-token:bob@example.com>\n\n                    Note: This invitation was intended for\n                    bob@example.com. If you were not expecting this invitation, you can ignore\n                    this email.\n\n                    Plane Software, Inc.\n\n",
+          "responded_at": null,
+          "role": 15,
+          "token": "<invite-token:bob@example.com>",
+          "updated_at": "<datetime Z>",
+          "updated_by": "<uuid:1>",
+          "workspace": {
+            "id": "<uuid:2>",
+            "logo_url": null,
+            "name": "Acme",
+            "slug": "acme"
+          }
+        }
+      ]
+    },
+    {
+      "actor": "bob",
+      "method": "POST",
+      "path": "/api/users/me/workspaces/invitations/",
+      "request": {
+        "invitations": [
+          "<uuid:3>"
+        ]
+      },
+      "status": 204
+    },
+    {
+      "actor": "carol",
+      "method": "GET",
+      "path": "/api/users/me/workspaces/invitations/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": [
+        {
+          "accepted": false,
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:1>",
+          "deleted_at": null,
+          "email": "carol@example.com",
+          "id": "<uuid:4>",
+          "invite_link": "/workspace-invitations/?invitation_id=<uuid:4>&slug=acme&token=<invite-token:carol@example.com>",
+          "message": "\n\nalice invited you to Acme on Plane\n\n      alice has invited you to join Acme on Plane.\n\n                    Join Acme on Plane\n\n                    alice has invited you to collaborate with them in\n                    Acme workspace on Plane.\n\n                          Accept invite\n\n                    If the button doesn’t work, copy and paste this link into\n                    your browser:\n\n                    http://localhost:3000/workspace-invitations/?invitation_id=<uuid:4>&slug=acme&token=<invite-token:carol@example.com>\n\n                    Note: This invitation was intended for\n                    carol@example.com. If you were not expecting this invitation, you can ignore\n                    this email.\n\n                    Plane Software, Inc.\n\n",
+          "responded_at": null,
+          "role": 5,
+          "token": "<invite-token:carol@example.com>",
+          "updated_at": "<datetime Z>",
+          "updated_by": "<uuid:1>",
+          "workspace": {
+            "id": "<uuid:2>",
+            "logo_url": null,
+            "name": "Acme",
+            "slug": "acme"
+          }
+        }
+      ]
+    },
+    {
+      "actor": "carol",
+      "method": "POST",
+      "path": "/api/users/me/workspaces/invitations/",
+      "request": {
+        "invitations": [
+          "<uuid:4>"
+        ]
+      },
+      "status": 204
+    },
+    {
+      "actor": "dan",
+      "method": "GET",
+      "path": "/api/users/me/workspaces/invitations/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": [
+        {
+          "accepted": false,
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:1>",
+          "deleted_at": null,
+          "email": "dan@example.com",
+          "id": "<uuid:5>",
+          "invite_link": "/workspace-invitations/?invitation_id=<uuid:5>&slug=acme&token=<invite-token:dan@example.com>",
+          "message": "\n\nalice invited you to Acme on Plane\n\n      alice has invited you to join Acme on Plane.\n\n                    Join Acme on Plane\n\n                    alice has invited you to collaborate with them in\n                    Acme workspace on Plane.\n\n                          Accept invite\n\n                    If the button doesn’t work, copy and paste this link into\n                    your browser:\n\n                    http://localhost:3000/workspace-invitations/?invitation_id=<uuid:5>&slug=acme&token=<invite-token:dan@example.com>\n\n                    Note: This invitation was intended for\n                    dan@example.com. If you were not expecting this invitation, you can ignore\n                    this email.\n\n                    Plane Software, Inc.\n\n",
+          "responded_at": null,
+          "role": 15,
+          "token": "<invite-token:dan@example.com>",
+          "updated_at": "<datetime Z>",
+          "updated_by": "<uuid:1>",
+          "workspace": {
+            "id": "<uuid:2>",
+            "logo_url": null,
+            "name": "Acme",
+            "slug": "acme"
+          }
+        }
+      ]
+    },
+    {
+      "actor": "dan",
+      "method": "POST",
+      "path": "/api/users/me/workspaces/invitations/",
+      "request": {
+        "invitations": [
+          "<uuid:5>"
+        ]
+      },
+      "status": 204
+    },
+    {
+      "actor": "outsider",
+      "method": "GET",
+      "path": "/auth/get-csrf-token/",
+      "status": 200,
+      "content_type": "application/json",
+      "cookies": [
+        "csrftoken; value=<set>; Path=/; Max-Age=31449600; HttpOnly; SameSite=Lax"
+      ],
+      "body": {
+        "csrf_token": "<masked>"
+      }
+    },
+    {
+      "actor": "outsider",
+      "method": "POST",
+      "path": "/auth/sign-up/",
+      "request": {
+        "csrfmiddlewaretoken": "<masked>",
+        "email": "outsider@example.com",
+        "password": "correct-Horse-battery-staple-91"
+      },
+      "status": 302,
+      "location": "http://localhost:3000",
+      "content_type": "text/html",
+      "cookies": [
+        "csrftoken; value=<set>; Path=/; Max-Age=31449600; HttpOnly; SameSite=Lax",
+        "session-id; value=<set>; Path=/; Max-Age=604800; HttpOnly; SameSite=Lax"
+      ]
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/",
+      "request": {
+        "identifier": "PL",
+        "name": "Plane Lite"
+      },
+      "status": 201,
+      "content_type": "application/json",
+      "body": {
+        "anchor": null,
+        "archive_in": 0,
+        "archived_at": null,
+        "close_in": 0,
+        "cover_image": null,
+        "cover_image_asset": null,
+        "cover_image_url": null,
+        "created_at": "<datetime Z>",
+        "created_by": "<uuid:1>",
+        "cycle_view": false,
+        "default_assignee": null,
+        "default_state": null,
+        "deleted_at": null,
+        "description": "",
+        "description_html": null,
+        "description_text": null,
+        "emoji": null,
+        "estimate": null,
+        "external_id": null,
+        "external_source": null,
+        "guest_view_all_features": false,
+        "icon_prop": null,
+        "id": "<uuid:6>",
+        "identifier": "PL",
+        "inbox_view": false,
+        "intake_view": false,
+        "is_favorite": false,
+        "is_issue_type_enabled": false,
+        "is_time_tracking_enabled": false,
+        "issue_views_view": false,
+        "logo_props": {},
+        "member_role": 20,
+        "members": [
+          "<uuid:1>"
+        ],
+        "module_view": false,
+        "name": "Plane Lite",
+        "network": 2,
+        "next_work_item_sequence": 1,
+        "page_view": true,
+        "project_lead": null,
+        "sort_order": 65535,
+        "timezone": "UTC",
+        "updated_at": "<datetime Z>",
+        "updated_by": null,
+        "workspace": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "GET",
+      "path": "/api/users/me/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "avatar": "",
+        "avatar_url": null,
+        "cover_image": null,
+        "cover_image_url": null,
+        "date_joined": "<datetime Z>",
+        "display_name": "bob",
+        "email": "bob@example.com",
+        "first_name": "",
+        "id": "<uuid:7>",
+        "is_active": true,
+        "is_bot": false,
+        "is_email_verified": false,
+        "is_password_autoset": false,
+        "last_login_medium": "email",
+        "last_login_time": "<datetime Z>",
+        "last_name": "",
+        "user_timezone": "UTC",
+        "username": "<hex32>"
+      }
+    },
+    {
+      "actor": "carol",
+      "method": "GET",
+      "path": "/api/users/me/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "avatar": "",
+        "avatar_url": null,
+        "cover_image": null,
+        "cover_image_url": null,
+        "date_joined": "<datetime Z>",
+        "display_name": "carol",
+        "email": "carol@example.com",
+        "first_name": "",
+        "id": "<uuid:8>",
+        "is_active": true,
+        "is_bot": false,
+        "is_email_verified": false,
+        "is_password_autoset": false,
+        "last_login_medium": "email",
+        "last_login_time": "<datetime Z>",
+        "last_name": "",
+        "user_timezone": "UTC",
+        "username": "<hex32>"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/members/",
+      "request": {
+        "members": [
+          {
+            "member_id": "<uuid:7>",
+            "role": 15
+          },
+          {
+            "member_id": "<uuid:8>",
+            "role": 5
+          }
+        ]
+      },
+      "status": 201,
+      "content_type": "application/json",
+      "body": [
+        {
+          "created_at": "<datetime Z>",
+          "id": "<uuid:9>",
+          "member": "<uuid:8>",
+          "original_role": 5,
+          "project": "<uuid:6>",
+          "role": 5
+        },
+        {
+          "created_at": "<datetime Z>",
+          "id": "<uuid:10>",
+          "member": "<uuid:7>",
+          "original_role": 15,
+          "project": "<uuid:6>",
+          "role": 15
+        }
+      ]
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/estimates/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": []
+    },
+    {
+      "actor": "carol",
+      "method": "GET",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/estimates/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": []
+    },
+    {
+      "actor": "dan",
+      "method": "GET",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/estimates/",
+      "status": 403,
+      "content_type": "application/json",
+      "body": {
+        "detail": "You do not have permission to perform this action."
+      }
+    },
+    {
+      "actor": "outsider",
+      "method": "GET",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/estimates/",
+      "status": 403,
+      "content_type": "application/json",
+      "body": {
+        "detail": "You do not have permission to perform this action."
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/workspaces/acme/estimates/?read=1",
+      "status": 200,
+      "content_type": "application/json",
+      "body": []
+    },
+    {
+      "actor": "dan",
+      "method": "GET",
+      "path": "/api/workspaces/acme/estimates/?read=2",
+      "status": 200,
+      "content_type": "application/json",
+      "body": []
+    },
+    {
+      "actor": "outsider",
+      "method": "GET",
+      "path": "/api/workspaces/acme/estimates/?read=3",
+      "status": 403,
+      "content_type": "application/json",
+      "body": {
+        "detail": "You do not have permission to perform this action."
+      }
+    },
+    {
+      "actor": "carol",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/estimates/",
+      "request": {
+        "estimate": {
+          "name": "Guest"
+        },
+        "estimate_points": []
+      },
+      "status": 403,
+      "content_type": "application/json",
+      "body": {
+        "detail": "You do not have permission to perform this action."
+      }
+    },
+    {
+      "actor": "dan",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/estimates/",
+      "request": {
+        "estimate": {
+          "name": "Dan"
+        },
+        "estimate_points": []
+      },
+      "status": 403,
+      "content_type": "application/json",
+      "body": {
+        "detail": "You do not have permission to perform this action."
+      }
+    },
+    {
+      "actor": "outsider",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/estimates/",
+      "request": {
+        "estimate": {
+          "name": "Out"
+        },
+        "estimate_points": []
+      },
+      "status": 403,
+      "content_type": "application/json",
+      "body": {
+        "detail": "You do not have permission to perform this action."
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/estimates/",
+      "status": 500,
+      "content_type": "application/json",
+      "body": {
+        "error": "Something went wrong please try again later"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/estimates/",
+      "request": [
+        "x"
+      ],
+      "status": 500,
+      "content_type": "application/json",
+      "body": {
+        "error": "Something went wrong please try again later"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/estimates/",
+      "request": {
+        "estimate": "text"
+      },
+      "status": 500,
+      "content_type": "application/json",
+      "body": {
+        "error": "Something went wrong please try again later"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/estimates/",
+      "request": {
+        "estimate": []
+      },
+      "status": 500,
+      "content_type": "application/json",
+      "body": {
+        "error": "Something went wrong please try again later"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/estimates/",
+      "request": {
+        "estimate": {
+          "name": "NoPoints"
+        }
+      },
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "non_field_errors": [
+          "No data provided"
+        ]
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/estimates/",
+      "request": {
+        "estimate": {
+          "name": "NoPoints"
+        },
+        "estimate_points": []
+      },
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "error": "The payload is not valid"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/estimates/",
+      "request": {
+        "estimate": {
+          "name": "NotList"
+        },
+        "estimate_points": "x"
+      },
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "non_field_errors": [
+          "Expected a list of items but got type \"str\"."
+        ]
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/estimates/",
+      "request": {
+        "estimate": {
+          "name": "DictPoints"
+        },
+        "estimate_points": {
+          "key": 1
+        }
+      },
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "non_field_errors": [
+          "Expected a list of items but got type \"dict\"."
+        ]
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/estimates/",
+      "request": {
+        "estimate": {
+          "name": "BadPoints"
+        },
+        "estimate_points": [
+          {
+            "key": 1,
+            "value": "xxxxxxxxxxxxxxxxxxxxx"
+          },
+          {
+            "key": 2
+          },
+          {
+            "key": -1,
+            "value": "neg"
+          },
+          {
+            "description": null,
+            "key": "a",
+            "value": "text"
+          },
+          {
+            "key": 1.5,
+            "value": []
+          },
+          "text",
+          {},
+          {
+            "created_by": "<uuid:11>",
+            "deleted_at": "nope",
+            "value": "ok"
+          },
+          {
+            "key": 1,
+            "value": "fine"
+          }
+        ]
+      },
+      "status": 400,
+      "content_type": "application/json",
+      "body": [
+        {
+          "non_field_errors": [
+            "Value can't be more than 20 characters"
+          ]
+        },
+        {
+          "value": [
+            "This field is required."
+          ]
+        },
+        {
+          "key": [
+            "Ensure this value is greater than or equal to 0."
+          ]
+        },
+        {
+          "description": [
+            "This field may not be null."
+          ],
+          "key": [
+            "A valid integer is required."
+          ]
+        },
+        {
+          "key": [
+            "A valid integer is required."
+          ],
+          "value": [
+            "Not a valid string."
+          ]
+        },
+        {
+          "non_field_errors": [
+            "Invalid data. Expected a dictionary, but got str."
+          ]
+        },
+        {
+          "value": [
+            "This field is required."
+          ]
+        },
+        {
+          "created_by": [
+            "Invalid pk \"<uuid:11>\" - object does not exist."
+          ],
+          "deleted_at": [
+            "Datetime has wrong format. Use one of these formats instead: YYYY-MM-DDThh:mm[:ss[.uuuuuu]][+HH:MM|-HH:MM|Z]."
+          ]
+        },
+        {}
+      ]
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/estimates/",
+      "request": {
+        "estimate": {
+          "name": "NullName",
+          "type": "points"
+        },
+        "estimate_points": null
+      },
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "non_field_errors": [
+          "No data provided"
+        ]
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/estimates/",
+      "request": {
+        "estimate": {
+          "name": null
+        },
+        "estimate_points": []
+      },
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "error": "The payload is not valid"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/estimates/",
+      "request": {
+        "estimate": {
+          "last_used": "maybe",
+          "name": "BadFlag"
+        },
+        "estimate_points": []
+      },
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "error": "Please provide valid detail"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/estimates/",
+      "request": {
+        "estimate": {
+          "last_used": "t",
+          "name": "Numeric Name",
+          "type": "weird"
+        },
+        "estimate_points": []
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "created_at": "<datetime Z>",
+        "created_by": "<uuid:1>",
+        "deleted_at": null,
+        "description": "",
+        "id": "<uuid:12>",
+        "last_used": true,
+        "name": "Numeric Name",
+        "points": [],
+        "project": "<uuid:6>",
+        "type": "weird",
+        "updated_at": "<datetime Z>",
+        "updated_by": null,
+        "workspace": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/estimates/",
+      "request": {
+        "estimate": {
+          "last_used": 1,
+          "name": 7
+        },
+        "estimate_points": []
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "created_at": "<datetime Z>",
+        "created_by": "<uuid:1>",
+        "deleted_at": null,
+        "description": "",
+        "id": "<uuid:13>",
+        "last_used": true,
+        "name": "7",
+        "points": [],
+        "project": "<uuid:6>",
+        "type": "categories",
+        "updated_at": "<datetime Z>",
+        "updated_by": null,
+        "workspace": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "carol",
+      "method": "GET",
+      "path": "/api/users/me/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "avatar": "",
+        "avatar_url": null,
+        "cover_image": null,
+        "cover_image_url": null,
+        "date_joined": "<datetime Z>",
+        "display_name": "carol",
+        "email": "carol@example.com",
+        "first_name": "",
+        "id": "<uuid:8>",
+        "is_active": true,
+        "is_bot": false,
+        "is_email_verified": false,
+        "is_password_autoset": false,
+        "last_login_medium": "email",
+        "last_login_time": "<datetime Z>",
+        "last_name": "",
+        "user_timezone": "UTC",
+        "username": "<hex32>"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/estimates/",
+      "request": {
+        "estimate": {
+          "ignored": true,
+          "name": "T-shirt",
+          "type": "categories"
+        },
+        "estimate_points": [
+          {
+            "description": "small",
+            "extra": 1,
+            "key": 1,
+            "value": "S"
+          },
+          {
+            "key": "2",
+            "value": "M"
+          },
+          {
+            "created_by": "<uuid:8>",
+            "key": 3,
+            "value": 3
+          },
+          {
+            "value": "XL"
+          }
+        ]
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "created_at": "<datetime Z>",
+        "created_by": "<uuid:1>",
+        "deleted_at": null,
+        "description": "",
+        "id": "<uuid:14>",
+        "last_used": false,
+        "name": "T-shirt",
+        "points": [
+          {
+            "created_at": "<datetime Z>",
+            "created_by": "<uuid:1>",
+            "deleted_at": null,
+            "description": "",
+            "estimate": "<uuid:14>",
+            "id": "<uuid:15>",
+            "key": 3,
+            "project": "<uuid:6>",
+            "updated_at": "<datetime Z>",
+            "updated_by": "<uuid:1>",
+            "value": "3",
+            "workspace": "<uuid:2>"
+          },
+          {
+            "created_at": "<datetime Z>",
+            "created_by": "<uuid:1>",
+            "deleted_at": null,
+            "description": "",
+            "estimate": "<uuid:14>",
+            "id": "<uuid:16>",
+            "key": 2,
+            "project": "<uuid:6>",
+            "updated_at": "<datetime Z>",
+            "updated_by": "<uuid:1>",
+            "value": "M",
+            "workspace": "<uuid:2>"
+          },
+          {
+            "created_at": "<datetime Z>",
+            "created_by": "<uuid:1>",
+            "deleted_at": null,
+            "description": "small",
+            "estimate": "<uuid:14>",
+            "id": "<uuid:17>",
+            "key": 1,
+            "project": "<uuid:6>",
+            "updated_at": "<datetime Z>",
+            "updated_by": "<uuid:1>",
+            "value": "S",
+            "workspace": "<uuid:2>"
+          },
+          {
+            "created_at": "<datetime Z>",
+            "created_by": "<uuid:1>",
+            "deleted_at": null,
+            "description": "",
+            "estimate": "<uuid:14>",
+            "id": "<uuid:18>",
+            "key": 0,
+            "project": "<uuid:6>",
+            "updated_at": "<datetime Z>",
+            "updated_by": "<uuid:1>",
+            "value": "XL",
+            "workspace": "<uuid:2>"
+          }
+        ],
+        "project": "<uuid:6>",
+        "type": "categories",
+        "updated_at": "<datetime Z>",
+        "updated_by": null,
+        "workspace": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/estimates/",
+      "request": {
+        "estimate": {
+          "name": "T-shirt"
+        },
+        "estimate_points": []
+      },
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "error": "The payload is not valid"
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/estimates/",
+      "request": {
+        "estimate": {
+          "last_used": true,
+          "name": "Fibonacci",
+          "type": "points"
+        },
+        "estimate_points": [
+          {
+            "key": 1,
+            "value": "1"
+          },
+          {
+            "key": 2,
+            "value": "2"
+          },
+          {
+            "key": 3,
+            "value": "3"
+          }
+        ]
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "created_at": "<datetime Z>",
+        "created_by": "<uuid:7>",
+        "deleted_at": null,
+        "description": "",
+        "id": "<uuid:19>",
+        "last_used": true,
+        "name": "Fibonacci",
+        "points": [
+          {
+            "created_at": "<datetime Z>",
+            "created_by": "<uuid:7>",
+            "deleted_at": null,
+            "description": "",
+            "estimate": "<uuid:19>",
+            "id": "<uuid:20>",
+            "key": 1,
+            "project": "<uuid:6>",
+            "updated_at": "<datetime Z>",
+            "updated_by": "<uuid:7>",
+            "value": "1",
+            "workspace": "<uuid:2>"
+          },
+          {
+            "created_at": "<datetime Z>",
+            "created_by": "<uuid:7>",
+            "deleted_at": null,
+            "description": "",
+            "estimate": "<uuid:19>",
+            "id": "<uuid:21>",
+            "key": 2,
+            "project": "<uuid:6>",
+            "updated_at": "<datetime Z>",
+            "updated_by": "<uuid:7>",
+            "value": "2",
+            "workspace": "<uuid:2>"
+          },
+          {
+            "created_at": "<datetime Z>",
+            "created_by": "<uuid:7>",
+            "deleted_at": null,
+            "description": "",
+            "estimate": "<uuid:19>",
+            "id": "<uuid:22>",
+            "key": 3,
+            "project": "<uuid:6>",
+            "updated_at": "<datetime Z>",
+            "updated_by": "<uuid:7>",
+            "value": "3",
+            "workspace": "<uuid:2>"
+          }
+        ],
+        "project": "<uuid:6>",
+        "type": "points",
+        "updated_at": "<datetime Z>",
+        "updated_by": null,
+        "workspace": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/estimates/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": [
+        {
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:1>",
+          "deleted_at": null,
+          "description": "",
+          "id": "<uuid:13>",
+          "last_used": true,
+          "name": "7",
+          "points": [],
+          "project": "<uuid:6>",
+          "type": "categories",
+          "updated_at": "<datetime Z>",
+          "updated_by": null,
+          "workspace": "<uuid:2>"
+        },
+        {
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:1>",
+          "deleted_at": null,
+          "description": "",
+          "id": "<uuid:23>",
+          "last_used": false,
+          "name": "BadPoints",
+          "points": [],
+          "project": "<uuid:6>",
+          "type": "categories",
+          "updated_at": "<datetime Z>",
+          "updated_by": null,
+          "workspace": "<uuid:2>"
+        },
+        {
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:1>",
+          "deleted_at": null,
+          "description": "",
+          "id": "<uuid:24>",
+          "last_used": false,
+          "name": "DictPoints",
+          "points": [],
+          "project": "<uuid:6>",
+          "type": "categories",
+          "updated_at": "<datetime Z>",
+          "updated_by": null,
+          "workspace": "<uuid:2>"
+        },
+        {
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:7>",
+          "deleted_at": null,
+          "description": "",
+          "id": "<uuid:19>",
+          "last_used": true,
+          "name": "Fibonacci",
+          "points": [
+            {
+              "created_at": "<datetime Z>",
+              "created_by": "<uuid:7>",
+              "deleted_at": null,
+              "description": "",
+              "estimate": "<uuid:19>",
+              "id": "<uuid:20>",
+              "key": 1,
+              "project": "<uuid:6>",
+              "updated_at": "<datetime Z>",
+              "updated_by": "<uuid:7>",
+              "value": "1",
+              "workspace": "<uuid:2>"
+            },
+            {
+              "created_at": "<datetime Z>",
+              "created_by": "<uuid:7>",
+              "deleted_at": null,
+              "description": "",
+              "estimate": "<uuid:19>",
+              "id": "<uuid:21>",
+              "key": 2,
+              "project": "<uuid:6>",
+              "updated_at": "<datetime Z>",
+              "updated_by": "<uuid:7>",
+              "value": "2",
+              "workspace": "<uuid:2>"
+            },
+            {
+              "created_at": "<datetime Z>",
+              "created_by": "<uuid:7>",
+              "deleted_at": null,
+              "description": "",
+              "estimate": "<uuid:19>",
+              "id": "<uuid:22>",
+              "key": 3,
+              "project": "<uuid:6>",
+              "updated_at": "<datetime Z>",
+              "updated_by": "<uuid:7>",
+              "value": "3",
+              "workspace": "<uuid:2>"
+            }
+          ],
+          "project": "<uuid:6>",
+          "type": "points",
+          "updated_at": "<datetime Z>",
+          "updated_by": null,
+          "workspace": "<uuid:2>"
+        },
+        {
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:1>",
+          "deleted_at": null,
+          "description": "",
+          "id": "<uuid:25>",
+          "last_used": false,
+          "name": "NoPoints",
+          "points": [],
+          "project": "<uuid:6>",
+          "type": "categories",
+          "updated_at": "<datetime Z>",
+          "updated_by": null,
+          "workspace": "<uuid:2>"
+        },
+        {
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:1>",
+          "deleted_at": null,
+          "description": "",
+          "id": "<uuid:26>",
+          "last_used": false,
+          "name": "NotList",
+          "points": [],
+          "project": "<uuid:6>",
+          "type": "categories",
+          "updated_at": "<datetime Z>",
+          "updated_by": null,
+          "workspace": "<uuid:2>"
+        },
+        {
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:1>",
+          "deleted_at": null,
+          "description": "",
+          "id": "<uuid:27>",
+          "last_used": false,
+          "name": "NullName",
+          "points": [],
+          "project": "<uuid:6>",
+          "type": "points",
+          "updated_at": "<datetime Z>",
+          "updated_by": null,
+          "workspace": "<uuid:2>"
+        },
+        {
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:1>",
+          "deleted_at": null,
+          "description": "",
+          "id": "<uuid:12>",
+          "last_used": true,
+          "name": "Numeric Name",
+          "points": [],
+          "project": "<uuid:6>",
+          "type": "weird",
+          "updated_at": "<datetime Z>",
+          "updated_by": null,
+          "workspace": "<uuid:2>"
+        },
+        {
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:1>",
+          "deleted_at": null,
+          "description": "",
+          "id": "<uuid:14>",
+          "last_used": false,
+          "name": "T-shirt",
+          "points": [
+            {
+              "created_at": "<datetime Z>",
+              "created_by": "<uuid:1>",
+              "deleted_at": null,
+              "description": "",
+              "estimate": "<uuid:14>",
+              "id": "<uuid:15>",
+              "key": 3,
+              "project": "<uuid:6>",
+              "updated_at": "<datetime Z>",
+              "updated_by": "<uuid:1>",
+              "value": "3",
+              "workspace": "<uuid:2>"
+            },
+            {
+              "created_at": "<datetime Z>",
+              "created_by": "<uuid:1>",
+              "deleted_at": null,
+              "description": "",
+              "estimate": "<uuid:14>",
+              "id": "<uuid:16>",
+              "key": 2,
+              "project": "<uuid:6>",
+              "updated_at": "<datetime Z>",
+              "updated_by": "<uuid:1>",
+              "value": "M",
+              "workspace": "<uuid:2>"
+            },
+            {
+              "created_at": "<datetime Z>",
+              "created_by": "<uuid:1>",
+              "deleted_at": null,
+              "description": "small",
+              "estimate": "<uuid:14>",
+              "id": "<uuid:17>",
+              "key": 1,
+              "project": "<uuid:6>",
+              "updated_at": "<datetime Z>",
+              "updated_by": "<uuid:1>",
+              "value": "S",
+              "workspace": "<uuid:2>"
+            },
+            {
+              "created_at": "<datetime Z>",
+              "created_by": "<uuid:1>",
+              "deleted_at": null,
+              "description": "",
+              "estimate": "<uuid:14>",
+              "id": "<uuid:18>",
+              "key": 0,
+              "project": "<uuid:6>",
+              "updated_at": "<datetime Z>",
+              "updated_by": "<uuid:1>",
+              "value": "XL",
+              "workspace": "<uuid:2>"
+            }
+          ],
+          "project": "<uuid:6>",
+          "type": "categories",
+          "updated_at": "<datetime Z>",
+          "updated_by": null,
+          "workspace": "<uuid:2>"
+        }
+      ]
+    },
+    {
+      "actor": "bob",
+      "method": "GET",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/estimates/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": [
+        {
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:1>",
+          "deleted_at": null,
+          "description": "",
+          "id": "<uuid:13>",
+          "last_used": true,
+          "name": "7",
+          "points": [],
+          "project": "<uuid:6>",
+          "type": "categories",
+          "updated_at": "<datetime Z>",
+          "updated_by": null,
+          "workspace": "<uuid:2>"
+        },
+        {
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:1>",
+          "deleted_at": null,
+          "description": "",
+          "id": "<uuid:23>",
+          "last_used": false,
+          "name": "BadPoints",
+          "points": [],
+          "project": "<uuid:6>",
+          "type": "categories",
+          "updated_at": "<datetime Z>",
+          "updated_by": null,
+          "workspace": "<uuid:2>"
+        },
+        {
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:1>",
+          "deleted_at": null,
+          "description": "",
+          "id": "<uuid:24>",
+          "last_used": false,
+          "name": "DictPoints",
+          "points": [],
+          "project": "<uuid:6>",
+          "type": "categories",
+          "updated_at": "<datetime Z>",
+          "updated_by": null,
+          "workspace": "<uuid:2>"
+        },
+        {
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:7>",
+          "deleted_at": null,
+          "description": "",
+          "id": "<uuid:19>",
+          "last_used": true,
+          "name": "Fibonacci",
+          "points": [
+            {
+              "created_at": "<datetime Z>",
+              "created_by": "<uuid:7>",
+              "deleted_at": null,
+              "description": "",
+              "estimate": "<uuid:19>",
+              "id": "<uuid:20>",
+              "key": 1,
+              "project": "<uuid:6>",
+              "updated_at": "<datetime Z>",
+              "updated_by": "<uuid:7>",
+              "value": "1",
+              "workspace": "<uuid:2>"
+            },
+            {
+              "created_at": "<datetime Z>",
+              "created_by": "<uuid:7>",
+              "deleted_at": null,
+              "description": "",
+              "estimate": "<uuid:19>",
+              "id": "<uuid:21>",
+              "key": 2,
+              "project": "<uuid:6>",
+              "updated_at": "<datetime Z>",
+              "updated_by": "<uuid:7>",
+              "value": "2",
+              "workspace": "<uuid:2>"
+            },
+            {
+              "created_at": "<datetime Z>",
+              "created_by": "<uuid:7>",
+              "deleted_at": null,
+              "description": "",
+              "estimate": "<uuid:19>",
+              "id": "<uuid:22>",
+              "key": 3,
+              "project": "<uuid:6>",
+              "updated_at": "<datetime Z>",
+              "updated_by": "<uuid:7>",
+              "value": "3",
+              "workspace": "<uuid:2>"
+            }
+          ],
+          "project": "<uuid:6>",
+          "type": "points",
+          "updated_at": "<datetime Z>",
+          "updated_by": null,
+          "workspace": "<uuid:2>"
+        },
+        {
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:1>",
+          "deleted_at": null,
+          "description": "",
+          "id": "<uuid:25>",
+          "last_used": false,
+          "name": "NoPoints",
+          "points": [],
+          "project": "<uuid:6>",
+          "type": "categories",
+          "updated_at": "<datetime Z>",
+          "updated_by": null,
+          "workspace": "<uuid:2>"
+        },
+        {
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:1>",
+          "deleted_at": null,
+          "description": "",
+          "id": "<uuid:26>",
+          "last_used": false,
+          "name": "NotList",
+          "points": [],
+          "project": "<uuid:6>",
+          "type": "categories",
+          "updated_at": "<datetime Z>",
+          "updated_by": null,
+          "workspace": "<uuid:2>"
+        },
+        {
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:1>",
+          "deleted_at": null,
+          "description": "",
+          "id": "<uuid:27>",
+          "last_used": false,
+          "name": "NullName",
+          "points": [],
+          "project": "<uuid:6>",
+          "type": "points",
+          "updated_at": "<datetime Z>",
+          "updated_by": null,
+          "workspace": "<uuid:2>"
+        },
+        {
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:1>",
+          "deleted_at": null,
+          "description": "",
+          "id": "<uuid:12>",
+          "last_used": true,
+          "name": "Numeric Name",
+          "points": [],
+          "project": "<uuid:6>",
+          "type": "weird",
+          "updated_at": "<datetime Z>",
+          "updated_by": null,
+          "workspace": "<uuid:2>"
+        },
+        {
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:1>",
+          "deleted_at": null,
+          "description": "",
+          "id": "<uuid:14>",
+          "last_used": false,
+          "name": "T-shirt",
+          "points": [
+            {
+              "created_at": "<datetime Z>",
+              "created_by": "<uuid:1>",
+              "deleted_at": null,
+              "description": "",
+              "estimate": "<uuid:14>",
+              "id": "<uuid:15>",
+              "key": 3,
+              "project": "<uuid:6>",
+              "updated_at": "<datetime Z>",
+              "updated_by": "<uuid:1>",
+              "value": "3",
+              "workspace": "<uuid:2>"
+            },
+            {
+              "created_at": "<datetime Z>",
+              "created_by": "<uuid:1>",
+              "deleted_at": null,
+              "description": "",
+              "estimate": "<uuid:14>",
+              "id": "<uuid:16>",
+              "key": 2,
+              "project": "<uuid:6>",
+              "updated_at": "<datetime Z>",
+              "updated_by": "<uuid:1>",
+              "value": "M",
+              "workspace": "<uuid:2>"
+            },
+            {
+              "created_at": "<datetime Z>",
+              "created_by": "<uuid:1>",
+              "deleted_at": null,
+              "description": "small",
+              "estimate": "<uuid:14>",
+              "id": "<uuid:17>",
+              "key": 1,
+              "project": "<uuid:6>",
+              "updated_at": "<datetime Z>",
+              "updated_by": "<uuid:1>",
+              "value": "S",
+              "workspace": "<uuid:2>"
+            },
+            {
+              "created_at": "<datetime Z>",
+              "created_by": "<uuid:1>",
+              "deleted_at": null,
+              "description": "",
+              "estimate": "<uuid:14>",
+              "id": "<uuid:18>",
+              "key": 0,
+              "project": "<uuid:6>",
+              "updated_at": "<datetime Z>",
+              "updated_by": "<uuid:1>",
+              "value": "XL",
+              "workspace": "<uuid:2>"
+            }
+          ],
+          "project": "<uuid:6>",
+          "type": "categories",
+          "updated_at": "<datetime Z>",
+          "updated_by": null,
+          "workspace": "<uuid:2>"
+        }
+      ]
+    },
+    {
+      "actor": "carol",
+      "method": "GET",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/estimates/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": [
+        {
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:1>",
+          "deleted_at": null,
+          "description": "",
+          "id": "<uuid:13>",
+          "last_used": true,
+          "name": "7",
+          "points": [],
+          "project": "<uuid:6>",
+          "type": "categories",
+          "updated_at": "<datetime Z>",
+          "updated_by": null,
+          "workspace": "<uuid:2>"
+        },
+        {
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:1>",
+          "deleted_at": null,
+          "description": "",
+          "id": "<uuid:23>",
+          "last_used": false,
+          "name": "BadPoints",
+          "points": [],
+          "project": "<uuid:6>",
+          "type": "categories",
+          "updated_at": "<datetime Z>",
+          "updated_by": null,
+          "workspace": "<uuid:2>"
+        },
+        {
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:1>",
+          "deleted_at": null,
+          "description": "",
+          "id": "<uuid:24>",
+          "last_used": false,
+          "name": "DictPoints",
+          "points": [],
+          "project": "<uuid:6>",
+          "type": "categories",
+          "updated_at": "<datetime Z>",
+          "updated_by": null,
+          "workspace": "<uuid:2>"
+        },
+        {
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:7>",
+          "deleted_at": null,
+          "description": "",
+          "id": "<uuid:19>",
+          "last_used": true,
+          "name": "Fibonacci",
+          "points": [
+            {
+              "created_at": "<datetime Z>",
+              "created_by": "<uuid:7>",
+              "deleted_at": null,
+              "description": "",
+              "estimate": "<uuid:19>",
+              "id": "<uuid:20>",
+              "key": 1,
+              "project": "<uuid:6>",
+              "updated_at": "<datetime Z>",
+              "updated_by": "<uuid:7>",
+              "value": "1",
+              "workspace": "<uuid:2>"
+            },
+            {
+              "created_at": "<datetime Z>",
+              "created_by": "<uuid:7>",
+              "deleted_at": null,
+              "description": "",
+              "estimate": "<uuid:19>",
+              "id": "<uuid:21>",
+              "key": 2,
+              "project": "<uuid:6>",
+              "updated_at": "<datetime Z>",
+              "updated_by": "<uuid:7>",
+              "value": "2",
+              "workspace": "<uuid:2>"
+            },
+            {
+              "created_at": "<datetime Z>",
+              "created_by": "<uuid:7>",
+              "deleted_at": null,
+              "description": "",
+              "estimate": "<uuid:19>",
+              "id": "<uuid:22>",
+              "key": 3,
+              "project": "<uuid:6>",
+              "updated_at": "<datetime Z>",
+              "updated_by": "<uuid:7>",
+              "value": "3",
+              "workspace": "<uuid:2>"
+            }
+          ],
+          "project": "<uuid:6>",
+          "type": "points",
+          "updated_at": "<datetime Z>",
+          "updated_by": null,
+          "workspace": "<uuid:2>"
+        },
+        {
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:1>",
+          "deleted_at": null,
+          "description": "",
+          "id": "<uuid:25>",
+          "last_used": false,
+          "name": "NoPoints",
+          "points": [],
+          "project": "<uuid:6>",
+          "type": "categories",
+          "updated_at": "<datetime Z>",
+          "updated_by": null,
+          "workspace": "<uuid:2>"
+        },
+        {
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:1>",
+          "deleted_at": null,
+          "description": "",
+          "id": "<uuid:26>",
+          "last_used": false,
+          "name": "NotList",
+          "points": [],
+          "project": "<uuid:6>",
+          "type": "categories",
+          "updated_at": "<datetime Z>",
+          "updated_by": null,
+          "workspace": "<uuid:2>"
+        },
+        {
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:1>",
+          "deleted_at": null,
+          "description": "",
+          "id": "<uuid:27>",
+          "last_used": false,
+          "name": "NullName",
+          "points": [],
+          "project": "<uuid:6>",
+          "type": "points",
+          "updated_at": "<datetime Z>",
+          "updated_by": null,
+          "workspace": "<uuid:2>"
+        },
+        {
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:1>",
+          "deleted_at": null,
+          "description": "",
+          "id": "<uuid:12>",
+          "last_used": true,
+          "name": "Numeric Name",
+          "points": [],
+          "project": "<uuid:6>",
+          "type": "weird",
+          "updated_at": "<datetime Z>",
+          "updated_by": null,
+          "workspace": "<uuid:2>"
+        },
+        {
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:1>",
+          "deleted_at": null,
+          "description": "",
+          "id": "<uuid:14>",
+          "last_used": false,
+          "name": "T-shirt",
+          "points": [
+            {
+              "created_at": "<datetime Z>",
+              "created_by": "<uuid:1>",
+              "deleted_at": null,
+              "description": "",
+              "estimate": "<uuid:14>",
+              "id": "<uuid:15>",
+              "key": 3,
+              "project": "<uuid:6>",
+              "updated_at": "<datetime Z>",
+              "updated_by": "<uuid:1>",
+              "value": "3",
+              "workspace": "<uuid:2>"
+            },
+            {
+              "created_at": "<datetime Z>",
+              "created_by": "<uuid:1>",
+              "deleted_at": null,
+              "description": "",
+              "estimate": "<uuid:14>",
+              "id": "<uuid:16>",
+              "key": 2,
+              "project": "<uuid:6>",
+              "updated_at": "<datetime Z>",
+              "updated_by": "<uuid:1>",
+              "value": "M",
+              "workspace": "<uuid:2>"
+            },
+            {
+              "created_at": "<datetime Z>",
+              "created_by": "<uuid:1>",
+              "deleted_at": null,
+              "description": "small",
+              "estimate": "<uuid:14>",
+              "id": "<uuid:17>",
+              "key": 1,
+              "project": "<uuid:6>",
+              "updated_at": "<datetime Z>",
+              "updated_by": "<uuid:1>",
+              "value": "S",
+              "workspace": "<uuid:2>"
+            },
+            {
+              "created_at": "<datetime Z>",
+              "created_by": "<uuid:1>",
+              "deleted_at": null,
+              "description": "",
+              "estimate": "<uuid:14>",
+              "id": "<uuid:18>",
+              "key": 0,
+              "project": "<uuid:6>",
+              "updated_at": "<datetime Z>",
+              "updated_by": "<uuid:1>",
+              "value": "XL",
+              "workspace": "<uuid:2>"
+            }
+          ],
+          "project": "<uuid:6>",
+          "type": "categories",
+          "updated_at": "<datetime Z>",
+          "updated_by": null,
+          "workspace": "<uuid:2>"
+        }
+      ]
+    },
+    {
+      "actor": "dan",
+      "method": "GET",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/estimates/",
+      "status": 403,
+      "content_type": "application/json",
+      "body": {
+        "detail": "You do not have permission to perform this action."
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "GET",
+      "path": "/api/workspaces/acme/estimates/?read=4",
+      "status": 200,
+      "content_type": "application/json",
+      "body": []
+    },
+    {
+      "actor": "alice",
+      "method": "PATCH",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/",
+      "request": {
+        "estimate": "<uuid:14>"
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "anchor": null,
+        "archive_in": 0,
+        "archived_at": null,
+        "close_in": 0,
+        "cover_image": null,
+        "cover_image_asset": null,
+        "cover_image_url": null,
+        "created_at": "<datetime Z>",
+        "created_by": "<uuid:1>",
+        "cycle_view": false,
+        "default_assignee": null,
+        "default_state": null,
+        "deleted_at": null,
+        "description": "",
+        "description_html": null,
+        "description_text": null,
+        "emoji": null,
+        "estimate": "<uuid:14>",
+        "external_id": null,
+        "external_source": null,
+        "guest_view_all_features": false,
+        "icon_prop": null,
+        "id": "<uuid:6>",
+        "identifier": "PL",
+        "inbox_view": false,
+        "intake_view": false,
+        "is_favorite": false,
+        "is_issue_type_enabled": false,
+        "is_time_tracking_enabled": false,
+        "issue_views_view": false,
+        "logo_props": {},
+        "member_role": 20,
+        "members": [
+          "<uuid:8>",
+          "<uuid:7>",
+          "<uuid:1>"
+        ],
+        "module_view": false,
+        "name": "Plane Lite",
+        "network": 2,
+        "next_work_item_sequence": 1,
+        "page_view": true,
+        "project_lead": null,
+        "sort_order": 65535,
+        "timezone": "UTC",
+        "updated_at": "<datetime Z>",
+        "updated_by": "<uuid:1>",
+        "workspace": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "GET",
+      "path": "/api/workspaces/acme/estimates/?read=5",
+      "status": 200,
+      "content_type": "application/json",
+      "body": [
+        {
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:1>",
+          "deleted_at": null,
+          "description": "",
+          "id": "<uuid:14>",
+          "last_used": false,
+          "name": "T-shirt",
+          "points": [
+            {
+              "created_at": "<datetime Z>",
+              "created_by": "<uuid:1>",
+              "deleted_at": null,
+              "description": "",
+              "estimate": "<uuid:14>",
+              "id": "<uuid:15>",
+              "key": 3,
+              "project": "<uuid:6>",
+              "updated_at": "<datetime Z>",
+              "updated_by": "<uuid:1>",
+              "value": "3",
+              "workspace": "<uuid:2>"
+            },
+            {
+              "created_at": "<datetime Z>",
+              "created_by": "<uuid:1>",
+              "deleted_at": null,
+              "description": "",
+              "estimate": "<uuid:14>",
+              "id": "<uuid:16>",
+              "key": 2,
+              "project": "<uuid:6>",
+              "updated_at": "<datetime Z>",
+              "updated_by": "<uuid:1>",
+              "value": "M",
+              "workspace": "<uuid:2>"
+            },
+            {
+              "created_at": "<datetime Z>",
+              "created_by": "<uuid:1>",
+              "deleted_at": null,
+              "description": "small",
+              "estimate": "<uuid:14>",
+              "id": "<uuid:17>",
+              "key": 1,
+              "project": "<uuid:6>",
+              "updated_at": "<datetime Z>",
+              "updated_by": "<uuid:1>",
+              "value": "S",
+              "workspace": "<uuid:2>"
+            },
+            {
+              "created_at": "<datetime Z>",
+              "created_by": "<uuid:1>",
+              "deleted_at": null,
+              "description": "",
+              "estimate": "<uuid:14>",
+              "id": "<uuid:18>",
+              "key": 0,
+              "project": "<uuid:6>",
+              "updated_at": "<datetime Z>",
+              "updated_by": "<uuid:1>",
+              "value": "XL",
+              "workspace": "<uuid:2>"
+            }
+          ],
+          "project": "<uuid:6>",
+          "type": "categories",
+          "updated_at": "<datetime Z>",
+          "updated_by": null,
+          "workspace": "<uuid:2>"
+        }
+      ]
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/workspaces/acme/estimates/?read=6",
+      "status": 200,
+      "content_type": "application/json",
+      "body": [
+        {
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:1>",
+          "deleted_at": null,
+          "description": "",
+          "id": "<uuid:14>",
+          "last_used": false,
+          "name": "T-shirt",
+          "points": [
+            {
+              "created_at": "<datetime Z>",
+              "created_by": "<uuid:1>",
+              "deleted_at": null,
+              "description": "",
+              "estimate": "<uuid:14>",
+              "id": "<uuid:15>",
+              "key": 3,
+              "project": "<uuid:6>",
+              "updated_at": "<datetime Z>",
+              "updated_by": "<uuid:1>",
+              "value": "3",
+              "workspace": "<uuid:2>"
+            },
+            {
+              "created_at": "<datetime Z>",
+              "created_by": "<uuid:1>",
+              "deleted_at": null,
+              "description": "",
+              "estimate": "<uuid:14>",
+              "id": "<uuid:16>",
+              "key": 2,
+              "project": "<uuid:6>",
+              "updated_at": "<datetime Z>",
+              "updated_by": "<uuid:1>",
+              "value": "M",
+              "workspace": "<uuid:2>"
+            },
+            {
+              "created_at": "<datetime Z>",
+              "created_by": "<uuid:1>",
+              "deleted_at": null,
+              "description": "small",
+              "estimate": "<uuid:14>",
+              "id": "<uuid:17>",
+              "key": 1,
+              "project": "<uuid:6>",
+              "updated_at": "<datetime Z>",
+              "updated_by": "<uuid:1>",
+              "value": "S",
+              "workspace": "<uuid:2>"
+            },
+            {
+              "created_at": "<datetime Z>",
+              "created_by": "<uuid:1>",
+              "deleted_at": null,
+              "description": "",
+              "estimate": "<uuid:14>",
+              "id": "<uuid:18>",
+              "key": 0,
+              "project": "<uuid:6>",
+              "updated_at": "<datetime Z>",
+              "updated_by": "<uuid:1>",
+              "value": "XL",
+              "workspace": "<uuid:2>"
+            }
+          ],
+          "project": "<uuid:6>",
+          "type": "categories",
+          "updated_at": "<datetime Z>",
+          "updated_by": null,
+          "workspace": "<uuid:2>"
+        }
+      ]
+    },
+    {
+      "actor": "dan",
+      "method": "GET",
+      "path": "/api/workspaces/acme/estimates/?read=7",
+      "status": 200,
+      "content_type": "application/json",
+      "body": [
+        {
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:1>",
+          "deleted_at": null,
+          "description": "",
+          "id": "<uuid:14>",
+          "last_used": false,
+          "name": "T-shirt",
+          "points": [
+            {
+              "created_at": "<datetime Z>",
+              "created_by": "<uuid:1>",
+              "deleted_at": null,
+              "description": "",
+              "estimate": "<uuid:14>",
+              "id": "<uuid:15>",
+              "key": 3,
+              "project": "<uuid:6>",
+              "updated_at": "<datetime Z>",
+              "updated_by": "<uuid:1>",
+              "value": "3",
+              "workspace": "<uuid:2>"
+            },
+            {
+              "created_at": "<datetime Z>",
+              "created_by": "<uuid:1>",
+              "deleted_at": null,
+              "description": "",
+              "estimate": "<uuid:14>",
+              "id": "<uuid:16>",
+              "key": 2,
+              "project": "<uuid:6>",
+              "updated_at": "<datetime Z>",
+              "updated_by": "<uuid:1>",
+              "value": "M",
+              "workspace": "<uuid:2>"
+            },
+            {
+              "created_at": "<datetime Z>",
+              "created_by": "<uuid:1>",
+              "deleted_at": null,
+              "description": "small",
+              "estimate": "<uuid:14>",
+              "id": "<uuid:17>",
+              "key": 1,
+              "project": "<uuid:6>",
+              "updated_at": "<datetime Z>",
+              "updated_by": "<uuid:1>",
+              "value": "S",
+              "workspace": "<uuid:2>"
+            },
+            {
+              "created_at": "<datetime Z>",
+              "created_by": "<uuid:1>",
+              "deleted_at": null,
+              "description": "",
+              "estimate": "<uuid:14>",
+              "id": "<uuid:18>",
+              "key": 0,
+              "project": "<uuid:6>",
+              "updated_at": "<datetime Z>",
+              "updated_by": "<uuid:1>",
+              "value": "XL",
+              "workspace": "<uuid:2>"
+            }
+          ],
+          "project": "<uuid:6>",
+          "type": "categories",
+          "updated_at": "<datetime Z>",
+          "updated_by": null,
+          "workspace": "<uuid:2>"
+        }
+      ]
+    },
+    {
+      "actor": "carol",
+      "method": "GET",
+      "path": "/api/workspaces/acme/estimates/?read=8",
+      "status": 200,
+      "content_type": "application/json",
+      "body": [
+        {
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:1>",
+          "deleted_at": null,
+          "description": "",
+          "id": "<uuid:14>",
+          "last_used": false,
+          "name": "T-shirt",
+          "points": [
+            {
+              "created_at": "<datetime Z>",
+              "created_by": "<uuid:1>",
+              "deleted_at": null,
+              "description": "",
+              "estimate": "<uuid:14>",
+              "id": "<uuid:15>",
+              "key": 3,
+              "project": "<uuid:6>",
+              "updated_at": "<datetime Z>",
+              "updated_by": "<uuid:1>",
+              "value": "3",
+              "workspace": "<uuid:2>"
+            },
+            {
+              "created_at": "<datetime Z>",
+              "created_by": "<uuid:1>",
+              "deleted_at": null,
+              "description": "",
+              "estimate": "<uuid:14>",
+              "id": "<uuid:16>",
+              "key": 2,
+              "project": "<uuid:6>",
+              "updated_at": "<datetime Z>",
+              "updated_by": "<uuid:1>",
+              "value": "M",
+              "workspace": "<uuid:2>"
+            },
+            {
+              "created_at": "<datetime Z>",
+              "created_by": "<uuid:1>",
+              "deleted_at": null,
+              "description": "small",
+              "estimate": "<uuid:14>",
+              "id": "<uuid:17>",
+              "key": 1,
+              "project": "<uuid:6>",
+              "updated_at": "<datetime Z>",
+              "updated_by": "<uuid:1>",
+              "value": "S",
+              "workspace": "<uuid:2>"
+            },
+            {
+              "created_at": "<datetime Z>",
+              "created_by": "<uuid:1>",
+              "deleted_at": null,
+              "description": "",
+              "estimate": "<uuid:14>",
+              "id": "<uuid:18>",
+              "key": 0,
+              "project": "<uuid:6>",
+              "updated_at": "<datetime Z>",
+              "updated_by": "<uuid:1>",
+              "value": "XL",
+              "workspace": "<uuid:2>"
+            }
+          ],
+          "project": "<uuid:6>",
+          "type": "categories",
+          "updated_at": "<datetime Z>",
+          "updated_by": null,
+          "workspace": "<uuid:2>"
+        }
+      ]
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/workspaces/acme/estimates/?read=9",
+      "status": 200,
+      "content_type": "application/json",
+      "body": [
+        {
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:1>",
+          "deleted_at": null,
+          "description": "",
+          "id": "<uuid:14>",
+          "last_used": false,
+          "name": "T-shirt",
+          "points": [
+            {
+              "created_at": "<datetime Z>",
+              "created_by": "<uuid:1>",
+              "deleted_at": null,
+              "description": "",
+              "estimate": "<uuid:14>",
+              "id": "<uuid:15>",
+              "key": 3,
+              "project": "<uuid:6>",
+              "updated_at": "<datetime Z>",
+              "updated_by": "<uuid:1>",
+              "value": "3",
+              "workspace": "<uuid:2>"
+            },
+            {
+              "created_at": "<datetime Z>",
+              "created_by": "<uuid:1>",
+              "deleted_at": null,
+              "description": "",
+              "estimate": "<uuid:14>",
+              "id": "<uuid:16>",
+              "key": 2,
+              "project": "<uuid:6>",
+              "updated_at": "<datetime Z>",
+              "updated_by": "<uuid:1>",
+              "value": "M",
+              "workspace": "<uuid:2>"
+            },
+            {
+              "created_at": "<datetime Z>",
+              "created_by": "<uuid:1>",
+              "deleted_at": null,
+              "description": "small",
+              "estimate": "<uuid:14>",
+              "id": "<uuid:17>",
+              "key": 1,
+              "project": "<uuid:6>",
+              "updated_at": "<datetime Z>",
+              "updated_by": "<uuid:1>",
+              "value": "S",
+              "workspace": "<uuid:2>"
+            },
+            {
+              "created_at": "<datetime Z>",
+              "created_by": "<uuid:1>",
+              "deleted_at": null,
+              "description": "",
+              "estimate": "<uuid:14>",
+              "id": "<uuid:18>",
+              "key": 0,
+              "project": "<uuid:6>",
+              "updated_at": "<datetime Z>",
+              "updated_by": "<uuid:1>",
+              "value": "XL",
+              "workspace": "<uuid:2>"
+            }
+          ],
+          "project": "<uuid:6>",
+          "type": "categories",
+          "updated_at": "<datetime Z>",
+          "updated_by": null,
+          "workspace": "<uuid:2>"
+        }
+      ]
+    },
+    {
+      "actor": "carol",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/estimates/<uuid:14>/estimate-points/",
+      "request": {
+        "key": 4,
+        "value": "XXL"
+      },
+      "status": 403,
+      "content_type": "application/json",
+      "body": {
+        "error": "You don't have the required permissions."
+      }
+    },
+    {
+      "actor": "dan",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/estimates/<uuid:14>/estimate-points/",
+      "request": {
+        "key": 4,
+        "value": "XXL"
+      },
+      "status": 403,
+      "content_type": "application/json",
+      "body": {
+        "error": "You don't have the required permissions."
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/estimates/<uuid:14>/estimate-points/",
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "error": "Key and value are required"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/estimates/<uuid:14>/estimate-points/",
+      "request": [
+        "x"
+      ],
+      "status": 500,
+      "content_type": "application/json",
+      "body": {
+        "error": "Something went wrong please try again later"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/estimates/<uuid:14>/estimate-points/",
+      "request": {
+        "key": 4
+      },
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "error": "Key and value are required"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/estimates/<uuid:14>/estimate-points/",
+      "request": {
+        "value": "XXL"
+      },
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "error": "Key and value are required"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/estimates/<uuid:14>/estimate-points/",
+      "request": {
+        "key": 0,
+        "value": "XXL"
+      },
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "error": "Key and value are required"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/estimates/<uuid:14>/estimate-points/",
+      "request": {
+        "key": 4,
+        "value": ""
+      },
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "error": "Key and value are required"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/estimates/<uuid:11>/estimate-points/",
+      "request": {
+        "key": 4,
+        "value": "XXL"
+      },
+      "status": 404,
+      "content_type": "application/json",
+      "body": {
+        "error": "Estimate not found"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/estimates/<uuid:19>/estimate-points/",
+      "request": {
+        "description": "ignored",
+        "key": 4,
+        "value": "5"
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "created_at": "<datetime Z>",
+        "created_by": "<uuid:1>",
+        "deleted_at": null,
+        "description": "",
+        "estimate": "<uuid:19>",
+        "id": "<uuid:28>",
+        "key": 4,
+        "project": "<uuid:6>",
+        "updated_at": "<datetime Z>",
+        "updated_by": null,
+        "value": "5",
+        "workspace": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/estimates/<uuid:14>/estimate-points/",
+      "request": {
+        "key": "abc",
+        "value": "bad"
+      },
+      "status": 500,
+      "content_type": "application/json",
+      "body": {
+        "error": "Something went wrong please try again later"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/estimates/<uuid:14>/estimate-points/",
+      "request": {
+        "key": [
+          1
+        ],
+        "value": "bad"
+      },
+      "status": 500,
+      "content_type": "application/json",
+      "body": {
+        "error": "Something went wrong please try again later"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/estimates/<uuid:14>/estimate-points/",
+      "request": {
+        "key": 99999999999,
+        "value": "bad"
+      },
+      "status": 500,
+      "content_type": "application/json",
+      "body": {
+        "error": "Something went wrong please try again later"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/estimates/<uuid:14>/estimate-points/",
+      "request": {
+        "key": 1.9,
+        "value": "yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy"
+      },
+      "status": 500,
+      "content_type": "application/json",
+      "body": {
+        "error": "Something went wrong please try again later"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/estimates/<uuid:14>/estimate-points/",
+      "request": {
+        "key": true,
+        "value": [
+          "a"
+        ]
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "created_at": "<datetime Z>",
+        "created_by": "<uuid:1>",
+        "deleted_at": null,
+        "description": "",
+        "estimate": "<uuid:14>",
+        "id": "<uuid:29>",
+        "key": 1,
+        "project": "<uuid:6>",
+        "updated_at": "<datetime Z>",
+        "updated_by": null,
+        "value": "['a']",
+        "workspace": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/estimates/<uuid:14>/estimate-points/",
+      "request": {
+        "description": "ignored",
+        "key": "4",
+        "value": "XXL"
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "created_at": "<datetime Z>",
+        "created_by": "<uuid:7>",
+        "deleted_at": null,
+        "description": "",
+        "estimate": "<uuid:14>",
+        "id": "<uuid:30>",
+        "key": 4,
+        "project": "<uuid:6>",
+        "updated_at": "<datetime Z>",
+        "updated_by": null,
+        "value": "XXL",
+        "workspace": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/estimates/<uuid:14>/estimate-points/",
+      "request": {
+        "key": 5,
+        "value": 10
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "created_at": "<datetime Z>",
+        "created_by": "<uuid:1>",
+        "deleted_at": null,
+        "description": "",
+        "estimate": "<uuid:14>",
+        "id": "<uuid:31>",
+        "key": 5,
+        "project": "<uuid:6>",
+        "updated_at": "<datetime Z>",
+        "updated_by": null,
+        "value": "10",
+        "workspace": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/estimates/<uuid:14>/estimate-points/",
+      "request": {
+        "key": -3,
+        "value": "negative"
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "created_at": "<datetime Z>",
+        "created_by": "<uuid:1>",
+        "deleted_at": null,
+        "description": "",
+        "estimate": "<uuid:14>",
+        "id": "<uuid:32>",
+        "key": -3,
+        "project": "<uuid:6>",
+        "updated_at": "<datetime Z>",
+        "updated_by": null,
+        "value": "negative",
+        "workspace": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/estimates/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": [
+        {
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:1>",
+          "deleted_at": null,
+          "description": "",
+          "id": "<uuid:13>",
+          "last_used": true,
+          "name": "7",
+          "points": [],
+          "project": "<uuid:6>",
+          "type": "categories",
+          "updated_at": "<datetime Z>",
+          "updated_by": null,
+          "workspace": "<uuid:2>"
+        },
+        {
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:1>",
+          "deleted_at": null,
+          "description": "",
+          "id": "<uuid:23>",
+          "last_used": false,
+          "name": "BadPoints",
+          "points": [],
+          "project": "<uuid:6>",
+          "type": "categories",
+          "updated_at": "<datetime Z>",
+          "updated_by": null,
+          "workspace": "<uuid:2>"
+        },
+        {
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:1>",
+          "deleted_at": null,
+          "description": "",
+          "id": "<uuid:24>",
+          "last_used": false,
+          "name": "DictPoints",
+          "points": [],
+          "project": "<uuid:6>",
+          "type": "categories",
+          "updated_at": "<datetime Z>",
+          "updated_by": null,
+          "workspace": "<uuid:2>"
+        },
+        {
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:7>",
+          "deleted_at": null,
+          "description": "",
+          "id": "<uuid:19>",
+          "last_used": true,
+          "name": "Fibonacci",
+          "points": [
+            {
+              "created_at": "<datetime Z>",
+              "created_by": "<uuid:7>",
+              "deleted_at": null,
+              "description": "",
+              "estimate": "<uuid:19>",
+              "id": "<uuid:20>",
+              "key": 1,
+              "project": "<uuid:6>",
+              "updated_at": "<datetime Z>",
+              "updated_by": "<uuid:7>",
+              "value": "1",
+              "workspace": "<uuid:2>"
+            },
+            {
+              "created_at": "<datetime Z>",
+              "created_by": "<uuid:7>",
+              "deleted_at": null,
+              "description": "",
+              "estimate": "<uuid:19>",
+              "id": "<uuid:21>",
+              "key": 2,
+              "project": "<uuid:6>",
+              "updated_at": "<datetime Z>",
+              "updated_by": "<uuid:7>",
+              "value": "2",
+              "workspace": "<uuid:2>"
+            },
+            {
+              "created_at": "<datetime Z>",
+              "created_by": "<uuid:7>",
+              "deleted_at": null,
+              "description": "",
+              "estimate": "<uuid:19>",
+              "id": "<uuid:22>",
+              "key": 3,
+              "project": "<uuid:6>",
+              "updated_at": "<datetime Z>",
+              "updated_by": "<uuid:7>",
+              "value": "3",
+              "workspace": "<uuid:2>"
+            },
+            {
+              "created_at": "<datetime Z>",
+              "created_by": "<uuid:1>",
+              "deleted_at": null,
+              "description": "",
+              "estimate": "<uuid:19>",
+              "id": "<uuid:28>",
+              "key": 4,
+              "project": "<uuid:6>",
+              "updated_at": "<datetime Z>",
+              "updated_by": null,
+              "value": "5",
+              "workspace": "<uuid:2>"
+            }
+          ],
+          "project": "<uuid:6>",
+          "type": "points",
+          "updated_at": "<datetime Z>",
+          "updated_by": null,
+          "workspace": "<uuid:2>"
+        },
+        {
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:1>",
+          "deleted_at": null,
+          "description": "",
+          "id": "<uuid:25>",
+          "last_used": false,
+          "name": "NoPoints",
+          "points": [],
+          "project": "<uuid:6>",
+          "type": "categories",
+          "updated_at": "<datetime Z>",
+          "updated_by": null,
+          "workspace": "<uuid:2>"
+        },
+        {
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:1>",
+          "deleted_at": null,
+          "description": "",
+          "id": "<uuid:26>",
+          "last_used": false,
+          "name": "NotList",
+          "points": [],
+          "project": "<uuid:6>",
+          "type": "categories",
+          "updated_at": "<datetime Z>",
+          "updated_by": null,
+          "workspace": "<uuid:2>"
+        },
+        {
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:1>",
+          "deleted_at": null,
+          "description": "",
+          "id": "<uuid:27>",
+          "last_used": false,
+          "name": "NullName",
+          "points": [],
+          "project": "<uuid:6>",
+          "type": "points",
+          "updated_at": "<datetime Z>",
+          "updated_by": null,
+          "workspace": "<uuid:2>"
+        },
+        {
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:1>",
+          "deleted_at": null,
+          "description": "",
+          "id": "<uuid:12>",
+          "last_used": true,
+          "name": "Numeric Name",
+          "points": [],
+          "project": "<uuid:6>",
+          "type": "weird",
+          "updated_at": "<datetime Z>",
+          "updated_by": null,
+          "workspace": "<uuid:2>"
+        },
+        {
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:1>",
+          "deleted_at": null,
+          "description": "",
+          "id": "<uuid:14>",
+          "last_used": false,
+          "name": "T-shirt",
+          "points": [
+            {
+              "created_at": "<datetime Z>",
+              "created_by": "<uuid:1>",
+              "deleted_at": null,
+              "description": "",
+              "estimate": "<uuid:14>",
+              "id": "<uuid:31>",
+              "key": 5,
+              "project": "<uuid:6>",
+              "updated_at": "<datetime Z>",
+              "updated_by": null,
+              "value": "10",
+              "workspace": "<uuid:2>"
+            },
+            {
+              "created_at": "<datetime Z>",
+              "created_by": "<uuid:1>",
+              "deleted_at": null,
+              "description": "",
+              "estimate": "<uuid:14>",
+              "id": "<uuid:15>",
+              "key": 3,
+              "project": "<uuid:6>",
+              "updated_at": "<datetime Z>",
+              "updated_by": "<uuid:1>",
+              "value": "3",
+              "workspace": "<uuid:2>"
+            },
+            {
+              "created_at": "<datetime Z>",
+              "created_by": "<uuid:1>",
+              "deleted_at": null,
+              "description": "",
+              "estimate": "<uuid:14>",
+              "id": "<uuid:16>",
+              "key": 2,
+              "project": "<uuid:6>",
+              "updated_at": "<datetime Z>",
+              "updated_by": "<uuid:1>",
+              "value": "M",
+              "workspace": "<uuid:2>"
+            },
+            {
+              "created_at": "<datetime Z>",
+              "created_by": "<uuid:1>",
+              "deleted_at": null,
+              "description": "small",
+              "estimate": "<uuid:14>",
+              "id": "<uuid:17>",
+              "key": 1,
+              "project": "<uuid:6>",
+              "updated_at": "<datetime Z>",
+              "updated_by": "<uuid:1>",
+              "value": "S",
+              "workspace": "<uuid:2>"
+            },
+            {
+              "created_at": "<datetime Z>",
+              "created_by": "<uuid:1>",
+              "deleted_at": null,
+              "description": "",
+              "estimate": "<uuid:14>",
+              "id": "<uuid:18>",
+              "key": 0,
+              "project": "<uuid:6>",
+              "updated_at": "<datetime Z>",
+              "updated_by": "<uuid:1>",
+              "value": "XL",
+              "workspace": "<uuid:2>"
+            },
+            {
+              "created_at": "<datetime Z>",
+              "created_by": "<uuid:7>",
+              "deleted_at": null,
+              "description": "",
+              "estimate": "<uuid:14>",
+              "id": "<uuid:30>",
+              "key": 4,
+              "project": "<uuid:6>",
+              "updated_at": "<datetime Z>",
+              "updated_by": null,
+              "value": "XXL",
+              "workspace": "<uuid:2>"
+            },
+            {
+              "created_at": "<datetime Z>",
+              "created_by": "<uuid:1>",
+              "deleted_at": null,
+              "description": "",
+              "estimate": "<uuid:14>",
+              "id": "<uuid:29>",
+              "key": 1,
+              "project": "<uuid:6>",
+              "updated_at": "<datetime Z>",
+              "updated_by": null,
+              "value": "['a']",
+              "workspace": "<uuid:2>"
+            },
+            {
+              "created_at": "<datetime Z>",
+              "created_by": "<uuid:1>",
+              "deleted_at": null,
+              "description": "",
+              "estimate": "<uuid:14>",
+              "id": "<uuid:32>",
+              "key": -3,
+              "project": "<uuid:6>",
+              "updated_at": "<datetime Z>",
+              "updated_by": null,
+              "value": "negative",
+              "workspace": "<uuid:2>"
+            }
+          ],
+          "project": "<uuid:6>",
+          "type": "categories",
+          "updated_at": "<datetime Z>",
+          "updated_by": null,
+          "workspace": "<uuid:2>"
+        }
+      ]
+    },
+    {
+      "actor": "carol",
+      "method": "PATCH",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/estimates/<uuid:14>/estimate-points/<uuid:30>/",
+      "request": {
+        "value": "XXXL"
+      },
+      "status": 403,
+      "content_type": "application/json",
+      "body": {
+        "error": "You don't have the required permissions."
+      }
+    },
+    {
+      "actor": "dan",
+      "method": "PATCH",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/estimates/<uuid:14>/estimate-points/<uuid:30>/",
+      "request": {
+        "value": "XXXL"
+      },
+      "status": 403,
+      "content_type": "application/json",
+      "body": {
+        "error": "You don't have the required permissions."
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "PATCH",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/estimates/<uuid:14>/estimate-points/<uuid:30>/",
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "non_field_errors": [
+          "Estimate points are required"
+        ]
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "PATCH",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/estimates/<uuid:14>/estimate-points/<uuid:30>/",
+      "request": [
+        "x"
+      ],
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "non_field_errors": [
+          "Invalid data. Expected a dictionary, but got list."
+        ]
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "PATCH",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/estimates/<uuid:14>/estimate-points/<uuid:30>/",
+      "request": {
+        "value": "xxxxxxxxxxxxxxxxxxxxx"
+      },
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "non_field_errors": [
+          "Value can't be more than 20 characters"
+        ]
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "PATCH",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/estimates/<uuid:14>/estimate-points/<uuid:30>/",
+      "request": {
+        "key": -1,
+        "value": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+      },
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "key": [
+          "Ensure this value is greater than or equal to 0."
+        ],
+        "value": [
+          "Ensure this field has no more than 255 characters."
+        ]
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "PATCH",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/estimates/<uuid:14>/estimate-points/<uuid:30>/",
+      "request": {
+        "description": null,
+        "key": 2147483648,
+        "value": null
+      },
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "description": [
+          "This field may not be null."
+        ],
+        "key": [
+          "Ensure this value is less than or equal to 2147483647."
+        ],
+        "value": [
+          "This field may not be null."
+        ]
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "PATCH",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/estimates/<uuid:14>/estimate-points/<uuid:30>/",
+      "request": {
+        "created_by": "<uuid:11>",
+        "deleted_at": "nope",
+        "key": "x",
+        "updated_by": "<uuid:11>",
+        "value": []
+      },
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "created_by": [
+          "Invalid pk \"<uuid:11>\" - object does not exist."
+        ],
+        "deleted_at": [
+          "Datetime has wrong format. Use one of these formats instead: YYYY-MM-DDThh:mm[:ss[.uuuuuu]][+HH:MM|-HH:MM|Z]."
+        ],
+        "key": [
+          "A valid integer is required."
+        ],
+        "updated_by": [
+          "Invalid pk \"<uuid:11>\" - object does not exist."
+        ],
+        "value": [
+          "Not a valid string."
+        ]
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "PATCH",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/estimates/<uuid:14>/estimate-points/<uuid:30>/",
+      "request": {
+        "description": "bigger",
+        "estimate": "<uuid:19>",
+        "key": 6,
+        "project": "<uuid:11>",
+        "value": "XXXL"
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "created_at": "<datetime Z>",
+        "created_by": "<uuid:7>",
+        "deleted_at": null,
+        "description": "bigger",
+        "estimate": "<uuid:14>",
+        "id": "<uuid:30>",
+        "key": 6,
+        "project": "<uuid:6>",
+        "updated_at": "<datetime Z>",
+        "updated_by": "<uuid:1>",
+        "value": "XXXL",
+        "workspace": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "carol",
+      "method": "GET",
+      "path": "/api/users/me/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "avatar": "",
+        "avatar_url": null,
+        "cover_image": null,
+        "cover_image_url": null,
+        "date_joined": "<datetime Z>",
+        "display_name": "carol",
+        "email": "carol@example.com",
+        "first_name": "",
+        "id": "<uuid:8>",
+        "is_active": true,
+        "is_bot": false,
+        "is_email_verified": false,
+        "is_password_autoset": false,
+        "last_login_medium": "email",
+        "last_login_time": "<datetime Z>",
+        "last_name": "",
+        "user_timezone": "UTC",
+        "username": "<hex32>"
+      }
+    },
+    {
+      "actor": "dan",
+      "method": "GET",
+      "path": "/api/users/me/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "avatar": "",
+        "avatar_url": null,
+        "cover_image": null,
+        "cover_image_url": null,
+        "date_joined": "<datetime Z>",
+        "display_name": "dan",
+        "email": "dan@example.com",
+        "first_name": "",
+        "id": "<uuid:33>",
+        "is_active": true,
+        "is_bot": false,
+        "is_email_verified": false,
+        "is_password_autoset": false,
+        "last_login_medium": "email",
+        "last_login_time": "<datetime Z>",
+        "last_name": "",
+        "user_timezone": "UTC",
+        "username": "<hex32>"
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "PATCH",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/estimates/<uuid:14>/estimate-points/<uuid:30>/",
+      "request": {
+        "created_by": "<uuid:8>",
+        "description": "changed",
+        "updated_by": "<uuid:33>"
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "created_at": "<datetime Z>",
+        "created_by": "<uuid:8>",
+        "deleted_at": null,
+        "description": "changed",
+        "estimate": "<uuid:14>",
+        "id": "<uuid:30>",
+        "key": 6,
+        "project": "<uuid:6>",
+        "updated_at": "<datetime Z>",
+        "updated_by": "<uuid:7>",
+        "value": "XXXL",
+        "workspace": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "PATCH",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/estimates/<uuid:14>/estimate-points/<uuid:30>/",
+      "request": {
+        "deleted_at": "<datetime Z>"
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "created_at": "<datetime Z>",
+        "created_by": "<uuid:8>",
+        "deleted_at": "<datetime Z>",
+        "description": "changed",
+        "estimate": "<uuid:14>",
+        "id": "<uuid:30>",
+        "key": 6,
+        "project": "<uuid:6>",
+        "updated_at": "<datetime Z>",
+        "updated_by": "<uuid:1>",
+        "value": "XXXL",
+        "workspace": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "PATCH",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/estimates/<uuid:14>/estimate-points/<uuid:11>/",
+      "request": {
+        "value": "X"
+      },
+      "status": 404,
+      "content_type": "application/json",
+      "body": {
+        "error": "The required object does not exist."
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "PATCH",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/estimates/<uuid:14>/estimate-points/not-a-uuid/",
+      "request": {
+        "value": "X"
+      },
+      "status": 400,
+      "content_type": "application/json",
+      "body": {
+        "error": "Please provide valid detail"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "PATCH",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/estimates/<uuid:19>/estimate-points/<uuid:30>/",
+      "request": {
+        "value": "X"
+      },
+      "status": 404,
+      "content_type": "application/json",
+      "body": {
+        "error": "The required object does not exist."
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "PATCH",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/estimates/<uuid:11>/estimate-points/<uuid:30>/",
+      "request": {
+        "value": "X"
+      },
+      "status": 404,
+      "content_type": "application/json",
+      "body": {
+        "error": "The required object does not exist."
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/estimates/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": [
+        {
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:1>",
+          "deleted_at": null,
+          "description": "",
+          "id": "<uuid:13>",
+          "last_used": true,
+          "name": "7",
+          "points": [],
+          "project": "<uuid:6>",
+          "type": "categories",
+          "updated_at": "<datetime Z>",
+          "updated_by": null,
+          "workspace": "<uuid:2>"
+        },
+        {
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:1>",
+          "deleted_at": null,
+          "description": "",
+          "id": "<uuid:23>",
+          "last_used": false,
+          "name": "BadPoints",
+          "points": [],
+          "project": "<uuid:6>",
+          "type": "categories",
+          "updated_at": "<datetime Z>",
+          "updated_by": null,
+          "workspace": "<uuid:2>"
+        },
+        {
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:1>",
+          "deleted_at": null,
+          "description": "",
+          "id": "<uuid:24>",
+          "last_used": false,
+          "name": "DictPoints",
+          "points": [],
+          "project": "<uuid:6>",
+          "type": "categories",
+          "updated_at": "<datetime Z>",
+          "updated_by": null,
+          "workspace": "<uuid:2>"
+        },
+        {
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:7>",
+          "deleted_at": null,
+          "description": "",
+          "id": "<uuid:19>",
+          "last_used": true,
+          "name": "Fibonacci",
+          "points": [
+            {
+              "created_at": "<datetime Z>",
+              "created_by": "<uuid:7>",
+              "deleted_at": null,
+              "description": "",
+              "estimate": "<uuid:19>",
+              "id": "<uuid:20>",
+              "key": 1,
+              "project": "<uuid:6>",
+              "updated_at": "<datetime Z>",
+              "updated_by": "<uuid:7>",
+              "value": "1",
+              "workspace": "<uuid:2>"
+            },
+            {
+              "created_at": "<datetime Z>",
+              "created_by": "<uuid:7>",
+              "deleted_at": null,
+              "description": "",
+              "estimate": "<uuid:19>",
+              "id": "<uuid:21>",
+              "key": 2,
+              "project": "<uuid:6>",
+              "updated_at": "<datetime Z>",
+              "updated_by": "<uuid:7>",
+              "value": "2",
+              "workspace": "<uuid:2>"
+            },
+            {
+              "created_at": "<datetime Z>",
+              "created_by": "<uuid:7>",
+              "deleted_at": null,
+              "description": "",
+              "estimate": "<uuid:19>",
+              "id": "<uuid:22>",
+              "key": 3,
+              "project": "<uuid:6>",
+              "updated_at": "<datetime Z>",
+              "updated_by": "<uuid:7>",
+              "value": "3",
+              "workspace": "<uuid:2>"
+            },
+            {
+              "created_at": "<datetime Z>",
+              "created_by": "<uuid:1>",
+              "deleted_at": null,
+              "description": "",
+              "estimate": "<uuid:19>",
+              "id": "<uuid:28>",
+              "key": 4,
+              "project": "<uuid:6>",
+              "updated_at": "<datetime Z>",
+              "updated_by": null,
+              "value": "5",
+              "workspace": "<uuid:2>"
+            }
+          ],
+          "project": "<uuid:6>",
+          "type": "points",
+          "updated_at": "<datetime Z>",
+          "updated_by": null,
+          "workspace": "<uuid:2>"
+        },
+        {
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:1>",
+          "deleted_at": null,
+          "description": "",
+          "id": "<uuid:25>",
+          "last_used": false,
+          "name": "NoPoints",
+          "points": [],
+          "project": "<uuid:6>",
+          "type": "categories",
+          "updated_at": "<datetime Z>",
+          "updated_by": null,
+          "workspace": "<uuid:2>"
+        },
+        {
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:1>",
+          "deleted_at": null,
+          "description": "",
+          "id": "<uuid:26>",
+          "last_used": false,
+          "name": "NotList",
+          "points": [],
+          "project": "<uuid:6>",
+          "type": "categories",
+          "updated_at": "<datetime Z>",
+          "updated_by": null,
+          "workspace": "<uuid:2>"
+        },
+        {
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:1>",
+          "deleted_at": null,
+          "description": "",
+          "id": "<uuid:27>",
+          "last_used": false,
+          "name": "NullName",
+          "points": [],
+          "project": "<uuid:6>",
+          "type": "points",
+          "updated_at": "<datetime Z>",
+          "updated_by": null,
+          "workspace": "<uuid:2>"
+        },
+        {
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:1>",
+          "deleted_at": null,
+          "description": "",
+          "id": "<uuid:12>",
+          "last_used": true,
+          "name": "Numeric Name",
+          "points": [],
+          "project": "<uuid:6>",
+          "type": "weird",
+          "updated_at": "<datetime Z>",
+          "updated_by": null,
+          "workspace": "<uuid:2>"
+        },
+        {
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:1>",
+          "deleted_at": null,
+          "description": "",
+          "id": "<uuid:14>",
+          "last_used": false,
+          "name": "T-shirt",
+          "points": [
+            {
+              "created_at": "<datetime Z>",
+              "created_by": "<uuid:1>",
+              "deleted_at": null,
+              "description": "",
+              "estimate": "<uuid:14>",
+              "id": "<uuid:31>",
+              "key": 5,
+              "project": "<uuid:6>",
+              "updated_at": "<datetime Z>",
+              "updated_by": null,
+              "value": "10",
+              "workspace": "<uuid:2>"
+            },
+            {
+              "created_at": "<datetime Z>",
+              "created_by": "<uuid:1>",
+              "deleted_at": null,
+              "description": "",
+              "estimate": "<uuid:14>",
+              "id": "<uuid:15>",
+              "key": 3,
+              "project": "<uuid:6>",
+              "updated_at": "<datetime Z>",
+              "updated_by": "<uuid:1>",
+              "value": "3",
+              "workspace": "<uuid:2>"
+            },
+            {
+              "created_at": "<datetime Z>",
+              "created_by": "<uuid:1>",
+              "deleted_at": null,
+              "description": "",
+              "estimate": "<uuid:14>",
+              "id": "<uuid:16>",
+              "key": 2,
+              "project": "<uuid:6>",
+              "updated_at": "<datetime Z>",
+              "updated_by": "<uuid:1>",
+              "value": "M",
+              "workspace": "<uuid:2>"
+            },
+            {
+              "created_at": "<datetime Z>",
+              "created_by": "<uuid:1>",
+              "deleted_at": null,
+              "description": "small",
+              "estimate": "<uuid:14>",
+              "id": "<uuid:17>",
+              "key": 1,
+              "project": "<uuid:6>",
+              "updated_at": "<datetime Z>",
+              "updated_by": "<uuid:1>",
+              "value": "S",
+              "workspace": "<uuid:2>"
+            },
+            {
+              "created_at": "<datetime Z>",
+              "created_by": "<uuid:1>",
+              "deleted_at": null,
+              "description": "",
+              "estimate": "<uuid:14>",
+              "id": "<uuid:18>",
+              "key": 0,
+              "project": "<uuid:6>",
+              "updated_at": "<datetime Z>",
+              "updated_by": "<uuid:1>",
+              "value": "XL",
+              "workspace": "<uuid:2>"
+            },
+            {
+              "created_at": "<datetime Z>",
+              "created_by": "<uuid:1>",
+              "deleted_at": null,
+              "description": "",
+              "estimate": "<uuid:14>",
+              "id": "<uuid:29>",
+              "key": 1,
+              "project": "<uuid:6>",
+              "updated_at": "<datetime Z>",
+              "updated_by": null,
+              "value": "['a']",
+              "workspace": "<uuid:2>"
+            },
+            {
+              "created_at": "<datetime Z>",
+              "created_by": "<uuid:1>",
+              "deleted_at": null,
+              "description": "",
+              "estimate": "<uuid:14>",
+              "id": "<uuid:32>",
+              "key": -3,
+              "project": "<uuid:6>",
+              "updated_at": "<datetime Z>",
+              "updated_by": null,
+              "value": "negative",
+              "workspace": "<uuid:2>"
+            }
+          ],
+          "project": "<uuid:6>",
+          "type": "categories",
+          "updated_at": "<datetime Z>",
+          "updated_by": null,
+          "workspace": "<uuid:2>"
+        }
+      ]
+    },
+    {
+      "actor": "carol",
+      "method": "DELETE",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/estimates/<uuid:19>/",
+      "status": 403,
+      "content_type": "application/json",
+      "body": {
+        "detail": "You do not have permission to perform this action."
+      }
+    },
+    {
+      "actor": "dan",
+      "method": "DELETE",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/estimates/<uuid:19>/",
+      "status": 403,
+      "content_type": "application/json",
+      "body": {
+        "detail": "You do not have permission to perform this action."
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "DELETE",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/estimates/<uuid:11>/",
+      "status": 404,
+      "content_type": "application/json",
+      "body": {
+        "error": "The required object does not exist."
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "DELETE",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/estimates/<uuid:19>/",
+      "status": 204
+    },
+    {
+      "actor": "alice",
+      "method": "DELETE",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/estimates/<uuid:19>/",
+      "status": 404,
+      "content_type": "application/json",
+      "body": {
+        "error": "The required object does not exist."
+      }
+    },
+    {
+      "actor": "bob",
+      "method": "DELETE",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/estimates/<uuid:14>/",
+      "status": 204
+    },
+    {
+      "actor": "alice",
+      "method": "POST",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/estimates/<uuid:14>/estimate-points/",
+      "request": {
+        "key": 4,
+        "value": "late"
+      },
+      "status": 404,
+      "content_type": "application/json",
+      "body": {
+        "error": "Estimate not found"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/estimates/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": [
+        {
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:1>",
+          "deleted_at": null,
+          "description": "",
+          "id": "<uuid:13>",
+          "last_used": true,
+          "name": "7",
+          "points": [],
+          "project": "<uuid:6>",
+          "type": "categories",
+          "updated_at": "<datetime Z>",
+          "updated_by": null,
+          "workspace": "<uuid:2>"
+        },
+        {
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:1>",
+          "deleted_at": null,
+          "description": "",
+          "id": "<uuid:23>",
+          "last_used": false,
+          "name": "BadPoints",
+          "points": [],
+          "project": "<uuid:6>",
+          "type": "categories",
+          "updated_at": "<datetime Z>",
+          "updated_by": null,
+          "workspace": "<uuid:2>"
+        },
+        {
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:1>",
+          "deleted_at": null,
+          "description": "",
+          "id": "<uuid:24>",
+          "last_used": false,
+          "name": "DictPoints",
+          "points": [],
+          "project": "<uuid:6>",
+          "type": "categories",
+          "updated_at": "<datetime Z>",
+          "updated_by": null,
+          "workspace": "<uuid:2>"
+        },
+        {
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:1>",
+          "deleted_at": null,
+          "description": "",
+          "id": "<uuid:25>",
+          "last_used": false,
+          "name": "NoPoints",
+          "points": [],
+          "project": "<uuid:6>",
+          "type": "categories",
+          "updated_at": "<datetime Z>",
+          "updated_by": null,
+          "workspace": "<uuid:2>"
+        },
+        {
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:1>",
+          "deleted_at": null,
+          "description": "",
+          "id": "<uuid:26>",
+          "last_used": false,
+          "name": "NotList",
+          "points": [],
+          "project": "<uuid:6>",
+          "type": "categories",
+          "updated_at": "<datetime Z>",
+          "updated_by": null,
+          "workspace": "<uuid:2>"
+        },
+        {
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:1>",
+          "deleted_at": null,
+          "description": "",
+          "id": "<uuid:27>",
+          "last_used": false,
+          "name": "NullName",
+          "points": [],
+          "project": "<uuid:6>",
+          "type": "points",
+          "updated_at": "<datetime Z>",
+          "updated_by": null,
+          "workspace": "<uuid:2>"
+        },
+        {
+          "created_at": "<datetime Z>",
+          "created_by": "<uuid:1>",
+          "deleted_at": null,
+          "description": "",
+          "id": "<uuid:12>",
+          "last_used": true,
+          "name": "Numeric Name",
+          "points": [],
+          "project": "<uuid:6>",
+          "type": "weird",
+          "updated_at": "<datetime Z>",
+          "updated_by": null,
+          "workspace": "<uuid:2>"
+        }
+      ]
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/workspaces/acme/projects/<uuid:6>/",
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "anchor": null,
+        "archive_in": 0,
+        "archived_at": null,
+        "close_in": 0,
+        "cover_image": null,
+        "cover_image_asset": null,
+        "cover_image_url": null,
+        "created_at": "<datetime Z>",
+        "created_by": "<uuid:1>",
+        "cycle_view": false,
+        "default_assignee": null,
+        "default_state": null,
+        "deleted_at": null,
+        "description": "",
+        "description_html": null,
+        "description_text": null,
+        "emoji": null,
+        "estimate": null,
+        "external_id": null,
+        "external_source": null,
+        "guest_view_all_features": false,
+        "icon_prop": null,
+        "id": "<uuid:6>",
+        "identifier": "PL",
+        "inbox_view": false,
+        "intake_view": false,
+        "is_favorite": false,
+        "is_issue_type_enabled": false,
+        "is_time_tracking_enabled": false,
+        "issue_views_view": false,
+        "logo_props": {},
+        "member_role": 20,
+        "members": [
+          "<uuid:8>",
+          "<uuid:7>",
+          "<uuid:1>"
+        ],
+        "module_view": false,
+        "name": "Plane Lite",
+        "network": 2,
+        "next_work_item_sequence": 1,
+        "page_view": true,
+        "project_lead": null,
+        "sort_order": 65535,
+        "timezone": "UTC",
+        "updated_at": "<datetime Z>",
+        "updated_by": "<uuid:1>",
+        "workspace": "<uuid:2>"
+      }
+    },
+    {
+      "actor": "alice",
+      "method": "GET",
+      "path": "/api/workspaces/acme/estimates/?read=10",
+      "status": 200,
+      "content_type": "application/json",
+      "body": []
+    },
+    {
+      "actor": "bob",
+      "method": "GET",
+      "path": "/api/workspaces/acme/estimates/?read=11",
+      "status": 200,
+      "content_type": "application/json",
+      "body": []
+    },
+    {
+      "actor": "db",
+      "method": "QUERY",
+      "path": "estimates",
+      "status": 0,
+      "body": [
+        {
+          "created_by": "alice@example.com",
+          "description": "",
+          "in_workspace": true,
+          "last_used": true,
+          "live": true,
+          "name": "7",
+          "type": "categories",
+          "updated_by": null
+        },
+        {
+          "created_by": "alice@example.com",
+          "description": "",
+          "in_workspace": true,
+          "last_used": false,
+          "live": true,
+          "name": "BadPoints",
+          "type": "categories",
+          "updated_by": null
+        },
+        {
+          "created_by": "alice@example.com",
+          "description": "",
+          "in_workspace": true,
+          "last_used": false,
+          "live": true,
+          "name": "DictPoints",
+          "type": "categories",
+          "updated_by": null
+        },
+        {
+          "created_by": "bob@example.com",
+          "description": "",
+          "in_workspace": true,
+          "last_used": true,
+          "live": false,
+          "name": "Fibonacci",
+          "type": "points",
+          "updated_by": "alice@example.com"
+        },
+        {
+          "created_by": "alice@example.com",
+          "description": "",
+          "in_workspace": true,
+          "last_used": false,
+          "live": true,
+          "name": "NoPoints",
+          "type": "categories",
+          "updated_by": null
+        },
+        {
+          "created_by": "alice@example.com",
+          "description": "",
+          "in_workspace": true,
+          "last_used": false,
+          "live": true,
+          "name": "NotList",
+          "type": "categories",
+          "updated_by": null
+        },
+        {
+          "created_by": "alice@example.com",
+          "description": "",
+          "in_workspace": true,
+          "last_used": false,
+          "live": true,
+          "name": "NullName",
+          "type": "points",
+          "updated_by": null
+        },
+        {
+          "created_by": "alice@example.com",
+          "description": "",
+          "in_workspace": true,
+          "last_used": true,
+          "live": true,
+          "name": "Numeric Name",
+          "type": "weird",
+          "updated_by": null
+        },
+        {
+          "created_by": "alice@example.com",
+          "description": "",
+          "in_workspace": true,
+          "last_used": false,
+          "live": false,
+          "name": "T-shirt",
+          "type": "categories",
+          "updated_by": "bob@example.com"
+        }
+      ]
+    },
+    {
+      "actor": "db",
+      "method": "QUERY",
+      "path": "estimate_points",
+      "status": 0,
+      "body": [
+        {
+          "created_by": "bob@example.com",
+          "description": "",
+          "estimate": "Fibonacci",
+          "in_project": true,
+          "in_workspace": true,
+          "key": 1,
+          "live": false,
+          "touched": true,
+          "updated_by": "alice@example.com",
+          "value": "1"
+        },
+        {
+          "created_by": "bob@example.com",
+          "description": "",
+          "estimate": "Fibonacci",
+          "in_project": true,
+          "in_workspace": true,
+          "key": 2,
+          "live": false,
+          "touched": true,
+          "updated_by": "alice@example.com",
+          "value": "2"
+        },
+        {
+          "created_by": "bob@example.com",
+          "description": "",
+          "estimate": "Fibonacci",
+          "in_project": true,
+          "in_workspace": true,
+          "key": 3,
+          "live": false,
+          "touched": true,
+          "updated_by": "alice@example.com",
+          "value": "3"
+        },
+        {
+          "created_by": "alice@example.com",
+          "description": "",
+          "estimate": "Fibonacci",
+          "in_project": true,
+          "in_workspace": true,
+          "key": 4,
+          "live": false,
+          "touched": true,
+          "updated_by": "alice@example.com",
+          "value": "5"
+        },
+        {
+          "created_by": "alice@example.com",
+          "description": "",
+          "estimate": "T-shirt",
+          "in_project": true,
+          "in_workspace": true,
+          "key": -3,
+          "live": false,
+          "touched": true,
+          "updated_by": "bob@example.com",
+          "value": "negative"
+        },
+        {
+          "created_by": "alice@example.com",
+          "description": "",
+          "estimate": "T-shirt",
+          "in_project": true,
+          "in_workspace": true,
+          "key": 0,
+          "live": false,
+          "touched": true,
+          "updated_by": "bob@example.com",
+          "value": "XL"
+        },
+        {
+          "created_by": "alice@example.com",
+          "description": "small",
+          "estimate": "T-shirt",
+          "in_project": true,
+          "in_workspace": true,
+          "key": 1,
+          "live": false,
+          "touched": true,
+          "updated_by": "bob@example.com",
+          "value": "S"
+        },
+        {
+          "created_by": "alice@example.com",
+          "description": "",
+          "estimate": "T-shirt",
+          "in_project": true,
+          "in_workspace": true,
+          "key": 1,
+          "live": false,
+          "touched": true,
+          "updated_by": "bob@example.com",
+          "value": "['a']"
+        },
+        {
+          "created_by": "alice@example.com",
+          "description": "",
+          "estimate": "T-shirt",
+          "in_project": true,
+          "in_workspace": true,
+          "key": 2,
+          "live": false,
+          "touched": true,
+          "updated_by": "bob@example.com",
+          "value": "M"
+        },
+        {
+          "created_by": "alice@example.com",
+          "description": "",
+          "estimate": "T-shirt",
+          "in_project": true,
+          "in_workspace": true,
+          "key": 3,
+          "live": false,
+          "touched": true,
+          "updated_by": "bob@example.com",
+          "value": "3"
+        },
+        {
+          "created_by": "alice@example.com",
+          "description": "",
+          "estimate": "T-shirt",
+          "in_project": true,
+          "in_workspace": true,
+          "key": 5,
+          "live": false,
+          "touched": true,
+          "updated_by": "bob@example.com",
+          "value": "10"
+        },
+        {
+          "created_by": "carol@example.com",
+          "description": "changed",
+          "estimate": "T-shirt",
+          "in_project": true,
+          "in_workspace": true,
+          "key": 6,
+          "live": false,
+          "touched": true,
+          "updated_by": "alice@example.com",
+          "value": "XXXL"
+        }
+      ]
+    }
+  ]
+}

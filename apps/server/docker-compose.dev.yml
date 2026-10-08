@@ -3,7 +3,10 @@
 #
 #   docker compose -f docker-compose.dev.yml up -d                      # db, redis, mail
 #   docker compose -f docker-compose.dev.yml --profile reference up -d  # + Django reference
-name: plane-lite-dev
+#
+# Parallel ports run one stack per slot (scripts/devstack.sh N up): its own
+# project name and host ports, set through the PLANE_DEV_* variables below.
+name: ${PLANE_DEV_PROJECT:-plane-lite-dev}
 
 services:
   db:
@@ -19,7 +22,7 @@ services:
     volumes:
       - ./contract/reference/initdb.sql:/docker-entrypoint-initdb.d/initdb.sql:ro
     ports:
-      - "127.0.0.1:55432:5432"
+      - "127.0.0.1:${PLANE_DEV_DB_PORT:-55432}:5432"
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U plane -d plane"]
       interval: 2s
@@ -29,7 +32,7 @@ services:
   redis:
     image: valkey/valkey:7.2.11-alpine
     ports:
-      - "127.0.0.1:56379:6379"
+      - "127.0.0.1:${PLANE_DEV_REDIS_PORT:-56379}:6379"
     healthcheck:
       test: ["CMD", "valkey-cli", "ping"]
       interval: 2s
@@ -39,12 +42,14 @@ services:
   mail:
     image: axllent/mailpit:v1.27
     ports:
-      - "127.0.0.1:51025:1025"
-      - "127.0.0.1:58025:8025"
+      - "127.0.0.1:${PLANE_DEV_SMTP_PORT:-51025}:1025"
+      - "127.0.0.1:${PLANE_DEV_MAILPIT_PORT:-58025}:8025"
 
   # Django reference implementation, used only to record contract goldens.
   reference:
     profiles: ["reference"]
+    # Shared by every slot's project, so it is built once.
+    image: plane-lite-reference:dev
     build:
       context: ../api
       dockerfile: Dockerfile.dev
@@ -78,7 +83,7 @@ services:
       sh -c "python manage.py migrate --noinput &&
              exec uvicorn plane.asgi:application --host 0.0.0.0 --port 8000 --workers 2"
     ports:
-      - "127.0.0.1:58000:8000"
+      - "127.0.0.1:${PLANE_DEV_REFERENCE_PORT:-58000}:8000"
     depends_on:
       db:
         condition: service_healthy

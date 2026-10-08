@@ -892,7 +892,7 @@ func (q *issueQuery) legacyFilters(params map[string][]string, extra bool) ([]lo
 	}
 	if extra {
 		if v, ok := get("updated_at__gt"); ok {
-			t, ok := modelDateTime(v, q.loc())
+			t, ok := modelDateTime(v, time.UTC) // a direct ORM lookup: naive values are in the default timezone
 			if !ok {
 				return nil, errFilterDetail
 			}

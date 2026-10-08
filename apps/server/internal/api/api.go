@@ -68,8 +68,27 @@ func New(d Deps) *API {
 	a.registerWorkspaceJobs()
 	a.registerProjectJobs()
 	a.registerIssueJobs()
+	a.registerIssueDiscussionJobs()
+	a.registerIssueStructureJobs()
+	a.registerCycleJobs()
+	a.registerModuleJobs()
+	a.registerEstimateJobs()
+	a.registerViewJobs()
+	a.registerPageJobs()
+	a.registerHomeJobs()
+	a.registerNotificationJobs()
+	a.registerFavoriteJobs()
+	a.registerSearchJobs()
+	a.registerAssetJobs()
+	a.registerMiscJobs()
 	return a
 }
+
+// wsPrefix and projectPrefix are the W/ and P/ URL prefixes of PORTING.md.
+const (
+	wsPrefix      = "/api/workspaces/{slug}/"
+	projectPrefix = wsPrefix + "projects/{project_id}/"
+)
 
 // Register mounts every ported endpoint.
 func (a *API) Register(rt *httpx.Router) {
@@ -228,6 +247,21 @@ func (a *API) Register(rt *httpx.Router) {
 		"GET":   a.allowProject(anyRole, a.getProjectUserProperties),
 		"PATCH": a.allowProject(anyRole, a.patchProjectUserProperties),
 	})
+
+	// Batches 9 onward, one file per area (routes_*.go).
+	a.registerIssueDiscussionRoutes(rt)
+	a.registerIssueStructureRoutes(rt)
+	a.registerCycleRoutes(rt)
+	a.registerModuleRoutes(rt)
+	a.registerEstimateRoutes(rt)
+	a.registerViewRoutes(rt)
+	a.registerPageRoutes(rt)
+	a.registerHomeRoutes(rt)
+	a.registerNotificationRoutes(rt)
+	a.registerFavoriteRoutes(rt)
+	a.registerSearchRoutes(rt)
+	a.registerAssetRoutes(rt)
+	a.registerMiscRoutes(rt)
 }
 
 // anon applies DRF's default AnonRateThrottle to an AllowAny view.

@@ -47,8 +47,14 @@ type pageParams struct {
 }
 
 func parsePageParams(c *httpx.Ctx) (*pageParams, error) {
+	return parsePageParamsDefault(c, maxPageLimit)
+}
+
+// parsePageParamsDefault is parsePageParams for a view that passes its own
+// default_per_page to paginate (the cap stays max(1000, default)).
+func parsePageParamsDefault(c *httpx.Ctx, def int64) (*pageParams, error) {
 	q := djangoQuery{c}
-	perPage := big.NewInt(1000)
+	perPage := big.NewInt(def)
 	if q.Has("per_page") {
 		n, ok := drf.PyIntString(q.Get("per_page"))
 		if !ok {
@@ -96,7 +102,13 @@ func parsePageParams(c *httpx.Ctx) (*pageParams, error) {
 }
 
 func parseOffsetPage(c *httpx.Ctx) (*offsetPage, error) {
-	pp, err := parsePageParams(c)
+	return parseOffsetPageDefault(c, maxPageLimit)
+}
+
+// parseOffsetPageDefault is parseOffsetPage for a view with its own
+// default_per_page.
+func parseOffsetPageDefault(c *httpx.Ctx, def int64) (*offsetPage, error) {
+	pp, err := parsePageParamsDefault(c, def)
 	if err != nil {
 		return nil, err
 	}
